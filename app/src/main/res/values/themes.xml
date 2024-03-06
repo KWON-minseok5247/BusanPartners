@@ -1,0 +1,475 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BusanPartners" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+
+    <declare-styleable name="MessageComposerView">
+        <attr name="streamUiMessageComposerDividerBackgroundDrawable" format="reference" />
+        <attr name="streamUiMessageComposerIconDrawableTintColor" format="reference|color" />
+
+        <attr name="streamUiMessageComposerCommandSuggestionsTitleText" format="string" />
+
+        <attr name="streamUiMessageComposerCommandSuggestionsTitleTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerCommandSuggestionsTitleTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerCommandSuggestionsTitleTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerCommandSuggestionsTitleTextFont" format="string" />
+        <attr name="streamUiMessageComposerCommandSuggestionsTitleTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerCommandSuggestionsTitleIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerCommandSuggestionsTitleIconDrawableTintColor" format="reference|color" />
+        <attr name="streamUiMessageComposerCommandSuggestionsBackgroundColor" format="reference|color" />
+
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandNameTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandNameTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandNameTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandNameTextFont" format="string" />
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandNameTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandDescriptionText" format="string" />
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandDescriptionTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandDescriptionTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandDescriptionTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandDescriptionTextFont" format="string" />
+        <attr name="streamUiMessageComposerCommandSuggestionItemCommandDescriptionTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <!-- Mention suggestions content -->
+        <attr name="streamUiMessageComposerMentionSuggestionsBackgroundColor" format="reference|color" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemIconDrawableTintColor" format="reference|color" />
+
+        <attr name="streamUiMessageComposerMentionSuggestionItemUsernameTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemUsernameTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemUsernameTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemUsernameTextFont" format="string" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemUsernameTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerMentionSuggestionItemMentionText" format="string" />
+
+        <attr name="streamUiMessageComposerMentionSuggestionItemMentionTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemMentionTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemMentionTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemMentionTextFont" format="string" />
+        <attr name="streamUiMessageComposerMentionSuggestionItemMentionTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <!-- Center content -->
+        <attr name="streamUiMessageComposerCommandsHandlingEnabled" format="boolean" />
+        <attr name="streamUiMessageComposerMentionsHandlingEnabled" format="boolean" />
+        <attr name="streamUiMessageComposerMessageInputTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerMessageInputTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerMessageInputTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerMessageInputTextFont" format="string" />
+        <attr name="streamUiMessageComposerMessageInputTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+        <attr name="streamUiMessageComposerMessageInputHintText" format="string" />
+        <attr name="streamUiMessageComposerMessageInputHintColor" format="color|reference" />
+
+        <attr name="streamUiMessageComposerMessageInputBackgroundDrawable" format="reference" />
+        <attr name="streamUiMessageComposerMessageInputCursorDrawable" format="reference" />
+        <attr name="streamUiMessageComposerScrollbarEnabled" format="boolean" />
+        <attr name="streamUiMessageComposerScrollbarFadingEnabled" format="boolean" />
+        <attr name="streamUiMessageComposerMessageInputMaxLines" format="integer" />
+        <attr name="streamUiMessageComposerMessageInputCannotSendHintText" format="string" />
+        <attr name="android:inputType" />
+
+        <!-- Overlays a drawable above video attachments. By default, used to display a play button,
+        signaling to the user that it's a video attachment. -->
+        <attr name="streamUiMessageComposerMessageInputVideoAttachmentIconDrawable" format="reference" />
+        <!-- Sets the tint of the drawable overlaid above video attachments. -->
+        <attr name="streamUiMessageComposerMessageInputVideoAttachmentIconDrawableTint" format="reference|color" />
+        <!-- Sets the background color of the icon overlaid above video attachments. -->
+        <attr name="streamUiMessageComposerMessageInputVideoAttachmentIconBackgroundColor" format="reference|color" />
+        <!-- Sets the corner radius of the parent card containing the video icon. -->
+        <attr name="streamUiMessageComposerMessageInputVideoCornerRadius" format="dimension" />
+        <!-- Sets the elevation of the icon overlaid above video attachments. -->
+        <attr name="streamUiMessageComposerMessageInputVideoAttachmentIconElevation" format="dimension" />
+        <!-- Sets the top padding between the video attachment drawable and its parent card. -->
+        <attr name="streamUiMessageComposerMessageInputVideoAttachmentIconDrawablePaddingTop" format="dimension" />
+        <!-- Sets the bottom padding between the video attachment drawable and its parent card. -->
+        <attr name="streamUiMessageComposerMessageInputVideoAttachmentIconDrawablePaddingBottom" format="dimension" />
+        <!-- Sets the start padding between the video attachment drawable and its parent card. -->
+        <attr name="streamUiMessageComposerMessageInputVideoAttachmentIconDrawablePaddingStart" format="dimension" />
+        <!-- Sets the end padding between the video attachment drawable and its parent card. -->
+        <attr name="streamUiMessageComposerMessageInputVideoAttachmentIconDrawablePaddingEnd" format="dimension" />
+        <!-- Sets the padding between the video attachment drawable and its parent card, on all
+        sides. Using this attribute will override other padding attributes such as start the padding
+        set on top, bottom, start and end sides of the icon. -->
+        <attr name="streamUiMessageComposerMessageInputVideoAttachmentIconDrawablePadding" format="dimension" />
+
+        <!-- Center overlap content -->
+        <attr name="streamUiMessageComposerAudioRecordingHoldToRecordText" format="reference|string" />
+        <attr name="streamUiMessageComposerAudioRecordingHoldToRecordTextSize" format="reference|dimension" />
+        <attr name="streamUiMessageComposerAudioRecordingHoldToRecordTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAudioRecordingHoldToRecordTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAudioRecordingHoldToRecordTextFont" format="string" />
+        <attr name="streamUiMessageComposerAudioRecordingHoldToRecordTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+        <attr name="streamUiMessageComposerAudioRecordingHoldToRecordBackgroundDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAudioRecordingHoldToRecordBackgroundDrawableTint" format="reference|color" />
+        <attr name="streamUiMessageComposerAudioRecordingSlideToCancelText" format="reference|string" />
+        <attr name="streamUiMessageComposerAudioRecordingSlideToCancelTextSize" format="reference|dimension" />
+        <attr name="streamUiMessageComposerAudioRecordingSlideToCancelTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAudioRecordingSlideToCancelTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAudioRecordingSlideToCancelTextFont" format="string" />
+        <attr name="streamUiMessageComposerAudioRecordingSlideToCancelTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+        <attr name="streamUiMessageComposerAudioRecordingSlideToCancelStartDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAudioRecordingSlideToCancelStartDrawableTint" format="reference|color" />
+        <attr name="streamUiMessageComposerAudioRecordingFloatingButtonIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAudioRecordingFloatingButtonIconDrawableTint" format="reference|color" />
+        <attr name="streamUiMessageComposerAudioRecordingFloatingButtonBackgroundDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAudioRecordingFloatingButtonBackgroundDrawableTint" format="reference|color" />
+        <attr name="streamUiMessageComposerAudioRecordingFloatingLockIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAudioRecordingFloatingLockIconDrawableTint" format="reference|color" />
+        <attr name="streamUiMessageComposerAudioRecordingFloatingLockedIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAudioRecordingFloatingLockedIconDrawableTint" format="reference|color" />
+        <attr name="streamUiMessageComposerAudioRecordingWaveformColor" format="reference|color" />
+
+        <!-- Leading content -->
+        <attr name="streamUiMessageComposerAttachmentsButtonVisible" format="boolean" />
+        <attr name="streamUiMessageComposerAttachmentsButtonIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsButtonIconTintList" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsButtonRippleColor" format="color|reference" />
+        <attr name="streamUiMessageComposerCommandsButtonVisible" format="boolean" />
+        <attr name="streamUiMessageComposerCommandsButtonIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerCommandsButtonIconTintList" format="reference" />
+        <attr name="streamUiMessageComposerCommandsButtonRippleColor" format="color|reference" />
+
+        <!-- Footer content -->
+        <attr name="streamUiMessageComposerAlsoSendToChannelCheckboxVisible" format="boolean" />
+        <attr name="streamUiMessageComposerAlsoSendToChannelCheckboxDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAlsoSendToChannelCheckboxText" format="string" />
+
+        <attr name="streamUiMessageComposerAlsoSendToChannelCheckboxTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerAlsoSendToChannelCheckboxTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAlsoSendToChannelCheckboxTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAlsoSendToChannelCheckboxTextFont" format="string" />
+        <attr name="streamUiMessageComposerAlsoSendToChannelCheckboxTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <!-- Header content -->
+        <attr name="streamUiMessageComposerEditModeText" format="string" />
+        <attr name="streamUiMessageComposerEditModeIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerReplyModeText" format="string" />
+        <attr name="streamUiMessageComposerReplyModeIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerDismissModeIconDrawable" format="reference" />
+
+        <!-- Trailing content -->
+        <attr name="streamUiMessageComposerSendMessageButtonEnabled" format="boolean" />
+        <attr name="streamUiMessageComposerSendMessageButtonIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerSendMessageButtonIconTintList" format="reference" />
+        <attr name="streamUiMessageComposerSendMessageButtonWidth" format="dimension|reference" />
+        <attr name="streamUiMessageComposerSendMessageButtonHeight" format="dimension|reference" />
+        <attr name="streamUiMessageComposerSendMessageButtonPadding" format="dimension|reference" />
+        <attr name="streamUiMessageComposerAudioRecordingButtonEnabled" format="boolean" />
+        <attr name="streamUiMessageComposerAudioRecordingButtonVisible" format="boolean" />
+        <attr name="streamUiMessageComposerAudioRecordingButtonPreferred" format="boolean" />
+        <attr name="streamUiMessageComposerAudioRecordingButtonIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAudioRecordingButtonIconTintList" format="reference" />
+        <attr name="streamUiMessageComposerAudioRecordingButtonWidth" format="dimension|reference" />
+        <attr name="streamUiMessageComposerAudioRecordingButtonHeight" format="dimension|reference" />
+        <attr name="streamUiMessageComposerAudioRecordingButtonPadding" format="dimension|reference" />
+
+        <attr name="streamUiMessageComposerCooldownTimerTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerCooldownTimerTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerCooldownTimerTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerCooldownTimerTextFont" format="string" />
+        <attr name="streamUiMessageComposerCooldownTimerTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerCooldownTimerBackgroundDrawable" format="reference" />
+
+        <attr name="streamUiMessageComposerShowMessageReplyView" format="boolean" />
+
+        <!-- Sets the background color of the quoted message bubble visible in the input when
+         replying to a message. Applied both when replying to messages owned by the currently
+         logged-in user and messages owned by other users. -->
+        <attr name="streamUiMessageComposerMessageReplyBackgroundColor" format="color" />
+        <!-- Sets the size of the text inside the quoted message bubble visible in the input
+         when replying to a message. Applied when replying to messages owned by the currently logged-in
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextSizeMine" format="dimension|reference" />
+        <!-- Sets the color of the text inside the quoted message bubble visible in the input
+        when replying to a message. Applied when replying to messages owned by the currently logged-in
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextColorMine" format="color" />
+        <!-- Sets the font of the text inside the quoted message bubble visible in the input
+        when replying to a message. Applied when replying to messages owned by the currently logged-in
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextFontMine" format="reference" />
+        <!-- Sets the font assets of the text inside the quoted message bubble visible in the
+        input when replying to a message. Applied when replying to messages owned by the currently logged-in
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextFontAssetsMine" format="string" />
+        <!-- Sets the style of the text inside the quoted message bubble visible in the input
+        when replying to a message. Applied when replying to messages owned by the currently logged-in
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextStyleMine">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+        <!-- Sets the color of the stroke of the quoted message bubble visible in the input when
+         replying to a message. Applied when replying to messages owned by the currently logged-in
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyStrokeColorMine" format="color" />
+        <!-- Sets the width of the stroke of the quoted message bubble visible in the input when
+        replying to a message. Applied when replying to messages owned by the currently logged-in
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyStrokeWidthMine" format="dimension|reference" />
+
+        <!-- Sets the size of the text inside the quoted message bubble visible in the input
+         when replying to a message. Applied when replying to messages owned by other users
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextSizeTheirs" format="dimension|reference" />
+        <!-- Sets the color of the text inside the quoted message bubble visible in the input
+        when replying to a message. Applied when replying to messages owned by other users
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextColorTheirs" format="color" />
+        <!-- Sets the font of the text inside the quoted message bubble visible in the input
+        when replying to a message. Applied when replying to messages owned by other users
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextFontTheirs" format="reference" />
+        <!-- Sets the font assets of the text inside the quoted message bubble visible in the
+        input when replying to a message. Applied when replying to messages owned by other users
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextFontAssetsTheirs" format="string" />
+        <!-- Sets the style of the text inside the quoted message bubble visible in the input
+        when replying to a message. Applied when replying to messages owned by other users
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyTextStyleTheirs">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+        <!-- Sets the color of the stroke of the quoted message bubble visible in the input when
+         replying to a message. Applied when replying to messages owned by other users
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyStrokeColorTheirs" format="color" />
+        <!-- Sets the width of the stroke of the quoted message bubble visible in the input when
+        replying to a message. Applied when replying to messages owned by other users
+         user. -->
+        <attr name="streamUiMessageComposerMessageReplyStrokeWidthTheirs" format="dimension|reference" />
+
+        <attr name="streamUiMessageComposerAttachmentsPickerBackgroundColor" format="reference|color" />
+
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessButtonTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessButtonTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessButtonTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessButtonTextFont" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessButtonTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerAttachmentsPickerSubmitAttachmentsButtonIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAttachmentTabToggleButtonStateList" format="color|reference" />
+
+        <!-- Media attachments tab -->
+        <attr name="streamUiMessageComposerAttachmentsPickerMediaAttachmentsTabEnabled" format="boolean" />
+        <attr name="streamUiMessageComposerAttachmentsPickerMediaMode" format="enum">
+            <enum name="photo" value="0" />
+            <enum name="video" value="1" />
+            <enum name="photo_and_video" value="2" />
+        </attr>
+        <attr name="streamUiMessageComposerAttachmentsPickerMediaAttachmentsTabIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessToMediaButtonText" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessToMediaIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsPickerVideoLengthTextVisible" format="boolean" />
+
+        <attr name="streamUiMessageComposerAttachmentsPickerVideoLengthTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerAttachmentsPickerVideoLengthTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAttachmentsPickerVideoLengthTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerVideoLengthTextFont" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerVideoLengthTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerAttachmentsPickerVideoIconVisible" format="boolean" />
+        <attr name="streamUiMessageComposerAttachmentsPickerVideoIconDrawable" format="reference" />
+        <!-- The tint of the icon used for video files. -->
+        <attr name="streamUiMessageComposerAttachmentsPickerVideoIconDrawableTint" format="reference|color"/>
+        <attr name="streamUiMessageComposerAttachmentsPickerMediaAttachmentNoMediaText" format="string" />
+
+        <attr name="streamUiMessageComposerAttachmentsPickerMediaAttachmentNoMediaTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerAttachmentsPickerMediaAttachmentNoMediaTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAttachmentsPickerMediaAttachmentNoMediaTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerMediaAttachmentNoMediaTextFont" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerMediaAttachmentNoMediaTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <!-- File attachments tab -->
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentsTabEnabled" format="boolean" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentsTabIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessToFilesButtonText" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessToFilesIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsPickerRecentFilesText" format="string" />
+
+        <attr name="streamUiMessageComposerAttachmentsPickerRecentFilesTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerAttachmentsPickerRecentFilesTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAttachmentsPickerRecentFilesTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerRecentFilesTextFont" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerRecentFilesTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerAttachmentsPickerFileManagerIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentsNoFilesText" format="string" />
+
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentsNoFilesTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentsNoFilesTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentsNoFilesTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentsNoFilesTextFont" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentsNoFilesTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemNameTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemNameTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemNameTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemNameTextFont" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemNameTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemSizeTextSize" format="dimension" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemSizeTextColor" format="reference|color" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemSizeTextFontAssets" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemSizeTextFont" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemSizeTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+        </attr>
+
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemCheckboxSelectedDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemCheckboxDeselectedDrawable" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerFileAttachmentItemCheckboxTextColor" format="reference|color" />
+
+        <!-- Camera attachments tab -->
+        <attr name="streamUiMessageComposerAttachmentsPickerCameraAttachmentsTabEnabled" format="boolean" />
+        <attr name="streamUiMessageComposerAttachmentsPickerCameraAttachmentsTabIconDrawable" format="reference" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessToCameraButtonText" format="string" />
+        <attr name="streamUiMessageComposerAttachmentsPickerAllowAccessToCameraIconDrawable" format="reference" />
+
+        <!-- Audio record player view style -->
+        <attr name="streamUiMessageComposerAudioRecordPlayerViewStyle" format="reference" />
+    </declare-styleable>
+
+<!--    로그인 화면 스타일-->
+<!--    <style name="AppTheme.NoActionBar">-->
+<!--        <item name="windowActionBar">false</item>-->
+<!--        <item name="windowNoTitle">true</item>-->
+<!--    </style>-->
+
+    <!--designs for login and register-->
+    <style name="parent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="loginParent" parent="parent">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/loginBkColor</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <style name="headerText" parent="parent">
+        <item name="android:textSize">@dimen/headerTextSize</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/whiteTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="loginCard" parent="parent"></style>
+
+    <style name="linearParent" parent="parent">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="headerTextPrimary" parent="headerText">
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="modifiedEditText" parent="parent">
+        <item name="android:textSize">@dimen/newsMoreTextSize</item>
+        <item name="android:backgroundTint">@color/whiteCardColor</item>
+    </style>
+
+    <style name="viewParent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="loginButton" parent="viewParent">
+        <item name="android:background">@drawable/login_button_bk</item>
+        <item name="android:textColor">@color/whiteTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
+    </style>
+
+</resources>
