@@ -14,9 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.auth.Token
-import com.google.firebase.firestore.firestore
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.ChannelActivity
 import com.kwonminseok.busanpartners.R
@@ -24,12 +21,8 @@ import com.kwonminseok.busanpartners.databinding.ActivityMainBinding
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
 import com.kwonminseok.busanpartners.viewmodel.LoginsViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
-import io.getstream.chat.android.client.api.ChatClientConfig
 import io.getstream.chat.android.client.logger.ChatLogLevel
-import io.getstream.chat.android.client.token.TokenProvider
-import io.getstream.chat.android.core.internal.InternalStreamChatApi
 import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.Message
@@ -52,11 +45,9 @@ import io.getstream.chat.android.ui.viewmodel.channels.bindView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
-import java.io.StreamTokenizer
 import java.time.Duration
 
-@AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity2 : AppCompatActivity() {
 //    // 1
 //    val factory = MessageListViewModelFactory(cid = "messaging:123")
 //    // 2
@@ -85,7 +76,15 @@ class MainActivity : AppCompatActivity() {
             FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         )
 
-
+        // Step 1 - Set up the OfflinePlugin for offline storage
+        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
+        val statePluginFactory = StreamStatePluginFactory(
+            config = StatePluginConfig(
+                backgroundSyncEnabled = true,
+                userPresence = true,
+            ),
+            appContext = this,
+        )
         // 여기서 파이어베이스 정보를 받고 user를 정의한다.
         lifecycleScope.launchWhenStarted {
             viewModel.user.collectLatest {
@@ -96,8 +95,7 @@ class MainActivity : AppCompatActivity() {
 
                     is Resource.Success -> {
                         user = it.data!!
-                        Log.e("user",user.toString())
-                        connectUserToStream(user)
+
                     }
 
                     is Resource.Error -> {
@@ -110,51 +108,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Step 2 - Set up the client for API calls with the plugin for offline storage
-
-    }
-
-//    private fun applyStyleTransformation() {
-//        TransformStyle.channelListStyleTransformer = StyleTransformer { defaultStyle ->
-//            defaultStyle.copy(
-//                optionsEnabled = false,
-//                foregroundLayoutColor = Color.LTGRAY,
-//                channelTitleText = defaultStyle.channelTitleText.copy(
-//                    color = Color.BLUE,
-//                    size = resources.getDimensionPixelSize(androidx.appcompat.R.dimen.abc_action_bar_content_inset_material)
-//                ),
-//                unreadMessageCounterBackgroundColor = Color.BLUE
-//            )
-//        }
-//        Log.e("asd","applyStyleTransformation Complete!!")
-//    }
-
-    private fun Context.toast(
-        message: String,
-        duration: Int = Toast.LENGTH_SHORT
-    ) {
-        Toast.makeText(this, message, duration).show()
-    }
-
-
-    // GetStream API에 사용자 연결
-    private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
-
-        // Step 1 - Set up the OfflinePlugin for offline storage
-        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
-        val statePluginFactory = StreamStatePluginFactory(
-            config = StatePluginConfig(
-                backgroundSyncEnabled = true,
-                userPresence = true,
-            ),
-            appContext = this,
-        )
-
         val client = ChatClient.Builder(BuildConfig.API_KEY, applicationContext)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
             .build()
 
-        Log.e("this",client.devToken(user.uid))
+//        val user = User(
+//            id = "tutorial-droid",
+//            name = "Tutorial Droid",
+//            image = "https://bit.ly/2TIt8NR"
+//        )
 
 
         val user = User(
@@ -162,16 +125,6 @@ class MainActivity : AppCompatActivity() {
             name = "Kim",
             image = ""
         )
-
-
-//        val myUser = User(
-//            id = user.uid,
-//            name = "${user.firstName} ${user.lastName}",
-//            image = user.imagePath
-//        )
-
-
-
 
 
 
@@ -267,6 +220,34 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+    }
+
+//    private fun applyStyleTransformation() {
+//        TransformStyle.channelListStyleTransformer = StyleTransformer { defaultStyle ->
+//            defaultStyle.copy(
+//                optionsEnabled = false,
+//                foregroundLayoutColor = Color.LTGRAY,
+//                channelTitleText = defaultStyle.channelTitleText.copy(
+//                    color = Color.BLUE,
+//                    size = resources.getDimensionPixelSize(androidx.appcompat.R.dimen.abc_action_bar_content_inset_material)
+//                ),
+//                unreadMessageCounterBackgroundColor = Color.BLUE
+//            )
+//        }
+//        Log.e("asd","applyStyleTransformation Complete!!")
+//    }
+
+    private fun Context.toast(
+        message: String,
+        duration: Int = Toast.LENGTH_SHORT
+    ) {
+        Toast.makeText(this, message, duration).show()
+    }
+
+
+    // GetStream API에 사용자 연결
+    private fun connectUserToStream() {
+
     }
 }
 

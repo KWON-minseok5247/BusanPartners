@@ -89,15 +89,18 @@ class RegisterFragment : Fragment() {
 
 
         binding.apply {
-            cirRegisterButton.setOnClickListener {
-                val user = User(
-                    edFirstName.text.toString().trim(),
-                    edLastName.text.toString().trim(),
-                    edEmail.text.toString().trim()
-                )
-                val password = edPassword.text.toString()
-                viewModel.createAccountWithEmailAndPassword(user, password)
-            }
+                cirRegisterButton.setOnClickListener {
+                        val user = User(
+                            edFirstName.text.toString().trim(),
+                            edLastName.text.toString().trim(),
+                            edEmail.text.toString().trim()
+                        )
+                        val password = edPassword.text.toString()
+                        viewModel.createAccountWithEmailAndPassword(user, password)
+                    }
+
+
+
         }
 
 
@@ -147,12 +150,12 @@ class RegisterFragment : Fragment() {
                         is Resource.Success -> { // 완료되는 순간 revert로 만들어놓기
                             binding.cirRegisterButton.revertAnimation()
                             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-                            Toast.makeText(requireActivity(),"your id is registered.",Toast.LENGTH_SHORT).show()
-
+                            Toast.makeText(context,"your id is registered.",Toast.LENGTH_SHORT).show()
                         }
 
                         is Resource.Error -> {
                             binding.cirRegisterButton.revertAnimation()
+                            Toast.makeText(context,it.message.toString(),Toast.LENGTH_SHORT).show()
 
                         }
                         else -> {

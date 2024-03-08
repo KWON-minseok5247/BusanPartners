@@ -8,6 +8,7 @@ import com.kwonminseok.busanpartners.util.RegisterFieldsState
 import com.kwonminseok.busanpartners.util.RegisterValidation
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.data.User
+import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
 import com.kwonminseok.busanpartners.util.validateEmail
 import com.kwonminseok.busanpartners.util.validatePassword
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -85,6 +86,7 @@ class RegisterViewModel @Inject constructor(
     private val _validation = Channel<RegisterFieldsState>()
     val validation = _validation.receiveAsFlow()
 
+
     fun createAccountWithEmailAndPassword(user: User, password: String) {
 
 //        checkValidation(user, password)
@@ -118,11 +120,11 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun saveUserInfo(userUid: String, user:User) {
-        db.collection("users")
+        firebaseAuth.currentUser?.let { user.copy(uid = it.uid) }
+        db.collection(USER_COLLECTION)
             .document(userUid)
             .set(user)
             .addOnSuccessListener {
-                Log.e("RegisterViewModel", "_register flow에 데이터 user가 전달되었습니다.")
                 _register.value = Resource.Success(user)
                 firebaseAuth.signOut()
             }

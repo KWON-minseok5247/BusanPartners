@@ -73,6 +73,7 @@ class LoginFragment: Fragment() {
                     }
 
                     is Resource.Success -> {
+
                     }
 
                     is Resource.Error -> {
