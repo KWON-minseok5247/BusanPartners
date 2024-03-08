@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 //import com.google.firebase.firestore.FirebaseFirestore
@@ -38,6 +39,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFirebaseFirestoreDatabase() = Firebase.firestore
+
+    @Provides
+    @Singleton
+    fun provideCloudFunction() = Firebase.functions
 //
 //    // 뷰모델에서 호출할 때마다 여기 있는 거 가져다가 쓰는 듯????
 //

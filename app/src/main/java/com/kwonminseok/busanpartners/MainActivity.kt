@@ -17,6 +17,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.auth.Token
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.remote.Stream
+import com.google.firebase.functions.functions
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.ChannelActivity
 import com.kwonminseok.busanpartners.R
@@ -38,6 +40,7 @@ import io.getstream.chat.android.models.querysort.QuerySortByField
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
+import io.getstream.chat.android.ui.ChatUI
 import io.getstream.chat.android.ui.feature.channels.ChannelListActivity
 import io.getstream.chat.android.ui.feature.channels.ChannelListFragment
 import io.getstream.chat.android.ui.helper.StyleTransformer
@@ -54,7 +57,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
 import java.io.StreamTokenizer
 import java.time.Duration
-
+val TAG = "MainActivity"
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 //    // 1
@@ -96,7 +99,6 @@ class MainActivity : AppCompatActivity() {
 
                     is Resource.Success -> {
                         user = it.data!!
-                        Log.e("user",user.toString())
                         connectUserToStream(user)
                     }
 
@@ -154,56 +156,70 @@ class MainActivity : AppCompatActivity() {
             .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
             .build()
 
-        Log.e("this",client.devToken(user.uid))
 
 
-        val user = User(
-            id = "Kim",
-            name = "Kim",
-            image = ""
-        )
-
-
-//        val myUser = User(
-//            id = user.uid,
-//            name = "${user.firstName} ${user.lastName}",
-//            image = user.imagePath
+//        val user = User(
+//            id = "Kim",
+//            name = "Kim",
+//            image = ""
 //        )
 
 
+        val myUser = User(
+            id = user.uid,
+            name = "${user.firstName} ${user.lastName}",
+            image = user.imagePath
+        )
+//        // Firebase Functions를 가져옴
+//        val functions = Firebase.functions
+//
+//        // Firebase Functions에서 ext-auth-chat-getStreamUserToken 함수를 가져옴
+//        val getStreamUserToken = functions.getHttpsCallable("ext-auth-chat-getStreamUserToken")
+//
+//        val data = hashMapOf("uid" to user.uid)
+//        getStreamUserToken(user.uid,
+//            onSuccess = { token ->
+//                // 토큰을 성공적으로 받았을 때 처리
+//                Log.e("token","GetStream 토큰: $token")
+//                // 이곳에서 GetStream 클라이언트를 초기화하고 작업을 수행할 수 있습니다.
+//            },
+//            onFailure = { exception ->
+//                // 토큰을 받지 못했을 때 처리
+//                Log.e("token","토큰을 가져오는 데 실패했습니다: ${exception.message}")
+//            }
+//        )
+        val token = client.devToken(user.uid)
+        Log.e("token", token)
+        // Firebase Functions을 호출하여 Stream Chat 토큰을 가져옴
+                client.connectUser(
+                    user = myUser,
+                    token = token
+                ) // Replace with a real token BuildConfig.MY_TOKEN
+                    .enqueue {
+                        if (it.isSuccess) {
+                            // viewModel 초기화 시키기
+                            val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
+
+                            val channelListFactory: ChannelListViewModelFactory =
+                                ChannelListViewModelFactory(
+                                    filter = Filters.and(
+                                        Filters.eq("type", "messaging"),
+                                        Filters.`in`(
+                                            "members",
+                                            listOf(ChatClient.instance().getCurrentUser()!!.id)
+                                        ),
+                                    ),
+                                    sort = QuerySortByField.descByName("last_updated"),
+                                    limit = 30,
+
+                                    )
 
 
+                            val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
 
 
-        client.connectUser(
-            user = user,
-            token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiS2ltIn0.h2o_zyqgtVTaQEpJVjV7ecQ2DMpqOzhXOF6FUqAeXOE"
-        ) // Replace with a real token BuildConfig.MY_TOKEN
-            .enqueue {
-                if (it.isSuccess) {
-                    // viewModel 초기화 시키기
-                    val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
-
-                    val channelListFactory: ChannelListViewModelFactory =
-                        ChannelListViewModelFactory(
-                            filter = Filters.and(
-                                Filters.eq("type", "messaging"),
-                                Filters.`in`(
-                                    "members",
-                                    listOf(ChatClient.instance().getCurrentUser()!!.id)
-                                ),
-                            ),
-                            sort = QuerySortByField.descByName("last_updated"),
-                            limit = 30,
-
-                            )
-
-
-                    val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
-
-
-                    channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
-                    channelListViewModel.bindView(binding.channelListView, this)
+                            channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
+                            channelListViewModel.bindView(binding.channelListView, this)
 
 //                    binding.channelListHeaderView.setOnActionButtonClickListener {
 //                        Toast.makeText(this,"Action clicked", Toast.LENGTH_SHORT).show()
@@ -218,7 +234,7 @@ class MainActivity : AppCompatActivity() {
 //// Set custom view holder factory
 //                    binding.channelListView.setViewHolderFactory(customFactory)
 
-                    // Step 3 - Apply Style Transformation
+                            // Step 3 - Apply Style Transformation
 //                    applyStyleTransformation()
 
 
@@ -232,15 +248,15 @@ class MainActivity : AppCompatActivity() {
 //                            unreadMessageCounterBackgroundColor = Color.BLUE,
 //                        )
 //                    }
-                    binding.channelListView.setChannelItemClickListener { channel ->
-                        startActivity(ChannelActivity.newIntent(this, channel))
-                    }
+                            binding.channelListView.setChannelItemClickListener { channel ->
+                                startActivity(ChannelActivity.newIntent(this, channel))
+                            }
 
 //                    binding.channelListView.setChannelLongClickListener { channel ->
 //                        Toast.makeText(this, "click long", Toast.LENGTH_SHORT).show()
 //                        true
 //                    }
-
+//
 //                    binding.channelListView.setMoreOptionsIconProvider { channel ->
 //                        // You can generate the icon Drawable based on the channel object
 //                        ContextCompat.getDrawable(this, io.getstream.chat.android.ui.R.drawable.stream_ui_ic_more)
@@ -249,25 +265,47 @@ class MainActivity : AppCompatActivity() {
 //                        // You can generate the icon Drawable based on the channel object
 //                        ContextCompat.getDrawable(this, R.drawable.baseline_delete_24)
 //                    }
-//
-                    binding.channelListView.setIsMoreOptionsVisible { channel ->
-                        // You can determine visibility based on the channel object.
-                        true
+
+                            binding.channelListView.setIsMoreOptionsVisible { channel ->
+                                // You can determine visibility based on the channel object.
+                                true
+                            }
+
+                            binding.channelListView.setIsDeleteOptionVisible { channel ->
+                                // You can determine visibility based on the channel object.
+                                // Here is the default implementation:
+                                channel.ownCapabilities.contains("delete-channel")
+                            }
+
+
+                        } else {
+                            Toast.makeText(this, "something went wrong!", Toast.LENGTH_SHORT).show()
+                        }
+
                     }
-
-                    binding.channelListView.setIsDeleteOptionVisible { channel ->
-                        // You can determine visibility based on the channel object.
-                        // Here is the default implementation:
-                        channel.ownCapabilities.contains("delete-channel")
-                    }
+                // 여기서 토큰을 사용하여 Stream Chat에 로그인하거나 다른 작업을 수행할 수 있음
 
 
-                } else {
-                    Toast.makeText(this, "something went wrong!", Toast.LENGTH_SHORT).show()
-                }
 
+
+    }
+    fun getStreamUserToken(uid: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        val functions = Firebase.functions
+        val getStreamUserToken = functions.getHttpsCallable("ext-auth-chat-getStreamUserToken")
+
+        val data = hashMapOf("uid" to uid)
+
+        getStreamUserToken.call(data)
+            .addOnSuccessListener { result ->
+                val token = result.data as String
+                Log.e("in the function", token)
+                onSuccess.invoke(token)
+            }
+            .addOnFailureListener { exception ->
+                onFailure.invoke(exception)
             }
     }
+
 }
 
 

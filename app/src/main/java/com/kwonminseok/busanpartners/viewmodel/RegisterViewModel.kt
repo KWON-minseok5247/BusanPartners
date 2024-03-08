@@ -89,6 +89,7 @@ class RegisterViewModel @Inject constructor(
 
     fun createAccountWithEmailAndPassword(user: User, password: String) {
 
+
 //        checkValidation(user, password)
         if (checkValidation(user,password)) {
 
@@ -120,10 +121,11 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun saveUserInfo(userUid: String, user:User) {
-        firebaseAuth.currentUser?.let { user.copy(uid = it.uid) }
+        val newUser = user.copy(uid = userUid)
+
         db.collection(USER_COLLECTION)
             .document(userUid)
-            .set(user)
+            .set(newUser)
             .addOnSuccessListener {
                 _register.value = Resource.Success(user)
                 firebaseAuth.signOut()
