@@ -1,10 +1,11 @@
-package com.kwonminseok.busanpartners
+package com.kwonminseok.busanpartners.util
 
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.kwonminseok.busanpartners.R
 
 // 앞에 Fragment를 붙이면 다양한 프래그먼트에서 중복입력할 필요 없이 사용이 가능한 듯?
 // 그니까 onSendClick을 사용하는 이유는 setupBottomDialog를 여러개 쓸 건데, Dialog에 여러 내용을 띄우거나 로직을 부여해야 한다.

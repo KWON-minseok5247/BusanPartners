@@ -113,8 +113,12 @@ dependencies {
     def nav_version = "2.5.2"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
     //repeatOnLifeCycler
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+
+    //Android Ktx
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
 
 
 

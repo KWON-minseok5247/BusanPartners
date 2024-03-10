@@ -1,4 +1,4 @@
-package com.kwonminseok.busanpartners
+package com.kwonminseok.busanpartners.mainScreen
 
 
 import android.content.Context
@@ -8,6 +8,7 @@ import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ActivityChannelBinding
 import com.kwonminseok.busanpartners.util.CustomMessageComposerLeadingContent
 import io.getstream.chat.android.models.Channel

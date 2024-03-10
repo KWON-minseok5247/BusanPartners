@@ -5,13 +5,13 @@
         android:icon="@drawable/ic_home"
         android:id="@+id/homeFragment"/>
 
-    <item android:title="People"
+    <item android:title="Connect"
         android:icon="@drawable/ic_people"
-        android:id="@+id/searchFragment"/>
+        android:id="@+id/connectFragment"/>
 
     <item android:title="Message"
         android:icon="@drawable/ic_message"
-        android:id="@+id/cartFragment"/>
+        android:id="@+id/messageFragment"/>
 
     <item android:title="Profile"
         android:icon="@drawable/ic_profile"

@@ -6,17 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.kwonminseok.busanpartners.MainActivity
+import com.kwonminseok.busanpartners.mainScreen.MainActivity
 import com.kwonminseok.busanpartners.R
-import com.kwonminseok.busanpartners.databinding.ActivityLoginRegisterBinding
 import com.kwonminseok.busanpartners.databinding.FragmentLoginBinding
-import com.kwonminseok.busanpartners.setupBottomSheetDialog
+import com.kwonminseok.busanpartners.mainScreen.HomeActivity
+import com.kwonminseok.busanpartners.util.setupBottomSheetDialog
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.LoginsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,7 +103,7 @@ class LoginFragment: Fragment() {
                         binding.cirLoginButton.revertAnimation()
 
                         val intent =
-                            Intent(context, MainActivity::class.java).addFlags(
+                            Intent(context, HomeActivity::class.java).addFlags(
                                 Intent.FLAG_ACTIVITY_NEW_TASK or
                                         Intent.FLAG_ACTIVITY_CLEAR_TASK
                             )
