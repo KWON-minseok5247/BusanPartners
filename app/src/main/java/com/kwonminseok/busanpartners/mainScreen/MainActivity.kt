@@ -187,16 +187,9 @@ class MainActivity : AppCompatActivity() {
                     // 오류 처리 로직을 구현합니다.
                 }
             }
-
-
-
 //        val token = client.devToken(user.uid)
         // Firebase Functions을 호출하여 Stream Chat 토큰을 가져옴
                 // 여기서 토큰을 사용하여 Stream Chat에 로그인하거나 다른 작업을 수행할 수 있음
-
-
-
-
 
     }
 
