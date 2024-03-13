@@ -29,7 +29,8 @@ android {
         buildConfigField "String", "API_KEY", properties['API_KEY']
         buildConfigField "String", "MY_TOKEN", properties['MY_TOKEN']
         buildConfigField "String", "BUSAN_FESTIVAL_KEY", properties['BUSAN_FESTIVAL_KEY']
-
+        buildConfigField "String", "BUSAN_TOURIST_DESTINATION_KEY", properties['BUSAN_TOURIST_DESTINATION_KEY']
+        buildConfigField "String", "COLLEGE_KEY", properties['COLLEGE_KEY']
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -105,7 +106,7 @@ dependencies {
 
     // card view
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.11.0'
 
     //loading button
     implementation("com.github.leandroborgesferreira:loading-button-android:2.3.0")
@@ -133,6 +134,18 @@ dependencies {
     //retrofit and gson
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //okhttp
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+
+    //circleindicator
+    implementation 'me.relex:circleindicator:2.1.6'
+
+    //College Authentication
+    implementation 'com.github.in-seo:univcert:master-SNAPSHOT'
 
 
 

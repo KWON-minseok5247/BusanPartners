@@ -1,14 +1,14 @@
 package com.kwonminseok.busanpartners.data
 
-data class FestivalResponse(
-    val getFestivalKr: FestivalContent
+data class TouristDestinationResponse(
+    val getAttractionKr: TouristDestinationContent
 )
 
-data class FestivalContent(
-    val item: List<FestivalItem>
+data class TouristDestinationContent(
+    val item: List<TouristDestination>
 )
 
-data class FestivalItem(
+data class TouristDestination(
     val MAIN_TITLE: String,
     val LAT: String,
     val LNG: String,
@@ -25,4 +25,4 @@ data class FestivalItem(
     val ITEMCNTNTS: String,
     val MIDDLE_SIZE_RM1: String,
     val ADDR1: String,
-    )
+)

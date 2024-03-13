@@ -6,22 +6,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.kwonminseok.busanpartners.BuildConfig
-import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.adapter.FestivalAdapter
+import com.kwonminseok.busanpartners.adapter.TouristDestinationAdapter
 import com.kwonminseok.busanpartners.data.FestivalResponse
-import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
+import com.kwonminseok.busanpartners.data.TouristDestinationResponse
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 private val TAG = "HomeFragment"
 class HomeFragment : Fragment() {
 
+    private val touristDestinationAdapter by lazy { TouristDestinationAdapter() }
+    private val festivalAdapter by lazy { FestivalAdapter() }
     lateinit var binding: FragmentHomeBinding
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,32 +35,55 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        // festival 정보 가져오는 함수
+        getFestivalInformation()
 
-        // Create a Retrofit instance
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://apis.data.go.kr/6260000/FestivalService/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-// Create an API service
-        val service = retrofit.create(BusanFestivalApiService::class.java)
-
-// Make an asynchronous API call
-        service.getFestivals(BuildConfig.BUSAN_FESTIVAL_KEY, 10, 1, "json").enqueue(object :
-            Callback<FestivalResponse> {
-            override fun onResponse(call: Call<FestivalResponse>, response: Response<FestivalResponse>) {
+        BusanFestivalApiService.getInstance().getTouristDestination(BuildConfig.BUSAN_FESTIVAL_KEY, 10, 1, "json").enqueue(object :
+            Callback<TouristDestinationResponse> {
+            override fun onResponse(call: Call<TouristDestinationResponse>,
+                                    response: Response<TouristDestinationResponse>) {
                 if (response.isSuccessful) {
-                    Log.e(TAG,response.message())
-                    Toast.makeText(requireContext(), "${response.message()}",Toast.LENGTH_SHORT).show()
+                    Log.e(TAG,response.body().toString())
+
+                    binding.touristRecyclerView.adapter = touristDestinationAdapter
+
+                    touristDestinationAdapter.differ.submitList(response.body()?.getAttractionKr?.item)
+
                 }
             }
-
-            override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
-                // TODO: Handle the failure case
+            override fun onFailure(call: Call<TouristDestinationResponse>, t: Throwable) {
                 Log.e(TAG,t.message.toString())
 
             }
         })
+
+
+
+    }
+
+    private fun getFestivalInformation() {
+        BusanFestivalApiService.getInstance()
+            .getFestivalsKr(BuildConfig.BUSAN_FESTIVAL_KEY, 10, 1, "json").enqueue(object :
+                Callback<FestivalResponse> {
+                override fun onResponse(
+                    call: Call<FestivalResponse>,
+                    response: Response<FestivalResponse>
+                ) {
+                    if (response.isSuccessful) {
+
+                        binding.festivalViewPager.adapter = festivalAdapter
+
+                        festivalAdapter.differ.submitList(response.body()?.getFestivalKr?.item)
+
+                    }
+                }
+
+                override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
+                    Log.e(TAG, t.message.toString())
+
+                }
+            })
     }
 
 

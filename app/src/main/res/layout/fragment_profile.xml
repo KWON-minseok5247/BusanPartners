@@ -113,19 +113,33 @@
                 android:layout_marginTop="10dp">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/collegeAuthentication"
                     android:layout_width="0dp"
                     android:layout_height="250dp"
                     android:layout_margin="8dp"
                     app:cardCornerRadius="10dp"
                     android:layout_weight="1">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="대학생"
+                        android:gravity="center"
+                        android:layout_gravity="center"/>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/travelerAuthentication"
                     android:layout_width="0dp"
                     android:layout_height="250dp"
                     app:cardCornerRadius="10dp"
                     android:layout_margin="8dp"
                     android:layout_weight="1">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="관광객"
+                        android:gravity="center"
+                        android:layout_gravity="center"/>
                 </com.google.android.material.card.MaterialCardView>
 
 
