@@ -42,6 +42,14 @@ class MessageFragment : Fragment() {
 
     lateinit var user: com.kwonminseok.busanpartners.data.User
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,7 +63,6 @@ class MessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
 // Inflate loading view
         val loadingView =
             LayoutInflater.from(requireContext()).inflate(R.layout.channel_list_loading_view, null)
@@ -67,29 +74,32 @@ class MessageFragment : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
+        binding.button.setOnClickListener {
+            // 여기서 파이어베이스 정보를 받고 user를 정의한다.
+            lifecycleScope.launchWhenStarted {
+                viewModel.user.collectLatest {
+                    when (it) {
+                        is Resource.Loading -> {
 
+                        }
 
-        // 여기서 파이어베이스 정보를 받고 user를 정의한다.
-        lifecycleScope.launchWhenStarted {
-            viewModel.user.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
+                        is Resource.Success -> {
+                            user = it.data!!
+                            connectUserToStream(user)
+                        }
 
+                        is Resource.Error -> {
+
+                        }
+
+                        else -> Unit
                     }
-
-                    is Resource.Success -> {
-                        user = it.data!!
-                        connectUserToStream(user)
-                    }
-
-                    is Resource.Error -> {
-
-                    }
-
-                    else -> Unit
                 }
             }
         }
+
+
+
 
 
     }
@@ -148,29 +158,30 @@ class MessageFragment : Fragment() {
 //                Log.e("token","토큰을 가져오는 데 실패했습니다: ${exception.message}")
 //            }
 //        )
+        getChatListView(client, myUser, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiazNmN0RpVVVDT1NtenYzRUJ3QWduVnZGQjNrMiIsImlhdCI6MTcxMDQ5Mjc0OX0.TTOr-aRtWZrccCLmahbCNEPStutGyI1L8Ov6MLF-BPk")
 
         // Firebase Functions 인스턴스를 가져옵니다.
         val functions = FirebaseFunctions.getInstance("asia-northeast3")
 
 // `ext-auth-chat-getStreamUserToken` 함수를 호출하여 토큰을 요청합니다.
-        functions
-            .getHttpsCallable("ext-auth-chat-getStreamUserToken")
-            .call()
-            .addOnCompleteListener { task ->
-
-                if (task.isSuccessful) {
-                    // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
-                    val token = task.result?.data as String
-                    getChatListView(client, myUser, token)
-                    // 여기에서 GetStream 채팅 클라이언트에 토큰을 사용합니다.
-                } else {
-                    // 함수 호출이 실패했습니다. 오류를 처리합니다.
-                    val exception = task.exception
-                    Log.e("exception", task.exception.toString())
-
-                    // 오류 처리 로직을 구현합니다.
-                }
-            }
+//        functions
+//            .getHttpsCallable("ext-auth-chat-getStreamUserToken")
+//            .call()
+//            .addOnCompleteListener { task ->
+//
+//                if (task.isSuccessful) {
+//                    // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
+//                    val token = task.result?.data as String
+//                    Log.e(TAG,"$token")
+//                    // 여기에서 GetStream 채팅 클라이언트에 토큰을 사용합니다.
+//                } else {
+//                    // 함수 호출이 실패했습니다. 오류를 처리합니다.
+//                    val exception = task.exception
+//                    Log.e("exception", task.exception.toString())
+//
+//                    // 오류 처리 로직을 구현합니다.
+//                }
+//            }
 //        val token = client.devToken(user.uid)
         // Firebase Functions을 호출하여 Stream Chat 토큰을 가져옴
         // 여기서 토큰을 사용하여 Stream Chat에 로그인하거나 다른 작업을 수행할 수 있음

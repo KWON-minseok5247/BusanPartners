@@ -44,10 +44,8 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call<TouristDestinationResponse>,
                                     response: Response<TouristDestinationResponse>) {
                 if (response.isSuccessful) {
-                    Log.e(TAG,response.body().toString())
 
                     binding.touristRecyclerView.adapter = touristDestinationAdapter
-
                     touristDestinationAdapter.differ.submitList(response.body()?.getAttractionKr?.item)
 
                 }

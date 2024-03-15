@@ -6,6 +6,8 @@ plugins {
 
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    // Parcelize
+    id 'kotlin-parcelize'
 
 }
 
@@ -57,6 +59,11 @@ android {
         buildConfig true
     }
 
+//    configurations.all {
+//        resolutionStrategy {
+//            force 'org.hamcrest:hamcrest-junit:2.0.0.0'
+//        }
+//    }
 
 }
 
@@ -145,7 +152,10 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
 
     //College Authentication
-    implementation 'com.github.in-seo:univcert:master-SNAPSHOT'
+    implementation('com.github.in-seo:univcert:master-SNAPSHOT') {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+
 
 
 

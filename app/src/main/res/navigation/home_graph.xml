@@ -19,10 +19,36 @@
         android:id="@+id/messageFragment"
         android:name="com.kwonminseok.busanpartners.mainScreen.MessageFragment"
         android:label="fragment_message"
+
         tools:layout="@layout/fragment_message" />
+
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.ProfileFragment"
+        android:name="com.kwonminseok.busanpartners.mainScreen.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_collegeAuthFragment"
+            app:destination="@id/collegeAuthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/collegeAuthFragment"
+        android:name="com.kwonminseok.busanpartners.mainScreen.profile.CollegeAuthFragment"
+        android:label="CollegeAuthFragment"
+        tools:layout="@layout/fragment_college_auth">
+        <action
+            android:id="@+id/action_collegeAuthFragment_to_collegeAuthNumberFragment"
+            app:destination="@id/collegeAuthNumberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/collegeAuthNumberFragment"
+        android:name="com.kwonminseok.busanpartners.mainScreen.profile.CollegeAuthNumberFragment"
+        android:label="CollegeAuthNumberFragment"
+        tools:layout="@layout/fragment_college_auth_number">
+        <argument
+            android:name="collegeData"
+            app:argType="com.kwonminseok.busanpartners.data.CollegeData" />
+    </fragment>
+
+
 </navigation>
