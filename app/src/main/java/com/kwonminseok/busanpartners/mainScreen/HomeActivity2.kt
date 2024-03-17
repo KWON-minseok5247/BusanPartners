@@ -1,20 +1,20 @@
-package com.kwonminseok.busanpartners.mainScreen
-
-import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
-import com.kwonminseok.busanpartners.R
-import com.kwonminseok.busanpartners.databinding.ActivityHomeBinding
-import com.kwonminseok.busanpartners.mainScreen.home.HomeFragment
-import com.kwonminseok.busanpartners.mainScreen.profile.ProfileFragment
-import dagger.hilt.android.AndroidEntryPoint
-
+//package com.kwonminseok.busanpartners.mainScreen
+//
+//import android.os.Bundle
+//import androidx.activity.viewModels
+//import androidx.appcompat.app.AppCompatActivity
+//import androidx.fragment.app.FragmentManager
+//import androidx.navigation.NavOptions
+//import androidx.navigation.findNavController
+//import androidx.navigation.ui.setupWithNavController
+//import com.kwonminseok.busanpartners.R
+//import com.kwonminseok.busanpartners.databinding.ActivityHomeBinding
+//import com.kwonminseok.busanpartners.mainScreen.home.HomeFragment
+//import com.kwonminseok.busanpartners.mainScreen.profile.ProfileFragment
+//import dagger.hilt.android.AndroidEntryPoint
+//
 //@AndroidEntryPoint
-//class HomeActivity: AppCompatActivity() {
+//class HomeActivity2: AppCompatActivity() {
 //    private val fragmentManager = supportFragmentManager
 //
 //    val binding by lazy {
@@ -42,7 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 //    private fun initBottomNavigation(){
 //        // 최초로 보이는 프래그먼트
 //        homeFragment = HomeFragment()
-//        fragmentManager.beginTransaction().replace(R.id.homeHostFragment,homeFragment!!).commit()
+//        fragmentManager.beginTransaction().replace(R.id.fragmentContainerView,homeFragment!!).commit()
 //
 //        binding.bottomNavigation.setOnItemSelectedListener {
 //
@@ -51,7 +51,7 @@ import dagger.hilt.android.AndroidEntryPoint
 //                R.id.homeFragment ->{
 //                    if(homeFragment == null){
 //                        homeFragment = HomeFragment()
-//                        fragmentManager.beginTransaction().add(R.id.homeHostFragment,homeFragment!!).commit()
+//                        fragmentManager.beginTransaction().add(R.id.fragmentContainerView,homeFragment!!).commit()
 //                    }
 //                    if(homeFragment != null) fragmentManager.beginTransaction().show(homeFragment!!).commit()
 //                    if(connectFragment != null) fragmentManager.beginTransaction().hide(connectFragment!!).commit()
@@ -63,7 +63,7 @@ import dagger.hilt.android.AndroidEntryPoint
 //                R.id.connectFragment ->{
 //                    if(connectFragment == null){
 //                        connectFragment = ConnectFragment()
-//                        fragmentManager.beginTransaction().add(R.id.homeHostFragment,connectFragment!!).commit()
+//                        fragmentManager.beginTransaction().add(R.id.fragmentContainerView,connectFragment!!).commit()
 //                    }
 //                    if(homeFragment != null) fragmentManager.beginTransaction().hide(homeFragment!!).commit()
 //                    if(connectFragment != null) fragmentManager.beginTransaction().show(connectFragment!!).commit()
@@ -75,7 +75,7 @@ import dagger.hilt.android.AndroidEntryPoint
 //                R.id.messageFragment ->{
 //                    if(messageFragment == null){
 //                        messageFragment = MessageFragment()
-//                        fragmentManager.beginTransaction().add(R.id.homeHostFragment,messageFragment!!).commit()
+//                        fragmentManager.beginTransaction().add(R.id.fragmentContainerView,messageFragment!!).commit()
 //                    }
 //                    if(homeFragment != null) fragmentManager.beginTransaction().hide(homeFragment!!).commit()
 //                    if(connectFragment != null) fragmentManager.beginTransaction().hide(connectFragment!!).commit()
@@ -87,7 +87,7 @@ import dagger.hilt.android.AndroidEntryPoint
 //                R.id.profileFragment ->{
 //                    if(profileFragment == null){
 //                        profileFragment = ProfileFragment()
-//                        fragmentManager.beginTransaction().add(R.id.homeHostFragment,profileFragment!!).commit()
+//                        fragmentManager.beginTransaction().add(R.id.fragmentContainerView,profileFragment!!).commit()
 //                    }
 //                    if(homeFragment != null) fragmentManager.beginTransaction().hide(homeFragment!!).commit()
 //                    if(connectFragment != null) fragmentManager.beginTransaction().hide(connectFragment!!).commit()
@@ -104,27 +104,3 @@ import dagger.hilt.android.AndroidEntryPoint
 //    }
 //
 //}
-@AndroidEntryPoint
-class HomeActivity: AppCompatActivity() {
-    private lateinit var fragmentManager: FragmentManager
-
-    val binding by lazy {
-        ActivityHomeBinding.inflate(layoutInflater)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
-        val navOptions = NavOptions.Builder()
-            .setLaunchSingleTop(true) // 현재 화면이 이미 스택에 있으면 해당 화면을 재사용
-            .build()
-
-
-//        // 아래 이것들로 인해 프래그먼트가 움직인다?
-        val navController = findNavController(R.id.homeHostFragment)
-        binding.bottomNavigation.setupWithNavController(navController)
-
-
-    }
-}

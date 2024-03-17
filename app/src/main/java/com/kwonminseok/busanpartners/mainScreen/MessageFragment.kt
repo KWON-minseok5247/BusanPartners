@@ -33,19 +33,17 @@ import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFactory
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
 import kotlinx.coroutines.flow.collectLatest
-
 @AndroidEntryPoint
 class MessageFragment : Fragment() {
 
     private lateinit var binding: FragmentMessageBinding
     private val viewModel by viewModels<ChatListViewModel>()
-
+    private lateinit var client: ChatClient
     lateinit var user: com.kwonminseok.busanpartners.data.User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        Log.e("onCreate","onCreate")
 
 
     }
@@ -62,6 +60,7 @@ class MessageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("onViewCreated","onViewCreated")
 
 // Inflate loading view
         val loadingView =
@@ -74,7 +73,22 @@ class MessageFragment : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
-        binding.button.setOnClickListener {
+// Step 1 - Set up the OfflinePlugin for offline storage
+        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = requireContext())
+        val statePluginFactory = StreamStatePluginFactory(
+            config = StatePluginConfig(
+                backgroundSyncEnabled = true,
+                userPresence = true,
+            ),
+            appContext = requireContext(),
+        )
+
+        client = ChatClient.Builder(BuildConfig.API_KEY, requireContext())
+            .withPlugins(offlinePluginFactory, statePluginFactory)
+            .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
+            .build()
+
+
             // 여기서 파이어베이스 정보를 받고 user를 정의한다.
             lifecycleScope.launchWhenStarted {
                 viewModel.user.collectLatest {
@@ -96,11 +110,23 @@ class MessageFragment : Fragment() {
                     }
                 }
             }
-        }
 
 
 
 
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("onStart","onStart")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("onResume","onResume")
 
     }
 
@@ -111,28 +137,7 @@ class MessageFragment : Fragment() {
     // GetStream API에 사용자 연결
     private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
 
-        // Step 1 - Set up the OfflinePlugin for offline storage
-        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = requireContext())
-        val statePluginFactory = StreamStatePluginFactory(
-            config = StatePluginConfig(
-                backgroundSyncEnabled = true,
-                userPresence = true,
-            ),
-            appContext = requireContext(),
-        )
 
-        val client = ChatClient.Builder(BuildConfig.API_KEY, requireContext())
-            .withPlugins(offlinePluginFactory, statePluginFactory)
-            .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
-            .build()
-
-
-
-//        val user = User(
-//            id = "Kim",
-//            name = "Kim",
-//            image = ""
-//        )
 
 
         val myUser = User(
@@ -140,48 +145,33 @@ class MessageFragment : Fragment() {
             name = "${user.firstName} ${user.lastName}",
             image = user.imagePath
         )
-//        // Firebase Functions를 가져옴
-//        val functions = Firebase.functions
-//
-//        // Firebase Functions에서 ext-auth-chat-getStreamUserToken 함수를 가져옴
-//        val getStreamUserToken = functions.getHttpsCallable("ext-auth-chat-getStreamUserToken")
-//
-//        val data = hashMapOf("uid" to user.uid)
-//        getStreamUserToken(user.uid,
-//            onSuccess = { token ->
-//                // 토큰을 성공적으로 받았을 때 처리
-//                Log.e("token","GetStream 토큰: $token")
-//                // 이곳에서 GetStream 클라이언트를 초기화하고 작업을 수행할 수 있습니다.
-//            },
-//            onFailure = { exception ->
-//                // 토큰을 받지 못했을 때 처리
-//                Log.e("token","토큰을 가져오는 데 실패했습니다: ${exception.message}")
-//            }
-//        )
-        getChatListView(client, myUser, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiazNmN0RpVVVDT1NtenYzRUJ3QWduVnZGQjNrMiIsImlhdCI6MTcxMDQ5Mjc0OX0.TTOr-aRtWZrccCLmahbCNEPStutGyI1L8Ov6MLF-BPk")
+
+//        getChatListView(client, myUser, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiazNmN0RpVVVDT1NtenYzRUJ3QWduVnZGQjNrMiIsImlhdCI6MTcxMDQ5Mjc0OX0.TTOr-aRtWZrccCLmahbCNEPStutGyI1L8Ov6MLF-BPk")
 
         // Firebase Functions 인스턴스를 가져옵니다.
         val functions = FirebaseFunctions.getInstance("asia-northeast3")
 
 // `ext-auth-chat-getStreamUserToken` 함수를 호출하여 토큰을 요청합니다.
-//        functions
-//            .getHttpsCallable("ext-auth-chat-getStreamUserToken")
-//            .call()
-//            .addOnCompleteListener { task ->
-//
-//                if (task.isSuccessful) {
-//                    // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
-//                    val token = task.result?.data as String
-//                    Log.e(TAG,"$token")
-//                    // 여기에서 GetStream 채팅 클라이언트에 토큰을 사용합니다.
-//                } else {
-//                    // 함수 호출이 실패했습니다. 오류를 처리합니다.
-//                    val exception = task.exception
-//                    Log.e("exception", task.exception.toString())
-//
-//                    // 오류 처리 로직을 구현합니다.
-//                }
-//            }
+        functions
+            .getHttpsCallable("ext-auth-chat-getStreamUserToken")
+            .call()
+            .addOnCompleteListener { task ->
+
+                if (task.isSuccessful) {
+                    // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
+                    val token = task.result?.data as String
+                    Log.e(TAG,"$token")
+                    getChatListView(client, myUser, token)
+
+                    // 여기에서 GetStream 채팅 클라이언트에 토큰을 사용합니다.
+                } else {
+                    // 함수 호출이 실패했습니다. 오류를 처리합니다.
+                    val exception = task.exception
+                    Log.e("exception", task.exception.toString())
+
+                    // 오류 처리 로직을 구현합니다.
+                }
+            }
 //        val token = client.devToken(user.uid)
         // Firebase Functions을 호출하여 Stream Chat 토큰을 가져옴
         // 여기서 토큰을 사용하여 Stream Chat에 로그인하거나 다른 작업을 수행할 수 있음
