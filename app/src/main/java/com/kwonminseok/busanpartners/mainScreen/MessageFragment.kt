@@ -115,7 +115,7 @@ class MessageFragment : Fragment() {
 
         if (client == null) {
             Log.e(TAG, "client가 비어있을 때.")
-            fetchClient()
+            client = BusanPartners.chatClient
         }
         // client?.connectUser 호출 전에 client가 null인지 다시 확인하고, null이 아닌 경우에만 connectUser를 호출합니다.
         client?.let { chatClient ->
@@ -257,23 +257,23 @@ class MessageFragment : Fragment() {
             }
     }
 
-    private fun fetchClient() {
-        // Step 1 - Set up the OfflinePlugin for offline storage
-        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = requireContext())
-        val statePluginFactory = StreamStatePluginFactory(
-            config = StatePluginConfig(
-                backgroundSyncEnabled = true,
-                userPresence = true,
-            ),
-            appContext = requireContext(),
-        )
-
-        client = ChatClient.Builder(BuildConfig.API_KEY, requireContext())
-            .withPlugins(offlinePluginFactory, statePluginFactory)
-            .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
-            .build()
-
-    }
+//    private fun fetchClient() {
+//        // Step 1 - Set up the OfflinePlugin for offline storage
+//        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = requireContext())
+//        val statePluginFactory = StreamStatePluginFactory(
+//            config = StatePluginConfig(
+//                backgroundSyncEnabled = true,
+//                userPresence = true,
+//            ),
+//            appContext = requireContext(),
+//        )
+//
+//        client = ChatClient.Builder(BuildConfig.API_KEY, requireContext())
+//            .withPlugins(offlinePluginFactory, statePluginFactory)
+//            .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
+//            .build()
+//
+//    }
 
 
         // 여기에서 GetStream 채팅 클라이언트에 토큰을 사용합니다.
