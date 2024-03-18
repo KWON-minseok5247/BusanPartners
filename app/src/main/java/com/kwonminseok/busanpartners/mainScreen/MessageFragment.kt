@@ -40,7 +40,7 @@ class MessageFragment : Fragment() {
 
     private lateinit var binding: FragmentMessageBinding
     private val viewModel by viewModels<ChatListViewModel>()
-    private var client: ChatClient? = null
+    private var client: ChatClient? = BusanPartners.chatClient
     lateinit var user: com.kwonminseok.busanpartners.data.User
     private var token: String = BusanPartners.preferences.getString("token", "")
 
@@ -113,10 +113,10 @@ class MessageFragment : Fragment() {
             token = BusanPartners.preferences.getString("token", "")
         }
 
-        if (client == null) {
-            Log.e(TAG, "client가 비어있을 때.")
-            client = BusanPartners.chatClient
-        }
+//        if (client == null) {
+//            Log.e(TAG, "client가 비어있을 때.")
+//            client = BusanPartners.chatClient
+//        }
         // client?.connectUser 호출 전에 client가 null인지 다시 확인하고, null이 아닌 경우에만 connectUser를 호출합니다.
         client?.let { chatClient ->
             chatClient.connectUser(
@@ -171,67 +171,11 @@ class MessageFragment : Fragment() {
                 }
             }
         } ?: run {
+            //TODO 여기서 토큰이 만료가 되면 새로 토큰을 업데이트하고 다시 실행해야 한다.
             Log.e(TAG, "Client 초기화 실패")
+            getNewToken()
         }
     }
-
-
-//        client?.connectUser(
-//                user = myUser,
-//                token = token
-//            )
-//                ?.enqueue {
-//                    if (it.isSuccess) {
-//                        // viewModel 초기화 시키기
-//                        val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
-//
-//                        val channelListFactory: ChannelListViewModelFactory =
-//                            ChannelListViewModelFactory(
-//                                filter = Filters.and(
-//                                    Filters.eq("type", "messaging"),
-//                                    Filters.`in`(
-//                                        "members",
-//                                        listOf(ChatClient.instance().getCurrentUser()!!.id)
-//                                    ),
-//                                ),
-//                                sort = QuerySortByField.descByName("last_updated"),
-//                                limit = 30,
-//
-//                                )
-//
-//
-//                        val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
-//
-//
-//                        channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
-//                        channelListViewModel.bindView(binding.channelListView, this)
-//
-//                        binding.channelListView.setChannelItemClickListener { channel ->
-//                            startActivity(ChannelActivity.newIntent(requireContext(), channel))
-//                        }
-//
-//                        binding.channelListView.setIsMoreOptionsVisible { channel ->
-//                            // You can determine visibility based on the channel object.
-//                            true
-//                        }
-//
-//                        binding.channelListView.setIsDeleteOptionVisible { channel ->
-//                            // You can determine visibility based on the channel object.
-//                            // Here is the default implementation:
-//                            channel.ownCapabilities.contains("delete-channel")
-//                        }
-//
-//
-//                    } else {
-//                        Toast.makeText(requireContext(), "something went wrong!", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//
-//                }
-
-
-
-
 
 
     private fun getNewToken() {

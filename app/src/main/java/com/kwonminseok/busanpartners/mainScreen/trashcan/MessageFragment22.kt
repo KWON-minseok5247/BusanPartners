@@ -1,4 +1,4 @@
-package com.kwonminseok.busanpartners.mainScreen
+package com.kwonminseok.busanpartners.mainScreen.trashcan
 
 import android.os.Bundle
 import android.util.Log
@@ -8,15 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.functions.FirebaseFunctions
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
-import com.kwonminseok.busanpartners.databinding.ActivityMainBinding
 import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
-import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
+import com.kwonminseok.busanpartners.mainScreen.ChannelActivity
+import com.kwonminseok.busanpartners.mainScreen.TAG
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -237,7 +236,12 @@ class MessageFragment22 : Fragment() {
                                 //                        )
                                 //                    }
                                 binding.channelListView.setChannelItemClickListener { channel ->
-                                    startActivity(ChannelActivity.newIntent(requireContext(), channel))
+                                    startActivity(
+                                        ChannelActivity.newIntent(
+                                            requireContext(),
+                                            channel
+                                        )
+                                    )
                                 }
 
                                 //                    binding.channelListView.setChannelLongClickListener { channel ->

@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.kwonminseok.busanpartners.BuildConfig
@@ -21,6 +22,7 @@ import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthNumberBinding
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.univcert.api.UnivCert
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -28,6 +30,7 @@ import kotlinx.coroutines.launch
 //import com.univcert.api.UnivCert
 
 private val TAG = "CollegeAuthNumberFragment"
+@AndroidEntryPoint
 class CollegeAuthNumberFragment : Fragment() {
     lateinit var binding: FragmentCollegeAuthNumberBinding
 
@@ -110,13 +113,24 @@ class CollegeAuthNumberFragment : Fragment() {
 
 // String을 Int로 변환, 입력값이 빈 문자열이 아닐 경우에만 변환
             val codeAsInt = combinedCode.toIntOrNull() ?: 0
-            GlobalScope.launch(Dispatchers.IO) {
+            lifecycleScope.launchWhenStarted {
                 try {
-                    UnivCert.certifyCode(BuildConfig.COLLEGE_KEY, collegeData?.email, collegeData?.selectedUniversity, codeAsInt)
-                    val isSuccessful = UnivCert.status(BuildConfig.API_KEY, collegeData?.email)["success"].toString()
-
+                    //TODo 여기서도 1초간 로딩이 있었으면 좋겠다.
+//                    UnivCert.certifyCode(BuildConfig.COLLEGE_KEY, collegeData?.email, collegeData?.selectedUniversity, codeAsInt)
+//                    val isSuccessful = UnivCert.status(BuildConfig.API_KEY, collegeData?.email)["success"].toString()
+                        val isSuccessful = "false"
                     if(isSuccessful == "true") {
                         //TODO 여기서 getstream 토큰을 받는 것이 맞는 것 같은데?
+                        // 아니면 isCollegeStudent 이거를 true로 만들고 messageFragment에서 먼저 클릭할 때 isCollegeStudent라던지
+                        // 확인후 클릭할 수 있도록
+                        val bundle = Bundle()
+                        bundle.putBoolean("isVerified", true)
+                        findNavController().navigate(R.id.action_collegeAuthNumberFragment_to_collegeAuthCompleteFragment, bundle)
+                    } else {
+                        val bundle = Bundle()
+                        bundle.putBoolean("isVerified", false)
+                        findNavController().navigate(R.id.action_collegeAuthNumberFragment_to_collegeAuthCompleteFragment, bundle)
+
                     }
 
 
