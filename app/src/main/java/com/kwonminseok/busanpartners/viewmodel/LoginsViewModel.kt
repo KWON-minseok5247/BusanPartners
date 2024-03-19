@@ -1,10 +1,21 @@
 package com.kwonminseok.busanpartners.viewmodel
 
 
+import android.content.Context
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.util.RegisterValidation
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.validateEmail
@@ -16,10 +27,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+private val TAG = "LoginsViewModel"
 @HiltViewModel
 class LoginsViewModel @Inject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val firestore: FirebaseFirestore,
 ) : ViewModel() {
 
 //    private val _login = MutableSharedFlow<Resource<FirebaseUser>>()
@@ -30,6 +42,23 @@ class LoginsViewModel @Inject constructor(
 
     private val _resetPassword = MutableSharedFlow<Resource<String>>()
     val resetPassword = _resetPassword.asSharedFlow()
+
+
+
+
+    fun saveUserToDatabase(user: User) {
+        firestore.collection("user").document(user.uid).set(user)
+            .addOnSuccessListener {
+                // 데이터 저장 성공 처리
+                Log.d(TAG, "User data saved successfully")
+            }
+            .addOnFailureListener {
+                // 데이터 저장 실패 처리
+                Log.e(TAG, "Failed to save user data", it)
+            }
+    }
+
+
     fun login(email: String, password: String) {
         // 일단 이메일이나 비밀번호 오류가 있는지는 확인해야 한다.
         viewModelScope.launch {

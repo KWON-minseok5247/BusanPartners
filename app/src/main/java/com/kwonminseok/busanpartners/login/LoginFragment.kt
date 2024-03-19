@@ -2,6 +2,7 @@ package com.kwonminseok.busanpartners.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.kwonminseok.busanpartners.mainScreen.MainActivity
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentLoginBinding
 import com.kwonminseok.busanpartners.mainScreen.HomeActivity
 import com.kwonminseok.busanpartners.util.setupBottomSheetDialog
@@ -23,10 +33,11 @@ import kotlinx.coroutines.flow.collectLatest
 
 
 @AndroidEntryPoint
-class LoginFragment: Fragment() {
+class LoginFragment : Fragment() {
     private val viewModel by viewModels<LoginsViewModel>()
 
     lateinit var binding: FragmentLoginBinding
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +45,18 @@ class LoginFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater)
+
+        // Google SignIn Options, 로그인하는 인스턴스를 생성하는 과정
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id)) // Firebase에서 제공하는 웹 클라이언트 ID
+            .requestEmail()
+            .build()
+
+        // Google SignIn Client, GoogleSignInClient는 Google 로그인 프로세스를 관리하는 주요 클래스
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+
+
         return binding.root
     }
 
@@ -60,6 +83,19 @@ class LoginFragment: Fragment() {
         binding.signUp.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
+
+//        val signInRequest = BeginSignInRequest.builder()
+//            .setGoogleIdTokenRequestOptions(
+//                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+//                    .setSupported(true)
+//                    // Your server's client ID, not your Android client ID.
+//                    .setServerClientId(getString(R.string.your_web_client_id))
+//                    // Only show accounts previously used to sign in.
+//                    .setFilterByAuthorizedAccounts(true)
+//                    .build())
+//            .build()
+//
+
 
 
 
@@ -112,7 +148,8 @@ class LoginFragment: Fragment() {
 
                     is Resource.Error -> {
                         binding.cirLoginButton.revertAnimation()
-                        Toast.makeText(context,it.message.toString(),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, it.message.toString(), Toast.LENGTH_SHORT)
+                            .show()
 
                     }
 
@@ -124,8 +161,73 @@ class LoginFragment: Fragment() {
         }
 
 
+        binding.googleLoginButton.setOnClickListener {
+            signInWithGoogle()
+        }
+
+
+    }
+    private fun signInWithGoogle() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            // 구글 intent로부터 받아온 로그인 결과
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            //Google 로그인의 결과를 처리하는 메소드. 이 메소드는 성공적으로 로그인이 완료되었는지,
+            // 사용자 정보를 가져올 수 있는지 등을 확인하고,
+            // 이후의 작업(예: Firebase를 통한 인증, 사용자 정보 화면으로의 이동 등)을 진행
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
+        try {
+            val account = task.getResult(ApiException::class.java)
+            // Google Sign In was successful, authenticate with Firebase
+            firebaseAuthWithGoogle(account.idToken!!)
+        } catch (e: ApiException) {
+            // Google Sign In failed, update UI appropriately
+            Log.w(TAG, "Google sign in failed", e)
+            // ...
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        FirebaseAuth.getInstance().signInWithCredential(credential)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    val user = FirebaseAuth.getInstance().currentUser
+
+                    val userData = User("","", email = user?.email!!, uid = user.uid, name = user.displayName, imagePath = user.photoUrl.toString() ?: "")
+
+                    viewModel.saveUserToDatabase(userData)
+
+                    // 여기서 HomeActivity로 이동하거나 UI 업데이트
+                    val intent =
+                        Intent(context, HomeActivity::class.java).addFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK or
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        )
+                    startActivity(intent)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    // 실패 처리...
+                }
+            }
+    }
+
+    companion object {
+        private const val RC_SIGN_IN = 9001
+        private const val TAG = "GoogleSignIn"
+    }
 
 
 }

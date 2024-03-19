@@ -1,8 +1,8 @@
 package com.kwonminseok.busanpartners.data
 
 data class User(
-    val firstName: String,
-    val lastName: String,
+    val firstName: String? = "",
+    val lastName: String? = "",
     val email: String,
     val imagePath: String = "",
     val uid: String = "",
@@ -10,7 +10,8 @@ data class User(
     val isTraveler: Boolean = false,
     val gender: String? = null,
     val college: String? = null,
-    val introduction: String = ""
+    val introduction: String = "",
+    val name: String? = ""
 
 
     ) {

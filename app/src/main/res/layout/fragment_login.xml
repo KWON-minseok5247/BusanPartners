@@ -164,7 +164,23 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginLeft="10dp"
                     android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+                <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+                    android:id="@+id/googleLoginButton"
+                    app:spinning_bar_width="4dp"
+                    app:spinning_bar_color="#FFF"
+                    android:text="Google"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/loginViewsMargin"
+                    app:spinning_bar_padding="6dp"
+                    app:initialCornerAngle="27dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/login_button_bk"
+                    android:textColor="@color/whiteTextColor"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
             </RelativeLayout>
+
 
         </ScrollView>
 

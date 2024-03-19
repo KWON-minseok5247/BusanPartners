@@ -1,7 +1,10 @@
 package com.kwonminseok.busanpartners.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kwonminseok.busanpartners.data.User
@@ -10,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,6 +56,11 @@ private fun getUser() {
                     }
                 }
             }
+    }
+    fun logout() {
+        auth.signOut()
+        // Google 로그아웃 및 접근 권한 취소
+
     }
 
 }

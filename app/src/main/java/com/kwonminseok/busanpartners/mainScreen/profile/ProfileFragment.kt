@@ -12,12 +12,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
+import com.kwonminseok.busanpartners.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
@@ -94,7 +97,21 @@ class ProfileFragment : Fragment() {
         }
 
         binding.linearLogOut.setOnClickListener {
-            BusanPartners.preferences.setString("token", "")
+            lifecycleScope.launch {
+                // 계정으로부터 로그아웃
+                viewModel.logout()
+            }
+            // 접근권한으로부터 해제
+            GoogleSignIn.getClient(
+                requireActivity(),
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+            ).revokeAccess().addOnCompleteListener {
+                // 로그아웃 성공 후 LoginRegisterActivity로 이동
+                val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+
         }
 
 
