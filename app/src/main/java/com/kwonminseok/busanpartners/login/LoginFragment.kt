@@ -20,6 +20,11 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
 import com.kwonminseok.busanpartners.mainScreen.MainActivity
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
@@ -31,6 +36,7 @@ import com.kwonminseok.busanpartners.viewmodel.LoginsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+private val TAG = "LoginFragment"
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -203,26 +209,89 @@ class LoginFragment : Fragment() {
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = FirebaseAuth.getInstance().currentUser
+//                    // Sign in success, update UI with the signed-in user's information
+//                    val user = FirebaseAuth.getInstance().currentUser
+//
+//                    val userData = User("","", email = user?.email!!, uid = user.uid, name = user.displayName, imagePath = user.photoUrl.toString() ?: "")
+//
+//                    viewModel.saveUserToDatabase(userData)
+//
+//                    // 여기서 HomeActivity로 이동하거나 UI 업데이트
+//                    val intent =
+//                        Intent(context, HomeActivity::class.java).addFlags(
+//                            Intent.FLAG_ACTIVITY_NEW_TASK or
+//                                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                        )
+//                    startActivity(intent)
 
-                    val userData = User("","", email = user?.email!!, uid = user.uid, name = user.displayName, imagePath = user.photoUrl.toString() ?: "")
+                    val currentUser = FirebaseAuth.getInstance().currentUser
 
-                    viewModel.saveUserToDatabase(userData)
+                    val usersRef = FirebaseFirestore.getInstance().collection("user")
+                    Log.e("usersRef", usersRef.toString())
+                    currentUser?.let {user ->
+                        val uid = user.uid
 
-                    // 여기서 HomeActivity로 이동하거나 UI 업데이트
-                    val intent =
-                        Intent(context, HomeActivity::class.java).addFlags(
-                            Intent.FLAG_ACTIVITY_NEW_TASK or
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        )
-                    startActivity(intent)
-                } else {
+                        usersRef.document(uid).get().addOnSuccessListener { documentSnapshot ->
+                            if (!documentSnapshot.exists()) {
+                                // 사용자 데이터가 존재하지 않는 경우, 새로운 사용자 데이터 저장
+                                val userData = User("","", email = user?.email!!, uid = user.uid, name = user.displayName, imagePath = user.photoUrl.toString() ?: "")
+
+                                usersRef.document(uid).set(userData)
+                                    .addOnSuccessListener {
+                                        // 사용자 데이터 저장 성공
+                                        val intent =
+                                            Intent(context, HomeActivity::class.java).addFlags(
+                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            )
+                                        startActivity(intent)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        // 사용자 데이터 저장 실패
+                                        Log.e(TAG, "Error writing document", e)
+                                    }
+                            } else {
+                                // 사용자 데이터가 이미 존재하는 경우, 바로 홈 화면으로 이동
+                                val intent =
+                                    Intent(context, HomeActivity::class.java).addFlags(
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    )
+                                startActivity(intent)
+                            }
+                        }
+                            .addOnFailureListener { e ->
+                                Log.e(TAG, "Error accessing the database", e)
+                            }
+                    }
+                    } else {
                     // If sign in fails, display a message to the user.
                     // 실패 처리...
                 }
+
+//                    currentUser?.let { user ->
+//                        val uid = user.uid
+//
+//                        // 데이터베이스에서 사용자 UID로 검색
+//                        usersRef.child(uid).addListenerForSingleValueEvent(object :
+//                            ValueEventListener {
+//                            override fun onDataChange(snapshot: DataSnapshot) {
+//                                if (!snapshot.exists()) {
+//                                    // 사용자 데이터가 존재하지 않는 경우, 새로운 사용자 데이터 저장
+//                                    val userData = User("", "", email = user.email!!, uid = uid, name = user.displayName, imagePath = user.photoUrl.toString() ?: "")
+//                                    viewModel.saveUserToDatabase(userData)
+//                                }
+//                                // 데이터가 이미 존재하거나 새로 저장된 후의 처리
+//                                val intent = Intent(context, HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//                                startActivity(intent)
+//                            }
+//
+//                            override fun onCancelled(error: DatabaseError) {
+//                                // 데이터베이스 에러 처리
+//                            }
+//                        })
+//                    }
+                }
             }
-    }
+
 
     companion object {
         private const val RC_SIGN_IN = 9001

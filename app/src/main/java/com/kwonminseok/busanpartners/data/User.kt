@@ -9,7 +9,7 @@ data class User(
     val isCollegeStudent: Boolean = false,
     val isTraveler: Boolean = false,
     val gender: String? = null,
-    val college: String? = null,
+    val college: String = "",
     val introduction: String = "",
     val name: String? = ""
 
