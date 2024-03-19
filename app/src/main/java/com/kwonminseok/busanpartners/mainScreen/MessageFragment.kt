@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.functions.FirebaseFunctions
 import com.kwonminseok.busanpartners.BuildConfig
@@ -104,93 +105,176 @@ class MessageFragment : Fragment() {
 
     }
 
-    // GetStream API에 사용자 연결
+    // 새로운 방법???
     private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
-
-        // 먼저 파이어베이스로부터 User 데이터를 받아들인다.
         val myUser = User(
             id = user.uid,
             name = "${user.firstName} ${user.lastName}",
             image = user.imagePath
         )
-        // 확인해야 할 것은 Client를 재사용하는지? 토큰을 이미 가지고 있는지?
 
         if (token == "") {
             Log.e(TAG, "token이 비어있을 때.")
             lifecycleScope.launch {
-                token= getNewToken()
-                connectClient(myUser)
-
+                token = getNewToken()
+                // 프래그먼트가 액티비티에 붙어 있는지 확인
+                if (isAdded) {
+                    connectClient(myUser)
+                }
             }
-
         } else {
-            connectClient(myUser)
+            // 프래그먼트가 액티비티에 붙어 있는지 확인
+            if (isAdded) {
+                connectClient(myUser)
+            }
         }
-
-        // client?.connectUser 호출 전에 client가 null인지 다시 확인하고, null이 아닌 경우에만 connectUser를 호출합니다.
     }
 
     private fun connectClient(myUser: User) {
         client?.let { chatClient ->
-            Log.e("client?.let", token)
             chatClient.connectUser(
                 user = myUser,
                 token = token
-            ).enqueue {
-                // 성공 또는 실패에 대한 처리
-                if (it.isSuccess) {
-                    // viewModel 초기화 시키기
-                    val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
+            ).enqueue { result ->
+                // 비동기 작업 결과 처리
+                // 프래그먼트의 뷰가 생성된 상태인지 확인
+                if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    if (result.isSuccess) {
+                        // ViewModel 바인딩과 UI 업데이트
+                        val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
 
-                    val channelListFactory: ChannelListViewModelFactory =
-                        ChannelListViewModelFactory(
-                            filter = Filters.and(
-                                Filters.eq("type", "messaging"),
-                                Filters.`in`(
-                                    "members",
-                                    listOf(ChatClient.instance().getCurrentUser()!!.id)
+                        val channelListFactory: ChannelListViewModelFactory =
+                            ChannelListViewModelFactory(
+                                filter = Filters.and(
+                                    Filters.eq("type", "messaging"),
+                                    Filters.`in`(
+                                        "members",
+                                        listOf(ChatClient.instance().getCurrentUser()!!.id)
+                                    ),
                                 ),
-                            ),
-                            sort = QuerySortByField.descByName("last_updated"),
-                            limit = 30,
+                                sort = QuerySortByField.descByName("last_updated"),
+                                limit = 30,
 
-                            )
-
-
-                    val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
+                                )
 
 
-                    channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
-                    channelListViewModel.bindView(binding.channelListView, this)
-
-                    binding.channelListView.setChannelItemClickListener { channel ->
-                        startActivity(ChannelActivity.newIntent(requireContext(), channel))
-                    }
-
-                    binding.channelListView.setIsMoreOptionsVisible { channel ->
-                        // You can determine visibility based on the channel object.
-                        true
-                    }
-
-                    binding.channelListView.setIsDeleteOptionVisible { channel ->
-                        // You can determine visibility based on the channel object.
-                        // Here is the default implementation:
-                        channel.ownCapabilities.contains("delete-channel")
-                    }
+                        val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
 
 
-                } else {
-                    Toast.makeText(requireContext(), "something went wrong!", Toast.LENGTH_SHORT).show()
-                    lifecycleScope.launch {
-                        getNewToken()
+                        channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
+                        channelListViewModel.bindView(binding.channelListView, this)
+
+                        binding.channelListView.setChannelItemClickListener { channel ->
+                            startActivity(ChannelActivity.newIntent(requireContext(), channel))
+                        }
+
+                        binding.channelListView.setIsMoreOptionsVisible { channel ->
+                            // You can determine visibility based on the channel object.
+                            true
+                        }
+
+                        binding.channelListView.setIsDeleteOptionVisible { channel ->
+                            // You can determine visibility based on the channel object.
+                            // Here is the default implementation:
+                            channel.ownCapabilities.contains("delete-channel")
+                        }
+
+                    } else {
+                        Toast.makeText(requireContext(), "Something went wrong!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-        } ?: run {
-            //TODO 여기서 토큰이 만료가 되면 새로 토큰을 업데이트하고 다시 실행해야 한다.
-            Log.e(TAG, "Client 초기화 실패")
         }
     }
+
+
+
+    // GetStream API에 사용자 연결
+//    private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
+//
+//        // 먼저 파이어베이스로부터 User 데이터를 받아들인다.
+//        val myUser = User(
+//            id = user.uid,
+//            name = "${user.firstName} ${user.lastName}",
+//            image = user.imagePath
+//        )
+//        // 확인해야 할 것은 Client를 재사용하는지? 토큰을 이미 가지고 있는지?
+//
+//        if (token == "") {
+//            Log.e(TAG, "token이 비어있을 때.")
+//            lifecycleScope.launch {
+//                token= getNewToken()
+//                connectClient(myUser)
+//
+//            }
+//
+//        } else {
+//            connectClient(myUser)
+//        }
+//
+//        // client?.connectUser 호출 전에 client가 null인지 다시 확인하고, null이 아닌 경우에만 connectUser를 호출합니다.
+//    }
+//
+//    private fun connectClient(myUser: User) {
+//        client?.let { chatClient ->
+//            chatClient.connectUser(
+//                user = myUser,
+//                token = token
+//            ).enqueue {
+//                // 성공 또는 실패에 대한 처리
+//                if (it.isSuccess) {
+//                    // viewModel 초기화 시키기
+//                    val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
+//
+//                    val channelListFactory: ChannelListViewModelFactory =
+//                        ChannelListViewModelFactory(
+//                            filter = Filters.and(
+//                                Filters.eq("type", "messaging"),
+//                                Filters.`in`(
+//                                    "members",
+//                                    listOf(ChatClient.instance().getCurrentUser()!!.id)
+//                                ),
+//                            ),
+//                            sort = QuerySortByField.descByName("last_updated"),
+//                            limit = 30,
+//
+//                            )
+//
+//
+//                    val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
+//
+//
+//                    channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
+//                    channelListViewModel.bindView(binding.channelListView, this)
+//
+//                    binding.channelListView.setChannelItemClickListener { channel ->
+//                        startActivity(ChannelActivity.newIntent(requireContext(), channel))
+//                    }
+//
+//                    binding.channelListView.setIsMoreOptionsVisible { channel ->
+//                        // You can determine visibility based on the channel object.
+//                        true
+//                    }
+//
+//                    binding.channelListView.setIsDeleteOptionVisible { channel ->
+//                        // You can determine visibility based on the channel object.
+//                        // Here is the default implementation:
+//                        channel.ownCapabilities.contains("delete-channel")
+//                    }
+//
+//
+//                } else {
+//                    Toast.makeText(requireContext(), "something went wrong!", Toast.LENGTH_SHORT).show()
+//                    lifecycleScope.launch {
+//                        getNewToken()
+//                    }
+//                }
+//            }
+//        } ?: run {
+//            //TODO 여기서 토큰이 만료가 되면 새로 토큰을 업데이트하고 다시 실행해야 한다.
+//            Log.e(TAG, "Client 초기화 실패")
+//        }
+//    }
 
 
 //    private suspend fun getNewToken(): String {
@@ -233,23 +317,7 @@ private suspend fun getNewToken(): String = suspendCoroutine { continuation ->
             }
         }
 }
-//    private fun fetchClient() {
-//        // Step 1 - Set up the OfflinePlugin for offline storage
-//        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = requireContext())
-//        val statePluginFactory = StreamStatePluginFactory(
-//            config = StatePluginConfig(
-//                backgroundSyncEnabled = true,
-//                userPresence = true,
-//            ),
-//            appContext = requireContext(),
-//        )
-//
-//        client = ChatClient.Builder(BuildConfig.API_KEY, requireContext())
-//            .withPlugins(offlinePluginFactory, statePluginFactory)
-//            .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
-//            .build()
-//
-//    }
+
 
 
         // 여기에서 GetStream 채팅 클라이언트에 토큰을 사용합니다.
