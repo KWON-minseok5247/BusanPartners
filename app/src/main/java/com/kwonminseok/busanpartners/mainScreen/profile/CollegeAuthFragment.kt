@@ -15,6 +15,8 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
+import com.kwonminseok.busanpartners.util.hideBottomNavigationView
+import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.univcert.api.UnivCert
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -129,4 +131,15 @@ class CollegeAuthFragment : Fragment() {
 
 
     }
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigationView()
+    }
+
+    override fun onPause() {
+        // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
+        showBottomNavigationView()
+        super.onPause()
+    }
+
 }

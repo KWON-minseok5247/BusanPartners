@@ -156,6 +156,9 @@ dependencies {
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
 
+    //암호화된 sharedPreference
+    implementation 'androidx.security:security-crypto-ktx:1.1.0-alpha04'
+
 
 
 

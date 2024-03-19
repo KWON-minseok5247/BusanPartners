@@ -42,6 +42,9 @@ class MessageFragment : Fragment() {
     private val viewModel by viewModels<ChatListViewModel>()
     private var client: ChatClient? = BusanPartners.chatClient
     lateinit var user: com.kwonminseok.busanpartners.data.User
+
+
+    // 토큰 절차 1: 일단 token이 있는지 없는지 확인, 있으면 바로 가져온다.
     private var token: String = BusanPartners.preferences.getString("token", "")
 
 
@@ -109,16 +112,18 @@ class MessageFragment : Fragment() {
 
         if (token == "") {
             Log.e(TAG, "token이 비어있을 때.")
-            getNewToken()
-            token = BusanPartners.preferences.getString("token", "")
+            token = getNewToken()
+            connectClient(myUser)
+        } else {
+            connectClient(myUser)
         }
 
-//        if (client == null) {
-//            Log.e(TAG, "client가 비어있을 때.")
-//            client = BusanPartners.chatClient
-//        }
         // client?.connectUser 호출 전에 client가 null인지 다시 확인하고, null이 아닌 경우에만 connectUser를 호출합니다.
+    }
+
+    private fun connectClient(myUser: User) {
         client?.let { chatClient ->
+            Log.e("client?.let", token)
             chatClient.connectUser(
                 user = myUser,
                 token = token
@@ -168,17 +173,17 @@ class MessageFragment : Fragment() {
                 } else {
                     Toast.makeText(requireContext(), "something went wrong!", Toast.LENGTH_SHORT)
                         .show()
+                    getNewToken()
                 }
             }
         } ?: run {
             //TODO 여기서 토큰이 만료가 되면 새로 토큰을 업데이트하고 다시 실행해야 한다.
             Log.e(TAG, "Client 초기화 실패")
-            getNewToken()
         }
     }
 
 
-    private fun getNewToken() {
+    private suspend fun getNewToken(): String {
         // 기본적으로 사용자 토큰은 무기한 유효합니다. 토큰을 두 번째 매개변수로 전달하여 토큰 만료를 설정할 수 있습니다.
         // 만료에는 Unix 시대(1970년 1월 1일 00:00:00 UTC) 이후의 초 수가 포함되어야 합니다.
 
@@ -199,6 +204,7 @@ class MessageFragment : Fragment() {
                     Log.e(TAG, "토큰 호출을 실패했습니다.")
                 }
             }
+        return token
     }
 
 //    private fun fetchClient() {

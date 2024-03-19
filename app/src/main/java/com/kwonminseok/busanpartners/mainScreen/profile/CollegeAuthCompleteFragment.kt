@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -22,6 +24,8 @@ import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthNumberBinding
 import com.kwonminseok.busanpartners.databinding.FragmentColleteAuthCompleteBinding
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
+import com.kwonminseok.busanpartners.util.hideBottomNavigationView
+import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.kwonminseok.busanpartners.viewmodel.AuthCompleteViewModel
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
 import com.univcert.api.UnivCert
@@ -37,6 +41,26 @@ private val TAG = "CollegeAuthCompleteFragment"
 class CollegeAuthCompleteFragment : Fragment() {
     lateinit var binding: FragmentColleteAuthCompleteBinding
     private val viewModel by viewModels<AuthCompleteViewModel>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // 뒤로 가기 버튼 커스텀 동작을 설정합니다.
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 이 안에서 뒤로 가기 버튼이 눌렸을 때 원하는 동작을 구현합니다.
+                // 예를 들어, 아무 것도 하지 않게 하여 뒤로 가기를 제한할 수 있습니다.
+
+                // Toast 메시지로 경고를 표시하는 등 사용자에게 피드백을 줄 수도 있습니다.
+                Toast.makeText(
+                    context,
+                    "인증번호 확인 중에는 뒤로 가실 수 없습니다.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,9 +90,9 @@ class CollegeAuthCompleteFragment : Fragment() {
 
         } else {
             binding.authenticationAnswer.text = "인증을 실패하였습니다."
-            binding.authCompleteButton.text = "다시 인증하기"
+            binding.authCompleteButton.text = "확인"
             binding.authCompleteButton.setOnClickListener {
-                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthFragment)
+                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_profileFragment)
             }
             //ToDo 여기선 false이므로 다시 이메일 인증화면으로 돌아간다.
         }
@@ -77,5 +101,15 @@ class CollegeAuthCompleteFragment : Fragment() {
 
 
 
+    }
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigationView()
+    }
+
+    override fun onPause() {
+        // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
+        showBottomNavigationView()
+        super.onPause()
     }
 }

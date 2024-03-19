@@ -65,15 +65,6 @@
                 app:argType="boolean"
                 android:defaultValue="false" />
         </action>
-        <action
-            android:id="@+id/action_collegeAuthCompleteFragment_to_collegeAuthFragment"
-            app:destination="@id/collegeAuthFragment" >
-            <argument
-                android:name="isVerified"
-                app:argType="boolean"
-                android:defaultValue="false" />
-
-        </action>
     </fragment>
 
 

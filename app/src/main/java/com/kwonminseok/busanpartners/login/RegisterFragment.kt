@@ -93,7 +93,8 @@ class RegisterFragment : Fragment() {
                         val user = User(
                             edFirstName.text.toString().trim(),
                             edLastName.text.toString().trim(),
-                            edEmail.text.toString().trim()
+                            edEmail.text.toString().trim(),
+                            imagePath = "https://firebasestorage.googleapis.com/v0/b/busanpartners-86b94.appspot.com/o/ic_people_image.PNG?alt=media&token=3a8476b1-85d0-44bf-bafe-6fb2a3edee4c"
                         )
                         val password = edPassword.text.toString()
                         viewModel.createAccountWithEmailAndPassword(user, password)
