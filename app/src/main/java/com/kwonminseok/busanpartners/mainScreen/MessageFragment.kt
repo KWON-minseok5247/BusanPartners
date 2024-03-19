@@ -33,7 +33,12 @@ import io.getstream.chat.android.ui.viewmodel.channels.ChannelListHeaderViewMode
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFactory
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 @AndroidEntryPoint
 class MessageFragment : Fragment() {
@@ -112,8 +117,12 @@ class MessageFragment : Fragment() {
 
         if (token == "") {
             Log.e(TAG, "token이 비어있을 때.")
-            token = getNewToken()
-            connectClient(myUser)
+            lifecycleScope.launch {
+                token= getNewToken()
+                connectClient(myUser)
+
+            }
+
         } else {
             connectClient(myUser)
         }
@@ -171,9 +180,10 @@ class MessageFragment : Fragment() {
 
 
                 } else {
-                    Toast.makeText(requireContext(), "something went wrong!", Toast.LENGTH_SHORT)
-                        .show()
-                    getNewToken()
+                    Toast.makeText(requireContext(), "something went wrong!", Toast.LENGTH_SHORT).show()
+                    lifecycleScope.launch {
+                        getNewToken()
+                    }
                 }
             }
         } ?: run {
@@ -183,30 +193,46 @@ class MessageFragment : Fragment() {
     }
 
 
-    private suspend fun getNewToken(): String {
-        // 기본적으로 사용자 토큰은 무기한 유효합니다. 토큰을 두 번째 매개변수로 전달하여 토큰 만료를 설정할 수 있습니다.
-        // 만료에는 Unix 시대(1970년 1월 1일 00:00:00 UTC) 이후의 초 수가 포함되어야 합니다.
-
-        // Firebase Functions 인스턴스를 가져옵니다.
-        val functions = FirebaseFunctions.getInstance("asia-northeast3")
-
-// `ext-auth-chat-getStreamUserToken` 함수를 호출하여 토큰을 요청합니다.
-        functions
-            .getHttpsCallable("ext-auth-chat-getStreamUserToken")
-            .call()
-            .addOnCompleteListener { task ->
-
-                if (task.isSuccessful) {
-                    // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
-                    token = task.result?.data as String
-                    BusanPartners.preferences.setString("token", token)
-                } else {
-                    Log.e(TAG, "토큰 호출을 실패했습니다.")
-                }
+//    private suspend fun getNewToken(): String {
+//        // 기본적으로 사용자 토큰은 무기한 유효합니다. 토큰을 두 번째 매개변수로 전달하여 토큰 만료를 설정할 수 있습니다.
+//        // 만료에는 Unix 시대(1970년 1월 1일 00:00:00 UTC) 이후의 초 수가 포함되어야 합니다.
+//
+//        // Firebase Functions 인스턴스를 가져옵니다.
+//        val functions = FirebaseFunctions.getInstance("asia-northeast3")
+//
+//// `ext-auth-chat-getStreamUserToken` 함수를 호출하여 토큰을 요청합니다.
+//        functions
+//            .getHttpsCallable("ext-auth-chat-getStreamUserToken")
+//            .call()
+//            .addOnCompleteListener { task ->
+//
+//                if (task.isSuccessful) {
+//                    // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
+//                    token = task.result?.data as String
+//                    BusanPartners.preferences.setString("token", token)
+//                } else {
+//                    Log.e(TAG, "토큰 호출을 실패했습니다.")
+//                }
+//            }
+//        return token
+//    }
+private suspend fun getNewToken(): String = suspendCoroutine { continuation ->
+    val functions = FirebaseFunctions.getInstance("asia-northeast3")
+    functions.getHttpsCallable("ext-auth-chat-getStreamUserToken")
+        .call()
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
+                val token = task.result?.data as String
+                BusanPartners.preferences.setString("token", token)
+                continuation.resume(token) // 코루틴을 재개하고 결과를 반환합니다.
+            } else {
+                // 호출 실패. 에러를 처리합니다.
+                Log.e(TAG, "토큰 호출을 실패했습니다.")
+                continuation.resumeWithException(task.exception ?: RuntimeException("Unknown token fetch error"))
             }
-        return token
-    }
-
+        }
+}
 //    private fun fetchClient() {
 //        // Step 1 - Set up the OfflinePlugin for offline storage
 //        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = requireContext())
