@@ -19,22 +19,19 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kwonminseok.busanpartners.mainScreen.MainActivity
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentLoginBinding
 import com.kwonminseok.busanpartners.mainScreen.HomeActivity
-import com.kwonminseok.busanpartners.util.setupBottomSheetDialog
 import com.kwonminseok.busanpartners.util.Resource
+import com.kwonminseok.busanpartners.util.setupBottomSheetDialog
 import com.kwonminseok.busanpartners.viewmodel.LoginsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+
 
 private val TAG = "LoginFragment"
 
@@ -68,6 +65,20 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
+        // 자동 로그인 과정 -> 실제로는 splash 스크린에서 사용해야 할 것!
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.getIdToken(true)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val idToken = task.result.token
+                Log.d(TAG, "아이디 토큰 = $idToken")
+                val homeMove_intent = Intent(requireContext(), HomeActivity::class.java)
+                startActivity(homeMove_intent)
+            }
+        }
+
 
         binding.apply {
             cirLoginButton.setOnClickListener {
@@ -234,7 +245,7 @@ class LoginFragment : Fragment() {
                         usersRef.document(uid).get().addOnSuccessListener { documentSnapshot ->
                             if (!documentSnapshot.exists()) {
                                 // 사용자 데이터가 존재하지 않는 경우, 새로운 사용자 데이터 저장
-                                val userData = User("","", email = user?.email!!, uid = user.uid, name = user.displayName, imagePath = user.photoUrl.toString() ?: "")
+                                val userData = User("","", email = user.email!!, uid = user.uid, name = user.displayName, imagePath = user.photoUrl.toString() ?: "")
 
                                 usersRef.document(uid).set(userData)
                                     .addOnSuccessListener {

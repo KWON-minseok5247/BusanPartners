@@ -60,9 +60,9 @@ object AppModule {
 //    ) = FireBaseCommon(firestore,firebaseAuth)
 //
 //
-//    @Provides
-//    @Singleton
-//    fun provideStorage() = FirebaseStorage.getInstance().reference
+    @Provides
+    @Singleton
+    fun provideStorage() = FirebaseStorage.getInstance().reference
 //
 //
 //    @Provides

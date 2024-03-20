@@ -1,9 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvCheckImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="1. 학생증 스캔본 및 톡학생증을 \n촬영해서 올려주세요."
+        android:textSize="28sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="66dp"/>
+
+    <Button
+        android:id="@+id/btnOpenGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="갤러리에서 사진 선택"
+        app:layout_constraintTop_toBottomOf="@+id/tvCheckImage"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerImages"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:maxHeight="700dp"
+
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        app:layout_constraintTop_toBottomOf="@id/btnOpenGallery"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnSaveStudentIdentificationCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="학생증 저장하기"
+        app:layout_constraintTop_toBottomOf="@+id/viewPagerImages"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+
 
     <TextView
         android:id="@+id/tvEmailVerifyPrompt"
@@ -11,9 +68,9 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:text="이메일을 \n인증해주세요"
+        android:text="2. 이메일을 인증해주세요"
         android:textSize="30sp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPagerImages"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="66dp"/>
 
@@ -57,5 +114,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
+
+    <Button
+        android:id="@+id/btnSendAllData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="완료 알림 보내기"
+        app:layout_constraintTop_toBottomOf="@id/buttonSendVerificationCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="160dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progressBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="20dp"
+        android:layout_height="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

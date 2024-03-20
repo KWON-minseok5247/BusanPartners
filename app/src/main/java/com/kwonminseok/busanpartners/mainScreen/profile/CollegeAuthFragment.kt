@@ -1,5 +1,8 @@
 package com.kwonminseok.busanpartners.mainScreen.profile
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -8,27 +11,48 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.adapter.ImageAdapter
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
+import com.kwonminseok.busanpartners.util.MarginItemDecoration
+import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
+import com.kwonminseok.busanpartners.viewmodel.AuthenticationViewModel
+import com.kwonminseok.busanpartners.viewmodel.ProfileViewModel
 import com.univcert.api.UnivCert
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 
 @AndroidEntryPoint
 class CollegeAuthFragment : Fragment() {
     lateinit var binding: FragmentCollegeAuthBinding
     lateinit var selectedUniversity: String
+    private val viewModel by viewModels<AuthenticationViewModel>()
     private var emailDomain: String = "@pukyong.ac.kr" // 기본값으로 초기화
+    private val REQUEST_CODE_IMAGE_PICK = 1000
+
+    // 갤러리에 있는 이미지를 URI로 저장할 리스트
+    private val imageUris = ArrayList<Uri>()
+
+    // 업로드된 이미지 URL을 저장할 리스트
+    val uploadedImageUrls = ArrayList<String>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -124,13 +148,122 @@ class CollegeAuthFragment : Fragment() {
                     }
                 }
             }
+        }
 
+        lifecycleScope.launchWhenStarted {
+            viewModel.user.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        showProgressBar()
+                    }
+                    is Resource.Success -> {
+                        hideProgressBar()
+//                        fetchUserData(it.data!!)
 
-
+                    }
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        Toast.makeText(requireContext(),it.message.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
+                }
+            }
         }
 
 
+        // 이미지 버튼 클릭 시
+        binding.btnOpenGallery.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            startActivityForResult(Intent.createChooser(intent, "사진을 선택하세요"), REQUEST_CODE_IMAGE_PICK)
+        }
+
+//        binding.viewPagerImages.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val imageAdapter = ImageAdapter(imageUris)
+        binding.viewPagerImages.adapter = imageAdapter
+
+
+        // 관리하는 페이지 수. default = 1
+        binding.viewPagerImages.offscreenPageLimit = 4
+        // item_view 간의 양 옆 여백을 상쇄할 값
+        val offsetBetweenPages = resources.getDimensionPixelOffset(R.dimen.offsetBetweenPages).toFloat()
+        binding.viewPagerImages.setPageTransformer { page, position ->
+            val myOffset = position * -(2 * offsetBetweenPages)
+            if (position < -1) {
+                page.translationX = -myOffset
+            } else if (position <= 1) {
+                // Paging 시 Y축 Animation 배경색을 약간 연하게 처리
+                val scaleFactor = 0.95f.coerceAtLeast(1 - abs(position))
+                page.translationX = myOffset
+                page.scaleY = scaleFactor
+                page.alpha = scaleFactor
+            } else {
+                page.alpha = 0f
+                page.translationX = myOffset
+            }
+        }
+
+        binding.btnSaveStudentIdentificationCard.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.processUserImageSelection(imageUris)
+            }
+        }
+
+
+
+
+
+//        binding.viewPagerImages.apply {
+//            // 페이지 간 여백 설정
+//            val spaceSize = resources.getDimensionPixelSize(R.dimen.pageMargin)
+//            addItemDecoration(MarginItemDecoration(spaceSize))
+//
+//            // 현재 페이지와 양 옆 페이지가 동시에 보이도록 설정
+//            setPageTransformer { page, position ->
+//                val r = 1 - abs(position)
+//                page.scaleY = 0.85f + r * 0.15f
+//                page.translationX = -page.width * position
+//                page.alpha = 0.25f + r
+//            }
+//
+//            offscreenPageLimit = 2
+//            // 적용 예시
+////            val itemDecoration = HorizontalMarginItemDecoration(horizontalMarginInPx = 20)
+////            viewPager2.addItemDecoration(itemDecoration)
+//
+//        }
+
+
+
+
+
+
     }
+    // 결과 처리
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_IMAGE_PICK && resultCode == RESULT_OK) {
+            imageUris.clear() // 기존 목록을 클리어
+
+            // 선택한 이미지 처리
+            if (data?.clipData != null) { // 여러 이미지 선택 처리
+                val clipData = data.clipData!!
+                for (i in 0 until clipData.itemCount) {
+                    val imageUri = clipData.getItemAt(i).uri
+                    imageUris.add(imageUri)
+                }
+            } else if (data?.data != null) { // 단일 이미지 선택 처리
+                val imageUri = data.data!!
+                imageUris.add(imageUri)
+            }
+
+            binding.viewPagerImages.adapter?.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
+        }
+    }
+
+
     override fun onResume() {
         super.onResume()
         hideBottomNavigationView()
@@ -140,6 +273,14 @@ class CollegeAuthFragment : Fragment() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
         showBottomNavigationView()
         super.onPause()
+    }
+
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
     }
 
 }

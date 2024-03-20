@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.BusanPartners
+import com.kwonminseok.busanpartners.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.data.User
@@ -32,6 +33,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+private val TAG = "ProfileFragment"
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
@@ -101,6 +103,20 @@ class ProfileFragment : Fragment() {
                 // 계정으로부터 로그아웃
                 viewModel.logout()
             }
+
+            chatClient.disconnect(true).enqueue { result ->
+                if (result.isSuccess) {
+                    // 성공적으로 사용자 연결 해제 및 로컬 캐시 지움
+                    // 여기서 새 사용자로 ChatClient를 설정할 수 있습니다.
+                    Log.w(TAG," chatClient가 성공적으로 로그아웃되었습니다.")
+                } else {
+                    // 연결 해제 실패 처리
+                    Log.w(TAG," chatClient가 로그아웃에 실패했습니다.")
+
+                }
+            }
+
+            BusanPartners.preferences.setString("token", "")
             // 접근권한으로부터 해제
             GoogleSignIn.getClient(
                 requireActivity(),
@@ -111,6 +127,7 @@ class ProfileFragment : Fragment() {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
+
 
         }
 

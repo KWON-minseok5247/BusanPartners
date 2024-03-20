@@ -2,6 +2,7 @@ package com.kwonminseok.busanpartners.viewmodel
 
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
+import com.kwonminseok.busanpartners.login.LoginFragment
+import com.kwonminseok.busanpartners.mainScreen.HomeActivity
 import com.kwonminseok.busanpartners.util.RegisterValidation
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.validateEmail
@@ -57,6 +60,13 @@ class LoginsViewModel @Inject constructor(
                 Log.e(TAG, "Failed to save user data", it)
             }
     }
+
+
+
+
+
+// 현재 사용자의 idToken을 확인하여 자동 로그인 시킬지 말지 결정
+
 
 
     fun login(email: String, password: String) {

@@ -1,38 +1,20 @@
 package com.kwonminseok.busanpartners.mainScreen.profile
 
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
-import com.kwonminseok.busanpartners.data.CollegeData
-import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
-import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthNumberBinding
 import com.kwonminseok.busanpartners.databinding.FragmentColleteAuthCompleteBinding
-import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
-import com.kwonminseok.busanpartners.viewmodel.AuthCompleteViewModel
-import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
-import com.univcert.api.UnivCert
+import com.kwonminseok.busanpartners.viewmodel.AuthenticationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 //import com.univcert.api.UnivCert
 
@@ -40,7 +22,7 @@ private val TAG = "CollegeAuthCompleteFragment"
 @AndroidEntryPoint
 class CollegeAuthCompleteFragment : Fragment() {
     lateinit var binding: FragmentColleteAuthCompleteBinding
-    private val viewModel by viewModels<AuthCompleteViewModel>()
+    private val viewModel by viewModels<AuthenticationViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -84,7 +66,7 @@ class CollegeAuthCompleteFragment : Fragment() {
             // 유저정보 업데이트 함수 필요
             viewModel.saveCollegeStatus()
             binding.authCompleteButton.setOnClickListener {
-                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_profileFragment)
+                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthFragment)
             }
 
 
@@ -92,7 +74,7 @@ class CollegeAuthCompleteFragment : Fragment() {
             binding.authenticationAnswer.text = "인증을 실패하였습니다."
             binding.authCompleteButton.text = "확인"
             binding.authCompleteButton.setOnClickListener {
-                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_profileFragment)
+                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthFragment)
             }
             //ToDo 여기선 false이므로 다시 이메일 인증화면으로 돌아간다.
         }

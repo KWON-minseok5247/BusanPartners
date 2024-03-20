@@ -58,13 +58,8 @@
         android:label="CollegeAuthCompleteFragment"
         tools:layout="@layout/fragment_collete_auth_complete">
         <action
-            android:id="@+id/action_collegeAuthCompleteFragment_to_profileFragment"
-            app:destination="@id/profileFragment" >
-            <argument
-                android:name="isVerified"
-                app:argType="boolean"
-                android:defaultValue="false" />
-        </action>
+            android:id="@+id/action_collegeAuthCompleteFragment_to_collegeAuthFragment"
+            app:destination="@id/collegeAuthFragment" />
     </fragment>
 
 
