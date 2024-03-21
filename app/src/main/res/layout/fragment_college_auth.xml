@@ -10,11 +10,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/backButton"/>
 
     <TextView
         android:id="@+id/tvCheckImage"
@@ -51,14 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/btnSaveStudentIdentificationCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="학생증 저장하기"
-        app:layout_constraintTop_toBottomOf="@+id/viewPagerImages"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"/>
 
 
 

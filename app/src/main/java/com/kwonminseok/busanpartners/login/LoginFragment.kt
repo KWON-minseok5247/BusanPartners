@@ -74,8 +74,12 @@ class LoginFragment : Fragment() {
             if (task.isSuccessful) {
                 val idToken = task.result.token
                 Log.d(TAG, "아이디 토큰 = $idToken")
-                val homeMove_intent = Intent(requireContext(), HomeActivity::class.java)
-                startActivity(homeMove_intent)
+                val intent =
+                    Intent(requireContext(), HomeActivity::class.java).addFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK or
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    )
+                startActivity(intent)
             }
         }
 

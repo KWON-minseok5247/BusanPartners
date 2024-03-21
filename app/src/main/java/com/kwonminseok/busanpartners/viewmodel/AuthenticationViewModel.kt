@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 import com.kwonminseok.busanpartners.data.User
@@ -96,41 +97,6 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
-//    fun saveUserWithImage(imageUris: ArrayList<Uri>) { // 사진만 혹은 사진과 같이 변경할 때 사용
-//        val uploadedImageUrls = ArrayList<String>()
-//
-//        imageUris.forEachIndexed { index, uri ->
-//            // 각 이미지 파일에 대한 고유한 파일 이름 생성 (예: timestamp)
-//            val timestamp = System.currentTimeMillis()
-//
-//            val fileReference: StorageReference =
-//                storageReference.child("user/${auth.uid}/img_${timestamp}_$index.jpg")
-//
-//            fileReference.putFile(uri).continueWithTask { task ->
-//                if (!task.isSuccessful) {
-//                    task.exception?.let {
-//                        throw it
-//                    }
-//                }
-//                // 다운로드 URL을 가져옵니다.
-//                fileReference.downloadUrl
-//            }.addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    val downloadUri = task.result
-//                    uploadedImageUrls.add(downloadUri.toString())
-//
-//                    // 모든 이미지가 업로드되었는지 확인
-//                    if (uploadedImageUrls.size == imageUris.size) {
-//                        // 모든 이미지 업로드 완료 후, Firebase Database에 URL 저장
-//                        saveImageUrlsToDatabase(uploadedImageUrls)
-//                    }
-//                } else {
-//                    // 에러 처리
-//                }
-//            }
-//        }
-//    }
-
     private fun uploadImagesToFirebaseStorage(imageUris: List<Uri>, onComplete: (List<String>) -> Unit) {
         val storageRef = storageReference.child("user/${auth.uid}")
         val uploadedImageUrls = mutableListOf<String>()
@@ -162,6 +128,72 @@ class AuthenticationViewModel @Inject constructor(
         uploadImagesToFirebaseStorage(selectedImageUris) { uploadedImageUrls ->
             updateUserImagesInFirestore(uploadedImageUrls)
         }
+    }
+
+    fun deleteImageFromStorage(imageUrl: String) {
+        // Firebase Storage 인스턴스를 얻습니다.
+
+        // 주어진 URL로부터 Storage 참조를 얻습니다.
+        // 이때, imageUrl이 gs://로 시작하는 Storage의 URL이라고 가정합니다.
+        val storageRef = storageReference.storage.getReferenceFromUrl(imageUrl)
+        // 해당 참조의 파일을 삭제합니다.
+        storageRef.delete().addOnSuccessListener {
+            // 파일 삭제 성공
+            Log.d("deleteImageFromStorage", "이미지 삭제 성공")
+        }.addOnFailureListener {
+            // 파일 삭제 실패
+            Log.e("deleteImageFromStorage", "이미지 삭제 실패", it)
+        }
+    }
+
+    fun deleteImageFromDatabase(imageUrl: String) {
+        // Firebase Storage 인스턴스를 얻습니다.
+
+        val userRef = firestore.collection("user").document(auth.uid!!)
+        // 여기서는 FieldValue.arrayRemove를 사용하여 특정 URL을 리스트에서 제거합니다.
+        userRef.update("authentication.studentIdentificationCard", FieldValue.arrayRemove(imageUrl))
+            .addOnSuccessListener {
+                Log.e(TAG, "Firestore에서 이미지 URL 제거 성공 ")
+
+            }.addOnFailureListener {
+                Log.e(TAG, "Firestore에서 이미지 URL 제거 실패: ${it.message}")
+            }
+    }
+
+
+
+    // 이미지 삭제 함수 구현 예시
+//    fun deleteImage(imageUrl: String, position: Int) {
+//        // Firebase Storage의 참조를 얻습니다.
+//        val storageRef = storageReference
+//
+//        // 이미지 URL로부터 Firebase Storage 내의 파일 경로를 추출합니다.
+//        val imagePath = Uri.parse(imageUrl).pathSegments.drop(1).joinToString("/")
+//
+//        // 해당 파일 참조를 얻고 삭제합니다.
+//        storageRef.child(imagePath).delete().addOnSuccessListener {
+//            // Storage에서 이미지 삭제 성공 후, Firestore Database에서 URL 제거
+//            removeImageUrlFromFirestore(imageUrl) {
+//                // Firestore Database에서 URL 제거 성공 후, 어댑터 데이터셋에서 이미지 URL 제거 및 UI 갱신
+//                images.removeAt(position)
+//                notifyItemRemoved(position)
+//            }
+//        }.addOnFailureListener {
+//            // 이미지 삭제 실패 처리
+//            Log.e(TAG, "이미지 삭제 실패: ${it.message}")
+//        }
+//    }
+
+    // Firestore Database에서 이미지 URL 제거하는 함수
+    fun removeImageUrlFromFirestore(imageUrl: String, onSuccess: () -> Unit) {
+        val userRef = firestore.collection("user").document(auth.uid!!)
+        // 여기서는 FieldValue.arrayRemove를 사용하여 특정 URL을 리스트에서 제거합니다.
+        userRef.update("authentication.studentIdentificationCard", FieldValue.arrayRemove(imageUrl))
+            .addOnSuccessListener {
+                onSuccess()
+            }.addOnFailureListener {
+                Log.e(TAG, "Firestore에서 이미지 URL 제거 실패: ${it.message}")
+            }
     }
 
 

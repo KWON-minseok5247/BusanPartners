@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_collegeAuthFragment_to_collegeAuthNumberFragment"
             app:destination="@id/collegeAuthNumberFragment" />
+        <action
+            android:id="@+id/action_collegeAuthFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthNumberFragment"
