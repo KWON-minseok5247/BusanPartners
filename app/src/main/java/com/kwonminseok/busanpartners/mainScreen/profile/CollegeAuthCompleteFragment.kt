@@ -64,7 +64,7 @@ class CollegeAuthCompleteFragment : Fragment() {
             binding.authenticationAnswer.text = "인증이 완료되었습니다."
             binding.authCompleteButton.text = "프로필 화면으로 돌아가기"
             // 유저정보 업데이트 함수 필요
-            viewModel.saveCollegeStatus()
+            viewModel.clearEmailAuthentication()
             binding.authCompleteButton.setOnClickListener {
                 findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthFragment)
             }

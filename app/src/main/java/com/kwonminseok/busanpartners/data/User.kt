@@ -13,7 +13,9 @@ data class User(
     val college: String = "",
     val introduction: String = "",
     val name: String? = "",
-    val authentication: AuthenticationInformation? = null,
-    ) {
+    val authentication: AuthenticationInformation = AuthenticationInformation(),
+
+
+) {
     constructor(): this("","","","", "")
 }

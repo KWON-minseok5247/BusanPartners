@@ -11,28 +11,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
-import com.kwonminseok.busanpartners.adapter.ImageAdapter
 import com.kwonminseok.busanpartners.adapter.ImagesAdapter
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
-import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
-import com.kwonminseok.busanpartners.util.MarginItemDecoration
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.kwonminseok.busanpartners.viewmodel.AuthenticationViewModel
-import com.kwonminseok.busanpartners.viewmodel.ProfileViewModel
-import com.univcert.api.UnivCert
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -67,6 +59,8 @@ class CollegeAuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         // 얘는 일단 user 데이터를 불러오고 만약 학생증 사진이 이미 올라와져있다면 굳이 사진을 올릴 필요가 없으니까. 사진은 그대로 올려두되
         lifecycleScope.launchWhenStarted {
             viewModel.user.collectLatest {
@@ -78,8 +72,9 @@ class CollegeAuthFragment : Fragment() {
                     is Resource.Success -> {
                         hideProgressBar()
                         // 얘도 함수로 만드는 게 맞고.
+                        Log.e("제일제일 중요", it.data.toString())
                         if (it.data?.authentication?.studentIdentificationCard != null) {
-                            // TODO 여기서는 어댑터에서 해당 데이터를 넣기만 하면 된다. 또한 인증번호 확인절차도 하는 게 좋겠다.
+                            // TODO 이미지 불러오고 삭제하는 기능을 효율적으로 만들지 않았다. 나중에 따로 시간나면 다시 만들자.
                             val urlList = it.data?.authentication?.studentIdentificationCard
                             imagesAdapter = ImagesAdapter(requireContext(), urlList).apply {
                                 onClick = { imageUrl, position ->
@@ -105,6 +100,19 @@ class CollegeAuthFragment : Fragment() {
                             binding.viewPagerImages.adapter?.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
 
                         }
+                        if (it.data?.authentication?.studentEmailAuthenticationComplete == true) {
+                            Log.e("이메일 인증이 되어야 하는데?", "이유?")
+                            binding.apply {
+                                spinnerUniversityEmail.visibility = View.GONE
+                                collegeEmail.visibility = View.GONE
+                                editTextEmail.visibility = View.GONE
+                                buttonSendVerificationCode.visibility = View.GONE
+                                authenticationComplete.visibility = View.VISIBLE
+                            }
+                        } else {
+                            Log.e("이메일 인증이 되어야 하는데?", "${it.data?.authentication?.studentEmailAuthenticationComplete}")
+
+                        }
 
                     }
 
@@ -120,6 +128,7 @@ class CollegeAuthFragment : Fragment() {
         }
 
         getUniversitySpinner()
+
 
         //TODO 이메일 작성은 필수 안하면 에러뜨도록
         binding.buttonSendVerificationCode.setOnClickListener {
@@ -170,11 +179,6 @@ class CollegeAuthFragment : Fragment() {
             )
         }
 
-//        binding.viewPagerImages.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        imageAdapter = ImageAdapter(imageUris)
-//        binding.viewPagerImages.adapter = imageAdapter
-
-
         // 관리하는 페이지 수. default = 1
         binding.viewPagerImages.offscreenPageLimit = 4
         // item_view 간의 양 옆 여백을 상쇄할 값
@@ -202,7 +206,22 @@ class CollegeAuthFragment : Fragment() {
             findNavController().navigate(R.id.action_collegeAuthFragment_to_profileFragment)
         }
 
+        // firebase 폴더를 따로 만들어 uid와 status를 알림
+        binding.btnSendAllData.setOnClickListener {
+
+        }
+
     }
+
+
+
+
+
+
+
+
+
+
 
     private fun getUniversitySpinner() {
         val adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(
