@@ -24,6 +24,7 @@ import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
+import com.kwonminseok.busanpartners.viewmodel.AuthenticationCollegeViewModel
 import com.kwonminseok.busanpartners.viewmodel.AuthenticationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +39,7 @@ class CollegeAuthFragment : Fragment() {
     lateinit var binding: FragmentCollegeAuthBinding
     lateinit var selectedUniversity: String
     private val viewModel by viewModels<AuthenticationViewModel>()
+    private val authenticationCollegeViewModel by viewModels<AuthenticationCollegeViewModel>()
     private var emailDomain: String = "@pukyong.ac.kr" // 기본값으로 초기화
     private val REQUEST_CODE_IMAGE_PICK = 1000
     lateinit var imagesAdapter: ImagesAdapter
@@ -109,8 +111,19 @@ class CollegeAuthFragment : Fragment() {
                                 buttonSendVerificationCode.visibility = View.GONE
                                 authenticationComplete.visibility = View.VISIBLE
                             }
-                        } else {
+                        }
+                        if (it.data?.authentication?.authenticationStatus == "Loading") {
+                            binding.btnSendAllData.isClickable = false
+                            binding.btnOpenGallery.isClickable = false
+                        }
+
+
+
+
+                        else {
                             Log.e("이메일 인증이 되어야 하는데?", "${it.data?.authentication?.studentEmailAuthenticationComplete}")
+                            binding.btnSendAllData.isClickable = true
+                            binding.btnOpenGallery.isClickable = true
 
                         }
 
@@ -206,10 +219,13 @@ class CollegeAuthFragment : Fragment() {
             findNavController().navigate(R.id.action_collegeAuthFragment_to_profileFragment)
         }
 
-        // firebase 폴더를 따로 만들어 uid와 status를 알림
-        binding.btnSendAllData.setOnClickListener {
 
+        //TODO 데이터들이 전부 갖춰져야 클릭을 할 수 있다거나 버튼이 보여선 안됨. 지금은 테스트용이라 냅둔다.
+        binding.btnSendAllData.setOnClickListener {
+            authenticationCollegeViewModel.attachToAuthenticationFolder()
         }
+        // firebase 폴더를 따로 만들어 uid와 status를 알림
+
 
     }
 

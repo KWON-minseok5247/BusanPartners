@@ -9,6 +9,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
+import com.kwonminseok.busanpartners.data.AuthenticationInformation
+import com.kwonminseok.busanpartners.data.CheckAuthentication
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.mainScreen.TAG
 import com.kwonminseok.busanpartners.util.Resource
@@ -28,20 +30,50 @@ class AuthenticationCollegeViewModel @Inject constructor(
 ) : ViewModel() {
 
 
+    fun saveUserUniversity(university: String) {
+        val userRef = firestore.collection("user").document(auth.uid!!)
 
-fun saveUserUniversity(university: String) {
-    //auth.uid!!라고 정의한 이유는 로그아웃을 하지 않았을 때 절대로 auth.uid가 없을 수 없기 때문임.
-    val userRef = firestore.collection("user").document(auth.uid!!)
+        userRef.update("college", university)
+            .addOnSuccessListener {
+                Log.w("대학교", "정상적으로 수정되었습니다.")
+            }.addOnFailureListener {
+                Log.w("대학교", "실패했습니다. ${it.message}")
+            }
+    }
 
-    userRef.update("college", university)
-        .addOnSuccessListener {
-            Log.w("대학교", "정상적으로 수정되었습니다.")
-        }.addOnFailureListener {
-            Log.w("대학교", "실패했습니다. ${it.message}")
-        }
+    fun attachToAuthenticationFolder() {
+        firestore.collection("user").document(auth.uid!!)
+            .get().addOnSuccessListener {
+                val user = it.toObject(User::class.java)
+                val checkAuthentication = CheckAuthentication(
+                    user!!.uid,
+                    user.authentication.studentIdentificationCard,
+                    user.authentication.travelerAuthenticationImage
+                )
+                //TODO 여기 굉장히 이상한데 피곤해서 내일 하기로.
+                firestore.collection("user").document(auth.uid!!).set(user.authentication.copy(authenticationStatus = "Loading"))
+                    .addOnSuccessListener {
+                        Log.w("authenticationStatus = Loading", "정상적으로 수정되었습니다.")
 
-}
+                    }.addOnFailureListener { Log.w("authenticationStatus = Loading 실패", "${it.message}.")
+                    }
 
+
+                firestore.collection("authentication").document(auth.uid!!).set(checkAuthentication)
+                    .addOnSuccessListener {
+                        Log.w("authentication 폴더에 등록", "정상적으로 수정되었습니다.")
+
+                    }.addOnFailureListener {
+                        Log.w("authentication 폴더에 등록 실패", "${it.message}")
+
+                    }
+
+
+            }.addOnFailureListener {
+
+            }
+
+    }
 
 
 }
