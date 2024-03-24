@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kwonminseok.busanpartners.R
 
-class ImagesAdapter(private val context: Context, private val images: List<String>) : RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
+class ImagesAdapter(private val context: Context, private val images: MutableList<String>) : RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var imageView: ImageView = itemView.findViewById(R.id.imageView)

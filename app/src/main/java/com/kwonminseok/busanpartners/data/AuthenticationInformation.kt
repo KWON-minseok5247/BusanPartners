@@ -6,7 +6,7 @@ data class AuthenticationInformation(
     val collegeStudent: Boolean = false,
     val traveler: Boolean = false,
     val studentEmailAuthenticationComplete: Boolean = false,
-    //authenticationStatus에는 Loading, Complete, Failed, ""로 구성
+    //authenticationStatus에는 loading, complete, failed, ""로 구성
     val authenticationStatus: String = ""
 
     )

@@ -10,4 +10,6 @@ object Constants {
     const val PRODUCTS_COLLECTION = "Products"
     const val NAME_PROPERTY = "name"
     const val PAGE_SIZE = 10
+    const val TRAVELER = "traveler"
+    const val STUDENT = "student"
 }

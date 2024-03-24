@@ -4,35 +4,23 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
-import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthNumberBinding
-import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
-import com.kwonminseok.busanpartners.viewmodel.AuthenticationCollegeViewModel
-import com.kwonminseok.busanpartners.viewmodel.AuthenticationViewModel
-import com.univcert.api.UnivCert
+import com.kwonminseok.busanpartners.viewmodel.AuthenticationInformationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 //import com.univcert.api.UnivCert
 
@@ -40,7 +28,7 @@ private val TAG = "CollegeAuthNumberFragment"
 @AndroidEntryPoint
 class CollegeAuthNumberFragment : Fragment() {
     lateinit var binding: FragmentCollegeAuthNumberBinding
-    private val viewModel by viewModels<AuthenticationCollegeViewModel>()
+    private val viewModel by viewModels<AuthenticationInformationViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -154,7 +142,9 @@ class CollegeAuthNumberFragment : Fragment() {
                         // 아니면 isCollegeStudent 이거를 true로 만들고 messageFragment에서 먼저 클릭할 때 isCollegeStudent라던지
                         // 확인후 클릭할 수 있도록
                         val university = collegeData!!.selectedUniversity
-                        viewModel.saveUserUniversity(university)
+                        val universityEmail = collegeData!!.email
+
+                        viewModel.saveUserUniversity(university, universityEmail)
                         val bundle = Bundle()
                         bundle.putBoolean("isVerified", true)
                         findNavController().navigate(R.id.action_collegeAuthNumberFragment_to_collegeAuthCompleteFragment, bundle)

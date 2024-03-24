@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_profileFragment_to_collegeAuthFragment"
             app:destination="@id/collegeAuthFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_travelerAuthFragment"
+            app:destination="@id/travelerAuthFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
@@ -63,6 +66,15 @@
         <action
             android:id="@+id/action_collegeAuthCompleteFragment_to_collegeAuthFragment"
             app:destination="@id/collegeAuthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/travelerAuthFragment"
+        android:name="com.kwonminseok.busanpartners.mainScreen.profile.TravelerAuthFragment"
+        android:label="TravelerAuthFragment"
+        tools:layout="@layout/fragment_traveler_auth">
+        <action
+            android:id="@+id/action_travelerAuthFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
 

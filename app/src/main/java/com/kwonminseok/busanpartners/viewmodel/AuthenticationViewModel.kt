@@ -61,30 +61,6 @@ class AuthenticationViewModel @Inject constructor(
     }
 
 
-//    private fun getUser() {
-//
-//        viewModelScope.launch {
-//            _user.emit(Resource.Loading())
-//        }
-//        //auth.uid!!라고 정의한 이유는 로그아웃을 하지 않았을 때 절대로 auth.uid가 없을 수 없기 때문임.
-//        firestore.collection("user").document(auth.uid!!).get()
-//            .addOnSuccessListener {
-//                val user = it?.toObject(User::class.java)
-//                // 유저가 null이 된다는 불상사를 사전에 방지하기 위하여 let을 쓴다.
-//                user?.let {
-//                    viewModelScope.launch {
-//                        _user.emit(Resource.Success(user))
-//                    }
-//                }
-//            }.addOnFailureListener {
-//                viewModelScope.launch {
-//                    _user.emit(Resource.Error(it.message.toString()))
-//                }
-//            }
-//        // 유저가 사진을 바꾸는 등의 행동을 하기에 addsnap으로 한다.
-//    }
-
-
 fun saveUserUniversity(university: String) {
     //auth.uid!!라고 정의한 이유는 로그아웃을 하지 않았을 때 절대로 auth.uid가 없을 수 없기 때문임.
     val userRef = firestore.collection("user").document(auth.uid!!)
@@ -107,10 +83,9 @@ fun clearEmailAuthentication() {
             }.addOnFailureListener {
                 Log.w("이메일 인증 절차", "실패했습니다. ${it.message}")
             }
-
-
 }
 
+    // 스토리지에 업데이트하는 함수
 private fun uploadImagesToFirebaseStorage(
     imageUris: List<Uri>,
     onComplete: (List<String>) -> Unit
@@ -131,23 +106,35 @@ private fun uploadImagesToFirebaseStorage(
 }
 
 
-private fun updateUserImagesInFirestore(imageUrls: List<String>) {
+    // 데이터베이스에 사진리스트를 추가하는 함수
+private fun updateUserImagesInFirestore(imageUrls: List<String> ,status: String) {
     val userRef = firestore.collection("user").document(auth.uid!!)
 
-    userRef.update("authentication.studentIdentificationCard", imageUrls).addOnSuccessListener {
-        Log.w("updateUserImagesInFirestore", "학생증 사진이 등록되었습니다.")
-    }.addOnFailureListener { e ->
-        Log.w("updateUserImagesInFirestore", "학생증 사진 등록에 실패했습니다.")
+    if (status == "student") {
+        userRef.update("authentication.studentIdentificationCard", imageUrls).addOnSuccessListener {
+            Log.w("updateUserImagesInFirestore", "학생증 사진이 등록되었습니다.")
+        }.addOnFailureListener { e ->
+            Log.w("updateUserImagesInFirestore", "학생증 사진 등록에 실패했습니다.")
+        }
+    } else {
+        userRef.update("authentication.travelerAuthenticationImage", imageUrls).addOnSuccessListener {
+            Log.w("updateUserImagesInFirestore", "관광객 인증 내역이 등록되었습니다.")
+        }.addOnFailureListener { e ->
+            Log.w("updateUserImagesInFirestore", "관광객 인증 내역 등록에 실패했습니다.")
+        }
     }
+
+
 }
 
-fun processUserImageSelection(selectedImageUris: List<Uri>) {
+fun processUserImageSelection(selectedImageUris: List<Uri>, status: String) {
     uploadImagesToFirebaseStorage(selectedImageUris) { uploadedImageUrls ->
-        updateUserImagesInFirestore(uploadedImageUrls)
+        updateUserImagesInFirestore(uploadedImageUrls, status)
     }
 }
 
-fun deleteImageFromStorage(imageUrl: String) {
+    //스토리지 이미지 삭제 함수
+ fun deleteImageFromStorage(imageUrl: String) {
     // Firebase Storage 인스턴스를 얻습니다.
 
     // 주어진 URL로부터 Storage 참조를 얻습니다.
@@ -163,18 +150,33 @@ fun deleteImageFromStorage(imageUrl: String) {
     }
 }
 
-fun deleteImageFromDatabase(imageUrl: String) {
-    // Firebase Storage 인스턴스를 얻습니다.
+fun deleteImageFromDatabase(imageUrl: String, status: String) {
 
-    val userRef = firestore.collection("user").document(auth.uid!!)
-    // 여기서는 FieldValue.arrayRemove를 사용하여 특정 URL을 리스트에서 제거합니다.
-    userRef.update("authentication.studentIdentificationCard", FieldValue.arrayRemove(imageUrl))
-        .addOnSuccessListener {
-            Log.e(TAG, "Firestore에서 이미지 URL 제거 성공 ")
+    // 학생일 때
+    if (status == "student") {
+        val userRef = firestore.collection("user").document(auth.uid!!)
+        // 여기서는 FieldValue.arrayRemove를 사용하여 특정 URL을 리스트에서 제거합니다.
+        userRef.update("authentication.studentIdentificationCard", FieldValue.arrayRemove(imageUrl))
+            .addOnSuccessListener {
+                Log.e(TAG, "Firestore에서 이미지 URL 제거 성공 ")
 
-        }.addOnFailureListener {
-            Log.e(TAG, "Firestore에서 이미지 URL 제거 실패: ${it.message}")
-        }
+            }.addOnFailureListener {
+                Log.e(TAG, "Firestore에서 이미지 URL 제거 실패: ${it.message}")
+            }
+
+    } else { // 여행객일 때
+        val userRef = firestore.collection("user").document(auth.uid!!)
+        // 여기서는 FieldValue.arrayRemove를 사용하여 특정 URL을 리스트에서 제거합니다.
+        userRef.update("authentication.travelerAuthenticationImage", FieldValue.arrayRemove(imageUrl))
+            .addOnSuccessListener {
+                Log.e(TAG, "Firestore에서 이미지 URL 제거 성공 ")
+
+            }.addOnFailureListener {
+                Log.e(TAG, "Firestore에서 이미지 URL 제거 실패: ${it.message}")
+            }
+    }
+
+
 }
 
 

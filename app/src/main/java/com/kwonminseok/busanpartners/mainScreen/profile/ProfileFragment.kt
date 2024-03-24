@@ -64,6 +64,7 @@ class ProfileFragment : Fragment() {
                         hideProgressBar()
                         fetchUserData(it.data!!)
 
+
                     }
                     is Resource.Error -> {
                         hideProgressBar()
@@ -84,6 +85,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.travelerAuthentication.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_travelerAuthFragment)
 
         }
 
@@ -140,6 +142,15 @@ class ProfileFragment : Fragment() {
         binding.apply {
             Glide.with(requireView()).load(user.imagePath).into(binding.imageUser)
             tvUserName.text = "${user.firstName} ${user.lastName}"
+
+        }
+        if (user.authentication.authenticationStatus == "loading") {
+            binding.apply {
+                authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+                travelerAuthentication.visibility = View.GONE
+                collegeAuthentication.visibility = View.GONE
+
+            }
 
         }
     }
