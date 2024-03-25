@@ -61,18 +61,6 @@ class AuthenticationViewModel @Inject constructor(
     }
 
 
-fun saveUserUniversity(university: String) {
-    //auth.uid!!라고 정의한 이유는 로그아웃을 하지 않았을 때 절대로 auth.uid가 없을 수 없기 때문임.
-    val userRef = firestore.collection("user").document(auth.uid!!)
-
-    userRef.update("college", university)
-        .addOnSuccessListener {
-            Log.w("대학교", "정상적으로 수정되었습니다.")
-        }.addOnFailureListener {
-            Log.w("대학교", "실패했습니다. ${it.message}")
-        }
-
-}
 fun clearEmailAuthentication() {
         //auth.uid!!라고 정의한 이유는 로그아웃을 하지 않았을 때 절대로 auth.uid가 없을 수 없기 때문임.
         val userRef = firestore.collection("user").document(auth.uid!!)
@@ -90,7 +78,7 @@ private fun uploadImagesToFirebaseStorage(
     imageUris: List<Uri>,
     onComplete: (List<String>) -> Unit
 ) {
-    val storageRef = storageReference.child("user/${auth.uid}")
+    val storageRef = storageReference.child("user/${auth.uid}/authentication")
     val uploadedImageUrls = mutableListOf<String>()
 
     CoroutineScope(Dispatchers.IO).launch {

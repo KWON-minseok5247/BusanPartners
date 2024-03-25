@@ -19,18 +19,15 @@ class AuthenticationInformationViewModel @Inject constructor(
     fun saveUserUniversity(university: String, email: String) {
         val userRef = firestore.collection("user").document(auth.uid!!)
 
-        userRef.update("college", university)
+        val userUpdates = mapOf(
+            "college" to university,
+            "universityEmail" to email
+        )
+        userRef.update(userUpdates)
             .addOnSuccessListener {
                 Log.w("대학교", "정상적으로 수정되었습니다.")
             }.addOnFailureListener {
                 Log.w("대학교", "실패했습니다. ${it.message}")
-            }
-
-        userRef.update("universityEmail", email)
-            .addOnSuccessListener {
-                Log.w("universityEmail", "정상적으로 수정되었습니다.")
-            }.addOnFailureListener {
-                Log.w("universityEmail", "실패했습니다. ${it.message}")
             }
     }
 

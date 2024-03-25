@@ -80,7 +80,7 @@
                                 style="@style/parent"
                                 android:layout_marginTop="@dimen/signup_text_margin_top">
                                 <EditText
-                                    android:id="@+id/edFirstName"
+                                    android:id="@+id/edName"
                                     style="@style/modifiedEditText"
                                     android:inputType="text"
                                     android:maxLines="1"

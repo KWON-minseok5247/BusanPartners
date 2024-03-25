@@ -92,7 +92,6 @@ dependencies {
     implementation "io.getstream:stream-chat-android-ui-components:6.0.2"
     implementation "io.getstream:stream-chat-android-offline:6.0.2"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
-    implementation "com.google.android.material:material:1.9.0"
     implementation "androidx.activity:activity-ktx:1.7.2"
     implementation "io.coil-kt:coil:2.4.0"
 //
@@ -118,7 +117,6 @@ dependencies {
 
     // card view
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.11.0'
 
     //loading button
     implementation("com.github.leandroborgesferreira:loading-button-android:2.3.0")
@@ -163,6 +161,11 @@ dependencies {
 
     //암호화된 sharedPreference
     implementation 'androidx.security:security-crypto-ktx:1.1.0-alpha04'
+
+
+    // 로딩 버튼
+    implementation("com.github.leandroborgesferreira:loading-button-android:2.3.0")
+
 
 
 
