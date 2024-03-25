@@ -4,11 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +13,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -34,7 +30,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class UserAccountFragment : Fragment() {
-    private var chipTexts : MutableList<String>
+    private var chipTexts : MutableList<String>? = null
     lateinit var binding: FragmentUserAccountBinding
     private val viewModel by viewModels<UserAccountViewModels>()
     private val GALLERY = 1
@@ -83,28 +79,45 @@ class UserAccountFragment : Fragment() {
             }
         }
 
+
         lifecycleScope.launchWhenStarted {
-            viewModel.updateUser.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-                        binding.buttonSave.startAnimation()
-                    }
 
-                    is Resource.Success -> {
-                        binding.buttonSave.revertAnimation()
-                        Toast.makeText(requireContext(), "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                    }
-
-                    is Resource.Error -> {
-                        binding.buttonSave.revertAnimation()
-                        Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    else -> Unit
+            viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+                if (isLoading) {
+                    // 로딩 시작
+                    binding.buttonSave.startAnimation()
+                } else {
+                    // 로딩 완료
+                    binding.buttonSave.revertAnimation()
+                    Toast.makeText(context, "저장이 완료되었습니다.",Toast.LENGTH_SHORT).show()
+                    updateOldUser()
 
                 }
-            }
+            })
+
+
+
+//            viewModel.updateUser.collectLatest {
+//                when (it) {
+//                    is Resource.Loading -> {
+//                        binding.buttonSave.startAnimation()
+//                    }
+//
+//                    is Resource.Success -> {
+//                        binding.buttonSave.revertAnimation()
+//                        Toast.makeText(requireContext(), "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+//                    }
+//
+//                    is Resource.Error -> {
+//                        binding.buttonSave.revertAnimation()
+//                        Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//
+//                    else -> Unit
+//
+//                }
+//            }
         }
 
         binding.buttonSave.setOnClickListener {
@@ -116,7 +129,7 @@ class UserAccountFragment : Fragment() {
              chipTexts = mutableListOf<String>()
             for (i in 0 until binding.chipGroupHobbies.childCount) {
                 val chip = binding.chipGroupHobbies.getChildAt(i) as Chip
-                chipTexts.add(chip.text.toString())
+                chipTexts!!.add(chip.text.toString())
             }
             Log.e("chiptext", chipTexts.toString())
             val noImageMap = mapOf(
@@ -129,7 +142,6 @@ class UserAccountFragment : Fragment() {
                 viewModel.saveUser(noImageMap)
             } else { // 사진을 변경한 경우
                 viewModel.saveUserWithImage(noImageMap, imageData!!)
-
             }
 
         }
@@ -186,29 +198,6 @@ class UserAccountFragment : Fragment() {
 
         }
 
-
-//        setupHobbiesChips(listOf("기타", "피아노", "스노우보드", "등산", "자연",
-//            "안드로이드", "개발", "일본어", "영어", "스페인어", "배낭여행", "음악 제작", "자전거", "게임"))
-//    private fun setupHobbiesChips(hobbies: List<String>) {
-//        hobbies.forEach { hobby ->
-//            val chip = Chip(this).apply {
-//                text = hobby
-//                isCheckable = true
-//                isCheckedIconVisible = false
-//            }
-//            binding.chipGroupHobbies.addView(chip)
-//        }
-//
-//        // Chip 선택 리스너 등록
-//        binding.chipGroupHobbies.setOnCheckedChangeListener { group, checkedId ->
-//            val chip: Chip? = findViewById(checkedId)
-//            chip?.let {
-//                // 선택된 Chip 처리
-//                println("선택된 취미: ${it.text}")
-//            }
-//        }
-//    }
-
     }
 
     private fun backPress() {
@@ -216,6 +205,17 @@ class UserAccountFragment : Fragment() {
         val edMajor = binding.edMajor.text.toString()
         val introduction = binding.introduction.text.toString()
         chipTexts = mutableListOf<String>()
+        for (i in 0 until binding.chipGroupHobbies.childCount) {
+            val chip = binding.chipGroupHobbies.getChildAt(i) as Chip
+            chipTexts!!.add(chip.text.toString())
+        }
+        Log.e("olduser", oldUser.toString())
+        Log.e("edName", edName.toString())
+        Log.e("edMajor", edMajor.toString())
+        Log.e("introduction", introduction.toString())
+        Log.e("chipTexts", chipTexts.toString())
+        Log.e("imageData", imageData.toString())
+
 
         if (oldUser.name == edName &&
             oldUser.major == edMajor &&
@@ -327,7 +327,31 @@ class UserAccountFragment : Fragment() {
             edEmail.text = user.email
             introduction.setText(user.introduction)
         }
+        binding.chipGroupHobbies.removeAllViews()
         chipTexts = user.chipGroup?.toMutableList()
         user.chipGroup?.let { setupHobbiesChips(it) }
     }
+
+
+    // 사용자 정보 저장 성공 후 oldUser 업데이트
+    private fun updateOldUser() {
+        val newName = binding.edName.text.toString()
+        val newMajor = binding.edMajor.text.toString()
+        val newIntroduction = binding.introduction.text.toString()
+        val newChipTexts = mutableListOf<String>().apply {
+            for (i in 0 until binding.chipGroupHobbies.childCount) {
+                val chip = binding.chipGroupHobbies.getChildAt(i) as Chip
+                add(chip.text.toString())
+            }
+        }
+        imageData = null
+
+        oldUser = oldUser.copy(
+            name = newName,
+            major = newMajor,
+            introduction = newIntroduction,
+            chipGroup = newChipTexts,
+        )
+    }
+
 }

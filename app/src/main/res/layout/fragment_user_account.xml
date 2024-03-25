@@ -229,6 +229,7 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="12sp"
+            app:spinning_bar_color="@color/white"
             android:textStyle="bold"
             android:scrollbars="vertical"
             android:inputType="textMultiLine"
