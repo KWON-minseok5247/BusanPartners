@@ -1,8 +1,10 @@
 package com.kwonminseok.busanpartners
 
 import android.app.Application
+import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
 import com.kwonminseok.busanpartners.mainScreen.home.BusanFestivalApiService
 import com.kwonminseok.busanpartners.util.PreferenceUtil
+import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
@@ -27,6 +29,11 @@ class BusanPartners: Application() {
 
         // ChatClient 초기화
         initializeChatClient()
+
+        // 네이버 지도
+        NaverMapSdk.getInstance(this).client =
+            NaverMapSdk.NaverCloudPlatformClient(NAVER_CLIENT_ID)
+
 
     }
     private fun initializeChatClient() {

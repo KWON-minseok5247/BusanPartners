@@ -472,4 +472,11 @@
 
     </style>
 
+    <style name="GraySwitch" parent="Theme.AppCompat.Light">
+        <!-- 체크된 상태의 색깔을 회색으로 설정 -->
+        <item name="colorControlActivated">@color/g_gray700</item>
+        <!-- 스위치의 기타 요소 색상도 필요에 따라 설정할 수 있습니다 -->
+    </style>
+
+
 </resources>

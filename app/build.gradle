@@ -33,6 +33,11 @@ android {
         buildConfigField "String", "BUSAN_FESTIVAL_KEY", properties['BUSAN_FESTIVAL_KEY']
         buildConfigField "String", "BUSAN_TOURIST_DESTINATION_KEY", properties['BUSAN_TOURIST_DESTINATION_KEY']
         buildConfigField "String", "COLLEGE_KEY", properties['COLLEGE_KEY']
+        buildConfigField "String", "NAVER_CLIENT_ID", properties['NAVER_CLIENT_ID']
+        // 매니페스트에서 사용이 가능하다. 구글맵 같은 경우가 이에 해당한다.
+        // 키 - 값으로 저장된다.
+        manifestPlaceholders = [NAVER_CLIENT_ID: properties["NAVER_CLIENT_ID"]]
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -166,7 +171,8 @@ dependencies {
     // 로딩 버튼
     implementation("com.github.leandroborgesferreira:loading-button-android:2.3.0")
 
-
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.18.0'
 
 
 

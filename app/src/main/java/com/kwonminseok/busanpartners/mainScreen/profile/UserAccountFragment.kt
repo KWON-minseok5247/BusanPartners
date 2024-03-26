@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class UserAccountFragment : Fragment() {
-    private var chipTexts : MutableList<String>? = null
+    private var chipTexts: MutableList<String>? = null
     lateinit var binding: FragmentUserAccountBinding
     private val viewModel by viewModels<UserAccountViewModels>()
     private val GALLERY = 1
@@ -89,13 +89,21 @@ class UserAccountFragment : Fragment() {
                 } else {
                     // 로딩 완료
                     binding.buttonSave.revertAnimation()
-                    Toast.makeText(context, "저장이 완료되었습니다.",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     updateOldUser()
 
                 }
             })
 
-
+            binding.switchShowHideTags.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    // 스위치가 켜지면 태그 목록을 보여줍니다.
+                    viewModel.wantToMeet(isChecked)
+                } else {
+                    // 스위치가 꺼지면 태그 목록을 숨깁니다.
+                    viewModel.wantToMeet(isChecked)
+                }
+            }
 
 //            viewModel.updateUser.collectLatest {
 //                when (it) {
@@ -126,7 +134,7 @@ class UserAccountFragment : Fragment() {
             val edName = binding.edName.text.toString()
             val edMajor = binding.edMajor.text.toString()
             val introduction = binding.introduction.text.toString()
-             chipTexts = mutableListOf<String>()
+            chipTexts = mutableListOf<String>()
             for (i in 0 until binding.chipGroupHobbies.childCount) {
                 val chip = binding.chipGroupHobbies.getChildAt(i) as Chip
                 chipTexts!!.add(chip.text.toString())
@@ -281,9 +289,6 @@ class UserAccountFragment : Fragment() {
     }
 
 
-
-
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -317,7 +322,6 @@ class UserAccountFragment : Fragment() {
     }
 
 
-
     private fun enterData(user: User) {
         Glide.with(this).load(user.imagePath).into(binding.imageUser)
         binding.apply {
@@ -326,6 +330,7 @@ class UserAccountFragment : Fragment() {
             edMajor.setText(user.major)
             edEmail.text = user.email
             introduction.setText(user.introduction)
+            switchShowHideTags.isChecked = user.wantToMeet
         }
         binding.chipGroupHobbies.removeAllViews()
         chipTexts = user.chipGroup?.toMutableList()

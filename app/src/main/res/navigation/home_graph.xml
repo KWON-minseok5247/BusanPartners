@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/connectFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.ConnectFragment"
+        android:name="com.kwonminseok.busanpartners.mainScreen.connect.ConnectFragment"
         android:label="fragment_connect"
         tools:layout="@layout/fragment_connect" />
     <fragment

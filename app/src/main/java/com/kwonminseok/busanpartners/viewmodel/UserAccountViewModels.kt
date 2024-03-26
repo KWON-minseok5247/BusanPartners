@@ -74,23 +74,16 @@ class UserAccountViewModels @Inject constructor(
             }
     }
 
-//    private fun getUserData() {
-//        viewModelScope.launch {
-//            _user.emit(Resource.Loading())
-//        }
-//        firestore.collection("user").document(auth.uid!!).get()
-//            .addOnSuccessListener {
-//                val user = it.toObject(User::class.java)
-//                viewModelScope.launch {
-//                    _user.emit(Resource.Success(user!!))
-//                }
-//
-//            }.addOnFailureListener {
-//                viewModelScope.launch {
-//                    _user.emit(Resource.Error(it.message.toString()))
-//                }
-//            }
-//    }
+    fun wantToMeet(isChecked: Boolean) {
+        firestore.collection("user").document(auth.uid!!).update("wantToMeet", isChecked)
+            .addOnSuccessListener {
+                Log.w(TAG,"wantToMeet 데이터가 정상적으로 업데이트 되었습니다.")
+
+            }.addOnFailureListener {
+                Log.w(TAG,"wantToMeet 데이터 업데이트에 실패했습니다. 사유 :${it.message}")
+
+            }
+    }
 
     fun saveUser(map: Map<String, Any?>) { // 사진말고 닉네임만 변경시 작동
 

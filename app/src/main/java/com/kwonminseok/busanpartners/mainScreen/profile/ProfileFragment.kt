@@ -143,43 +143,39 @@ class ProfileFragment : Fragment() {
     }
 
     private fun fetchUserData(user: User) {
-        Log.e("fetchUserDataa", "${user}")
+        Log.e("fetchUserData", "${user}")
         binding.apply {
             Glide.with(requireView()).load(user.imagePath).into(binding.imageUser)
-            tvUserName.text = "${user.firstName} ${user.lastName}"
+            tvUserName.text = user.name
 
         }
-        if (user.authentication.authenticationStatus == "loading") {
-            Log.e("fetchUserData", "load")
-
-            binding.apply {
-                authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-                travelerAuthentication.visibility = View.INVISIBLE
-                collegeAuthentication.visibility = View.INVISIBLE
-                authenticationLoadOrCompleteText.text = "인증 중입니다. 잠시만 기다려주세요."
+        when (user.authentication.authenticationStatus) {
+            "loading" -> {
+                Log.e("fetchUserData", "load")
+                binding.apply {
+                    authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+                    travelerAuthentication.visibility = View.INVISIBLE
+                    collegeAuthentication.visibility = View.INVISIBLE
+                    authenticationLoadOrCompleteText.text = "인증 중입니다. 잠시만 기다려주세요."
+                }
             }
-
-        }
-        else if (user.authentication.authenticationStatus == "complete") {
-            Log.e("fetchUserData", "complete")
-
-            binding.apply {
-                authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-                travelerAuthentication.visibility = View.INVISIBLE
-                collegeAuthentication.visibility = View.INVISIBLE
-                authenticationLoadOrCompleteText.text = "인증이 완료되었습니다."
+            "complete" -> {
+                Log.e("fetchUserData", "complete")
+                binding.apply {
+                    authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+                    travelerAuthentication.visibility = View.INVISIBLE
+                    collegeAuthentication.visibility = View.INVISIBLE
+                    authenticationLoadOrCompleteText.text = "인증이 완료되었습니다."
+                }
             }
-
-        }
-        else {
-            Log.e("fetchUserData", "else")
-
-            binding.apply {
-                authenticationLoadOrCompleteCard.visibility = View.GONE
-                travelerAuthentication.visibility = View.VISIBLE
-                collegeAuthentication.visibility = View.VISIBLE
+            else -> {
+                Log.e("fetchUserData", "else")
+                binding.apply {
+                    authenticationLoadOrCompleteCard.visibility = View.GONE
+                    travelerAuthentication.visibility = View.VISIBLE
+                    collegeAuthentication.visibility = View.VISIBLE
+                }
             }
-
         }
     }
 

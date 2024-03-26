@@ -12,6 +12,9 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url "https://jitpack.io" }
 
+        maven {
+            url 'https://repository.map.naver.com/archive/maven'
+        }
     }
 }
 

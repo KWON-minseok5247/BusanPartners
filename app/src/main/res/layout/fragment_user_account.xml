@@ -138,6 +138,16 @@
             app:layout_constraintStart_toStartOf="@+id/leftGuideline"
             app:layout_constraintTop_toBottomOf="@+id/chipGroupHobbies" />
 
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchShowHideTags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="관광객으로부터 연락을 받을 수 있습니다."
+            app:layout_constraintTop_toBottomOf="@+id/edit_tag"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"/>
+
         <EditText
             android:id="@+id/edName"
             android:layout_width="0dp"
@@ -151,7 +161,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
             app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@+id/edit_tag" />
+            app:layout_constraintTop_toBottomOf="@+id/switchShowHideTags" />
 
         <LinearLayout
             android:id="@+id/horizontalUniversity"

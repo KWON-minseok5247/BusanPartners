@@ -105,11 +105,12 @@ class MessageFragment : Fragment() {
 
     }
 
+    //TODO 유저 네임이 비어있으면 안된다 나중에 실행하기
     // 아래와 같이 코드를 작성하니 뷰모델을 불러오는 도중 프래그먼트를 이동해도 에러가 발생하지 않는다.
     private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
         val myUser = User(
             id = user.uid,
-            name = "${user.firstName} ${user.lastName}",
+            name = user.name!!,
             image = user.imagePath
         )
 

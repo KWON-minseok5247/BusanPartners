@@ -89,9 +89,7 @@ class CollegeAuthFragment : Fragment() {
                                             lifecycleScope.launch {
                                                 viewModel.deleteImageFromStorage(imageUrl)
                                                 viewModel.deleteImageFromDatabase(imageUrl, STUDENT)
-
                                             }
-
                                         }
                                         .setNegativeButton("취소", null)
                                         .show()

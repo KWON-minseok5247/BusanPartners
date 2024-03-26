@@ -20,7 +20,9 @@ data class User(
     // tokenTime이 있어야 관광객들의 경우 7일의 텀을 주고 메시지를 더 이상 못하게 막을 수 있다.
     val tokenTime: String? = "",
     val chipGroup: List<String>? = null,
-    val major: String? = ""
+    val major: String? = "",
+    val wantToMeet: Boolean = false
+
 
 
 
