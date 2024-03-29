@@ -124,7 +124,32 @@ class HomeActivity: AppCompatActivity() {
 //        // 아래 이것들로 인해 프래그먼트가 움직인다?
         val navController = findNavController(R.id.homeHostFragment)
         binding.bottomNavigation.setupWithNavController(navController)
-
+//binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+//    when (item.itemId) {
+//        R.id.navigation_home -> {
+//            // Home 프래그먼트를 새로 생성하고 표시
+//            val homeFragment = HomeFragment.newInstance()
+//            navController.navigate(R.id.homeFragment, null, NavOptions.Builder()
+//                .setPopUpTo(R.id.homeFragment, true).build())
+//            true
+//        }
+//        R.id.navigation_dashboard -> {
+//            // Dashboard 프래그먼트를 새로 생성하고 표시
+//            val dashboardFragment = DashboardFragment.newInstance()
+//            navController.navigate(R.id.dashboardFragment, null, NavOptions.Builder()
+//                .setPopUpTo(R.id.dashboardFragment, true).build())
+//            true
+//        }
+//        R.id.navigation_notifications -> {
+//            // Notifications 프래그먼트를 새로 생성하고 표시
+//            val notificationsFragment = NotificationsFragment.newInstance()
+//            navController.navigate(R.id.notificationsFragment, null, NavOptions.Builder()
+//                .setPopUpTo(R.id.notificationsFragment, true).build())
+//            true
+//        }
+//        else -> false
+//    }
+//}
 
     }
 }

@@ -24,6 +24,8 @@ import com.google.android.material.chip.Chip
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentUserAccountBinding
 import com.kwonminseok.busanpartners.util.Resource
+import com.kwonminseok.busanpartners.util.hideBottomNavigationView
+import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.kwonminseok.busanpartners.viewmodel.UserAccountViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -358,5 +360,17 @@ class UserAccountFragment : Fragment() {
             chipGroup = newChipTexts,
         )
     }
+
+    override fun onResume() {
+        super.onResume()
+        hideBottomNavigationView()
+    }
+
+    override fun onPause() {
+        // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
+        showBottomNavigationView()
+        super.onPause()
+    }
+
 
 }

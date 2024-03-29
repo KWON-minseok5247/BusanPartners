@@ -9,7 +9,11 @@
         android:id="@+id/connectFragment"
         android:name="com.kwonminseok.busanpartners.mainScreen.connect.ConnectFragment"
         android:label="fragment_connect"
-        tools:layout="@layout/fragment_connect" />
+        tools:layout="@layout/fragment_connect" >
+        <action
+            android:id="@+id/action_connectFragment_to_selectedUniversityStudentListFragment"
+            app:destination="@id/selectedUniversityStudentListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.kwonminseok.busanpartners.mainScreen.home.HomeFragment"
@@ -85,6 +89,11 @@
         android:name="com.kwonminseok.busanpartners.mainScreen.profile.UserAccountFragment"
         android:label="UserAccountFragment"
         tools:layout="@layout/fragment_user_account"/>
+    <fragment
+        android:id="@+id/selectedUniversityStudentListFragment"
+        android:name="com.kwonminseok.busanpartners.mainScreen.connect.SelectedUniversityStudentListFragment"
+        android:label="SelectedUniversityStudentListFragment"
+        tools:layout="@layout/fragment_selected_university_student_list"/>
 
 
 </navigation>
