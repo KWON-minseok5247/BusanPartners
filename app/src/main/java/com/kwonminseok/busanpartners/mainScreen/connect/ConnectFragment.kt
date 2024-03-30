@@ -24,6 +24,7 @@ import com.example.kelineyt.adapter.makeIt.StudentCardAdapter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.data.UniversityInfo
 import com.kwonminseok.busanpartners.data.User
@@ -62,6 +63,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 //    private val infoWindows = mutableListOf<InfoWindow>()
     private var infoWindow = InfoWindow()
 
+    private var selectedUniversityStudents: List<User>? = null
 
     private val viewModel by viewModels<ConnectViewModel>()
     override fun onCreateView(
@@ -124,8 +126,15 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
 
         binding.floatingButton.setOnClickListener {
-            // 여기서 관광객인증을 못하면 버튼을 누르면 관광객 인증하라고 알리기.
-            findNavController().navigate(R.id.action_connectFragment_to_selectedUniversityStudentListFragment)
+            // TODO 여기서 관광객인증을 못하면 버튼을 누르면 관광객 인증하라고 알리기.
+            val b = Bundle().apply {
+                putParcelableArray("selectedUniversityStudents",
+                    selectedUniversityStudents?.toTypedArray()
+                )
+//                putParcelableArrayList("selectedUniversityStudents", selectedUniversityStudents.toTypedArray())
+
+            }
+            findNavController().navigate(R.id.action_connectFragment_to_selectedUniversityStudentListFragment, b)
 
         }
 
@@ -136,7 +145,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        // 지도 허가권
+        // 위치 기반 퍼미션 허가 절차
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -152,6 +161,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
 
 
+        // 초기 위치 설정 과정
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             // 사용자의 현재 위치를 받았습니다. 지도 로딩을 시작합니다.
             location?.let {
@@ -161,24 +171,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                 initializeMap(LatLng(35.1798159, 129.0750222))
             }
         }
-        // 대학교 이름에 따라 대학생 리스트를 분류
-//        val universityNames = listOf(
-//            "국립부경대학교", "부산교육대학교", "부산대학교", "한국방송통신대학교", "국립한국해양대학교",
-//            "경성대학교", "고신대학교", "동명대학교", "동서대학교", "동아대학교", "동의대학교", "부산가톨릭대학교",
-//            "부산외국어대학교", "신라대학교", "영산대학교", "인제대학교"
-//        )
-
-//        studentsByUniversity = userList?.groupBy { it.college }
-        // 대학교 정보와 함께 마커 및 InfoWindow 생성
-
-//        for (name in universityNames) {
-//            // 대학교 이름을 키로 사용하여 학생 리스트를 맵에서 가져옵니다.
-//            if (studentsByUniversity?.get(name) != null) {
-//                // 마커 추가, infoWindow 추가 과정 들어가야 함.
-//                val universityStudents = studentsByUniversity?.get(name)
-//
-//            }
-//        }
 
     }
 
@@ -291,7 +283,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                 marker.setOnClickListener {
                     // InfoWindowAdapter에 현재 마커 정보를 업데이트
                     infoWindow.adapter = InfoWindowAdapter(requireContext(), university, students.size)
-
+                    selectedUniversityStudents = students
                     // InfoWindow가 이미 이 마커에 대해 열려있지 않다면, 열기
                     if (infoWindow.marker != marker) {
                         infoWindow.open(marker)
