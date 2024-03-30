@@ -24,7 +24,12 @@
         android:name="com.kwonminseok.busanpartners.mainScreen.MessageFragment"
         android:label="fragment_message"
 
-        tools:layout="@layout/fragment_message" />
+        tools:layout="@layout/fragment_message" >
+        <argument
+            android:name="studentUid"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -93,7 +98,15 @@
         android:id="@+id/selectedUniversityStudentListFragment"
         android:name="com.kwonminseok.busanpartners.mainScreen.connect.SelectedUniversityStudentListFragment"
         android:label="SelectedUniversityStudentListFragment"
-        tools:layout="@layout/fragment_selected_university_student_list"/>
+        tools:layout="@layout/fragment_selected_university_student_list">
+        <argument
+            android:name="selectedUniversityStudents"
+            app:argType="com.kwonminseok.busanpartners.data.User[]" />
+        <action
+            android:id="@+id/action_selectedUniversityStudentListFragment_to_messageFragment"
+            app:destination="@id/messageFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 
 
 </navigation>

@@ -77,6 +77,11 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
     var onClick: ((User) -> Unit)? = null
     var onDoubleClick: ((User) -> Unit)? = null
 
+    fun submitList(usersList: List<User>?) {
+        differ.submitList(usersList)
+    }
+
+
 }
 
 

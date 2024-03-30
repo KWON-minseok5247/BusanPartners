@@ -3,6 +3,7 @@
 
     <item android:title="Home"
         android:icon="@drawable/ic_home"
+        
         android:id="@+id/homeFragment"/>
 
     <item android:title="Connect"

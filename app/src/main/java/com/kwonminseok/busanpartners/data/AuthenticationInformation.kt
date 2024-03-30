@@ -1,5 +1,9 @@
 package com.kwonminseok.busanpartners.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class AuthenticationInformation(
     val studentIdentificationCard: MutableList<String>? = null,
     val travelerAuthenticationImage: MutableList<String>? = null,
@@ -9,8 +13,7 @@ data class AuthenticationInformation(
     //authenticationStatus에는 loading, complete, failed, ""로 구성
     val authenticationStatus: String = ""
 
-    )
-{
+    ) : Parcelable {
     constructor(): this(null,null, false, false, false)
 }
 

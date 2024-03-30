@@ -241,6 +241,7 @@ class UserAccountFragment : Fragment() {
                 .setPositiveButton("확인",
                     DialogInterface.OnClickListener { dialog, id ->
                         findNavController().navigateUp()
+
                     })
                 .setNegativeButton("취소",
                     DialogInterface.OnClickListener { dialog, id ->

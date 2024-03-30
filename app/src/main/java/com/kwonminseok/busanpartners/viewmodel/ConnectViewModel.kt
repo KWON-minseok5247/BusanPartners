@@ -30,11 +30,11 @@ class ConnectViewModel @Inject constructor(
 
 
     init {
-        getUser()
+        getStudents()
     }
 
 
- private fun getUser() {
+ private fun getStudents() {
 
         viewModelScope.launch {
             _user.emit(Resource.Loading())

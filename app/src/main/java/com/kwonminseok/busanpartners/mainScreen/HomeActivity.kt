@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ActivityHomeBinding
@@ -123,7 +124,16 @@ class HomeActivity: AppCompatActivity() {
 
 //        // 아래 이것들로 인해 프래그먼트가 움직인다?
         val navController = findNavController(R.id.homeHostFragment)
-        binding.bottomNavigation.setupWithNavController(navController)
+//        binding.bottomNavigation.setupWithNavController(navController)
+
+         binding.bottomNavigation.apply {
+                 setupWithNavController(navController)
+                 setOnItemSelectedListener { item ->
+                         NavigationUI.onNavDestinationSelected(item, navController)
+                         navController.popBackStack(item.itemId, inclusive = false)
+                         true
+                     }
+        }
 //binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
 //    when (item.itemId) {
 //        R.id.navigation_home -> {

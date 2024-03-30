@@ -175,6 +175,24 @@ class ChannelActivity : AppCompatActivity() {
 
     }
 
+//    override fun onBackPressed() {
+//        val fragmentManager = supportFragmentManager
+//        val messageFragment = fragmentManager.findFragmentByTag("MessageFragment")
+//
+//        // messageFragment가 현재 보이지 않는다면 뒤로가기를 처리하고 아니면 해당 프래그먼트로 이동
+//        if (messageFragment == null || !messageFragment.isVisible) {
+//            super.onBackPressed()
+//        } else {
+//            // messageFragment가 현재 보이는 상태라면 해당 프래그먼트로 이동
+//            // 예를 들어, replace 메서드를 사용하여 이동할 수 있습니다.
+//            fragmentManager.beginTransaction()
+//                .replace(R.id.homeHostFragment, messageFragment)
+//                .addToBackStack(null) // 백스택에 추가하여 뒤로가기 버튼으로 다시 돌아올 수 있도록 함
+//                .commit()
+//        }
+//    }
+
+
     companion object {
         private const val CID_KEY = "key:cid"
 

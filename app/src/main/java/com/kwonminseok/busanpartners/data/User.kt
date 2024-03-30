@@ -2,9 +2,12 @@ package com.kwonminseok.busanpartners.data
 
 import android.bluetooth.BluetoothClass.Device.Major
 import android.net.Uri
+import android.os.Parcelable
 import com.google.android.gms.auth.api.Auth
 import com.google.android.material.chip.ChipGroup
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class User(
     val firstName: String? = "",
     val lastName: String? = "",
@@ -26,6 +29,6 @@ data class User(
 
 
 
-) {
+) : Parcelable {
     constructor(): this("","","","", "")
 }

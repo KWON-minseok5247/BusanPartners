@@ -54,6 +54,9 @@ class MessageFragment : Fragment() {
     private var token: String = BusanPartners.preferences.getString("token", "")
 
 
+    // Bundle에서 "studentUid" 키로 저장된 데이터 검색
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,6 +70,7 @@ class MessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
 // Inflate loading view
         val loadingView =
             LayoutInflater.from(requireContext()).inflate(R.layout.channel_list_loading_view, null)
@@ -78,7 +82,6 @@ class MessageFragment : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
-
 
 
         // 여기서 파이어베이스 정보를 받고 user를 정의한다.
@@ -102,6 +105,7 @@ class MessageFragment : Fragment() {
                 }
             }
         }
+
 
     }
 
@@ -139,55 +143,82 @@ class MessageFragment : Fragment() {
             ).enqueue { result ->
                 // 비동기 작업 결과 처리
                 // 프래그먼트의 뷰가 생성된 상태인지 확인
-                if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-                    if (result.isSuccess) {
-                        // ViewModel 바인딩과 UI 업데이트
-                        val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
 
-                        val channelListFactory: ChannelListViewModelFactory =
-                            ChannelListViewModelFactory(
-                                filter = Filters.and(
-                                    Filters.eq("type", "messaging"),
-                                    Filters.`in`(
-                                        "members",
-                                        listOf(ChatClient.instance().getCurrentUser()!!.id)
+                val studentUid = arguments?.getString("studentUid", null)
+                if (studentUid != null) {
+                    val channelClient =
+                        chatClient.channel(channelType = "messaging", channelId = "general")
+                    // memberIds와 extraData는 인자로부터 받거나 직접 정의
+                    val memberIds = listOf(studentUid, myUser.id).distinct()
+
+                    channelClient.create(memberIds = memberIds, extraData = emptyMap())
+                        .enqueue { result ->
+                            if (result.isSuccess) {
+                                val newChannel = result.getOrThrow()
+                                startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
+//                            navigateToChatUI(newChannel)
+                            } else {
+                                Log.e("Channel Creation Failed", result.toString())
+
+                                // 실패 처리
+                            }
+                        }
+                } else {
+
+
+                    if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                        if (result.isSuccess) {
+                            // ViewModel 바인딩과 UI 업데이트
+                            val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
+
+                            val channelListFactory: ChannelListViewModelFactory =
+                                ChannelListViewModelFactory(
+                                    filter = Filters.and(
+                                        Filters.eq("type", "messaging"),
+                                        Filters.`in`(
+                                            "members",
+                                            listOf(ChatClient.instance().getCurrentUser()!!.id)
+                                        ),
                                     ),
-                                ),
-                                sort = QuerySortByField.descByName("last_updated"),
-                                limit = 30,
+                                    sort = QuerySortByField.descByName("last_updated"),
+                                    limit = 30,
 
-                                )
-
-
-                        val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
+                                    )
 
 
-                        channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
-                        channelListViewModel.bindView(binding.channelListView, this)
+                            val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
 
-                        binding.channelListView.setChannelItemClickListener { channel ->
-                            startActivity(ChannelActivity.newIntent(requireContext(), channel))
+
+                            channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
+                            channelListViewModel.bindView(binding.channelListView, this)
+
+                            binding.channelListView.setChannelItemClickListener { channel ->
+                                startActivity(ChannelActivity.newIntent(requireContext(), channel))
+                            }
+
+                            binding.channelListView.setIsMoreOptionsVisible { channel ->
+                                // You can determine visibility based on the channel object.
+                                true
+                            }
+
+                            binding.channelListView.setIsDeleteOptionVisible { channel ->
+                                // You can determine visibility based on the channel object.
+                                // Here is the default implementation:
+                                channel.ownCapabilities.contains("delete-channel")
+                            }
+
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Something went wrong!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-
-                        binding.channelListView.setIsMoreOptionsVisible { channel ->
-                            // You can determine visibility based on the channel object.
-                            true
-                        }
-
-                        binding.channelListView.setIsDeleteOptionVisible { channel ->
-                            // You can determine visibility based on the channel object.
-                            // Here is the default implementation:
-                            channel.ownCapabilities.contains("delete-channel")
-                        }
-
-                    } else {
-                        Toast.makeText(requireContext(), "Something went wrong!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
-
 
 
     // GetStream API에 사용자 연결
@@ -278,7 +309,7 @@ class MessageFragment : Fragment() {
 //    }
 
 
-//    private suspend fun getNewToken(): String {
+    //    private suspend fun getNewToken(): String {
 //        // 기본적으로 사용자 토큰은 무기한 유효합니다. 토큰을 두 번째 매개변수로 전달하여 토큰 만료를 설정할 수 있습니다.
 //        // 만료에는 Unix 시대(1970년 1월 1일 00:00:00 UTC) 이후의 초 수가 포함되어야 합니다.
 //
@@ -301,25 +332,26 @@ class MessageFragment : Fragment() {
 //            }
 //        return token
 //    }
-private suspend fun getNewToken(): String = suspendCoroutine { continuation ->
-    val functions = FirebaseFunctions.getInstance("asia-northeast3")
-    functions.getHttpsCallable("ext-auth-chat-getStreamUserToken")
-        .call()
-        .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
-                val token = task.result?.data as String
-                BusanPartners.preferences.setString("token", token)
-                continuation.resume(token) // 코루틴을 재개하고 결과를 반환합니다.
-            } else {
-                // 호출 실패. 에러를 처리합니다.
-                Log.e(TAG, "토큰 호출을 실패했습니다.")
-                continuation.resumeWithException(task.exception ?: RuntimeException("Unknown token fetch error"))
+    private suspend fun getNewToken(): String = suspendCoroutine { continuation ->
+        val functions = FirebaseFunctions.getInstance("asia-northeast3")
+        functions.getHttpsCallable("ext-auth-chat-getStreamUserToken")
+            .call()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
+                    val token = task.result?.data as String
+                    BusanPartners.preferences.setString("token", token)
+                    continuation.resume(token) // 코루틴을 재개하고 결과를 반환합니다.
+                } else {
+                    // 호출 실패. 에러를 처리합니다.
+                    Log.e(TAG, "토큰 호출을 실패했습니다.")
+                    continuation.resumeWithException(
+                        task.exception ?: RuntimeException("Unknown token fetch error")
+                    )
+                }
             }
-        }
-}
-
-
-
-        // 여기에서 GetStream 채팅 클라이언트에 토큰을 사용합니다.
     }
+
+
+    // 여기에서 GetStream 채팅 클라이언트에 토큰을 사용합니다.
+}
