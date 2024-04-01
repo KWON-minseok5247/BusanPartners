@@ -1,4 +1,4 @@
-package com.kwonminseok.busanpartners.mainScreen
+package com.kwonminseok.busanpartners.mainScreen.message
 
 
 import android.content.Context
@@ -8,6 +8,7 @@ import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ActivityChannelBinding
 import com.kwonminseok.busanpartners.util.CustomMessageComposerLeadingContent
@@ -191,6 +192,21 @@ class ChannelActivity : AppCompatActivity() {
 //                .commit()
 //        }
 //    }
+
+//override fun onBackPressed() {
+//    val navController = findNavController(R.id.homeHostFragment)
+//    // MessageFragment의 ID가 R.id.messageFragment라고 가정
+//    val messageFragmentId = R.id.messageFragment
+//
+//    // 현재 목적지가 이미 MessageFragment인지 확인
+//    if (navController.currentDestination?.id == messageFragmentId) {
+//        super.onBackPressed()
+//    } else {
+//        // MessageFragment로 네비게이트
+//        navController.popBackStack() // 현재 스택을 클리어
+//        navController.navigate(messageFragmentId)
+//    }
+//}
 
 
     companion object {

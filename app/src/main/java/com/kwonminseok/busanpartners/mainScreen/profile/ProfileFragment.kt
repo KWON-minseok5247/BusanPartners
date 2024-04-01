@@ -84,10 +84,12 @@ class ProfileFragment : Fragment() {
 
 
 
+        //TODO 클릭하면 information 창으로 넘어가기
         binding.collegeAuthentication.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_collegeAuthFragment)
         }
 
+        //TODO 클릭하면 information 창으로 넘어가기
         binding.travelerAuthentication.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_travelerAuthFragment)
 

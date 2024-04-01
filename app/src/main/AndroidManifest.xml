@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".mainScreen.ChannelActivity"
+            android:name=".mainScreen.message.ChannelActivity"
             android:exported="true"></activity>
 
         <meta-data

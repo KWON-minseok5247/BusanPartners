@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/messageFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.MessageFragment"
+        android:name="com.kwonminseok.busanpartners.mainScreen.message.MessageFragment"
         android:label="fragment_message"
 
         tools:layout="@layout/fragment_message" >

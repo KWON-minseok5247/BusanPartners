@@ -14,7 +14,7 @@ import com.google.firebase.functions.FirebaseFunctions
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
-import com.kwonminseok.busanpartners.mainScreen.ChannelActivity
+import com.kwonminseok.busanpartners.mainScreen.message.ChannelActivity
 import com.kwonminseok.busanpartners.mainScreen.TAG
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel

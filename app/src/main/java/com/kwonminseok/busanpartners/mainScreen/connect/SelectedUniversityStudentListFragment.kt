@@ -55,6 +55,8 @@ class SelectedUniversityStudentListFragment : Fragment() {
         val usersList = args?.toList()?.mapNotNull { it as? User }
         adapter.submitList(usersList)
 
+        //TODO // 자기 자신 클릭할 수 없게. 대학생은 대학생끼리 연락할 수 없게. 관광객이 아니면 연락할 수 없게.
+        // 무분별하게 연락할 수 없게.
         studentCardRv()
 //        lifecycleScope.launchWhenStarted {
 //            viewModel.user.collectLatest {

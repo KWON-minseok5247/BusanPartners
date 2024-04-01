@@ -16,6 +16,7 @@ import com.google.firebase.functions.functions
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ActivityMainBinding
+import com.kwonminseok.busanpartners.mainScreen.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
 import dagger.hilt.android.AndroidEntryPoint

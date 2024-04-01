@@ -210,6 +210,8 @@ class UserAccountFragment : Fragment() {
 
     }
 
+
+    // TODO 이 부분에 문제가 약간 있네. 이유 없이 저장이 안됐다고 알린다. 추후 수정
     private fun backPress() {
         val edName = binding.edName.text.toString()
         val edMajor = binding.edMajor.text.toString()
