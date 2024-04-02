@@ -26,6 +26,10 @@
             android:name=".mainScreen.HomeActivity"
             android:exported="true"></activity>
         <activity
+            android:name=".mainScreen.message.ShareLocationActivity"
+            android:exported="true"></activity>
+
+        <activity
             android:name=".login.LoginRegisterActivity"
             android:exported="true">
             <intent-filter>

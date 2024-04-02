@@ -189,6 +189,7 @@ class ChannelActivity : AppCompatActivity() {
                 FileAttachmentPreviewFactory()
             )
         )
+
         ChatUI.attachmentFactoryManager = AttachmentFactoryManager(
             attachmentFactories = listOf(
                 DateAttachmentFactory()
