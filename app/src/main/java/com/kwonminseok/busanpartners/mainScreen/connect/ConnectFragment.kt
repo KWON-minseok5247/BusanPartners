@@ -107,24 +107,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-//        val pukyongUniversityStudents = studentsByUniversity?.get("국립부경대학교")
-//        val pusanEducationUniversityStudents = studentsByUniversity?.get("부산교육대학교 ")
-//        val pusanUniversityStudents = studentsByUniversity?.get("부산대학교")
-//        val knouUniversityStudents = studentsByUniversity?.get("한국방송통신대학교")
-//        val kmouUniversityStudents = studentsByUniversity?.get("국립한국해양대학교")
-//        val ksUniversityStudents = studentsByUniversity?.get("경성대학교")
-//        val kosinUniversityStudents = studentsByUniversity?.get("고신대학교")
-//        val tuUniversityStudents = studentsByUniversity?.get("동명대학교")
-//        val dongseoUniversityStudents = studentsByUniversity?.get("동서대학교")
-//        val dongaUniversityStudents = studentsByUniversity?.get("동아대학교")
-//        val deuUniversityStudents = studentsByUniversity?.get("동의대학교")
-//        val cupUniversityStudents = studentsByUniversity?.get("부산가톨릭대학교")
-//        val bufsUniversityStudents = studentsByUniversity?.get("부산외국어대학교")
-//        val sillaUniversityStudents = studentsByUniversity?.get("신라대학교")
-//        val ysuUniversityStudents = studentsByUniversity?.get("영산대학교")
-//        val injeUniversityStudents = studentsByUniversity?.get("인제대학교")
-
-
         binding.floatingButton.setOnClickListener {
             // TODO 여기서 관광객인증을 못하면 버튼을 누르면 관광객 인증하라고 알리기.
             val b = Bundle().apply {

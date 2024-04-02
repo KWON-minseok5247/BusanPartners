@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -195,6 +196,8 @@ class MessageFragment : Fragment() {
 
                         binding.channelListView.setIsMoreOptionsVisible { channel ->
                             // You can determine visibility based on the channel object.
+                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_setting)
+
                             true
                         }
 

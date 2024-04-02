@@ -1,4 +1,4 @@
-package com.kwonminseok.busanpartners.util
+package com.kwonminseok.busanpartners.mainScreen.message
 
 import android.content.Context
 import android.util.AttributeSet
@@ -19,6 +19,8 @@ class CustomMessageComposerLeadingContent : FrameLayout, MessageComposerContent 
     private lateinit var style: MessageComposerViewStyle
 
     var attachmentsButtonClickListener: () -> Unit = {}
+    // Click listener for the date picker button
+    var calendarButtonClickListener: () -> Unit = {}
 
     constructor(context: Context) : this(context, null)
 
@@ -32,6 +34,10 @@ class CustomMessageComposerLeadingContent : FrameLayout, MessageComposerContent 
         binding = CustomMessageComposerLeadingContentBinding.inflate(LayoutInflater.from(context), this)
         binding.attachmentsButton.setOnClickListener { attachmentsButtonClickListener()
         }
+
+        // Set click listener for the date picker button
+        binding.calendarButton.setOnClickListener { calendarButtonClickListener() }
+
     }
 
     override fun attachContext(messageComposerContext: MessageComposerContext) {

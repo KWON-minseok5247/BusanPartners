@@ -1,6 +1,7 @@
 package com.kwonminseok.busanpartners.mainScreen.message
 
 
+import android.app.FragmentManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,20 +9,27 @@ import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ActivityChannelBinding
-import com.kwonminseok.busanpartners.util.CustomMessageComposerLeadingContent
+import io.getstream.chat.android.models.Attachment
 import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.ui.ChatUI
 import io.getstream.chat.android.ui.common.state.messages.Edit
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
+import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.AttachmentPreviewFactoryManager
+import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.AudioRecordAttachmentPreviewFactory
+import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.FileAttachmentPreviewFactory
+import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.MediaAttachmentPreviewFactory
+import io.getstream.chat.android.ui.feature.messages.list.adapter.viewholder.attachment.AttachmentFactoryManager
 import io.getstream.chat.android.ui.helper.SupportedReactions
 import io.getstream.chat.android.ui.viewmodel.messages.MessageComposerViewModel
 import io.getstream.chat.android.ui.viewmodel.messages.MessageListHeaderViewModel
 import io.getstream.chat.android.ui.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.ui.viewmodel.messages.MessageListViewModelFactory
 import io.getstream.chat.android.ui.viewmodel.messages.bindView
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class ChannelActivity : AppCompatActivity() {
 
@@ -136,6 +144,9 @@ class ChannelActivity : AppCompatActivity() {
 //            )
         )
 
+
+
+
         ChatUI.supportedReactions = SupportedReactions(this, reactions)
         binding.messageComposerView.setLeadingContent(
             CustomMessageComposerLeadingContent(this).also {
@@ -143,70 +154,50 @@ class ChannelActivity : AppCompatActivity() {
 
                 )
                 }
-//                it.commandsButtonClickListener = { messageComposerView.commandsButtonClickListener() }
-//                it.calendarButtonClickListener = {
-//                    // Create an instance of a date picker dialog
-//                    val datePickerDialog = MaterialDatePicker.Builder
-//                        .datePicker()
-//                        .build()
+
+                it.calendarButtonClickListener = {
+                    // Create an instance of a date picker dialog
+                    val datePickerDialog = MaterialDatePicker.Builder
+                        .datePicker()
+                        .build()
+
+                    // Add an attachment to the message input when the user selects a date
+                    datePickerDialog.addOnPositiveButtonClickListener { date ->
+                        val payload = SimpleDateFormat("MMMM dd, yyyy").format(Date(date))
+                        val attachment = Attachment(
+                            type = "date",
+                            extraData = mutableMapOf("payload" to payload)
+                        )
+                        messageComposerViewModel.addSelectedAttachments(listOf(attachment))
+                    }
+
+                    // Show the date picker dialog on a click on the calendar button
+                    datePickerDialog.show(supportFragmentManager, null)
+                }
+
 //
-//                    // Add an attachment to the message input when the user selects a date
-//                    datePickerDialog.addOnPositiveButtonClickListener { date ->
-//                        val payload = SimpleDateFormat("MMMM dd, yyyy").format(Date(date))
-//                        val attachment = Attachment(
-//                            type = "date",
-//                            extraData = mutableMapOf("payload" to payload)
-//                        )
-//                        messageComposerViewModel.addSelectedAttachments(listOf(attachment))
-//                    }
-//
-//                    // Show the date picker dialog on a click on the calendar button
-//                    datePickerDialog.show(childFragmentManager, null)
-//                }
             }
         )
 
 
 
+        ChatUI.attachmentPreviewFactoryManager = AttachmentPreviewFactoryManager(
+            attachmentPreviewFactories = listOf(
+                DateAttachmentPreviewFactory(),
 
-
-
+                MediaAttachmentPreviewFactory(),
+                FileAttachmentPreviewFactory()
+            )
+        )
+        ChatUI.attachmentFactoryManager = AttachmentFactoryManager(
+            attachmentFactories = listOf(
+                DateAttachmentFactory()
+            )
+        )
 
 
 
     }
-
-//    override fun onBackPressed() {
-//        val fragmentManager = supportFragmentManager
-//        val messageFragment = fragmentManager.findFragmentByTag("MessageFragment")
-//
-//        // messageFragment가 현재 보이지 않는다면 뒤로가기를 처리하고 아니면 해당 프래그먼트로 이동
-//        if (messageFragment == null || !messageFragment.isVisible) {
-//            super.onBackPressed()
-//        } else {
-//            // messageFragment가 현재 보이는 상태라면 해당 프래그먼트로 이동
-//            // 예를 들어, replace 메서드를 사용하여 이동할 수 있습니다.
-//            fragmentManager.beginTransaction()
-//                .replace(R.id.homeHostFragment, messageFragment)
-//                .addToBackStack(null) // 백스택에 추가하여 뒤로가기 버튼으로 다시 돌아올 수 있도록 함
-//                .commit()
-//        }
-//    }
-
-//override fun onBackPressed() {
-//    val navController = findNavController(R.id.homeHostFragment)
-//    // MessageFragment의 ID가 R.id.messageFragment라고 가정
-//    val messageFragmentId = R.id.messageFragment
-//
-//    // 현재 목적지가 이미 MessageFragment인지 확인
-//    if (navController.currentDestination?.id == messageFragmentId) {
-//        super.onBackPressed()
-//    } else {
-//        // MessageFragment로 네비게이트
-//        navController.popBackStack() // 현재 스택을 클리어
-//        navController.navigate(messageFragmentId)
-//    }
-//}
 
 
     companion object {

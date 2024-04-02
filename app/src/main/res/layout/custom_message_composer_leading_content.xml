@@ -29,6 +29,16 @@
         >
 
         <ImageView
+            android:id="@+id/calendarButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_calendar"
+            app:tint="@color/stream_ui_grey"
+            tools:ignore="ContentDescription" />
+
+
+        <ImageView
             android:id="@+id/attachmentsButton"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -36,6 +46,7 @@
             android:src="@drawable/ic_more_dots"
             tools:ignore="ContentDescription"
             />
+
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
