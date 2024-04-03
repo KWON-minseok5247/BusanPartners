@@ -21,6 +21,7 @@ class CustomMessageComposerLeadingContent : FrameLayout, MessageComposerContent 
     var attachmentsButtonClickListener: () -> Unit = {}
     // Click listener for the date picker button
     var calendarButtonClickListener: () -> Unit = {}
+    var locationButtonClickListener: () -> Unit = {}
 
     constructor(context: Context) : this(context, null)
 
@@ -37,6 +38,9 @@ class CustomMessageComposerLeadingContent : FrameLayout, MessageComposerContent 
 
         // Set click listener for the date picker button
         binding.calendarButton.setOnClickListener { calendarButtonClickListener() }
+
+        //지도
+        binding.locationButton.setOnClickListener { locationButtonClickListener() }
 
     }
 

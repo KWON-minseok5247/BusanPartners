@@ -47,6 +47,16 @@
             tools:ignore="ContentDescription"
             />
 
+        <ImageView
+            android:id="@+id/locationButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_location"
+            tools:ignore="ContentDescription"
+            />
+
+
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

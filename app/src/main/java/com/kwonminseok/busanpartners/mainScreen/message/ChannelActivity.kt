@@ -5,6 +5,7 @@ import android.app.FragmentManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +13,10 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ActivityChannelBinding
+import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.models.Attachment
 import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.ui.ChatUI
 import io.getstream.chat.android.ui.common.state.messages.Edit
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
@@ -144,6 +147,45 @@ class ChannelActivity : AppCompatActivity() {
 //            )
         )
 
+        // ShareLocation 액티비티에서 전달한 데이터 수신
+        val snapshotBitmap = intent.getStringExtra("image")
+
+        // 데이터를 기반으로 필요한 로직 수행
+        if (snapshotBitmap != null) {
+            // 로직 수행...
+            val latitude = intent.getStringExtra("latitude")
+            val longitude = intent.getStringExtra("longitude")
+
+            val attachment = Attachment(
+                type = "location",
+                extraData = mutableMapOf(
+                    "latitude" to latitude.toString(),
+                    "longitude" to longitude.toString(),
+                    // 스냅샷 이미지 파일의 정보를 포함시킵니다.
+                    "image" to snapshotBitmap
+                )
+            )
+
+            val message = Message(
+                cid = cid,
+                text = "Shared location",
+                attachments = mutableListOf(attachment)
+            )
+
+            ChatClient.instance().channel(cid).sendMessage(message).enqueue { result ->
+                if (result.isSuccess) {
+                    // 메시지 전송 성공 처리
+                    Log.e("지도 사진 처리 성공", "성공")
+                } else {
+                    // 메시지 전송 실패 처리
+                    Log.e("지도 사진 처리 실패", result.toString())
+
+                }
+            }
+
+        }
+
+
 
 
 
@@ -153,6 +195,11 @@ class ChannelActivity : AppCompatActivity() {
                 it.attachmentsButtonClickListener = { binding.messageComposerView.attachmentsButtonClickListener(
 
                 )
+                }
+                it.locationButtonClickListener = {
+                    val intent = Intent(this, ShareLocationActivity::class.java)
+                    startActivity(intent)
+
                 }
 
                 it.calendarButtonClickListener = {
@@ -192,9 +239,12 @@ class ChannelActivity : AppCompatActivity() {
 
         ChatUI.attachmentFactoryManager = AttachmentFactoryManager(
             attachmentFactories = listOf(
-                DateAttachmentFactory()
+                DateAttachmentFactory(),
+                LocationAttachmentViewFactory()
             )
         )
+
+
 
 
 

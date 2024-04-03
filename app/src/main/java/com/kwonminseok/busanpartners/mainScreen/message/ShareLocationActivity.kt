@@ -115,11 +115,21 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
 
             //TODO 마커를 찍지 않았을 때도 로직을 구사할 필요가 있다.
             Log.e("위치", currentMarkerPosition.toString())
-//            naverMap.takeSnapshot { bitmap ->
-//                snapshotBitmap = bitmap
-//                // 캡처된 스냅샷과 마커의 좌표를 사용하여 추가 작업을 수행
-//                // 예: 스냅샷과 좌표를 다른 액티비티로 전달하거나 저장
-//            }
+
+            naverMap.takeSnapshot { bitmap ->
+                snapshotBitmap = bitmap
+                // 캡처된 스냅샷과 마커의 좌표를 사용하여 추가 작업을 수행
+                // 예: 스냅샷과 좌표를 다른 액티비티로 전달하거나 저장
+                val intent = Intent(this, ChannelActivity::class.java).apply {
+                    putExtra("image", snapshotBitmap)
+                    putExtra("latitude", currentMarkerPosition?.latitude)
+                    putExtra("longitude", currentMarkerPosition?.longitude)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                }
+                startActivity(intent)
+            }
+
 
         }
 
@@ -182,26 +192,23 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
         // 클래스의 멤버 변수로 마커 참조를 유지
         var currentMarker: Marker? = null
 
-        naverMap.setOnMapClickListener { _, coord ->
-//            // 기존 마커가 있다면 지도에서 제거
+//        naverMap.setOnMapClickListener { _, coord ->
+//            // 기존 마커 삭제
 //            currentMarker?.map = null
-//
-//            // 새 마커를 생성하고 지도에 추가
+//            // 새 마커 생성 및 저장
 //            currentMarker = Marker().apply {
-//                position = LatLng(coord.latitude, coord.longitude)
+//                position = coord
 //                map = naverMap
 //            }
+//            // 마커의 좌표 저장
+//            currentMarkerPosition = coord
+//        }
+// MapView가 준비되면 설정
+        naverMap.addOnCameraIdleListener {
+            // 카메라가 멈춘 최종 위치를 가져옵니다.
+            currentMarkerPosition = naverMap.cameraPosition.target
 
-            // 기존 마커 삭제
-            currentMarker?.map = null
-            // 새 마커 생성 및 저장
-            currentMarker = Marker().apply {
-                position = coord
-                map = naverMap
-            }
-            // 마커의 좌표 저장
-            currentMarkerPosition = coord
-
+            // 필요한 작업 수행, 예: finalPosition을 사용하여 위치 정보 검색 또는 서버 요청
         }
 
 

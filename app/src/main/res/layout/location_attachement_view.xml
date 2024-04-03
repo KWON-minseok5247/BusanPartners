@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.naver.maps.map.MapView
-        android:id="@+id/map_view"
+    <ImageView
+        android:id="@+id/snapshot_view"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:layout_constraintStart_toStartOf="parent"
