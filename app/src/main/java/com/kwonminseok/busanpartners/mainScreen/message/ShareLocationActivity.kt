@@ -121,11 +121,11 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
                 // 캡처된 스냅샷과 마커의 좌표를 사용하여 추가 작업을 수행
                 // 예: 스냅샷과 좌표를 다른 액티비티로 전달하거나 저장
                 val intent = Intent(this, ChannelActivity::class.java).apply {
-                    putExtra("image", snapshotBitmap)
+                    putExtra("image", "snapshotBitmap")
                     putExtra("latitude", currentMarkerPosition?.latitude)
                     putExtra("longitude", currentMarkerPosition?.longitude)
+                    putExtra("key:cid", intent.getStringExtra("key:cid"))
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-
                 }
                 startActivity(intent)
             }

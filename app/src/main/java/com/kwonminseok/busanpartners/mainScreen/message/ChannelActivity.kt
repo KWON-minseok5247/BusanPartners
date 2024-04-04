@@ -48,7 +48,6 @@ class ChannelActivity : AppCompatActivity() {
         val cid = checkNotNull(intent.getStringExtra(CID_KEY)) {
             "Specifying a channel id is required when starting ChannelActivity"
         }
-
         // Step 1 - Create three separate ViewModels for the views so it's easy
         //          to customize them individually
         val factory = MessageListViewModelFactory(this, cid)
@@ -113,21 +112,7 @@ class ChannelActivity : AppCompatActivity() {
 
 
 
-        // 여기에서 Composer 내부를 수정할 수 있다. 사용 방법은 CustomMessageComposer에서 각 내용을 추가하면 된다.
-//        binding.messageComposerView.setLeadingContent(CustomMessageComposerLeadingContent(this))
 
-//        val customOwnCapabilities = setOf(
-//            ChannelCapabilities.SEND_MESSAGE,
-//            ChannelCapabilities.SEND_LINKS,
-//            ChannelCapabilities.UPLOAD_FILE,
-////            ChannelCapabilities.SEND_TYPING_EVENTS, // 이걸 삭제하면 giphy 이 기능이 비활성화되는 것 같네
-//            // 근데 다시 클릭하니까 활성화가 됨.
-//        )
-//        val messageComposerState = MessageComposerState(
-//            ownCapabilities = customOwnCapabilities
-//        )
-//
-//        binding.messageComposerView.renderState(messageComposerState)
         val reactions = mapOf(
             "thumbs_up" to SupportedReactions.ReactionDrawable(
                 inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_up)!!,
@@ -137,15 +122,9 @@ class ChannelActivity : AppCompatActivity() {
                 inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_down)!!,
                 activeDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_down)!!
             ),
-//            "mood_good" to SupportedReactions.ReactionDrawable(
-//                inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_mood_good)!!,
-//                activeDrawable = ContextCompat.getDrawable(this, R.drawable.ic_mood_good_selected)!!
-//            ),
-//            "mood_bad" to SupportedReactions.ReactionDrawable(
-//                inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_mood_bad)!!,
-//                activeDrawable = ContextCompat.getDrawable(this, R.drawable.ic_mood_bad_selected)!!
-//            )
         )
+//        binding.messageListView.setAttachmentFactoryManager()
+
 
         // ShareLocation 액티비티에서 전달한 데이터 수신
         val snapshotBitmap = intent.getStringExtra("image")
@@ -198,6 +177,8 @@ class ChannelActivity : AppCompatActivity() {
                 }
                 it.locationButtonClickListener = {
                     val intent = Intent(this, ShareLocationActivity::class.java)
+                    intent.putExtra("key:cid", cid)
+
                     startActivity(intent)
 
                 }
