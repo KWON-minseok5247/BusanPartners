@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.mainScreen.message
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +8,10 @@ import com.bumptech.glide.Glide
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ItemDateAttachmentBinding
 import com.kwonminseok.busanpartners.databinding.LocationAttachementViewBinding
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraAnimation
+import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.overlay.Marker
 import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.ui.feature.messages.list.adapter.MessageListListenerContainer
 import io.getstream.chat.android.ui.feature.messages.list.adapter.viewholder.attachment.AttachmentFactory
@@ -55,19 +60,43 @@ class LocationAttachmentViewFactory(
             this.message = message
 
             // 메시지 어태치먼트에서 스냅샷 이미지 경로를 가져옵니다.
-            val snapshotPath = message.attachments
+            val latitude = message.attachments
                 .first { it.type == "location" }
-                .extraData["image"] as? String
-//            val snapshotPath = message.attachments
-//                .firstOrNull { it.type == "location" }
-//                ?.extraData?.get("image") as? String
+                .extraData["latitude"] as Double
 
-            Log.e("snapshotPath", snapshotPath.toString())
-            // 여기에서 이미지 뷰에 이미지를 로드합니다.
-            // 예를 들어 Glide 라이브러리를 사용하는 경우:
-            Glide.with(binding.snapshotView.context)
-                .load(snapshotPath)
-                .into(binding.snapshotView)
+            val longitude = message.attachments
+                .first { it.type == "location" }
+                .extraData["longitude"] as Double
+
+            val mapView = binding.mapView
+            mapView.onCreate(Bundle())
+            mapView.getMapAsync { naverMap ->
+                naverMap.apply {
+                    // 카메라 위치와 줌 레벨을 설정합니다.
+                    // 예를 들어, 서울 시청의 위도와 경도를 사용합니다.
+                    val location = LatLng(latitude, longitude)
+
+                    // 카메라를 특정 위치로 이동시킵니다.
+                    moveCamera(CameraUpdate.scrollTo(location).animate(CameraAnimation.Easing))
+
+                    // 최소 줌 레벨을 설정합니다. (1~21 사이의 값을 사용할 수 있습니다.)
+                    minZoom = 14.0
+
+                    // 마커 생성 및 지도에 추가
+                    val marker = Marker()
+                    marker.position = location
+                    marker.map = this // 이 코드를 실행하는 시점에서 naverMap 객체를 가리킵니다.
+
+                    //거리 안보이게 만들기
+                    uiSettings.isScaleBarEnabled = false
+
+                    // 줌 안보이게 하기
+                    uiSettings.isZoomControlEnabled = false
+
+                }
+
+            }
+
         }
     }
 }

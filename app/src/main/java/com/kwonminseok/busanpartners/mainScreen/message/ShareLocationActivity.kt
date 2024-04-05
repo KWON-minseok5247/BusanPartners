@@ -121,53 +121,44 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
 
             //TODO 마커를 찍지 않았을 때도 로직을 구사할 필요가 있다.
             Log.e("위치", currentMarkerPosition.toString())
-
-            naverMap.takeSnapshot { bitmap ->
-                snapshotBitmap = bitmap
-                // 캡처된 스냅샷과 마커의 좌표를 사용하여 추가 작업을 수행
-                // 예: 스냅샷과 좌표를 다른 액티비티로 전달하거나 저장
-                // 여기서 비트맵을 url로 바꾸는 작업이 필요할 것 같다?
-                // 비트맵을 바꾸는 작업 진행 중
-                val filePath = saveBitmapToFile(this, bitmap)
-                uploadImageToFirebaseStorage(filePath) { imageUrl ->
-                    if (imageUrl != null) {
-                        val intent = Intent(this, ChannelActivity::class.java).apply {
-                            //비트맵은 인텐트로 전달할 수 없다.
-                            putExtra("image", imageUrl)
-                            putExtra("latitude", currentMarkerPosition?.latitude)
-                            putExtra("longitude", currentMarkerPosition?.longitude)
-                            putExtra("key:cid", intent.getStringExtra("key:cid"))
-                            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                        }
-                        startActivity(intent)
-
-                    }
-
-                    }
-//                val storageRef = FirebaseStorage.getInstance().reference.child("path/to/image.png")
-//                val file = Uri.fromFile(File("path/to/cropped_bitmap.png"))
-//
-//                storageRef.putFile(file)
-//                    .addOnSuccessListener { taskSnapshot ->
-//                        // 업로드 성공
-//                        storageRef.downloadUrl.addOnSuccessListener { uri ->
-//                            val imageUrl = uri.toString()
-//                            // imageUrl을 사용
-//                        }
-//                    }
-//                    .addOnFailureListener {
-//                        // 업로드 실패 처리
-//                    }
-
-
-
+            val intent = Intent(this, ChannelActivity::class.java).apply {
+                //비트맵은 인텐트로 전달할 수 없다.
+                putExtra("latitude", currentMarkerPosition?.latitude)
+                putExtra("longitude", currentMarkerPosition?.longitude)
+                putExtra("key:cid", intent.getStringExtra("key:cid"))
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             }
+            startActivity(intent)
+
+//            naverMap.takeSnapshot { bitmap ->
+//                snapshotBitmap = bitmap
+            // 캡처된 스냅샷과 마커의 좌표를 사용하여 추가 작업을 수행
+            // 예: 스냅샷과 좌표를 다른 액티비티로 전달하거나 저장
+            // 여기서 비트맵을 url로 바꾸는 작업이 필요할 것 같다?
+            // 비트맵을 바꾸는 작업 진행 중
+//                val filePath = saveBitmapToFile(this, bitmap)
+//                uploadImageToFirebaseStorage(filePath) { imageUrl ->
+//                    if (imageUrl != null) {
+//                        val intent = Intent(this, ChannelActivity::class.java).apply {
+//                            //비트맵은 인텐트로 전달할 수 없다.
+//                            putExtra("image", imageUrl)
+//                            putExtra("latitude", currentMarkerPosition?.latitude)
+//                            putExtra("longitude", currentMarkerPosition?.longitude)
+//                            putExtra("key:cid", intent.getStringExtra("key:cid"))
+//                            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+//                        }
+//                        startActivity(intent)
+//
+//                    }
+//
+//                    }
 
 
         }
 
 
     }
+
     fun saveBitmapToFile(context: Context, bitmap: Bitmap): String {
         val fileName = UUID.randomUUID().toString() + ".png"
         val file = File(context.cacheDir, fileName)
@@ -200,8 +191,6 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
                 }
             }
     }
-
-
 
 
     // 시작하자마자 자기 인근 위치에서 지도를 볼 수 있음.

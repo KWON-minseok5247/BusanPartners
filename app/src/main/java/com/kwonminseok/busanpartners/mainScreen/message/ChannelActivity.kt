@@ -124,12 +124,11 @@ class ChannelActivity : AppCompatActivity() {
 //        binding.messageListView.setAttachmentFactoryManager()
 
 
-        // ShareLocation 액티비티에서 전달한 데이터 수신
-        val snapshotUrl = intent.getStringExtra("image")
-        Log.e("channelActivity", snapshotUrl.toString())
+        // 좌표가 수신됐는지 확인하는 용도
+        val temporaryLatitude = intent.getDoubleExtra("latitude", 0.0)
 
         // 데이터를 기반으로 필요한 로직 수행
-        if (snapshotUrl != null) {
+        if (temporaryLatitude != 0.0) {
             // 로직 수행...
             val latitude = intent.getDoubleExtra("latitude", 35.1798159)
             val longitude = intent.getDoubleExtra("longitude", 129.0750222)
@@ -139,8 +138,6 @@ class ChannelActivity : AppCompatActivity() {
                 extraData = mutableMapOf(
                     "latitude" to latitude,
                     "longitude" to longitude,
-                    // 스냅샷 이미지 파일의 정보를 포함시킵니다.
-                    "image" to snapshotUrl
                 )
             )
 
