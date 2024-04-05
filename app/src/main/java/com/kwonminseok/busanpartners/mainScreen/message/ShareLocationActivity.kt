@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
@@ -25,6 +26,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.storage.FirebaseStorage
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.ActivityChannelBinding
@@ -56,8 +58,12 @@ import io.getstream.chat.android.ui.viewmodel.messages.MessageListHeaderViewMode
 import io.getstream.chat.android.ui.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.ui.viewmodel.messages.MessageListViewModelFactory
 import io.getstream.chat.android.ui.viewmodel.messages.bindView
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.UUID
 
 class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
@@ -120,14 +126,41 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
                 snapshotBitmap = bitmap
                 // 캡처된 스냅샷과 마커의 좌표를 사용하여 추가 작업을 수행
                 // 예: 스냅샷과 좌표를 다른 액티비티로 전달하거나 저장
-                val intent = Intent(this, ChannelActivity::class.java).apply {
-                    putExtra("image", "snapshotBitmap")
-                    putExtra("latitude", currentMarkerPosition?.latitude)
-                    putExtra("longitude", currentMarkerPosition?.longitude)
-                    putExtra("key:cid", intent.getStringExtra("key:cid"))
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-                startActivity(intent)
+                // 여기서 비트맵을 url로 바꾸는 작업이 필요할 것 같다?
+                // 비트맵을 바꾸는 작업 진행 중
+                val filePath = saveBitmapToFile(this, bitmap)
+                uploadImageToFirebaseStorage(filePath) { imageUrl ->
+                    if (imageUrl != null) {
+                        val intent = Intent(this, ChannelActivity::class.java).apply {
+                            //비트맵은 인텐트로 전달할 수 없다.
+                            putExtra("image", imageUrl)
+                            putExtra("latitude", currentMarkerPosition?.latitude)
+                            putExtra("longitude", currentMarkerPosition?.longitude)
+                            putExtra("key:cid", intent.getStringExtra("key:cid"))
+                            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        startActivity(intent)
+
+                    }
+
+                    }
+//                val storageRef = FirebaseStorage.getInstance().reference.child("path/to/image.png")
+//                val file = Uri.fromFile(File("path/to/cropped_bitmap.png"))
+//
+//                storageRef.putFile(file)
+//                    .addOnSuccessListener { taskSnapshot ->
+//                        // 업로드 성공
+//                        storageRef.downloadUrl.addOnSuccessListener { uri ->
+//                            val imageUrl = uri.toString()
+//                            // imageUrl을 사용
+//                        }
+//                    }
+//                    .addOnFailureListener {
+//                        // 업로드 실패 처리
+//                    }
+
+
+
             }
 
 
@@ -135,6 +168,41 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
 
 
     }
+    fun saveBitmapToFile(context: Context, bitmap: Bitmap): String {
+        val fileName = UUID.randomUUID().toString() + ".png"
+        val file = File(context.cacheDir, fileName)
+        FileOutputStream(file).use { out ->
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+        }
+        return file.absolutePath
+    }
+
+    fun uploadImageToFirebaseStorage(filePath: String, completion: (String?) -> Unit) {
+        val storageRef = FirebaseStorage.getInstance().reference
+        val fileName = UUID.randomUUID().toString() + ".png"
+        val imageRef = storageRef.child("location_thumbnail/$fileName")
+
+        val file = Uri.fromFile(File(filePath))
+        imageRef.putFile(file)
+            .continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                imageRef.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    completion(downloadUri.toString())
+                } else {
+                    completion(null)
+                }
+            }
+    }
+
+
+
 
     // 시작하자마자 자기 인근 위치에서 지도를 볼 수 있음.
     private fun initializeMap(userLocation: LatLng) {

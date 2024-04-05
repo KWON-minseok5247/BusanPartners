@@ -1,7 +1,6 @@
 package com.kwonminseok.busanpartners.mainScreen.message
 
 
-import android.app.FragmentManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -21,7 +20,6 @@ import io.getstream.chat.android.ui.ChatUI
 import io.getstream.chat.android.ui.common.state.messages.Edit
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
 import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.AttachmentPreviewFactoryManager
-import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.AudioRecordAttachmentPreviewFactory
 import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.FileAttachmentPreviewFactory
 import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.MediaAttachmentPreviewFactory
 import io.getstream.chat.android.ui.feature.messages.list.adapter.viewholder.attachment.AttachmentFactoryManager
@@ -127,21 +125,22 @@ class ChannelActivity : AppCompatActivity() {
 
 
         // ShareLocation 액티비티에서 전달한 데이터 수신
-        val snapshotBitmap = intent.getStringExtra("image")
+        val snapshotUrl = intent.getStringExtra("image")
+        Log.e("channelActivity", snapshotUrl.toString())
 
         // 데이터를 기반으로 필요한 로직 수행
-        if (snapshotBitmap != null) {
+        if (snapshotUrl != null) {
             // 로직 수행...
-            val latitude = intent.getStringExtra("latitude")
-            val longitude = intent.getStringExtra("longitude")
+            val latitude = intent.getDoubleExtra("latitude", 35.1798159)
+            val longitude = intent.getDoubleExtra("longitude", 129.0750222)
 
             val attachment = Attachment(
                 type = "location",
                 extraData = mutableMapOf(
-                    "latitude" to latitude.toString(),
-                    "longitude" to longitude.toString(),
+                    "latitude" to latitude,
+                    "longitude" to longitude,
                     // 스냅샷 이미지 파일의 정보를 포함시킵니다.
-                    "image" to snapshotBitmap
+                    "image" to snapshotUrl
                 )
             )
 

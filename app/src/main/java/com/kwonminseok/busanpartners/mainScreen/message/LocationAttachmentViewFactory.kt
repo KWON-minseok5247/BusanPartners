@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.mainScreen.message
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
@@ -57,11 +58,15 @@ class LocationAttachmentViewFactory(
             val snapshotPath = message.attachments
                 .first { it.type == "location" }
                 .extraData["image"] as? String
+//            val snapshotPath = message.attachments
+//                .firstOrNull { it.type == "location" }
+//                ?.extraData?.get("image") as? String
 
+            Log.e("snapshotPath", snapshotPath.toString())
             // 여기에서 이미지 뷰에 이미지를 로드합니다.
             // 예를 들어 Glide 라이브러리를 사용하는 경우:
             Glide.with(binding.snapshotView.context)
-                .load(R.drawable.pusan_logo)
+                .load(snapshotPath)
                 .into(binding.snapshotView)
         }
     }
