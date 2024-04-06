@@ -1,22 +1,28 @@
 package com.kwonminseok.busanpartners.mainScreen.message
 
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.addCallback
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.kwonminseok.busanpartners.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ActivityChannelBinding
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.MapView
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.models.Attachment
 import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.ui.ChatUI
+import io.getstream.chat.android.ui.common.state.messages.Delete
 import io.getstream.chat.android.ui.common.state.messages.Edit
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
 import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.AttachmentPreviewFactoryManager
@@ -43,6 +49,7 @@ class ChannelActivity : AppCompatActivity() {
         binding = ActivityChannelBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         val cid = checkNotNull(intent.getStringExtra(CID_KEY)) {
             "Specifying a channel id is required when starting ChannelActivity"
         }
@@ -65,7 +72,6 @@ class ChannelActivity : AppCompatActivity() {
         messageListViewModel.mode.observe(this) { mode ->
             when (mode) {
                 is MessageMode.MessageThread -> {
-
                     messageListHeaderViewModel.setActiveThread(mode.parentMessage)
                     messageComposerViewModel.setMessageMode(MessageMode.MessageThread(mode.parentMessage))
                 }
@@ -98,6 +104,7 @@ class ChannelActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this) {
             backHandler()
         }
+
         // 사용자가 스레드 답글을 만들 수 있는지 여부
         binding.messageListView.setThreadsEnabled(false)
         // 사용자가 메시지를 편집할 수 있는지 여부.
@@ -107,8 +114,6 @@ class ChannelActivity : AppCompatActivity() {
         binding.messageListView.setShowAvatarPredicate { messageItem ->
             messageItem.isTheirs
         }
-
-
 
 
         val reactions = mapOf(
@@ -124,80 +129,99 @@ class ChannelActivity : AppCompatActivity() {
 //        binding.messageListView.setAttachmentFactoryManager()
 
 
-        // 좌표가 수신됐는지 확인하는 용도
-        val temporaryLatitude = intent.getDoubleExtra("latitude", 0.0)
+        val locationActivityResultLauncher =
+            registerForActivityResult(LocationActivityResultContract()) { result ->
+                // 여기에서 결과 처리, 예를 들면 받아온 LatLng 객체 사용
+                result?.let { location ->
 
-        // 데이터를 기반으로 필요한 로직 수행
-        if (temporaryLatitude != 0.0) {
-            // 로직 수행...
-            val latitude = intent.getDoubleExtra("latitude", 35.1798159)
-            val longitude = intent.getDoubleExtra("longitude", 129.0750222)
+                    val attachment = Attachment(
+                        type = "location",
+                        extraData = mutableMapOf(
+                            "latitude" to location.latitude,
+                            "longitude" to location.longitude,
+                        )
+                    )
 
-            val attachment = Attachment(
-                type = "location",
-                extraData = mutableMapOf(
-                    "latitude" to latitude,
-                    "longitude" to longitude,
-                )
-            )
+                    val message = Message(
+                        cid = cid,
+                        text = "지도 공유",
+                        attachments = mutableListOf(attachment)
+                    )
+                    Log.e("message", message.toString())
 
-            val message = Message(
-                cid = cid,
-                text = "Shared location",
-                attachments = mutableListOf(attachment)
-            )
+                    BusanPartners.chatClient.channel(cid).sendMessage(message).enqueue { result ->
+                        if (result.isSuccess) {
+                            // 메시지 전송 성공 처리
 
-            ChatClient.instance().channel(cid).sendMessage(message).enqueue { result ->
-                if (result.isSuccess) {
-                    // 메시지 전송 성공 처리
-                    Log.e("지도 사진 처리 성공", "성공")
-                } else {
-                    // 메시지 전송 실패 처리
-                    Log.e("지도 사진 처리 실패", result.toString())
+
+                            Log.e("지도 사진 처리 성공", "성공")
+                        } else {
+                            // 메시지 전송 실패 처리
+                            Log.e("지도 사진 처리 실패", result.toString())
+
+                        }
+                    }
 
                 }
             }
 
-        }
 
+        // 좌표가 수신됐는지 확인하는 용도
+//        val temporaryLatitude = intent.getDoubleExtra("latitude", 0.0)
 
-
+//        // 데이터를 기반으로 필요한 로직 수행
+//        if (temporaryLatitude != 0.0) {
+//            // 로직 수행...
+//            val latitude = intent.getDoubleExtra("latitude", 35.1798159)
+//            val longitude = intent.getDoubleExtra("longitude", 129.0750222)
+//
+//            val attachment = Attachment(
+//                type = "location",
+//                extraData = mutableMapOf(
+//                    "latitude" to latitude,
+//                    "longitude" to longitude,
+//                )
+//            )
+//
+//            val message = Message(
+//                cid = cid,
+//                text = "Shared location",
+//                attachments = mutableListOf(attachment)
+//            )
+//
+//            ChatClient.instance().channel(cid).sendMessage(message).enqueue { result ->
+//                if (result.isSuccess) {
+//                    // 메시지 전송 성공 처리
+//                    Log.e("지도 사진 처리 성공", "성공")
+//                } else {
+//                    // 메시지 전송 실패 처리
+//                    Log.e("지도 사진 처리 실패", result.toString())
+//
+//                }
+//            }
+//
+//        }
 
 
         ChatUI.supportedReactions = SupportedReactions(this, reactions)
         binding.messageComposerView.setLeadingContent(
             CustomMessageComposerLeadingContent(this).also {
-                it.attachmentsButtonClickListener = { binding.messageComposerView.attachmentsButtonClickListener(
+                it.attachmentsButtonClickListener = {
+                    binding.messageComposerView.attachmentsButtonClickListener(
 
-                )
+                    )
                 }
                 it.locationButtonClickListener = {
-                    val intent = Intent(this, ShareLocationActivity::class.java)
-                    intent.putExtra("key:cid", cid)
+//                    val intent = Intent(this, ShareLocationActivity::class.java)
+//                    intent.putExtra("key:cid", cid)
+//
+//                    startActivity(intent)
 
-                    startActivity(intent)
+                    // ShareLocationActivity를 시작하고 결과를 기다립니다.
+                    locationActivityResultLauncher.launch(null)
 
                 }
 
-                it.calendarButtonClickListener = {
-                    // Create an instance of a date picker dialog
-                    val datePickerDialog = MaterialDatePicker.Builder
-                        .datePicker()
-                        .build()
-
-                    // Add an attachment to the message input when the user selects a date
-                    datePickerDialog.addOnPositiveButtonClickListener { date ->
-                        val payload = SimpleDateFormat("MMMM dd, yyyy").format(Date(date))
-                        val attachment = Attachment(
-                            type = "date",
-                            extraData = mutableMapOf("payload" to payload)
-                        )
-                        messageComposerViewModel.addSelectedAttachments(listOf(attachment))
-                    }
-
-                    // Show the date picker dialog on a click on the calendar button
-                    datePickerDialog.show(supportFragmentManager, null)
-                }
 
 //
             }
@@ -207,7 +231,7 @@ class ChannelActivity : AppCompatActivity() {
 
         ChatUI.attachmentPreviewFactoryManager = AttachmentPreviewFactoryManager(
             attachmentPreviewFactories = listOf(
-                DateAttachmentPreviewFactory(),
+//                DateAttachmentPreviewFactory(),
 
                 MediaAttachmentPreviewFactory(),
                 FileAttachmentPreviewFactory()
@@ -216,13 +240,10 @@ class ChannelActivity : AppCompatActivity() {
 
         ChatUI.attachmentFactoryManager = AttachmentFactoryManager(
             attachmentFactories = listOf(
-                DateAttachmentFactory(),
-                LocationAttachmentViewFactory()
+//                DateAttachmentFactory(),
+                LocationAttachmentViewFactory(lifecycleOwner = this)
             )
         )
-
-
-
 
 
     }
@@ -234,4 +255,42 @@ class ChannelActivity : AppCompatActivity() {
         fun newIntent(context: Context, channel: Channel): Intent =
             Intent(context, ChannelActivity::class.java).putExtra(CID_KEY, channel.cid)
     }
+
+
+//    class LocationActivityResultContract : ActivityResultContract<Void, LatLng?>() {
+//        override fun createIntent(context: Context, input: Void): Intent {
+//            // ShareLocationActivity를 시작하기 위한 인텐트 생성
+//            return Intent(context, ShareLocationActivity::class.java)
+//        }
+//
+//        override fun parseResult(resultCode: Int, intent: Intent?): LatLng? {
+//            // ShareLocationActivity로부터 결과 처리
+//            if (resultCode == Activity.RESULT_OK && intent != null) {
+//                val latitude = intent.getDoubleExtra("latitude", 0.0)
+//                val longitude = intent.getDoubleExtra("longitude", 0.0)
+//                return LatLng(latitude, longitude)
+//            }
+//            return null
+//        }
+//    }
+
+    class LocationActivityResultContract : ActivityResultContract<Void?, LatLng?>() {
+        override fun createIntent(context: Context, input: Void?): Intent {
+            // ShareLocationActivity를 시작하기 위한 인텐트 생성
+            return Intent(context, ShareLocationActivity::class.java)
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): LatLng? {
+            // 결과 처리
+            if (resultCode == Activity.RESULT_OK && intent != null) {
+                val latitude = intent.getDoubleExtra("latitude", 0.0)
+                val longitude = intent.getDoubleExtra("longitude", 0.0)
+                return LatLng(latitude, longitude)
+            }
+            return null
+
+        }
+    }
+
+
 }
