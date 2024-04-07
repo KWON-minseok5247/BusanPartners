@@ -122,6 +122,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/authentication_load_or_complete_text"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:textStyle="bold"
                     android:text="인증 중입니다. 잠시만 기다려주세요."/>
 

@@ -167,7 +167,7 @@ class ProfileFragment : Fragment() {
                     authenticationLoadOrCompleteCard.visibility = View.VISIBLE
                     travelerAuthentication.visibility = View.INVISIBLE
                     collegeAuthentication.visibility = View.INVISIBLE
-                    authenticationLoadOrCompleteText.text = "인증이 완료되었습니다."
+                    authenticationLoadOrCompleteText.text = "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
                 }
             }
             else -> {

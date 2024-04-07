@@ -20,6 +20,7 @@ import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
@@ -87,9 +88,15 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
+
+
         // Step 0 - inflate binding
         binding = ActivityShareLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressed() // 뒤로가기 동작
+        }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 

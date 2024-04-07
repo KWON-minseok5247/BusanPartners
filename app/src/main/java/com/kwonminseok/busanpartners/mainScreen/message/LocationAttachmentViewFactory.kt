@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.mainScreen.message
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -72,7 +73,7 @@ class LocationAttachmentViewFactory(
         private lateinit var message: Message
 
         private val mapView: MapView = binding.mapView.apply {
-            onCreate(null) // MapView 초기화
+//            onCreate(null) // MapView 초기화
         }
 
 
@@ -81,13 +82,8 @@ class LocationAttachmentViewFactory(
 
             lifecycleOwner.lifecycle.addObserver(this) // Lifecycle Observer를 등록
 
-            mapView.setOnClickListener {
-                listeners?.attachmentClickListener?.onAttachmentClick(
-                    message,
-                    message.attachments.first()
-                )
-                Log.e("hihi", "hihi")
-            }
+
+
             // 이미지 롱 클릭 리스너 설정
             mapView.setOnLongClickListener {
 //                listeners?.messageLongClickListener?.onMessageLongClick(message)
@@ -159,6 +155,21 @@ class LocationAttachmentViewFactory(
                     lifecycleOwner.lifecycle.removeObserver(this)
                 }
             })
+            binding.transparentView.setOnClickListener {
+//                listeners?.attachmentClickListener?.onAttachmentClick(
+//                    message,
+//                    message.attachments.first()
+//                )
+//                Log.e("hihi", "hihi")
+                // 위치 정보가 포함된 메시지의 위도와 경도를 가져옵니다.
+                // MapActivity를 시작하는 인텐트 생성
+                val intent = Intent(context, AttachmentMapActivity::class.java).apply {
+                    putExtra("latitude", latitude)
+                    putExtra("longitude", longitude)
+                }
+                context.startActivity(intent) // MapActivity 시작
+
+            }
 
 //            // 동적으로 FrameLayout 생성
 //            val mapContainer = FrameLayout(binding.root.context).apply {

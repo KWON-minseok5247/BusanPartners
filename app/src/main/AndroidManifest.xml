@@ -30,6 +30,11 @@
             android:exported="true"></activity>
 
         <activity
+            android:name=".mainScreen.message.AttachmentMapActivity"
+            android:exported="true"></activity>
+
+
+        <activity
             android:name=".login.LoginRegisterActivity"
             android:exported="true">
             <intent-filter>
