@@ -36,6 +36,7 @@ import com.kwonminseok.busanpartners.mainScreen.connect.ConnectFragment
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.MapView
@@ -119,6 +120,7 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
             // 사용자의 현재 위치를 받았습니다. 지도 로딩을 시작합니다.
             location?.let {
                 initializeMap(LatLng(it.latitude, it.longitude))
+//                initializeMap(LatLng(35.1798159, 129.0750222))
             } ?: run {
                 // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
                 initializeMap(LatLng(35.1798159, 129.0750222))
@@ -129,7 +131,6 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
         binding.fabShareLocation.setOnClickListener {
 
             //TODO 마커를 찍지 않았을 때도 로직을 구사할 필요가 있다.
-            Log.e("$TAG 위치", currentMarkerPosition.toString())
             val intent = Intent(this, ChannelActivity::class.java).apply {
                 //비트맵은 인텐트로 전달할 수 없다.
                 putExtra("latitude", currentMarkerPosition?.latitude)
@@ -161,9 +162,9 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
 
         // Fragment에서 MapFragment를 다루기 위해 childFragmentManager를 사용합니다.
         val fm = supportFragmentManager
-        val mapFragment = fm.findFragmentById(R.id.map_fragment) as MapFragment?
+        val mapFragment = fm.findFragmentById(R.id.map_fragment_share_location) as MapFragment?
             ?: MapFragment.newInstance(options).also {
-                fm.beginTransaction().add(R.id.map_fragment, it).commit()
+                fm.beginTransaction().add(R.id.map_fragment_share_location, it).commit()
             }
 
         // MapFragment가 준비되면 onMapReady 콜백이 호출됩니다.
@@ -195,15 +196,37 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
         naverMap.locationSource = locationSource
         naverMap.locationTrackingMode = LocationTrackingMode.Follow
 
+        // 사용자의 현재 위치를 얻어서 지도 중심으로 설정
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                val currentLatLng = LatLng(it.latitude, it.longitude)
+                naverMap.moveCamera(CameraUpdate.scrollTo(currentLatLng))
+            }
+        }
+
         // 지도가 너무 멀리 축소되거나 너무 가까이 확대되는 것을 방지합니다.
         // 지도 좌표 고정하는 단계
-        val BUSAN_SW = LatLng(34.8799083, 128.7384361) // 부산시 남서쪽 좌표를 조정
-        val BUSAN_NE = LatLng(35.3959361, 129.3728194) // 부산시 북동쪽 좌표를 조정
-        val busanBounds = LatLngBounds(BUSAN_SW, BUSAN_NE)
-        naverMap.extent = busanBounds
-
-        // 클래스의 멤버 변수로 마커 참조를 유지
-        var currentMarker: Marker? = null
+//        val BUSAN_SW = LatLng(34.8799083, 128.7384361) // 부산시 남서쪽 좌표를 조정
+//        val BUSAN_NE = LatLng(35.3959361, 129.3728194) // 부산시 북동쪽 좌표를 조정
+//        val busanBounds = LatLngBounds(BUSAN_SW, BUSAN_NE)
+//        naverMap.extent = busanBounds
 
 //        naverMap.setOnMapClickListener { _, coord ->
 //            // 기존 마커 삭제
