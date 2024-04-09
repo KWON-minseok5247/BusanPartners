@@ -76,12 +76,10 @@ class UserAccountFragment : Fragment() {
                         hideUserLoading()
                         enterData(it.data!!)
                         oldUser = it.data
-                        Log.e("old user", oldUser.toString())
                     }
 
                     is Resource.Error -> {
                         hideUserLoading()
-                        binding.progressbarAccount.visibility = View.GONE
                     }
 
                     else -> Unit
@@ -90,78 +88,55 @@ class UserAccountFragment : Fragment() {
             }
         }
 
-
-//        lifecycleScope.launchWhenStarted {
-//
-//            viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-//                if (isLoading) {
-//                    // 로딩 시작
-//                    binding.buttonSave.startAnimation()
-//                } else {
-//                    // 로딩 완료
-//                    binding.buttonSave.revertAnimation()
-//                    Toast.makeText(context, "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-//                    updateOldUser()
-//
-//                }
-//            })
-//
-//            binding.switchShowHideTags.setOnCheckedChangeListener { _, isChecked ->
-//                if (isChecked) {
-//                    // 스위치가 켜지면 태그 목록을 보여줍니다.
-//                    viewModel.wantToMeet(isChecked)
-//                } else {
-//                    // 스위치가 꺼지면 태그 목록을 숨깁니다.
-//                    viewModel.wantToMeet(isChecked)
-//                }
-//            }
-//
-////            viewModel.updateUser.collectLatest {
-////                when (it) {
-////                    is Resource.Loading -> {
-////                        binding.buttonSave.startAnimation()
-////                    }
-////
-////                    is Resource.Success -> {
-////                        binding.buttonSave.revertAnimation()
-////                        Toast.makeText(requireContext(), "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-////                    }
-////
-////                    is Resource.Error -> {
-////                        binding.buttonSave.revertAnimation()
-////                        Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT)
-////                            .show()
-////                    }
-////
-////                    else -> Unit
-////
-////                }
-////            }
-//        }
-
         binding.buttonSave.setOnClickListener {
-            // 얘를 따로 하는 게 아니라 전역변수로 설정하는 게 더 낫나?????
-            // 만약에 전역변수로 설정하면 달라졌는지 여부만 확인하면 되니까?
-            val edName = binding.edName.text.toString()
-            val edMajor = binding.edMajor.text.toString()
-            val introduction = binding.introduction.text.toString()
-            chipTexts = mutableListOf<String>()
-            for (i in 0 until binding.chipGroupHobbies.childCount) {
-                val chip = binding.chipGroupHobbies.getChildAt(i) as Chip
-                chipTexts!!.add(chip.text.toString())
+            binding.apply {
+                val edName = edName.text.toString()
+                val edMajor = edMajor.text.toString()
+                val introduction = introduction.text.toString()
+                val wantToMeet = switchShowHideTags.isChecked
+
+                chipTexts = mutableListOf<String>()
+                for (i in 0 until chipGroupHobbies.childCount) {
+                    val chip = chipGroupHobbies.getChildAt(i) as Chip
+                    chipTexts!!.add(chip.text.toString())
+                }
+                val noImageMap = mapOf(
+                    "name" to edName,
+                    "major" to edMajor,
+                    "introduction" to introduction,
+                    "chipGroup" to chipTexts,
+                    "wantToMeet" to wantToMeet
+                )
+
+                if (imageData == null) { // 사진을 변경하지 않은 경우
+                    viewModel.setCurrentUser(noImageMap)
+
+                    oldUser = oldUser.copy(
+                        name = edName,
+                        major = edMajor,
+                        introduction = introduction,
+                        chipGroup = chipTexts,
+                        wantToMeet = wantToMeet
+                    )
+
+
+                } else { // 사진을 변경한 경우
+                    val image = convertUriToByteArray(imageData!!)
+                    viewModel.setCurrentUserWithImage(image, noImageMap)
+
+                    oldUser = oldUser.copy(
+                        name = edName,
+                        major = edMajor,
+                        introduction = introduction,
+                        chipGroup = chipTexts,
+                        wantToMeet = wantToMeet
+                    )
+                    imageData = null
+
+                }
             }
-            val noImageMap = mapOf(
-                "name" to edName,
-                "major" to edMajor,
-                "introduction" to introduction,
-                "chipGroup" to chipTexts
-            )
-            if (imageData == null) { // 사진을 변경하지 않은 경우
-                viewModel.setCurrentUser(noImageMap)
-            } else { // 사진을 변경한 경우
-                val imageData = convertUriToByteArray(imageData!!)
-                viewModel.setCurrentUserWithImage(imageData, noImageMap)
-            }
+
+
 
         }
 
@@ -249,43 +224,46 @@ class UserAccountFragment : Fragment() {
 
     // TODO 이 부분에 문제가 약간 있네. 이유 없이 저장이 안됐다고 알린다. 추후 수정
     private fun backPress() {
-        val edName = binding.edName.text.toString()
-        val edMajor = binding.edMajor.text.toString()
-        val introduction = binding.introduction.text.toString()
-        chipTexts = mutableListOf<String>()
-        for (i in 0 until binding.chipGroupHobbies.childCount) {
-            val chip = binding.chipGroupHobbies.getChildAt(i) as Chip
-            chipTexts!!.add(chip.text.toString())
+
+        binding.apply {
+            val edName = edName.text.toString()
+            val edMajor = edMajor.text.toString()
+            val introduction = introduction.text.toString()
+            val wantToMeet = switchShowHideTags.isChecked
+            chipTexts = mutableListOf<String>()
+            for (i in 0 until chipGroupHobbies.childCount) {
+                val chip = chipGroupHobbies.getChildAt(i) as Chip
+                chipTexts!!.add(chip.text.toString())
+            }
+
+            if (oldUser.name == edName &&
+                oldUser.major == edMajor &&
+                oldUser.wantToMeet == wantToMeet &&
+                oldUser.introduction == introduction &&
+                oldUser.chipGroup == chipTexts &&
+                imageData == null
+            ) {   // 변경이 없을 때.
+                findNavController().navigateUp()
+            } else { // 변경을 했는데 저장을 하지 않았을 때
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("저장이 되지 않았습니다.")
+                    .setMessage("그래도 나가시겠습니까?")
+                    .setPositiveButton("확인",
+                        DialogInterface.OnClickListener { dialog, id ->
+                            findNavController().navigateUp()
+
+                        })
+                    .setNegativeButton("취소",
+                        DialogInterface.OnClickListener { dialog, id ->
+                        })
+                builder.show()
+            }
+
         }
-        Log.e("olduser", oldUser.toString())
-        Log.e("edName", edName.toString())
-        Log.e("edMajor", edMajor.toString())
-        Log.e("introduction", introduction.toString())
-        Log.e("chipTexts", chipTexts.toString())
-        Log.e("imageData", imageData.toString())
 
 
-        if (oldUser.name == edName &&
-            oldUser.major == edMajor &&
-            oldUser.introduction == introduction &&
-            oldUser.chipGroup == chipTexts &&
-            imageData == null
-        ) {
-            findNavController().navigateUp()
-        } else {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("저장이 되지 않았습니다.")
-                .setMessage("그래도 나가시겠습니까?")
-                .setPositiveButton("확인",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        findNavController().navigateUp()
 
-                    })
-                .setNegativeButton("취소",
-                    DialogInterface.OnClickListener { dialog, id ->
-                    })
-            builder.show()
-        }
+
     }
 
     private fun convertUriToByteArray(
@@ -395,28 +373,6 @@ class UserAccountFragment : Fragment() {
         binding.chipGroupHobbies.removeAllViews()
         chipTexts = user.chipGroup?.toMutableList()
         user.chipGroup?.let { setupHobbiesChips(it) }
-    }
-
-
-    // 사용자 정보 저장 성공 후 oldUser 업데이트
-    private fun updateOldUser() {
-        val newName = binding.edName.text.toString()
-        val newMajor = binding.edMajor.text.toString()
-        val newIntroduction = binding.introduction.text.toString()
-        val newChipTexts = mutableListOf<String>().apply {
-            for (i in 0 until binding.chipGroupHobbies.childCount) {
-                val chip = binding.chipGroupHobbies.getChildAt(i) as Chip
-                add(chip.text.toString())
-            }
-        }
-        imageData = null
-
-        oldUser = oldUser.copy(
-            name = newName,
-            major = newMajor,
-            introduction = newIntroduction,
-            chipGroup = newChipTexts,
-        )
     }
 
     override fun onResume() {

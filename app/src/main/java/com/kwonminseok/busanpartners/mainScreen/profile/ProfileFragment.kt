@@ -26,6 +26,7 @@ import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
 import com.kwonminseok.busanpartners.viewmodel.ProfileViewModel
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import com.univcert.api.UnivCert
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +38,8 @@ private val TAG = "ProfileFragment"
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
-    private val viewModel by viewModels<ProfileViewModel>()
+//    private val viewModel by viewModels<ProfileViewModel>()
+    private val viewModel: UserViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -63,11 +65,30 @@ class ProfileFragment : Fragment() {
                     is Resource.Success -> {
                         hideProgressBar()
                         fetchUserData(it.data!!)
-
-
                     }
                     is Resource.Error -> {
                         hideProgressBar()
+                        Toast.makeText(requireContext(),it.message.toString(),Toast.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.updateStatus.collectLatest {
+                when (it) {
+                    is Resource.Loading -> {
+                        Log.e("viewModel.getCurrentUser()","로딩.")
+
+                    }
+                    is Resource.Success -> {
+                        viewModel.getCurrentUser()
+                        Log.e("viewModel.getCurrentUser()","성공.")
+                    }
+                    is Resource.Error -> {
+                        Log.e("viewModel.getCurrentUser()","실패.")
+
                         Toast.makeText(requireContext(),it.message.toString(),Toast.LENGTH_SHORT).show()
                     }
                     else -> Unit
@@ -92,7 +113,6 @@ class ProfileFragment : Fragment() {
         //TODO 클릭하면 information 창으로 넘어가기
         binding.travelerAuthentication.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_travelerAuthFragment)
-
         }
 
         binding.chat.setOnClickListener {
@@ -107,10 +127,8 @@ class ProfileFragment : Fragment() {
         }
 
         binding.linearLogOut.setOnClickListener {
-            lifecycleScope.launch {
-                // 계정으로부터 로그아웃
-                viewModel.logout()
-            }
+            viewModel.logOutCurrentUser()
+
 
             chatClient.disconnect(true).enqueue { result ->
                 if (result.isSuccess) {
@@ -144,11 +162,21 @@ class ProfileFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+//        viewModel.getCurrentUser()
+//        Log.e("viewModel.getCurrentUser()", "실행되었다.")
+    }
+
+
+
+
+
     private fun fetchUserData(user: User) {
-        Log.e("fetchUserData", "${user}")
         binding.apply {
             Glide.with(requireView()).load(user.imagePath).into(binding.imageUser)
             tvUserName.text = user.name
+            tvEditPersonalDetails.text = "${user.college} ${user.major}"
 
         }
         when (user.authentication.authenticationStatus) {

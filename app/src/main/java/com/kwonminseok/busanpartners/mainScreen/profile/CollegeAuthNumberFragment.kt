@@ -17,18 +17,23 @@ import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthNumberBinding
+import com.kwonminseok.busanpartners.util.Constants.COLLEGE_DATA
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.kwonminseok.busanpartners.viewmodel.AuthenticationInformationViewModel
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //import com.univcert.api.UnivCert
 
 private val TAG = "CollegeAuthNumberFragment"
+
 @AndroidEntryPoint
 class CollegeAuthNumberFragment : Fragment() {
     lateinit var binding: FragmentCollegeAuthNumberBinding
-    private val viewModel by viewModels<AuthenticationInformationViewModel>()
+
+    //    private val viewModel by viewModels<AuthenticationInformationViewModel>()
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -37,10 +42,6 @@ class CollegeAuthNumberFragment : Fragment() {
         // 뒤로 가기 버튼 커스텀 동작을 설정합니다.
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                // 이 안에서 뒤로 가기 버튼이 눌렸을 때 원하는 동작을 구현합니다.
-                // 예를 들어, 아무 것도 하지 않게 하여 뒤로 가기를 제한할 수 있습니다.
-
-                // Toast 메시지로 경고를 표시하는 등 사용자에게 피드백을 줄 수도 있습니다.
                 Toast.makeText(
                     context,
                     "인증번호 확인 중에는 뒤로 가실 수 없습니다.",
@@ -118,7 +119,7 @@ class CollegeAuthNumberFragment : Fragment() {
             })
 
         }
-        val collegeData = arguments?.getParcelable<CollegeData>("collegeData")
+        val collegeData = arguments?.getParcelable<CollegeData>(COLLEGE_DATA)
 
         binding.buttonSendVerificationCode.setOnClickListener {
             //TODO  실제에서는 코드 4자리를 모두 채워야 한다.
@@ -136,26 +137,37 @@ class CollegeAuthNumberFragment : Fragment() {
                     //TODo 여기서도 1초간 로딩이 있었으면 좋겠다.
 //                    UnivCert.certifyCode(BuildConfig.COLLEGE_KEY, collegeData?.email, collegeData?.selectedUniversity, codeAsInt)
 //                    val isSuccessful = UnivCert.status(BuildConfig.API_KEY, collegeData?.email)["success"].toString()
-                        val isSuccessful = "true"
-                    if(isSuccessful == "true") {
+                    val isSuccessful = "true"
+                    if (isSuccessful == "true") {
                         //TODO 여기서 getstream 토큰을 받는 것이 맞는 것 같은데?
                         // 아니면 isCollegeStudent 이거를 true로 만들고 messageFragment에서 먼저 클릭할 때 isCollegeStudent라던지
                         // 확인후 클릭할 수 있도록
                         val university = collegeData!!.selectedUniversity
                         val universityEmail = collegeData!!.email
 
-                        viewModel.saveUserUniversity(university, universityEmail)
+                        val userUpdates = mapOf(
+                            "college" to university,
+                            "universityEmail" to universityEmail
+                        )
+
+                        viewModel.setCurrentUser(userUpdates)
+//                        viewModel.saveUserUniversity(university, universityEmail)
+
                         val bundle = Bundle()
                         bundle.putBoolean("isVerified", true)
-                        findNavController().navigate(R.id.action_collegeAuthNumberFragment_to_collegeAuthCompleteFragment, bundle)
+                        findNavController().navigate(
+                            R.id.action_collegeAuthNumberFragment_to_collegeAuthCompleteFragment,
+                            bundle
+                        )
                     } else {
                         val bundle = Bundle()
                         bundle.putBoolean("isVerified", false)
-                        findNavController().navigate(R.id.action_collegeAuthNumberFragment_to_collegeAuthCompleteFragment, bundle)
+                        findNavController().navigate(
+                            R.id.action_collegeAuthNumberFragment_to_collegeAuthCompleteFragment,
+                            bundle
+                        )
 
                     }
-
-
 
 
                 } catch (e: Exception) {
@@ -166,9 +178,8 @@ class CollegeAuthNumberFragment : Fragment() {
         }
 
 
-
-
     }
+
     override fun onResume() {
         super.onResume()
         hideBottomNavigationView()

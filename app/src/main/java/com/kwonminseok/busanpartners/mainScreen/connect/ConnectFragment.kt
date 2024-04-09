@@ -32,6 +32,7 @@ import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.databinding.UniversityCardFrontBinding
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ConnectViewModel
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.CameraPosition
@@ -64,8 +65,9 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
     private var infoWindow = InfoWindow()
 
     private var selectedUniversityStudents: List<User>? = null
+    private val viewModel: UserViewModel by viewModels()
 
-    private val viewModel by viewModels<ConnectViewModel>()
+//    private val viewModel by viewModels<ConnectViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,10 +83,13 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // ViewModel 함수 호출
+        viewModel.getUniversityStudentsWantToMeet()
+
 
 
         lifecycleScope.launchWhenStarted {
-            viewModel.user.collectLatest {
+            viewModel.students.collectLatest {
                 when (it) {
                     is Resource.Loading -> {
 

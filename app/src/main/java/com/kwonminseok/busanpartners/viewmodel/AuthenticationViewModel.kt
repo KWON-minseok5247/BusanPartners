@@ -62,7 +62,6 @@ class AuthenticationViewModel @Inject constructor(
 
 
 fun clearEmailAuthentication() {
-        //auth.uid!!라고 정의한 이유는 로그아웃을 하지 않았을 때 절대로 auth.uid가 없을 수 없기 때문임.
         val userRef = firestore.collection("user").document(auth.uid!!)
 
         userRef.update("authentication.studentEmailAuthenticationComplete", true)

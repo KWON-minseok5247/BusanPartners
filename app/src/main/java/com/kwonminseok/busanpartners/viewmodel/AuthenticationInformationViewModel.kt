@@ -48,6 +48,7 @@ class AuthenticationInformationViewModel @Inject constructor(
                         Log.w("authenticationStatus = Loading", "정상적으로 수정되었습니다.")
 
                     }.addOnFailureListener { Log.w("authenticationStatus = Loading 실패", "${it.message}.")
+
                     }
                 // 대학생일 때
                 if (status == "student") {
