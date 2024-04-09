@@ -4,8 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,20 +25,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentUserAccountBinding
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
-import com.kwonminseok.busanpartners.viewmodel.UserAccountViewModels
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class UserAccountFragment : Fragment() {
     private var chipTexts: MutableList<String>? = null
     lateinit var binding: FragmentUserAccountBinding
-    private val viewModel by viewModels<UserAccountViewModels>()
+    private val viewModel: UserViewModel by viewModels()
     private val GALLERY = 1
     private var imageData: Uri? = null
     lateinit var oldUser: User
@@ -55,6 +63,8 @@ class UserAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        // MVVM 패턴으로 데이터를 받아와서 ui에 등록하는 과정
         lifecycleScope.launchWhenStarted {
             viewModel.user.collectLatest {
                 when (it) {
@@ -72,7 +82,6 @@ class UserAccountFragment : Fragment() {
                     is Resource.Error -> {
                         hideUserLoading()
                         binding.progressbarAccount.visibility = View.GONE
-
                     }
 
                     else -> Unit
@@ -82,53 +91,53 @@ class UserAccountFragment : Fragment() {
         }
 
 
-        lifecycleScope.launchWhenStarted {
-
-            viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-                if (isLoading) {
-                    // 로딩 시작
-                    binding.buttonSave.startAnimation()
-                } else {
-                    // 로딩 완료
-                    binding.buttonSave.revertAnimation()
-                    Toast.makeText(context, "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                    updateOldUser()
-
-                }
-            })
-
-            binding.switchShowHideTags.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    // 스위치가 켜지면 태그 목록을 보여줍니다.
-                    viewModel.wantToMeet(isChecked)
-                } else {
-                    // 스위치가 꺼지면 태그 목록을 숨깁니다.
-                    viewModel.wantToMeet(isChecked)
-                }
-            }
-
-//            viewModel.updateUser.collectLatest {
-//                when (it) {
-//                    is Resource.Loading -> {
-//                        binding.buttonSave.startAnimation()
-//                    }
+//        lifecycleScope.launchWhenStarted {
 //
-//                    is Resource.Success -> {
-//                        binding.buttonSave.revertAnimation()
-//                        Toast.makeText(requireContext(), "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-//                    }
-//
-//                    is Resource.Error -> {
-//                        binding.buttonSave.revertAnimation()
-//                        Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//
-//                    else -> Unit
+//            viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+//                if (isLoading) {
+//                    // 로딩 시작
+//                    binding.buttonSave.startAnimation()
+//                } else {
+//                    // 로딩 완료
+//                    binding.buttonSave.revertAnimation()
+//                    Toast.makeText(context, "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+//                    updateOldUser()
 //
 //                }
+//            })
+//
+//            binding.switchShowHideTags.setOnCheckedChangeListener { _, isChecked ->
+//                if (isChecked) {
+//                    // 스위치가 켜지면 태그 목록을 보여줍니다.
+//                    viewModel.wantToMeet(isChecked)
+//                } else {
+//                    // 스위치가 꺼지면 태그 목록을 숨깁니다.
+//                    viewModel.wantToMeet(isChecked)
+//                }
 //            }
-        }
+//
+////            viewModel.updateUser.collectLatest {
+////                when (it) {
+////                    is Resource.Loading -> {
+////                        binding.buttonSave.startAnimation()
+////                    }
+////
+////                    is Resource.Success -> {
+////                        binding.buttonSave.revertAnimation()
+////                        Toast.makeText(requireContext(), "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+////                    }
+////
+////                    is Resource.Error -> {
+////                        binding.buttonSave.revertAnimation()
+////                        Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT)
+////                            .show()
+////                    }
+////
+////                    else -> Unit
+////
+////                }
+////            }
+//        }
 
         binding.buttonSave.setOnClickListener {
             // 얘를 따로 하는 게 아니라 전역변수로 설정하는 게 더 낫나?????
@@ -141,7 +150,6 @@ class UserAccountFragment : Fragment() {
                 val chip = binding.chipGroupHobbies.getChildAt(i) as Chip
                 chipTexts!!.add(chip.text.toString())
             }
-            Log.e("chiptext", chipTexts.toString())
             val noImageMap = mapOf(
                 "name" to edName,
                 "major" to edMajor,
@@ -149,12 +157,40 @@ class UserAccountFragment : Fragment() {
                 "chipGroup" to chipTexts
             )
             if (imageData == null) { // 사진을 변경하지 않은 경우
-                viewModel.saveUser(noImageMap)
+                viewModel.setCurrentUser(noImageMap)
             } else { // 사진을 변경한 경우
-                viewModel.saveUserWithImage(noImageMap, imageData!!)
+                val imageData = convertUriToByteArray(imageData!!)
+                viewModel.setCurrentUserWithImage(imageData, noImageMap)
             }
 
         }
+
+
+        // 버튼을 눌렀을 때 과정
+        lifecycleScope.launchWhenStarted {
+            viewModel.updateStatus.collect { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        // 로딩 인디케이터 표시
+                        binding.buttonSave.startAnimation()
+                    }
+                    is Resource.Success -> {
+                        // 로딩 인디케이터 숨기기
+                        binding.buttonSave.revertAnimation()
+                        // 성공 메시지 표시 또는 성공 후 작업
+                        Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Error -> {
+                        // 로딩 인디케이터 숨기기
+                        binding.buttonSave.revertAnimation()
+                        // 에러 메시지 표시
+                        Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> Unit // Resource.Unspecified 처리
+                }
+            }
+        }
+
         binding.imageCloseUserAccount.setOnClickListener {
             backPress()
 
@@ -251,6 +287,25 @@ class UserAccountFragment : Fragment() {
             builder.show()
         }
     }
+
+    private fun convertUriToByteArray(
+        imageUri: Uri,
+    ): ByteArray {
+        // 비트맵 생성
+        val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val source = ImageDecoder.createSource(requireContext().contentResolver, imageUri)
+            ImageDecoder.decodeBitmap(source)
+        } else {
+            @Suppress("DEPRECATION")
+            MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
+        }
+
+        // ByteArrayOutputStream을 사용해 비트맵을 ByteArray로 변환
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 96, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
 
 
     @Override

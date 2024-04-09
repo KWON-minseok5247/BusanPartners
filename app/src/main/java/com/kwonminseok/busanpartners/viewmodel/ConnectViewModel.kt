@@ -1,11 +1,8 @@
 package com.kwonminseok.busanpartners.viewmodel
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kwonminseok.busanpartners.data.User
@@ -14,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -25,7 +21,7 @@ class ConnectViewModel @Inject constructor(
     private val auth: FirebaseAuth
 ) : ViewModel() {
 
-    private val _user = MutableStateFlow<Resource<MutableList<User>>>(Resource.unspecified())
+    private val _user = MutableStateFlow<Resource<MutableList<User>>>(Resource.Unspecified())
     val user = _user.asStateFlow()
 
 

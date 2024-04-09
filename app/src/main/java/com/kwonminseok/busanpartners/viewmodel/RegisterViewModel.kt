@@ -1,6 +1,5 @@
 package com.kwonminseok.busanpartners.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -78,7 +77,7 @@ class RegisterViewModel @Inject constructor(
 
 
 
-    private val _register = MutableStateFlow<Resource<User>>(Resource.unspecified())
+    private val _register = MutableStateFlow<Resource<User>>(Resource.Unspecified())
     val register: Flow<Resource<User>> = _register
 
     // ui에 딱 한번만 쓰는 경우 sharedFlow를 사용하는 것 같다.

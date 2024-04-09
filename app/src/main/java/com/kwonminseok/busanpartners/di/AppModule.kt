@@ -5,10 +5,14 @@ import android.content.Context.MODE_PRIVATE
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.kwonminseok.busanpartners.repository.FirebaseUserRepository
+import com.kwonminseok.busanpartners.repository.FirebaseUserRepositoryImpl
 //import com.google.firebase.firestore.FirebaseFirestore
 //import com.google.firebase.firestore.ktx.firestore
 //import com.google.firebase.ktx.Firebase
@@ -26,6 +30,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Singleton
+    @Provides
+    fun provideUserRepository(
+        auth: FirebaseAuth,
+        firestore: FirebaseFirestore,
+        storage: StorageReference
+    ): FirebaseUserRepository = FirebaseUserRepositoryImpl(auth, firestore, storage)
+
 
     @Provides
     @Singleton // 여기저기 호출하고 다니지만 사실상 1개를 돌려쓰는 중임...

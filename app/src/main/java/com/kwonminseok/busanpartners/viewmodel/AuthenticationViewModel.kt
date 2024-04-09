@@ -28,7 +28,7 @@ class AuthenticationViewModel @Inject constructor(
     private val storageReference: StorageReference
 ) : ViewModel() {
 
-    private val _user = MutableStateFlow<Resource<User>>(Resource.unspecified())
+    private val _user = MutableStateFlow<Resource<User>>(Resource.Unspecified())
     val user = _user.asStateFlow()
 
     init {
