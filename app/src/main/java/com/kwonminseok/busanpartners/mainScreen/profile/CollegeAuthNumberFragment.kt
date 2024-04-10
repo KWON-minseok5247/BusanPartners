@@ -147,11 +147,11 @@ class CollegeAuthNumberFragment : Fragment() {
 
                         val userUpdates = mapOf(
                             "college" to university,
-                            "universityEmail" to universityEmail
+                            "universityEmail" to universityEmail,
+                            "authentication.studentEmailAuthenticationComplete" to true
                         )
 
                         viewModel.setCurrentUser(userUpdates)
-//                        viewModel.saveUserUniversity(university, universityEmail)
 
                         val bundle = Bundle()
                         bundle.putBoolean("isVerified", true)

@@ -71,26 +71,26 @@ class TravelerAuthFragment : Fragment() {
                         if (it.data?.authentication?.travelerAuthenticationImage != null) {
                             // TODO 이미지 불러오고 삭제하는 기능을 효율적으로 만들지 않았다. 나중에 따로 시간나면 다시 만들자.
                             val urlList = it.data.authentication?.travelerAuthenticationImage
-                            imagesAdapter = ImagesAdapter(requireContext(), urlList).apply {
-                                onClick = { imageUrl, position ->
-                                    Log.e("click을 했을 때", "${imageUrl} ${position}")
-                                    AlertDialog.Builder(requireContext())
-                                        .setTitle("삭제 확인")
-                                        .setMessage("정말 삭제하시겠습니까?")
-                                        .setPositiveButton("삭제") { dialog, which ->
-                                            lifecycleScope.launch {
-                                                viewModel.deleteImageFromStorage(imageUrl)
-                                                viewModel.deleteImageFromDatabase(imageUrl, TRAVELER)
-
-                                            }
-
-                                        }
-                                        .setNegativeButton("취소", null)
-                                        .show()
-
-
-                                }
-                            }
+//                            imagesAdapter = ImagesAdapter(requireContext(), urlList).apply {
+//                                onClick = { imageUrl, position ->
+//                                    Log.e("click을 했을 때", "${imageUrl} ${position}")
+//                                    AlertDialog.Builder(requireContext())
+//                                        .setTitle("삭제 확인")
+//                                        .setMessage("정말 삭제하시겠습니까?")
+//                                        .setPositiveButton("삭제") { dialog, which ->
+//                                            lifecycleScope.launch {
+////                                                viewModel.deleteImageFromStorage(imageUrl)
+////                                                viewModel.deleteImageFromDatabase(imageUrl, TRAVELER)
+//
+//                                            }
+//
+//                                        }
+//                                        .setNegativeButton("취소", null)
+//                                        .show()
+//
+//
+//                                }
+//                            }
                             binding.viewPagerImages.adapter = imagesAdapter
                             binding.viewPagerImages.adapter?.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
 

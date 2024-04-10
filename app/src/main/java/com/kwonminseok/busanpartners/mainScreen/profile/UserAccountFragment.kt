@@ -157,7 +157,7 @@ class UserAccountFragment : Fragment() {
                         // 로딩 인디케이터 숨기기
                         binding.buttonSave.revertAnimation()
                         // 성공 메시지 표시 또는 성공 후 작업
-                        Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
+                        Toast.makeText(requireContext(), "성공적으로 처리되었습니다.", Toast.LENGTH_SHORT)
                             .show()
                     }
 

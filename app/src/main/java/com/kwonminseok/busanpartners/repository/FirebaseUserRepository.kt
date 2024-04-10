@@ -20,6 +20,7 @@ import com.kwonminseok.busanpartners.util.Constants.TRAVLER_AUTHENTICATION
 import com.kwonminseok.busanpartners.util.Constants.UNIVERSITY_AUTHENTICATION
 import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
 import com.kwonminseok.busanpartners.util.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,16 +28,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
 interface FirebaseUserRepository {
-//    suspend fun getCurrentUser(): Resource<User>
+    //    suspend fun getCurrentUser(): Resource<User>
     suspend fun getCurrentUser(): Flow<Resource<User>>
 
 //    suspend fun updateCurrentUser(map: Map<String, Any?>): Resource<Boolean>
 
-//    suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean>
+    //    suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean>
     suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean>
+    suspend fun uploadUserImagesAndUpdateToFirestore(
+        imageUris: List<Uri>,
+        status: String
+    ): Resource<Boolean>
 
     suspend fun setCurrentUserWithImage(
         imageData: ByteArray,
@@ -102,6 +108,38 @@ class FirebaseUserRepositoryImpl(
             Resource.Error(e.message ?: "Unknown error")
         }
     }
+
+    override suspend fun uploadUserImagesAndUpdateToFirestore(
+        imageUris: List<Uri>,
+        status: String
+    ): Resource<Boolean> {
+            return try {
+                val storageRef = storage.child("user/${auth.uid!!}/authentication")
+                val uploadedImageUrls = mutableListOf<String>()
+
+                for (uri in imageUris) {
+                    val imageRef =
+                        storageRef.child("${System.currentTimeMillis()}-${uri.lastPathSegment}")
+                    val uploadTask = imageRef.putFile(uri).await()
+                    val downloadUrl = uploadTask.storage.downloadUrl.await().toString()
+                    uploadedImageUrls.add(downloadUrl)
+                }
+
+                val userRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
+                val updateField =
+                    if (status == STUDENT) "authentication.studentIdentificationCard" else "authentication.travelerAuthenticationImage"
+                val map = mapOf(updateField to uploadedImageUrls,
+                    "authentication.authenticationStatus" to "loading"
+                    )
+                userRef.update(map).await()
+
+                Resource.Success(true) // 성공 시 true 반환
+            } catch (e: Exception) {
+                Resource.Error(e.localizedMessage ?: "An error occurred while uploading images.")
+            }
+
+    }
+
 
     override suspend fun setCurrentUserWithImage(
         imageData: ByteArray,

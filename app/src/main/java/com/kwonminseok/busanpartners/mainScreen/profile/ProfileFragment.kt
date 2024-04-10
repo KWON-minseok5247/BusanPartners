@@ -41,6 +41,7 @@ class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
 //    private val viewModel by viewModels<ProfileViewModel>()
     private val viewModel: UserViewModel by viewModels()
+    lateinit var user: User
 
 
     override fun onCreateView(
@@ -65,6 +66,7 @@ class ProfileFragment : Fragment() {
                     is Resource.Success -> {
                         hideProgressBar()
                         fetchUserData(it.data!!)
+                        user = it.data
                     }
                     is Resource.Error -> {
                         hideProgressBar()
@@ -104,10 +106,12 @@ class ProfileFragment : Fragment() {
 
 
 
-
+        //TODO 여기서 만약 이메일인증까지 진행했다면 바로 학생증 인증으로 넘어가기
         //TODO 클릭하면 information 창으로 넘어가기
         binding.collegeAuthentication.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_collegeAuthFragment)
+            if (user.authentication.studentEmailAuthenticationComplete) {
+                findNavController().navigate(R.id.action_profileFragment_to_collegeAuthImageFragment)
+            } else findNavController().navigate(R.id.action_profileFragment_to_collegeAuthFragment)
         }
 
         //TODO 클릭하면 information 창으로 넘어가기

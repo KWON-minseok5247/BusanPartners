@@ -80,5 +80,12 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
         }
     }
 
+    fun uploadUserImagesAndUpdateToFirestore(selectedImageUris: List<Uri>, status: String) {
+        viewModelScope.launch {
+            _updateStatus.value = Resource.Loading()
+            _updateStatus.value = userRepository.uploadUserImagesAndUpdateToFirestore(selectedImageUris, status)
+        }
+    }
+
 
 }

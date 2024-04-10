@@ -23,8 +23,6 @@ private val TAG = "CollegeAuthCompleteFragment"
 @AndroidEntryPoint
 class CollegeAuthCompleteFragment : Fragment() {
     lateinit var binding: FragmentColleteAuthCompleteBinding
-//    private val viewModel by viewModels<AuthenticationViewModel>()
-    private val viewModel: UserViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,24 +61,21 @@ class CollegeAuthCompleteFragment : Fragment() {
         if (isVerified) {
             //TODO 여기서는 유저에서 대학생이라는 것을 true로 설정하고 프로필 화면으로 이동해야 한다.
 
-            binding.authenticationAnswer.text = "인증이 완료되었습니다."
-            binding.authCompleteButton.text = "프로필 화면으로 돌아가기"
+            binding.authenticationAnswer.text = "이메일 인증이 완료되었습니다."
+            binding.authCompleteButton.text = "학생증 인증으로 넘어가기"
             // 유저정보 업데이트 함수 필요
-            val map = mapOf("authentication.studentEmailAuthenticationComplete" to true)
-
-            viewModel.setCurrentUser(map)
             binding.authCompleteButton.setOnClickListener {
-                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthFragment)
+                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthImageFragment)
             }
 
 
-        } else {
+        } else {            // 여기선 false이므로 다시 이메일 인증화면으로 돌아간다.
+
             binding.authenticationAnswer.text = "인증을 실패하였습니다."
-            binding.authCompleteButton.text = "확인"
+            binding.authCompleteButton.text = "돌아가기"
             binding.authCompleteButton.setOnClickListener {
                 findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthFragment)
             }
-            //ToDo 여기선 false이므로 다시 이메일 인증화면으로 돌아간다.
         }
 
 

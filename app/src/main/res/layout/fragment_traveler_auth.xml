@@ -26,7 +26,7 @@
         android:id="@+id/backButton"/>
 
     <TextView
-        android:id="@+id/tvCheckImage"
+        android:id="@+id/tvCheckEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
@@ -44,7 +44,7 @@
         android:textStyle="bold"
         android:text="ex) 비행기 티켓 + 숙박증명서 \n(이름이 나와있어야 합니다.) \n 사진이 2장 이상은 있어야 합니다. "
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/tvCheckImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvCheckEmail"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="2dp"/>
 
