@@ -19,6 +19,7 @@ import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
 import com.kwonminseok.busanpartners.mainScreen.TAG
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.models.Filters
@@ -38,7 +39,9 @@ import kotlin.coroutines.suspendCoroutine
 class MessageFragment : Fragment() {
 
     private lateinit var binding: FragmentMessageBinding
-    private val viewModel by viewModels<ChatListViewModel>()
+//    private val viewModel by viewModels<ChatListViewModel>()
+    private val viewModel: UserViewModel by viewModels()
+
     private var client: ChatClient? = BusanPartners.chatClient
     lateinit var user: com.kwonminseok.busanpartners.data.User
 

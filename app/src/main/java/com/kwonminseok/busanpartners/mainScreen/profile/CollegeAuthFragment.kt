@@ -111,6 +111,7 @@ class CollegeAuthFragment : Fragment() {
                                 authenticationComplete.visibility = View.VISIBLE
                             }
                         }
+
                         if (it.data?.authentication?.authenticationStatus == "loading") {
                             binding.btnSendAllData.isClickable = false
                             binding.btnOpenGallery.isClickable = false
@@ -123,9 +124,7 @@ class CollegeAuthFragment : Fragment() {
                             Log.e("이메일 인증이 되어야 하는데?", "${it.data?.authentication?.studentEmailAuthenticationComplete}")
                             binding.btnSendAllData.isClickable = true
                             binding.btnOpenGallery.isClickable = true
-
                         }
-
                     }
 
                     is Resource.Error -> {

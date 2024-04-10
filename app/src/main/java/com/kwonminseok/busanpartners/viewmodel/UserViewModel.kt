@@ -49,9 +49,7 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
         viewModelScope.launch {
             _updateStatus.value = Resource.Loading()
             _updateStatus.value = userRepository.setCurrentUser(map)
-
         }
-
     }
 
     fun setCurrentUserWithImage(imageData: ByteArray, map: Map<String, Any?>) {

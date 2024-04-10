@@ -164,7 +164,7 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getCurrentUser()
+//        viewModel.getCurrentUser()
 //        Log.e("viewModel.getCurrentUser()", "실행되었다.")
     }
 

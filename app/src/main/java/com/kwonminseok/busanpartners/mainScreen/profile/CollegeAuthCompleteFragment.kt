@@ -14,6 +14,7 @@ import com.kwonminseok.busanpartners.databinding.FragmentColleteAuthCompleteBind
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.kwonminseok.busanpartners.viewmodel.AuthenticationViewModel
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //import com.univcert.api.UnivCert
@@ -22,7 +23,8 @@ private val TAG = "CollegeAuthCompleteFragment"
 @AndroidEntryPoint
 class CollegeAuthCompleteFragment : Fragment() {
     lateinit var binding: FragmentColleteAuthCompleteBinding
-    private val viewModel by viewModels<AuthenticationViewModel>()
+//    private val viewModel by viewModels<AuthenticationViewModel>()
+    private val viewModel: UserViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,7 +66,9 @@ class CollegeAuthCompleteFragment : Fragment() {
             binding.authenticationAnswer.text = "인증이 완료되었습니다."
             binding.authCompleteButton.text = "프로필 화면으로 돌아가기"
             // 유저정보 업데이트 함수 필요
-            viewModel.clearEmailAuthentication()
+            val map = mapOf("authentication.studentEmailAuthenticationComplete" to true)
+
+            viewModel.setCurrentUser(map)
             binding.authCompleteButton.setOnClickListener {
                 findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthFragment)
             }
