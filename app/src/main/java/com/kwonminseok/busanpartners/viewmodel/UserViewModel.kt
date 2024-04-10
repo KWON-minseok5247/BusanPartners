@@ -8,15 +8,20 @@ import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.repository.FirebaseUserRepository
 import com.kwonminseok.busanpartners.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private val TAG = "UserAccountViewModel"
+
 @HiltViewModel
-class UserViewModel @Inject constructor(private val userRepository: FirebaseUserRepository) : ViewModel() {
+class UserViewModel @Inject constructor(private val userRepository: FirebaseUserRepository) :
+    ViewModel() {
 
     private val _user = MutableStateFlow<Resource<User>>(Resource.Unspecified())
     val user: StateFlow<Resource<User>> = _user
@@ -34,7 +39,9 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
     fun getCurrentUser() {
         viewModelScope.launch {
             _user.value = Resource.Loading()
-            _user.value = userRepository.getCurrentUser()
+            userRepository.getCurrentUser().collect { resource ->
+                _user.value = resource
+            }
         }
     }
 
@@ -42,8 +49,9 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
         viewModelScope.launch {
             _updateStatus.value = Resource.Loading()
             _updateStatus.value = userRepository.setCurrentUser(map)
-            _user.emit()
+
         }
+
     }
 
     fun setCurrentUserWithImage(imageData: ByteArray, map: Map<String, Any?>) {
@@ -66,10 +74,13 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
             _students.value = userRepository.getUniversityStudentsWantToMeet()
         }
     }
+
     fun attachToAuthenticationFolder(status: String) {
         viewModelScope.launch {
             _updateStatus.value = Resource.Loading()
             _updateStatus.value = userRepository.attachToAuthenticationFolder(status)
         }
     }
+
+
 }

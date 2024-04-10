@@ -20,17 +20,22 @@ import com.kwonminseok.busanpartners.util.Constants.TRAVLER_AUTHENTICATION
 import com.kwonminseok.busanpartners.util.Constants.UNIVERSITY_AUTHENTICATION
 import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
 import com.kwonminseok.busanpartners.util.Resource
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 
 interface FirebaseUserRepository {
-    suspend fun getCurrentUser(): Resource<User>
+//    suspend fun getCurrentUser(): Resource<User>
+    suspend fun getCurrentUser(): Flow<Resource<User>>
 
 //    suspend fun updateCurrentUser(map: Map<String, Any?>): Resource<Boolean>
 
+//    suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean>
     suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean>
 
     suspend fun setCurrentUserWithImage(
@@ -52,21 +57,40 @@ class FirebaseUserRepositoryImpl(
     private val storage: StorageReference
 ) : FirebaseUserRepository {
 
-    override suspend fun getCurrentUser(): Resource<User> {
-        return try {
-            val docSnapshot =
-                firestore.collection(USER_COLLECTION).document(auth.uid!!).get().await()
-            // 유저가 사진을 바꾸는 등의 행동을 하기에 addsnap으로 한다.
-            val user = docSnapshot.toObject(User::class.java)
-            if (user != null) {
-                Resource.Success(user)
-            } else {
-                Resource.Error("User not found")
+    override suspend fun getCurrentUser(): Flow<Resource<User>> = callbackFlow {
+        val docRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
+        val snapshotListener = docRef.addSnapshotListener { snapshot, error ->
+            // 에러 처리
+            if (error != null) {
+                trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
+                return@addSnapshotListener
             }
-        } catch (e: Exception) {
-            Resource.Error(e.message ?: "Unknown error")
+            // 데이터 처리
+            val user = snapshot?.toObject(User::class.java)
+            if (user != null) {
+                trySend(Resource.Success(user)).isSuccess
+            } else {
+                trySend(Resource.Error("User not found")).isSuccess
+            }
         }
+        // 채널이 닫힐 때 리스너 해제
+        awaitClose { snapshotListener.remove() }
     }
+//    override suspend fun getCurrentUser(): Resource<User> {
+//        return try {
+//            val docSnapshot =
+//                firestore.collection(USER_COLLECTION).document(auth.uid!!).get().await()
+//            // 유저가 사진을 바꾸는 등의 행동을 하기에 addsnap으로 한다.
+//            val user = docSnapshot.toObject(User::class.java)
+//            if (user != null) {
+//                Resource.Success(user)
+//            } else {
+//                Resource.Error("User not found")
+//            }
+//        } catch (e: Exception) {
+//            Resource.Error(e.message ?: "Unknown error")
+//        }
+//    }
 
     // 데이터를 수정하도록 한다.
     override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -55,7 +56,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         lifecycleScope.launchWhenStarted {
             viewModel.user.collectLatest {
                 when (it) {
@@ -75,26 +75,26 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.updateStatus.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-                        Log.e("viewModel.getCurrentUser()","로딩.")
 
-                    }
-                    is Resource.Success -> {
-                        viewModel.getCurrentUser()
-                        Log.e("viewModel.getCurrentUser()","성공.")
-                    }
-                    is Resource.Error -> {
-                        Log.e("viewModel.getCurrentUser()","실패.")
-
-                        Toast.makeText(requireContext(),it.message.toString(),Toast.LENGTH_SHORT).show()
-                    }
-                    else -> Unit
-                }
-            }
-        }
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.updateStatus.collect {
+//                when (it.data) {
+//                    false -> {
+//                        Log.e("viewModel.getCurrentUser()","false")
+//
+//                    }
+//                    true  -> {
+//                        viewModel.getCurrentUser()
+//                        Log.e("viewModel.getCurrentUser()","true")
+//                    }
+//
+//                    else -> {
+//                        Log.e("viewModel.getCurrentUser()","${it.data} ${it.message}")
+//
+//                    }
+//                }
+//            }
+//        }
 
         binding.constraintProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
@@ -164,7 +164,7 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        viewModel.getCurrentUser()
+        viewModel.getCurrentUser()
 //        Log.e("viewModel.getCurrentUser()", "실행되었다.")
     }
 
@@ -174,10 +174,10 @@ class ProfileFragment : Fragment() {
 
     private fun fetchUserData(user: User) {
         binding.apply {
-            Glide.with(requireView()).load(user.imagePath).into(binding.imageUser)
+            Glide.with(requireView()).load(user.imagePath).override(200, 200)
+                .into(binding.imageUser)
             tvUserName.text = user.name
             tvEditPersonalDetails.text = "${user.college} ${user.major}"
-
         }
         when (user.authentication.authenticationStatus) {
             "loading" -> {

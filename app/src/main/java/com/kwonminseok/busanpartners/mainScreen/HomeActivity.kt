@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -12,6 +13,7 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ActivityHomeBinding
 import com.kwonminseok.busanpartners.mainScreen.home.HomeFragment
 import com.kwonminseok.busanpartners.mainScreen.profile.ProfileFragment
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //@AndroidEntryPoint
@@ -107,6 +109,8 @@ import dagger.hilt.android.AndroidEntryPoint
 //}
 @AndroidEntryPoint
 class HomeActivity: AppCompatActivity() {
+//    private val viewModel: UserViewModel by viewModels()
+
     private lateinit var fragmentManager: FragmentManager
 
     val binding by lazy {

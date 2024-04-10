@@ -44,10 +44,8 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call<TouristDestinationResponse>,
                                     response: Response<TouristDestinationResponse>) {
                 if (response.isSuccessful) {
-
                     binding.touristRecyclerView.adapter = touristDestinationAdapter
                     touristDestinationAdapter.differ.submitList(response.body()?.getAttractionKr?.item)
-
                 }
             }
             override fun onFailure(call: Call<TouristDestinationResponse>, t: Throwable) {

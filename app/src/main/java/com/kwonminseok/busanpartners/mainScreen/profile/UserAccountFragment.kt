@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -42,7 +43,10 @@ import kotlinx.coroutines.withContext
 class UserAccountFragment : Fragment() {
     private var chipTexts: MutableList<String>? = null
     lateinit var binding: FragmentUserAccountBinding
-    private val viewModel: UserViewModel by viewModels()
+
+        private val viewModel: UserViewModel by viewModels()
+//    private val viewModel: UserViewModel by activityViewModels()
+
     private val GALLERY = 1
     private var imageData: Uri? = null
     lateinit var oldUser: User
@@ -137,7 +141,6 @@ class UserAccountFragment : Fragment() {
             }
 
 
-
         }
 
 
@@ -149,18 +152,23 @@ class UserAccountFragment : Fragment() {
                         // 로딩 인디케이터 표시
                         binding.buttonSave.startAnimation()
                     }
+
                     is Resource.Success -> {
                         // 로딩 인디케이터 숨기기
                         binding.buttonSave.revertAnimation()
                         // 성공 메시지 표시 또는 성공 후 작업
-                        Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
+                            .show()
                     }
+
                     is Resource.Error -> {
                         // 로딩 인디케이터 숨기기
                         binding.buttonSave.revertAnimation()
                         // 에러 메시지 표시
-                        Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT)
+                            .show()
                     }
+
                     else -> Unit // Resource.Unspecified 처리
                 }
             }
@@ -262,8 +270,6 @@ class UserAccountFragment : Fragment() {
         }
 
 
-
-
     }
 
     private fun convertUriToByteArray(
@@ -283,7 +289,6 @@ class UserAccountFragment : Fragment() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 96, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
     }
-
 
 
     @Override
