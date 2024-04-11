@@ -2,9 +2,14 @@ package com.kwonminseok.busanpartners.mainScreen.profile
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.Rect
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kwonminseok.busanpartners.R
@@ -26,8 +32,14 @@ import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.kwonminseok.busanpartners.viewmodel.AuthenticationViewModel
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.math.abs
 
 
@@ -70,6 +82,7 @@ class CollegeAuthImageFragment : Fragment() {
                     is Resource.Success -> {
                         // 로딩 인디케이터 숨기기
                         binding.btnSendAllData.revertAnimation()
+                        findNavController().navigate(R.id.action_collegeAuthImageFragment_to_profileFragment)
                         // 성공 메시지 표시 또는 성공 후 작업
                         Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
                             .show()
@@ -195,10 +208,13 @@ class CollegeAuthImageFragment : Fragment() {
                 // 아무것도 실행되지 않도록
                 Toast.makeText(requireContext(), "학생증 사진을 추가해주세요!", Toast.LENGTH_SHORT).show()
             } else {
-                viewModel.uploadUserImagesAndUpdateToFirestore(imageUris, STUDENT).also {
-                    viewModel.attachToAuthenticationFolder(STUDENT)
+                viewModel.viewModelScope.launch {
+                    viewModel.uploadUserImagesAndUpdateToFirestore(imageUris, STUDENT)
+//                    viewModel.attachToAuthenticationFolder(STUDENT)
+//                    withContext(Dispatchers.Main) {
+//                    }
                 }
-                findNavController().navigate(R.id.action_collegeAuthImageFragment_to_profileFragment)
+
             }
         }
         // firebase 폴더를 따로 만들어 uid와 status를 알림
@@ -239,22 +255,66 @@ class CollegeAuthImageFragment : Fragment() {
 
         if (requestCode == REQUEST_CODE_IMAGE_PICK && resultCode == RESULT_OK) {
             imageUris.clear() // 기존 목록을 클리어
-
             // 선택한 이미지 처리
             if (data?.clipData != null) { // 여러 이미지 선택 처리
                 val clipData = data.clipData!!
                 for (i in 0 until clipData.itemCount) {
                     val imageUri = clipData.getItemAt(i).uri
-                    imageUris.add(imageUri)
+//                    imageUris.add(imageUri)
+                    // 이미지 리사이즈 및 임시 파일로 저장
+                    val resizedUri = convertResizeImage(imageUri) // 예시 해상도
+
+                    imageUris.add(resizedUri)
+
                 }
             } else if (data?.data != null) { // 단일 이미지 선택 처리
                 val imageUri = data.data!!
-                imageUris.add(imageUri)
+                val resizedUri = convertResizeImage(imageUri) // 예시 해상도
+
+                imageUris.add(resizedUri)
             }
 
             // ImagesAdapter 업데이트
             updateImagesAdapter(imageUris)
         }
+    }
+
+    private fun convertResizeImage(imageUri: Uri): Uri {
+//        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
+//        val resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width / 2, bitmap.height / 2, true)
+//
+//        val byteArrayOutputStream = ByteArrayOutputStream()
+//        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream)
+//
+//        val tempFile = File.createTempFile("resized_image", ".jpg", requireContext().cacheDir)
+//        val fileOutputStream = FileOutputStream(tempFile)
+//        fileOutputStream.write(byteArrayOutputStream.toByteArray())
+//        fileOutputStream.close()
+//
+//        return Uri.fromFile(tempFile)
+        val inputStream = requireContext().contentResolver.openInputStream(imageUri)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+
+        // 이미지 리사이즈
+        val resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width / 2, bitmap.height / 2, true)
+
+        // 이미지 회전을 위한 Matrix 객체 생성
+        val matrix = Matrix()
+        val rotationInDegrees = exifToDegrees(getRotationAngle(imageUri))
+        matrix.preRotate(rotationInDegrees.toFloat())
+
+        // 회전된 Bitmap 생성
+        val rotatedBitmap = Bitmap.createBitmap(resizedBitmap, 0, 0, resizedBitmap.width, resizedBitmap.height, matrix, true)
+
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream)
+
+        val tempFile = File.createTempFile("resized_image", ".jpg", requireContext().cacheDir)
+        val fileOutputStream = FileOutputStream(tempFile)
+        fileOutputStream.write(byteArrayOutputStream.toByteArray())
+        fileOutputStream.close()
+
+        return Uri.fromFile(tempFile)
     }
     private fun updateImagesAdapter(imageUris: ArrayList<Uri>) {
         if (!::imagesAdapter.isInitialized) {
@@ -286,6 +346,19 @@ class CollegeAuthImageFragment : Fragment() {
     private fun hideProgressBar() {
         binding.progressBar.visibility = View.GONE
     }
+    private fun getRotationAngle(imageUri: Uri): Int {
+        val inputStream = requireContext().contentResolver.openInputStream(imageUri)
+        val exifInterface = ExifInterface(inputStream!!)
+        return exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+    }
 
+    private fun exifToDegrees(exifOrientation: Int): Int {
+        return when (exifOrientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90
+            ExifInterface.ORIENTATION_ROTATE_180 -> 180
+            ExifInterface.ORIENTATION_ROTATE_270 -> 270
+            else -> 0
+        }
+    }
 
 }

@@ -21,7 +21,10 @@ import com.kwonminseok.busanpartners.util.Constants.UNIVERSITY_AUTHENTICATION
 import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
 import com.kwonminseok.busanpartners.util.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,7 +56,7 @@ interface FirebaseUserRepository {
 
     suspend fun getUniversityStudentsWantToMeet(): Resource<MutableList<User>>
 
-    suspend fun attachToAuthenticationFolder(status: String): Resource<Boolean>
+//    suspend fun attachToAuthenticationFolder(status: String): Resource<Boolean>
 
 }
 
@@ -109,34 +112,79 @@ class FirebaseUserRepositoryImpl(
         }
     }
 
+//    override suspend fun uploadUserImagesAndUpdateToFirestore(
+//        imageUris: List<Uri>,
+//        status: String
+//    ): Resource<Boolean> {
+//            return try {
+//                val storageRef = storage.child("user/${auth.uid!!}/authentication")
+////                val uploadedImageUrls = mutableListOf<String>()
+////
+////                for (uri in imageUris) {
+////                    val imageRef =
+////                        storageRef.child("${System.currentTimeMillis()}-${uri.lastPathSegment}")
+////                    val uploadTask = imageRef.putFile(uri).await()
+////                    val downloadUrl = uploadTask.storage.downloadUrl.await().toString()
+////                    uploadedImageUrls.add(downloadUrl)
+////                }
+////
+////                // 모든 이미지 업로드 작업을 동시에 시작
+////                val uploadTasks = imageUris.map { uri ->
+////
+////                    async {
+////                        val imageRef = storageRef.child("${System.currentTimeMillis()}-${uri.lastPathSegment}")
+////                        val uploadTask = imageRef.putFile(uri).await()
+////                        uploadTask.storage.downloadUrl.await().toString()
+////                    }
+////                }
+////
+////                // 모든 업로드 작업이 완료될 때까지 기다림
+////                val uploadedImageUrls = uploadTasks.awaitAll()
+////
+//
+//                val userRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
+//                val updateField =
+//                    if (status == STUDENT) "authentication.studentIdentificationCard" else "authentication.travelerAuthenticationImage"
+//                val map = mapOf(updateField to uploadedImageUrls,
+//                    "authentication.authenticationStatus" to "loading"
+//                    )
+//                userRef.update(map).await()
+//
+//                Resource.Success(true) // 성공 시 true 반환
+//            } catch (e: Exception) {
+//                Resource.Error(e.localizedMessage ?: "An error occurred while uploading images.")
+//            }
+//
+//    }
+
     override suspend fun uploadUserImagesAndUpdateToFirestore(
         imageUris: List<Uri>,
         status: String
     ): Resource<Boolean> {
-            return try {
+        return coroutineScope {
+            try {
                 val storageRef = storage.child("user/${auth.uid!!}/authentication")
-                val uploadedImageUrls = mutableListOf<String>()
 
-                for (uri in imageUris) {
-                    val imageRef =
-                        storageRef.child("${System.currentTimeMillis()}-${uri.lastPathSegment}")
-                    val uploadTask = imageRef.putFile(uri).await()
-                    val downloadUrl = uploadTask.storage.downloadUrl.await().toString()
-                    uploadedImageUrls.add(downloadUrl)
-                }
+                // async로 각 이미지 업로드 작업을 병렬로 시작
+                val uploadedImageUrls = imageUris.map { uri ->
+                    async {
+                        val imageRef = storageRef.child("${System.currentTimeMillis()}-${uri.lastPathSegment}")
+                        val uploadTask = imageRef.putFile(uri).await()
+                        uploadTask.storage.downloadUrl.await().toString()
+                    }
+                }.awaitAll()
 
+                // 업로드된 이미지 URL을 사용하여 Firestore 데이터 업데이트
                 val userRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
-                val updateField =
-                    if (status == STUDENT) "authentication.studentIdentificationCard" else "authentication.travelerAuthenticationImage"
-                val map = mapOf(updateField to uploadedImageUrls,
-                    "authentication.authenticationStatus" to "loading"
-                    )
+                val updateField = if (status == STUDENT) "authentication.studentIdentificationCard" else "authentication.travelerAuthenticationImage"
+                val map = mapOf(updateField to uploadedImageUrls, "authentication.authenticationStatus" to "loading")
                 userRef.update(map).await()
 
-                Resource.Success(true) // 성공 시 true 반환
+                Resource.Success(true)
             } catch (e: Exception) {
                 Resource.Error(e.localizedMessage ?: "An error occurred while uploading images.")
             }
+        }
 
     }
 
@@ -192,48 +240,4 @@ class FirebaseUserRepositoryImpl(
         }
     }
 
-    override suspend fun attachToAuthenticationFolder(status: String): Resource<Boolean> {
-        return try {
-
-            val docSnapshot = firestore.collection(USER_COLLECTION).document(auth.uid!!)
-                .get().await()
-
-            val user = docSnapshot.toObject(User::class.java)
-            val checkAuthentication = CheckAuthentication(
-                user!!.uid,
-                user.authentication.studentIdentificationCard,
-                user.authentication.travelerAuthenticationImage,
-                user.universityEmail,
-                user.college
-            )
-
-//            firestore.collection("user").document(auth.uid!!)
-//                .update("authentication.authenticationStatus", "loading")
-//                .addOnSuccessListener {
-//                    Log.w("authenticationStatus = Loading", "정상적으로 수정되었습니다.")
-//
-//                }.addOnFailureListener {
-//                    Log.w("authenticationStatus = Loading 실패", "${it.message}.")
-//
-//                }
-            // 대학생일 때
-            if (status == STUDENT) {
-                firestore.collection(UNIVERSITY_AUTHENTICATION).document(auth.uid!!)
-                    .set(checkAuthentication).await()
-                Resource.Success(true)
-
-            } else { // 관광객일 때
-                firestore.collection(TRAVLER_AUTHENTICATION).document(auth.uid!!)
-                    .set(checkAuthentication).await()
-                Resource.Success(true)
-
-
-            }
-
-
-        } catch (e: Exception) {
-            // 에러 처리
-            Resource.Error(e.message ?: "An error occurred while attach folder on firebase")
-        }
-    }
 }

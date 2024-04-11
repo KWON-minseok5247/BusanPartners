@@ -72,15 +72,16 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 
-    <Button
+    <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+
         android:id="@+id/btnSendAllData"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="완료 알림 보내기"
+        android:text="완료"
         app:layout_constraintTop_toBottomOf="@id/viewPagerImages"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

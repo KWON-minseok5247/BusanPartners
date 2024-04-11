@@ -73,12 +73,12 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
         }
     }
 
-    fun attachToAuthenticationFolder(status: String) {
-        viewModelScope.launch {
-            _updateStatus.value = Resource.Loading()
-            _updateStatus.value = userRepository.attachToAuthenticationFolder(status)
-        }
-    }
+//    fun attachToAuthenticationFolder(status: String) {
+//        viewModelScope.launch {
+//            _updateStatus.value = Resource.Loading()
+//            _updateStatus.value = userRepository.attachToAuthenticationFolder(status)
+//        }
+//    }
 
     fun uploadUserImagesAndUpdateToFirestore(selectedImageUris: List<Uri>, status: String) {
         viewModelScope.launch {
