@@ -26,6 +26,11 @@
         <include layout="@layout/item_loading_view" />
 
         <include layout="@layout/item_loading_view" />
+        <include layout="@layout/item_loading_view" />
+        <include layout="@layout/item_loading_view" />
+        <include layout="@layout/item_loading_view" />
+        <include layout="@layout/item_loading_view" />
+        <include layout="@layout/item_loading_view" />
 
     </LinearLayout>
 

@@ -22,6 +22,7 @@ import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.token.TokenProvider
 import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.User
 import io.getstream.chat.android.models.querysort.QuerySortByField
@@ -67,7 +68,7 @@ class MessageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-// Inflate loading view
+        // 페이스북 shimmer Ui 구현 로직
         val loadingView =
             LayoutInflater.from(requireContext()).inflate(R.layout.channel_list_loading_view, null)
 // Set loading view
@@ -132,14 +133,24 @@ class MessageFragment : Fragment() {
     }
 
     private fun connectClient(myUser: User) {
+
+        val tokenProvider = object : TokenProvider {
+            // Make a request to your backend to generate a valid token for the user
+            override fun loadToken(): String = BusanPartners.preferences.getString("token", "")
+        }
+        if (tokenProvider.loadToken() == "") {
+
+        }
+
         client?.let { chatClient ->
             chatClient.connectUser(
                 user = myUser,
-                token = token
+                tokenProvider
             ).enqueue { result ->
                 // 비동기 작업 결과 처리
                 // 프래그먼트의 뷰가 생성된 상태인지 확인
 
+                // 여기는 대학생 목록에서 원하는 대학생과 메세지를 보내는 과정
                 val studentUid = arguments?.getString("studentUid", null)
                 if (studentUid != null) {
                     val channelClient =
@@ -224,6 +235,7 @@ class MessageFragment : Fragment() {
 
 
     //TODO 관광객들은 시간이 지나면 토큰을 해제해야 한다.
+    // 파이어베이스랑 연동을 시키니까 굳이 user 데이터를 들고 와서 할 필요는 없다.
     private suspend fun getNewToken(): String = suspendCoroutine { continuation ->
         val functions = FirebaseFunctions.getInstance("asia-northeast3")
         functions.getHttpsCallable("ext-auth-chat-getStreamUserToken")

@@ -7,6 +7,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -36,7 +37,8 @@ object AppModule {
     fun provideUserRepository(
         auth: FirebaseAuth,
         firestore: FirebaseFirestore,
-        storage: StorageReference
+        storage: StorageReference,
+
     ): FirebaseUserRepository = FirebaseUserRepositoryImpl(auth, firestore, storage)
 
 

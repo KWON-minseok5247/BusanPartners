@@ -12,9 +12,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.storage.StorageReference
+import com.kwonminseok.busanpartners.BusanPartners
 import com.kwonminseok.busanpartners.data.CheckAuthentication
 import com.kwonminseok.busanpartners.data.User
+import com.kwonminseok.busanpartners.mainScreen.TAG
 import com.kwonminseok.busanpartners.util.Constants.STUDENT
 import com.kwonminseok.busanpartners.util.Constants.TRAVLER_AUTHENTICATION
 import com.kwonminseok.busanpartners.util.Constants.UNIVERSITY_AUTHENTICATION
@@ -33,6 +36,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 interface FirebaseUserRepository {
     //    suspend fun getCurrentUser(): Resource<User>
@@ -56,6 +62,9 @@ interface FirebaseUserRepository {
 
     suspend fun getUniversityStudentsWantToMeet(): Resource<MutableList<User>>
 
+    suspend fun getStreamChatToken(): Resource<String>
+
+
 //    suspend fun attachToAuthenticationFolder(status: String): Resource<Boolean>
 
 }
@@ -63,7 +72,7 @@ interface FirebaseUserRepository {
 class FirebaseUserRepositoryImpl(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
-    private val storage: StorageReference
+    private val storage: StorageReference,
 ) : FirebaseUserRepository {
 
     override suspend fun getCurrentUser(): Flow<Resource<User>> = callbackFlow {
@@ -238,6 +247,31 @@ class FirebaseUserRepositoryImpl(
             // 에러 처리
             Resource.Error(e.message ?: "An error occurred while fetching university students")
         }
+    }
+
+    override suspend fun getStreamChatToken(): Resource<String> {
+        return try {
+            // FirebaseFunctions 인스턴스를 생성합니다.
+            val functions = FirebaseFunctions.getInstance("asia-northeast3")
+            // HTTPS Callable 함수를 호출하여 Stream Chat 토큰을 가져옵니다.
+            val result = functions
+                .getHttpsCallable("ext-auth-chat-getStreamUserToken")
+                .call()
+                .await()
+
+            // 결과에서 데이터를 추출하여 토큰을 얻습니다.
+            val token = result.data as? String ?: throw IllegalStateException("Token not found")
+
+            // 토큰을 로컬에 저장합니다.
+            BusanPartners.preferences.setString("token", token)
+
+            // 성공적으로 토큰을 받아왔다면, Resource.Success로 감싸서 반환합니다.
+            Resource.Success(token)
+        } catch (e: Exception) {
+            // 예외가 발생했다면, Resource.Error로 감싸서 반환합니다.
+            Resource.Error(e.localizedMessage ?: "Failed to fetch Stream Chat token")
+        }
+
     }
 
 }

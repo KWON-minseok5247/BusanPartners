@@ -2,6 +2,8 @@ package com.kwonminseok.busanpartners.viewmodel
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kwonminseok.busanpartners.data.User
@@ -31,6 +33,9 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
 
     private val _students = MutableStateFlow<Resource<MutableList<User>>>(Resource.Unspecified())
     val students = _students.asStateFlow()
+
+    private val _token = MutableLiveData<Resource<String>>()
+    val token: LiveData<Resource<String>> = _token
 
     init {
         getCurrentUser()
@@ -86,6 +91,14 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
             _updateStatus.value = userRepository.uploadUserImagesAndUpdateToFirestore(selectedImageUris, status)
         }
     }
+
+    fun getStreamChatToken() {
+        viewModelScope.launch {
+            _token.value = Resource.Loading()
+            _token.value = userRepository.getStreamChatToken()
+        }
+    }
+
 
 
 }
