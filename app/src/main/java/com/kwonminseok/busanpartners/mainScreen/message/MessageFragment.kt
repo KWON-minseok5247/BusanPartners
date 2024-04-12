@@ -17,6 +17,7 @@ import com.kwonminseok.busanpartners.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
 import com.kwonminseok.busanpartners.mainScreen.TAG
+import com.kwonminseok.busanpartners.util.Constants.TOKEN
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
@@ -48,7 +49,7 @@ class MessageFragment : Fragment() {
 
 
     // 토큰 절차 1: 일단 token이 있는지 없는지 확인, 있으면 바로 가져온다.
-    private var token: String = BusanPartners.preferences.getString("token", "")
+    private var token: String = BusanPartners.preferences.getString(TOKEN, "")
 
 
     // Bundle에서 "studentUid" 키로 저장된 데이터 검색
@@ -118,7 +119,7 @@ class MessageFragment : Fragment() {
         if (token == "") {
             Log.e(TAG, "token이 비어있을 때.")
             lifecycleScope.launch {
-                token = getNewToken()
+                getNewToken()
                 // 프래그먼트가 액티비티에 붙어 있는지 확인
                 if (isAdded) {
                     connectClient(myUser)
@@ -136,10 +137,7 @@ class MessageFragment : Fragment() {
 
         val tokenProvider = object : TokenProvider {
             // Make a request to your backend to generate a valid token for the user
-            override fun loadToken(): String = BusanPartners.preferences.getString("token", "")
-        }
-        if (tokenProvider.loadToken() == "") {
-
+            override fun loadToken(): String = BusanPartners.preferences.getString(TOKEN, "")
         }
 
         client?.let { chatClient ->
@@ -244,7 +242,7 @@ class MessageFragment : Fragment() {
                 if (task.isSuccessful) {
                     // 함수 호출이 성공했습니다. 반환된 데이터에서 토큰을 추출합니다.
                     val token = task.result?.data as String
-                    BusanPartners.preferences.setString("token", token)
+                    BusanPartners.preferences.setString(TOKEN, token)
                     continuation.resume(token) // 코루틴을 재개하고 결과를 반환합니다.
                 } else {
                     // 호출 실패. 에러를 처리합니다.

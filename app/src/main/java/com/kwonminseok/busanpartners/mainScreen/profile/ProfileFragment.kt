@@ -23,6 +23,7 @@ import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.kwonminseok.busanpartners.login.LoginRegisterActivity
+import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
@@ -146,7 +147,7 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-            BusanPartners.preferences.setString("token", "")
+            BusanPartners.preferences.setString(Constants.TOKEN, "")
             // 접근권한으로부터 해제
             GoogleSignIn.getClient(
                 requireActivity(),

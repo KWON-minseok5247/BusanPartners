@@ -16,4 +16,5 @@ object Constants {
     const val COLLEGE_DATA = "collegeData"
     const val UNIVERSITY_AUTHENTICATION = "universityAuthentication"
     const val TRAVLER_AUTHENTICATION = "travelerAuthentication"
+    const val TOKEN = "token"
 }
