@@ -35,6 +35,9 @@ android {
         buildConfigField "String", "COLLEGE_KEY", properties['COLLEGE_KEY']
         buildConfigField "String", "NAVER_CLIENT_ID", properties['NAVER_CLIENT_ID']
         // 매니페스트에서 사용이 가능하다. 구글맵 같은 경우가 이에 해당한다.
+
+        buildConfigField "String", "GUEST_ID_TOKEN", properties['GUEST_ID_TOKEN']
+
         // 키 - 값으로 저장된다.
         manifestPlaceholders = [NAVER_CLIENT_ID: properties["NAVER_CLIENT_ID"]]
 

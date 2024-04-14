@@ -31,6 +31,7 @@ import com.kwonminseok.busanpartners.viewmodel.ProfileViewModel
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import com.univcert.api.UnivCert
 import dagger.hilt.android.AndroidEntryPoint
+import io.getstream.chat.android.client.ChatClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collectLatest
@@ -121,14 +122,23 @@ class ProfileFragment : Fragment() {
         }
 
         binding.chat.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO) {
-                try {
-                    UnivCert.clear(BuildConfig.COLLEGE_KEY)
-
-                } catch (e: Exception) {
-                    e.printStackTrace()
+//            GlobalScope.launch(Dispatchers.IO) {
+//                try {
+//                    UnivCert.clear(BuildConfig.COLLEGE_KEY)
+//
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
+            chatClient.stopWatching(channelType = "messaging", channelId = "!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40").enqueue { result ->
+                if (result.isSuccess) {
+                    // Channel unwatched
+                } else {
+                    // Handle result.error()
                 }
             }
+
+
         }
 
         binding.linearLogOut.setOnClickListener {

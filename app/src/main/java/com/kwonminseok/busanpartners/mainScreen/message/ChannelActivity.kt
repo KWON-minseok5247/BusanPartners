@@ -53,197 +53,309 @@ class ChannelActivity : AppCompatActivity() {
         val cid = checkNotNull(intent.getStringExtra(CID_KEY)) {
             "Specifying a channel id is required when starting ChannelActivity"
         }
-        // Step 1 - Create three separate ViewModels for the views so it's easy
-        //          to customize them individually
-        val factory = MessageListViewModelFactory(this, cid)
-        val messageListHeaderViewModel: MessageListHeaderViewModel by viewModels { factory }
-        val messageListViewModel: MessageListViewModel by viewModels { factory }
-        val messageComposerViewModel: MessageComposerViewModel by viewModels { factory }
-
-        // Step 2 - Bind the view and ViewModels, they are loosely coupled so it's easy to customize
-        messageListHeaderViewModel.bindView(binding.messageListHeaderView, this)
-        messageListViewModel.bindView(binding.messageListView, this)
-        messageComposerViewModel.bindView(binding.messageComposerView, this)
 
 
-        // Step 3 - Let both MessageListHeaderView and MessageComposerView know when we open a thread
-        //MessageThread 모드는 특정 메시지 스레드에 대한 메시지를 작성하는 것을 의미,
-        //Normal 모드는 단체 채팅방에서 전반적인 메시지를 작성하는 상태를 나타냅니다.
-        messageListViewModel.mode.observe(this) { mode ->
-            when (mode) {
-                is MessageMode.MessageThread -> {
-                    messageListHeaderViewModel.setActiveThread(mode.parentMessage)
-                    messageComposerViewModel.setMessageMode(MessageMode.MessageThread(mode.parentMessage))
-                }
+        // 예시를 보여줄 때 -> 아직 제대로 인증이 되지 않았을 경우, 예시 채팅방만 볼 수 있다.
+        if (cid == "messaging:ExampleChat") {
+            // Step 1 - Create three separate ViewModels for the views so it's easy
+            //          to customize them individually
+            val factory = MessageListViewModelFactory(this, cid)
+            val messageListHeaderViewModel: MessageListHeaderViewModel by viewModels { factory }
+            val messageListViewModel: MessageListViewModel by viewModels { factory }
+            val messageComposerViewModel: MessageComposerViewModel by viewModels { factory }
 
-                is MessageMode.Normal -> {
-                    messageListHeaderViewModel.resetThread()
-                    messageComposerViewModel.leaveThread()
+            // Step 2 - Bind the view and ViewModels, they are loosely coupled so it's easy to customize
+            messageListHeaderViewModel.bindView(binding.messageListHeaderView, this)
+            messageListViewModel.bindView(binding.messageListView, this)
+            messageComposerViewModel.bindView(binding.messageComposerView, this)
+
+
+            // Step 3 - Let both MessageListHeaderView and MessageComposerView know when we open a thread
+            //MessageThread 모드는 특정 메시지 스레드에 대한 메시지를 작성하는 것을 의미,
+            //Normal 모드는 단체 채팅방에서 전반적인 메시지를 작성하는 상태를 나타냅니다.
+            messageListViewModel.mode.observe(this) { mode ->
+                when (mode) {
+                    is MessageMode.MessageThread -> {
+                        messageListHeaderViewModel.setActiveThread(mode.parentMessage)
+                        messageComposerViewModel.setMessageMode(MessageMode.MessageThread(mode.parentMessage))
+                    }
+
+                    is MessageMode.Normal -> {
+                        messageListHeaderViewModel.resetThread()
+                        messageComposerViewModel.leaveThread()
+                    }
                 }
             }
-        }
 
 
-        // Step 4 - Let the message input know when we are editing a message
-        binding.messageListView.setMessageEditHandler { message ->
-            messageComposerViewModel.performMessageAction(Edit(message))
-        }
-
-        // Step 5 - Handle navigate up state
-        messageListViewModel.state.observe(this) { state ->
-            if (state is MessageListViewModel.State.NavigateUp) {
-                finish()
+            // Step 4 - Let the message input know when we are editing a message
+            binding.messageListView.setMessageEditHandler { message ->
+                messageComposerViewModel.performMessageAction(Edit(message))
             }
-        }
 
-        // Step 6 - Handle back button behaviour correctly when you're in a thread
-        val backHandler = {
-            messageListViewModel.onEvent(MessageListViewModel.Event.BackButtonPressed)
-        }
-        binding.messageListHeaderView.setBackButtonClickListener(backHandler)
-        onBackPressedDispatcher.addCallback(this) {
-            backHandler()
-        }
+            // Step 5 - Handle navigate up state
+            messageListViewModel.state.observe(this) { state ->
+                if (state is MessageListViewModel.State.NavigateUp) {
+                    finish()
+                }
+            }
 
-        // 사용자가 스레드 답글을 만들 수 있는지 여부
-        binding.messageListView.setThreadsEnabled(false)
-        // 사용자가 메시지를 편집할 수 있는지 여부.
-        binding.messageListView.setEditMessageEnabled(false)
+            // Step 6 - Handle back button behaviour correctly when you're in a thread
+            val backHandler = {
+                messageListViewModel.onEvent(MessageListViewModel.Event.BackButtonPressed)
+            }
+            binding.messageListHeaderView.setBackButtonClickListener(backHandler)
+            onBackPressedDispatcher.addCallback(this) {
+                backHandler()
+            }
 
-        // 매 채팅마다 프로필 사진을 보여주는 코드
-        binding.messageListView.setShowAvatarPredicate { messageItem ->
-            messageItem.isTheirs
-        }
+            // 사용자가 스레드 답글을 만들 수 있는지 여부
+            binding.messageListView.setThreadsEnabled(false)
+            // 사용자가 메시지를 편집할 수 있는지 여부.
+            binding.messageListView.setEditMessageEnabled(false)
+            binding.messageListView.setDeleteMessageEnabled(false)
+            binding.messageListView.setReactionsEnabled(false)
+
+            // 매 채팅마다 프로필 사진을 보여주는 코드
+            binding.messageListView.setShowAvatarPredicate { messageItem ->
+                messageItem.isTheirs
+            }
 
 
-        val reactions = mapOf(
-            "thumbs_up" to SupportedReactions.ReactionDrawable(
-                inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_up)!!,
-                activeDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_up)!!
-            ),
-            "thumbs_down" to SupportedReactions.ReactionDrawable(
-                inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_down)!!,
-                activeDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_down)!!
-            ),
-        )
+            val reactions = mapOf(
+                "thumbs_up" to SupportedReactions.ReactionDrawable(
+                    inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_up)!!,
+                    activeDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_up)!!
+                ),
+                "thumbs_down" to SupportedReactions.ReactionDrawable(
+                    inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_down)!!,
+                    activeDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_down)!!
+                ),
+            )
 //        binding.messageListView.setAttachmentFactoryManager()
+            val locationActivityResultLauncher =
+                registerForActivityResult(LocationActivityResultContract()) { result ->
+                    // 여기에서 결과 처리, 예를 들면 받아온 LatLng 객체 사용
+                    result?.let { location ->
 
-
-        val locationActivityResultLauncher =
-            registerForActivityResult(LocationActivityResultContract()) { result ->
-                // 여기에서 결과 처리, 예를 들면 받아온 LatLng 객체 사용
-                result?.let { location ->
-
-                    val attachment = Attachment(
-                        type = "location",
-                        extraData = mutableMapOf(
-                            "latitude" to location.latitude,
-                            "longitude" to location.longitude,
+                        val attachment = Attachment(
+                            type = "location",
+                            extraData = mutableMapOf(
+                                "latitude" to location.latitude,
+                                "longitude" to location.longitude,
+                            )
                         )
-                    )
 
-                    val message = Message(
-                        cid = cid,
-                        text = "지도 공유",
-                        attachments = mutableListOf(attachment)
-                    )
-                    Log.e("message", message.toString())
+                        val message = Message(
+                            cid = cid,
+                            text = "지도 공유",
+                            attachments = mutableListOf(attachment)
+                        )
+                        Log.e("message", message.toString())
 
-                    BusanPartners.chatClient.channel(cid).sendMessage(message).enqueue { result ->
-                        if (result.isSuccess) {
-                            // 메시지 전송 성공 처리
+                        BusanPartners.chatClient.channel(cid).sendMessage(message).enqueue { result ->
+                            if (result.isSuccess) {
+                                // 메시지 전송 성공 처리
 
 
-                            Log.e("지도 사진 처리 성공", "성공")
-                        } else {
-                            // 메시지 전송 실패 처리
-                            Log.e("지도 사진 처리 실패", result.toString())
+                                Log.e("지도 사진 처리 성공", "성공")
+                            } else {
+                                // 메시지 전송 실패 처리
+                                Log.e("지도 사진 처리 실패", result.toString())
 
+                            }
                         }
+
+                    }
+                }
+
+            ChatUI.supportedReactions = SupportedReactions(this, reactions)
+            binding.messageComposerView.setLeadingContent(
+                CustomMessageComposerLeadingContent(this).also {
+                    it.attachmentsButtonClickListener = {
+                        binding.messageComposerView.attachmentsButtonClickListener(
+
+                        )
                     }
 
                 }
+            )
+
+
+
+            ChatUI.attachmentPreviewFactoryManager = AttachmentPreviewFactoryManager(
+                attachmentPreviewFactories = listOf(
+//                DateAttachmentPreviewFactory(),
+
+                    MediaAttachmentPreviewFactory(),
+                    FileAttachmentPreviewFactory()
+                )
+            )
+
+            ChatUI.attachmentFactoryManager = AttachmentFactoryManager(
+                attachmentFactories = listOf(
+//                DateAttachmentFactory(),
+                    LocationAttachmentViewFactory(lifecycleOwner = this)
+                )
+            )
+        } else {
+            Log.e("else???", "뭐지")
+            // Step 1 - Create three separate ViewModels for the views so it's easy
+            //          to customize them individually
+            val factory = MessageListViewModelFactory(this, cid)
+            val messageListHeaderViewModel: MessageListHeaderViewModel by viewModels { factory }
+            val messageListViewModel: MessageListViewModel by viewModels { factory }
+            val messageComposerViewModel: MessageComposerViewModel by viewModels { factory }
+
+            // Step 2 - Bind the view and ViewModels, they are loosely coupled so it's easy to customize
+            messageListHeaderViewModel.bindView(binding.messageListHeaderView, this)
+            messageListViewModel.bindView(binding.messageListView, this)
+            messageComposerViewModel.bindView(binding.messageComposerView, this)
+
+
+            // Step 3 - Let both MessageListHeaderView and MessageComposerView know when we open a thread
+            //MessageThread 모드는 특정 메시지 스레드에 대한 메시지를 작성하는 것을 의미,
+            //Normal 모드는 단체 채팅방에서 전반적인 메시지를 작성하는 상태를 나타냅니다.
+            messageListViewModel.mode.observe(this) { mode ->
+                when (mode) {
+                    is MessageMode.MessageThread -> {
+                        messageListHeaderViewModel.setActiveThread(mode.parentMessage)
+                        messageComposerViewModel.setMessageMode(MessageMode.MessageThread(mode.parentMessage))
+                    }
+
+                    is MessageMode.Normal -> {
+                        messageListHeaderViewModel.resetThread()
+                        messageComposerViewModel.leaveThread()
+                    }
+                }
             }
 
 
-        // 좌표가 수신됐는지 확인하는 용도
-//        val temporaryLatitude = intent.getDoubleExtra("latitude", 0.0)
+            // Step 4 - Let the message input know when we are editing a message
+            binding.messageListView.setMessageEditHandler { message ->
+                messageComposerViewModel.performMessageAction(Edit(message))
+            }
 
-//        // 데이터를 기반으로 필요한 로직 수행
-//        if (temporaryLatitude != 0.0) {
-//            // 로직 수행...
-//            val latitude = intent.getDoubleExtra("latitude", 35.1798159)
-//            val longitude = intent.getDoubleExtra("longitude", 129.0750222)
-//
-//            val attachment = Attachment(
-//                type = "location",
-//                extraData = mutableMapOf(
-//                    "latitude" to latitude,
-//                    "longitude" to longitude,
-//                )
-//            )
-//
-//            val message = Message(
-//                cid = cid,
-//                text = "Shared location",
-//                attachments = mutableListOf(attachment)
-//            )
-//
-//            ChatClient.instance().channel(cid).sendMessage(message).enqueue { result ->
-//                if (result.isSuccess) {
-//                    // 메시지 전송 성공 처리
-//                    Log.e("지도 사진 처리 성공", "성공")
-//                } else {
-//                    // 메시지 전송 실패 처리
-//                    Log.e("지도 사진 처리 실패", result.toString())
-//
-//                }
-//            }
-//
-//        }
-
-
-        ChatUI.supportedReactions = SupportedReactions(this, reactions)
-        binding.messageComposerView.setLeadingContent(
-            CustomMessageComposerLeadingContent(this).also {
-                it.attachmentsButtonClickListener = {
-                    binding.messageComposerView.attachmentsButtonClickListener(
-
-                    )
+            // Step 5 - Handle navigate up state
+            messageListViewModel.state.observe(this) { state ->
+                if (state is MessageListViewModel.State.NavigateUp) {
+                    finish()
                 }
-                it.locationButtonClickListener = {
+            }
+
+            // Step 6 - Handle back button behaviour correctly when you're in a thread
+            val backHandler = {
+                messageListViewModel.onEvent(MessageListViewModel.Event.BackButtonPressed)
+            }
+            binding.messageListHeaderView.setBackButtonClickListener(backHandler)
+            onBackPressedDispatcher.addCallback(this) {
+                backHandler()
+            }
+
+            // 사용자가 스레드 답글을 만들 수 있는지 여부
+            binding.messageListView.setThreadsEnabled(false)
+            // 사용자가 메시지를 편집할 수 있는지 여부.
+            binding.messageListView.setEditMessageEnabled(false)
+
+            // 매 채팅마다 프로필 사진을 보여주는 코드
+            binding.messageListView.setShowAvatarPredicate { messageItem ->
+                messageItem.isTheirs
+            }
+
+
+            val reactions = mapOf(
+                "thumbs_up" to SupportedReactions.ReactionDrawable(
+                    inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_up)!!,
+                    activeDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_up)!!
+                ),
+                "thumbs_down" to SupportedReactions.ReactionDrawable(
+                    inactiveDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_down)!!,
+                    activeDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thumb_down)!!
+                ),
+            )
+//        binding.messageListView.setAttachmentFactoryManager()
+
+
+            val locationActivityResultLauncher =
+                registerForActivityResult(LocationActivityResultContract()) { result ->
+                    // 여기에서 결과 처리, 예를 들면 받아온 LatLng 객체 사용
+                    result?.let { location ->
+
+                        val attachment = Attachment(
+                            type = "location",
+                            extraData = mutableMapOf(
+                                "latitude" to location.latitude,
+                                "longitude" to location.longitude,
+                            )
+                        )
+
+                        val message = Message(
+                            cid = cid,
+                            text = "지도 공유",
+                            attachments = mutableListOf(attachment)
+                        )
+                        Log.e("message", message.toString())
+
+                        BusanPartners.chatClient.channel(cid).sendMessage(message).enqueue { result ->
+                            if (result.isSuccess) {
+                                // 메시지 전송 성공 처리
+
+
+                                Log.e("지도 사진 처리 성공", "성공")
+                            } else {
+                                // 메시지 전송 실패 처리
+                                Log.e("지도 사진 처리 실패", result.toString())
+
+                            }
+                        }
+
+                    }
+                }
+
+
+            ChatUI.supportedReactions = SupportedReactions(this, reactions)
+            binding.messageComposerView.setLeadingContent(
+                CustomMessageComposerLeadingContent(this).also {
+                    it.attachmentsButtonClickListener = {
+                        binding.messageComposerView.attachmentsButtonClickListener(
+
+                        )
+                    }
+                    it.locationButtonClickListener = {
 //                    val intent = Intent(this, ShareLocationActivity::class.java)
 //                    intent.putExtra("key:cid", cid)
 //
 //                    startActivity(intent)
 
-                    // ShareLocationActivity를 시작하고 결과를 기다립니다.
-                    locationActivityResultLauncher.launch(null)
+                        // ShareLocationActivity를 시작하고 결과를 기다립니다.
+                        locationActivityResultLauncher.launch(null)
 
-                }
+                    }
 
 
 //
-            }
-        )
+                }
+            )
 
 
 
-        ChatUI.attachmentPreviewFactoryManager = AttachmentPreviewFactoryManager(
-            attachmentPreviewFactories = listOf(
+            ChatUI.attachmentPreviewFactoryManager = AttachmentPreviewFactoryManager(
+                attachmentPreviewFactories = listOf(
 //                DateAttachmentPreviewFactory(),
 
-                MediaAttachmentPreviewFactory(),
-                FileAttachmentPreviewFactory()
+                    MediaAttachmentPreviewFactory(),
+                    FileAttachmentPreviewFactory()
+                )
             )
-        )
 
-        ChatUI.attachmentFactoryManager = AttachmentFactoryManager(
-            attachmentFactories = listOf(
+            ChatUI.attachmentFactoryManager = AttachmentFactoryManager(
+                attachmentFactories = listOf(
 //                DateAttachmentFactory(),
-                LocationAttachmentViewFactory(lifecycleOwner = this)
+                    LocationAttachmentViewFactory(lifecycleOwner = this)
+                )
             )
-        )
+        }
+
 
 
     }
@@ -256,23 +368,6 @@ class ChannelActivity : AppCompatActivity() {
             Intent(context, ChannelActivity::class.java).putExtra(CID_KEY, channel.cid)
     }
 
-
-//    class LocationActivityResultContract : ActivityResultContract<Void, LatLng?>() {
-//        override fun createIntent(context: Context, input: Void): Intent {
-//            // ShareLocationActivity를 시작하기 위한 인텐트 생성
-//            return Intent(context, ShareLocationActivity::class.java)
-//        }
-//
-//        override fun parseResult(resultCode: Int, intent: Intent?): LatLng? {
-//            // ShareLocationActivity로부터 결과 처리
-//            if (resultCode == Activity.RESULT_OK && intent != null) {
-//                val latitude = intent.getDoubleExtra("latitude", 0.0)
-//                val longitude = intent.getDoubleExtra("longitude", 0.0)
-//                return LatLng(latitude, longitude)
-//            }
-//            return null
-//        }
-//    }
 
     class LocationActivityResultContract : ActivityResultContract<Void?, LatLng?>() {
         override fun createIntent(context: Context, input: Void?): Intent {
