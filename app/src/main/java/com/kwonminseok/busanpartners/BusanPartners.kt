@@ -2,6 +2,7 @@ package com.kwonminseok.busanpartners
 
 import android.app.Application
 import androidx.fragment.app.viewModels
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.api.WorldTimeResponse
@@ -29,19 +30,22 @@ class BusanPartners: Application() {
         lateinit var chatClient: ChatClient
 
 
-//        lateinit var worldTimeApi: WorldTimeApiService
+        lateinit var worldTimeApi: WorldTimeApiService
 //        var currentTime: WorldTimeResponse? = null
 
     }
     override fun onCreate() {
         BusanFestivalApiService.init(this)
-        WorldTimeApiService.init(this)
 
+        WorldTimeApiService.init(this)
         preferences = PreferenceUtil(applicationContext)
         super.onCreate()
 
         // ChatClient 초기화
         initializeChatClient()
+
+        // 24버전 서버 시간
+        AndroidThreeTen.init(this)
 
 
 

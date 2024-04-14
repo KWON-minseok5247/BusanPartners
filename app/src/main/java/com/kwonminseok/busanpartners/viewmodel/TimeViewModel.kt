@@ -11,8 +11,8 @@ class TimeViewModel : ViewModel() {
     fun fetchSeoulTime() {
         viewModelScope.launch {
             try {
-                val timeResponse = BusanPartners.worldTimeApi.getSeoulTime()
-                Log.e("Seoul Time:", "${timeResponse.datetime}")
+//                val timeResponse = BusanPartners.worldTimeApi.getSeoulTime()
+//                Log.e("Seoul Time:", "${timeResponse.datetime}")
                 println()
             } catch (e: Exception) {
                 println("Error fetching Seoul time: ${e.message}")

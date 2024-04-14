@@ -6,12 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.adapter.FestivalAdapter
 import com.kwonminseok.busanpartners.adapter.TouristDestinationAdapter
+import com.kwonminseok.busanpartners.api.WorldTimeApiService
+import com.kwonminseok.busanpartners.api.WorldTimeResponse
 import com.kwonminseok.busanpartners.data.FestivalResponse
 import com.kwonminseok.busanpartners.data.TouristDestinationResponse
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
+import com.kwonminseok.busanpartners.repository.TimeRepository
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +27,7 @@ class HomeFragment : Fragment() {
     private val touristDestinationAdapter by lazy { TouristDestinationAdapter() }
     private val festivalAdapter by lazy { FestivalAdapter() }
     lateinit var binding: FragmentHomeBinding
+    lateinit var time: WorldTimeResponse
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,6 +39,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        lifecycleScope.launch {
+            TimeRepository.fetchCurrentTime()
+        }
 
 
         // festival 정보 가져오는 함수

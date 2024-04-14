@@ -20,6 +20,7 @@ import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.api.WorldTimeResponse
 import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
 import com.kwonminseok.busanpartners.mainScreen.TAG
+import com.kwonminseok.busanpartners.repository.TimeRepository
 import com.kwonminseok.busanpartners.util.Constants.TOKEN
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
@@ -36,7 +37,9 @@ import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFacto
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.threeten.bp.OffsetDateTime
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
@@ -53,6 +56,8 @@ class MessageFragment : Fragment() {
 
     private var client: ChatClient? = BusanPartners.chatClient
     lateinit var user: com.kwonminseok.busanpartners.data.User
+
+    private val currentServerTime = TimeRepository.currentTime!!.datetime
 
 
     // 토큰 절차 1: 일단 token이 있는지 없는지 확인, 있으면 바로 가져온다.
@@ -75,6 +80,8 @@ class MessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+//        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
 
 
@@ -120,27 +127,108 @@ class MessageFragment : Fragment() {
     // 나중에 실행하기
     // 아래와 같이 코드를 작성하니 뷰모델을 불러오는 도중 프래그먼트를 이동해도 에러가 발생하지 않는다.
     private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
-        val myUser = User(
-            id = user.uid,
-            name = user.name!!,
-            image = user.imagePath
-        )
 
-        if (token == "") {
-            Log.e(TAG, "token이 비어있을 때.")
-            lifecycleScope.launch {
-                getNewToken()
+        val currentServerTimeToDateTime = OffsetDateTime.parse(currentServerTime)
+        val tokenTimeToDateTime = OffsetDateTime.parse(user.tokenTime)
+
+
+        // 토큰 기간. 정상적으로 채팅이 가능한 시기
+        if (currentServerTimeToDateTime <= tokenTimeToDateTime) {
+            val myUser = User(
+                id = user.uid,
+                name = user.name!!,
+                image = user.imagePath
+            )
+
+            if (token == "") {
+                Log.e(TAG, "token이 비어있을 때.")
+                lifecycleScope.launch {
+                    getNewToken()
+                    // 프래그먼트가 액티비티에 붙어 있는지 확인
+                    if (isAdded) {
+                        connectClient(myUser)
+                    }
+                }
+            } else {
                 // 프래그먼트가 액티비티에 붙어 있는지 확인
                 if (isAdded) {
                     connectClient(myUser)
                 }
             }
-        } else {
-            // 프래그먼트가 액티비티에 붙어 있는지 확인
-            if (isAdded) {
-                connectClient(myUser)
+
+        } else { // 인증이 되지 않았거나 토큰이 만료가 된 경우
+            val guestUser = User(
+                id = "guestID",
+                name = "guestID",
+                image = "https://bit.ly/2TIt8NR"
+            )
+
+
+                // 게스트 모드
+            client?.let { chatClient ->
+                chatClient.connectUser(
+                    guestUser,
+                    GUEST_ID_TOKEN
+                ).enqueue { result ->
+                    // 비동기 작업 결과 처리
+                    // 프래그먼트의 뷰가 생성된 상태인지 확인
+
+
+                    if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                        if (result.isSuccess) {
+                            // ViewModel 바인딩과 UI 업데이트
+                            val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
+
+                            val channelListFactory: ChannelListViewModelFactory =
+                                ChannelListViewModelFactory(
+                                    filter = Filters.and(
+                                        Filters.eq("type", "messaging"),
+                                        Filters.`in`(
+                                            "members",
+                                            listOf(ChatClient.instance().getCurrentUser()!!.id)
+                                        ),
+                                    ),
+                                    sort = QuerySortByField.descByName("last_updated"),
+                                    limit = 30,
+
+                                    )
+
+
+                            val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
+
+
+                            channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
+                            channelListViewModel.bindView(binding.channelListView, this)
+
+                            binding.channelListView.setChannelItemClickListener { channel ->
+                                startActivity(ChannelActivity.newIntent(requireContext(), channel))
+                            }
+
+                            binding.channelListView.setIsMoreOptionsVisible { channel ->
+                                // You can determine visibility based on the channel object.
+                                ContextCompat.getDrawable(requireContext(), R.drawable.ic_setting)
+
+                                true
+                            }
+
+                            binding.channelListView.setIsDeleteOptionVisible { channel ->
+                                // You can determine visibility based on the channel object.
+                                // Here is the default implementation:
+                                channel.ownCapabilities.contains("delete-channel")
+                            }
+
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Something went wrong!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
             }
         }
+
     }
 
     private fun connectClient(myUser: User) {
@@ -150,22 +238,105 @@ class MessageFragment : Fragment() {
             override fun loadToken(): String = BusanPartners.preferences.getString(TOKEN, "")
         }
 
-
-        val user = User(
-            id = "guestID",
-            name = "guestID",
-            image = "https://bit.ly/2TIt8NR"
-        )
+//
+//        client?.let { chatClient ->
+//            chatClient.connectUser(
+//                myUser,
+//                tokenProvider
+//            ).enqueue { result ->
+//                // 비동기 작업 결과 처리
+//                // 프래그먼트의 뷰가 생성된 상태인지 확인
+//
+//
+//                if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+//                    if (result.isSuccess) {
+//                        // ViewModel 바인딩과 UI 업데이트
+//                        val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
+//
+//                        val channelListFactory: ChannelListViewModelFactory =
+//                            ChannelListViewModelFactory(
+//                                filter = Filters.and(
+//                                    Filters.eq("type", "messaging"),
+//                                    Filters.`in`(
+//                                        "members",
+//                                        listOf(ChatClient.instance().getCurrentUser()!!.id)
+//                                    ),
+//                                ),
+//                                sort = QuerySortByField.descByName("last_updated"),
+//                                limit = 30,
+//
+//                                )
+//
+//
+//                        val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
+//
+//
+//                        channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
+//                        channelListViewModel.bindView(binding.channelListView, this)
+//
+//                        binding.channelListView.setChannelItemClickListener { channel ->
+//                            startActivity(ChannelActivity.newIntent(requireContext(), channel))
+//                        }
+//
+//                        binding.channelListView.setIsMoreOptionsVisible { channel ->
+//                            // You can determine visibility based on the channel object.
+//                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_setting)
+//
+//                            true
+//                        }
+//
+//                        binding.channelListView.setIsDeleteOptionVisible { channel ->
+//                            // You can determine visibility based on the channel object.
+//                            // Here is the default implementation:
+//                            channel.ownCapabilities.contains("delete-channel")
+//                        }
+//
+//                    } else {
+//                        Toast.makeText(
+//                            requireContext(),
+//                            "Something went wrong!",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
+//        }
 
 
 
         client?.let { chatClient ->
             chatClient.connectUser(
-                user,
-                GUEST_ID_TOKEN
+                user = myUser,
+                tokenProvider
             ).enqueue { result ->
                 // 비동기 작업 결과 처리
                 // 프래그먼트의 뷰가 생성된 상태인지 확인
+
+                // 여기는 대학생 목록에서 원하는 대학생과 메세지를 보내는 과정
+                val studentUid = arguments?.getString("studentUid", null)
+                if (studentUid != null) {
+
+                    val calendar = Calendar.getInstance().apply {
+                        add(Calendar.SECOND, 10)  // 현재 시간에서 5분을 추가
+                    }
+
+                    val freezeTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).apply {
+                        timeZone = TimeZone.getTimeZone("UTC")
+                    }.format(calendar.time)
+
+                    val extraData = mapOf("freeze_time" to freezeTime)
+
+                    val channelClient = chatClient.channel(channelType = "messaging", channelId = "")
+                    channelClient.create(memberIds = listOf(studentUid, myUser.id), extraData = extraData)
+                        .enqueue { result ->
+                            if (result.isSuccess) {
+                                val newChannel = result.getOrThrow()
+                                startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
+                            } else {
+                                Log.e("Channel Creation Failed", result.toString() ?: "Error creating channel")
+                            }
+                        }
+                }
 
 
                 if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
@@ -223,119 +394,6 @@ class MessageFragment : Fragment() {
         }
 
 
-
-//        client?.let { chatClient ->
-//            chatClient.connectUser(
-//                user = myUser,
-//                tokenProvider
-//            ).enqueue { result ->
-//                // 비동기 작업 결과 처리
-//                // 프래그먼트의 뷰가 생성된 상태인지 확인
-//
-//                // 여기는 대학생 목록에서 원하는 대학생과 메세지를 보내는 과정
-//                val studentUid = arguments?.getString("studentUid", null)
-//                if (studentUid != null) {
-//
-//                    val calendar = Calendar.getInstance().apply {
-//                        add(Calendar.SECOND, 10)  // 현재 시간에서 5분을 추가
-//                    }
-//
-//                    val freezeTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).apply {
-//                        timeZone = TimeZone.getTimeZone("UTC")
-//                    }.format(calendar.time)
-//
-//                    val extraData = mapOf("freeze_time" to freezeTime)
-//
-//                    val channelClient = chatClient.channel(channelType = "messaging", channelId = "")
-//                    channelClient.create(memberIds = listOf(studentUid, myUser.id), extraData = extraData)
-//                        .enqueue { result ->
-//                            if (result.isSuccess) {
-//                                val newChannel = result.getOrThrow()
-//                                startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
-//                            } else {
-//                                Log.e("Channel Creation Failed", result.toString() ?: "Error creating channel")
-//                            }
-//                        }
-//
-////                    val channelClient =
-////                        chatClient.channel(channelType = "messaging", channelId = "")
-////                    // memberIds와 extraData는 인자로부터 받거나 직접 정의
-////                    val memberIds = listOf(studentUid, myUser.id).distinct()
-//////                    channelClient.create(memberIds = memberIds, extraData = emptyMap())
-////
-////                    channelClient.create(memberIds = memberIds, extraData = emptyMap())
-////                        .enqueue { result ->
-////                            if (result.isSuccess) {
-////                                val newChannel = result.getOrThrow()
-////                                startActivity(
-////                                    ChannelActivity.newIntent(
-////                                        requireContext(),
-////                                        newChannel
-////                                    )
-////                                )
-//////                            navigateToChatUI(newChannel)
-////                            } else {
-////                                Log.e("Channel Creation Failed", result.toString())
-////
-////                                // 실패 처리
-////                            }
-////                        }
-//                }
-//
-//
-//                if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-//                    if (result.isSuccess) {
-//                        // ViewModel 바인딩과 UI 업데이트
-//                        val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
-//
-//                        val channelListFactory: ChannelListViewModelFactory =
-//                            ChannelListViewModelFactory(
-//                                filter = Filters.and(
-//                                    Filters.eq("type", "messaging"),
-//                                    Filters.`in`(
-//                                        "members",
-//                                        listOf(ChatClient.instance().getCurrentUser()!!.id)
-//                                    ),
-//                                ),
-//                                sort = QuerySortByField.descByName("last_updated"),
-//                                limit = 30,
-//
-//                                )
-//
-//
-//                        val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
-//
-//
-//                        channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
-//                        channelListViewModel.bindView(binding.channelListView, this)
-//
-//                        binding.channelListView.setChannelItemClickListener { channel ->
-//                            startActivity(ChannelActivity.newIntent(requireContext(), channel))
-//                        }
-//
-//                        binding.channelListView.setIsMoreOptionsVisible { channel ->
-//                            // You can determine visibility based on the channel object.
-//                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_setting)
-//
-//                            true
-//                        }
-//
-//                        binding.channelListView.setIsDeleteOptionVisible { channel ->
-//                            // You can determine visibility based on the channel object.
-//                            // Here is the default implementation:
-//                            channel.ownCapabilities.contains("delete-channel")
-//                        }
-//
-//                    } else {
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Something went wrong!",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            }
-//        }
     }
 
 

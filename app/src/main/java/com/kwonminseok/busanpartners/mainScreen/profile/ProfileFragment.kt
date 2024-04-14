@@ -36,6 +36,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 private val TAG = "ProfileFragment"
 @AndroidEntryPoint
@@ -129,14 +131,7 @@ class ProfileFragment : Fragment() {
 //                } catch (e: Exception) {
 //                    e.printStackTrace()
 //                }
-//            }
-            chatClient.stopWatching(channelType = "messaging", channelId = "!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40").enqueue { result ->
-                if (result.isSuccess) {
-                    // Channel unwatched
-                } else {
-                    // Handle result.error()
-                }
-            }
+//
 
 
         }
@@ -205,16 +200,26 @@ class ProfileFragment : Fragment() {
                 }
             }
             "complete" -> {
-                Log.e("fetchUserData", "complete")
-                binding.apply {
-                    authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-                    travelerAuthentication.visibility = View.INVISIBLE
-                    collegeAuthentication.visibility = View.INVISIBLE
-                    authenticationLoadOrCompleteText.text = "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
+                if(user.authentication.collegeStudent) {
+                    binding.apply {
+                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+                        travelerAuthentication.visibility = View.INVISIBLE
+                        collegeAuthentication.visibility = View.INVISIBLE
+                        authenticationLoadOrCompleteText.text = "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
+                    }
                 }
+                else if (user.authentication.traveler) {
+                    val tokenTime = formatDateTime(user.tokenTime.toString())
+                    binding.apply {
+                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+                        travelerAuthentication.visibility = View.INVISIBLE
+                        collegeAuthentication.visibility = View.INVISIBLE
+                        authenticationLoadOrCompleteText.text = "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
+                    }
+                }
+
             }
             else -> {
-                Log.e("fetchUserData", "else")
                 binding.apply {
                     authenticationLoadOrCompleteCard.visibility = View.GONE
                     travelerAuthentication.visibility = View.VISIBLE
@@ -231,4 +236,16 @@ class ProfileFragment : Fragment() {
     private fun hideProgressBar() {
         binding.progressbarSettings.visibility = View.GONE
     }
+
+    fun formatDateTime(dateTimeString: String): String {
+        // ISO 8601 형식의 문자열을 OffsetDateTime 객체로 파싱
+        val offsetDateTime = OffsetDateTime.parse(dateTimeString)
+
+        // 원하는 날짜 형식 설정
+        val formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
+
+        // 날짜 형식화
+        return offsetDateTime.format(formatter)
+    }
+
 }

@@ -44,7 +44,7 @@
                 android:id="@+id/textView_university"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="대학교 / 학과"
+                android:text="각종 설명"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/imageView_photo"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -63,6 +63,19 @@
                 <!-- Chips are added dynamically -->
 
             </com.google.android.material.chip.ChipGroup>
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:background="@color/g_text_hint"
+                android:text=""
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/chipGroup_tags"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:padding="8dp"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

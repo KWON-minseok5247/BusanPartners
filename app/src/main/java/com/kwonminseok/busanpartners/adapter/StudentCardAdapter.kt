@@ -32,6 +32,7 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
                     }
                     chipGroupTags.addView(chip)
                 }
+                description.text = user.introduction
 
             }
         }
