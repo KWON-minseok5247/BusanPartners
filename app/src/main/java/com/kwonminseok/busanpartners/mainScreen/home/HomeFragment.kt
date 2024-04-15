@@ -10,9 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.adapter.FestivalAdapter
 import com.kwonminseok.busanpartners.adapter.TouristDestinationAdapter
+import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.api.WorldTimeResponse
 import com.kwonminseok.busanpartners.data.FestivalResponse
+import com.kwonminseok.busanpartners.data.TourismResponse
 import com.kwonminseok.busanpartners.data.TouristDestinationResponse
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.repository.TimeRepository
@@ -43,27 +45,43 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             TimeRepository.fetchCurrentTime()
+
+
         }
-
-
-        // festival 정보 가져오는 함수
-        getFestivalInformation()
-
-
-        BusanFestivalApiService.getInstance().getTouristDestination(BuildConfig.BUSAN_FESTIVAL_KEY, 10, 1, "json").enqueue(object :
-            Callback<TouristDestinationResponse> {
-            override fun onResponse(call: Call<TouristDestinationResponse>,
-                                    response: Response<TouristDestinationResponse>) {
+        TourismApiService.getInstance().getLocationBasedTourismInfoKr(1,1,"AND","BusanPartners",
+            129.0750222,35.1798159 ,20000,12,null,BuildConfig.BUSAN_FESTIVAL_KEY).enqueue(object :
+            Callback<TourismResponse> {
+            override fun onResponse(call: Call<TourismResponse>,
+                                    response: Response<TourismResponse>) {
                 if (response.isSuccessful) {
-                    binding.touristRecyclerView.adapter = touristDestinationAdapter
-                    touristDestinationAdapter.differ.submitList(response.body()?.getAttractionKr?.item)
+                    Log.e("Response TourismResponse", response.message().toString())
                 }
             }
-            override fun onFailure(call: Call<TouristDestinationResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
                 Log.e(TAG,t.message.toString())
 
             }
         })
+
+
+//        // festival 정보 가져오는 함수
+//        getFestivalInformation()
+//
+//
+//        BusanFestivalApiService.getInstance().getTouristDestination(BuildConfig.BUSAN_FESTIVAL_KEY, 10, 1, "json").enqueue(object :
+//            Callback<TouristDestinationResponse> {
+//            override fun onResponse(call: Call<TouristDestinationResponse>,
+//                                    response: Response<TouristDestinationResponse>) {
+//                if (response.isSuccessful) {
+//                    binding.touristRecyclerView.adapter = touristDestinationAdapter
+//                    touristDestinationAdapter.differ.submitList(response.body()?.getAttractionKr?.item)
+//                }
+//            }
+//            override fun onFailure(call: Call<TouristDestinationResponse>, t: Throwable) {
+//                Log.e(TAG,t.message.toString())
+//
+//            }
+//        })
 
 
 

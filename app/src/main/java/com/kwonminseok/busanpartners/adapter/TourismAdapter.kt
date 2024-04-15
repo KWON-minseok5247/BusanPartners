@@ -11,7 +11,7 @@ import com.kwonminseok.busanpartners.data.TouristDestination
 import com.kwonminseok.busanpartners.databinding.ItemFestivalBinding
 import com.kwonminseok.busanpartners.databinding.ItemTouristBinding
 
-class   TouristDestinationAdapter : RecyclerView.Adapter<TouristDestinationAdapter.TouristDestinationViewHolder>() {
+class   TourismAdapter : RecyclerView.Adapter<TourismAdapter.TouristDestinationViewHolder>() {
 
     inner class TouristDestinationViewHolder(val binding: ItemTouristBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(touristDestination: TouristDestination){

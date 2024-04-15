@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.fragment.app.viewModels
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
+import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.api.WorldTimeResponse
 import com.kwonminseok.busanpartners.mainScreen.home.BusanFestivalApiService
@@ -35,8 +36,9 @@ class BusanPartners: Application() {
 
     }
     override fun onCreate() {
-        BusanFestivalApiService.init(this)
+//        BusanFestivalApiService.init(this)
 
+        TourismApiService.init(this)
         WorldTimeApiService.init(this)
         preferences = PreferenceUtil(applicationContext)
         super.onCreate()
