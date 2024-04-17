@@ -78,7 +78,7 @@ BusanPartners는 부산지역 내 대학생과 외국인 관광객을 매칭시�
 
 
 
-![KakaoTalk_20240416_155844637](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/a0384f61-c48f-4d09-90cc-3d76ff7531c3)
+![KakaoTalk_20240417_140641942-ezgif com-resize](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/c2cc3d21-06ae-4bb7-94ab-c5823b72ad6d)
 
 추후 부산 내 축제, 관광지 정보를 제공할 수 있도록 할 예정입니다. 자신의 위치를 기준으로 관광지를 추천합니다.
 
