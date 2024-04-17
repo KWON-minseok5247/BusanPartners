@@ -70,7 +70,7 @@ BusanPartners는 부산지역 내 대학생과 외국인 관광객을 매칭시�
 
 
 
-![attachment](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/19ee4229-7f86-4795-8ec0-83022c306a39)
+![attachment-ezgif com-resize](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/bae9980c-7ee5-4de5-9669-bb54ef2e1a57)
 
 해당 대화가 시작된다면 텍스트 대화, 지도 공유 기능, 이미지 및 동영상을 상대방에게 보낼 수 있습니다. 
 
