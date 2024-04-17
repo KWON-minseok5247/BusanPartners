@@ -20,7 +20,7 @@ BusanPartners는 부산지역 내 대학생과 외국인 관광객을 매칭시�
 2024년 4월 14일 기준
 디자인은 아직 제작하지 못한 상태입니다. ui 위주가 아닌, 빠르게 앱을 개발하기 위해 필요한 기능 위주로 제작하고 있는 상태입니다.
 
-![guest](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/3ebada64-7eba-44ab-b2e1-52698e56a62d)
+![guest](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/b4a9cad2-a3f4-4605-bb09-fc43dab400f0)
 
 처음 접속할 때 간단한 예시, 및 이 앱이 어떤 방식으로 운영이 되는 지에 대해 알려줄 수 있는 게스트 모드입니다. 아무런 채팅을 입력할 수 없습니다.
 
