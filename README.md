@@ -25,7 +25,7 @@ BusanPartners는 부산지역 내 대학생과 외국인 관광객을 매칭시�
 처음 접속할 때 간단한 예시, 및 이 앱이 어떤 방식으로 운영이 되는 지에 대해 알려줄 수 있는 게스트 모드입니다. 아무런 채팅을 입력할 수 없습니다.
 
 
-![KakaoTalk_20240417_134806024-ezgif com-video-to-gif-converter](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/c858544d-02e8-4e67-bfce-4b1ad80a25bc)
+![Uploading KakaoTalk_20240417_134806024-ezgif.com-video-to-gif-converter (1).gif…]()
 
 04/17/2024 (온보딩 페이지 업데이트)
 움직이는 벡터 이미지와 간단한 설명을 통해 더욱 이해하기 쉽도록 합니다.
