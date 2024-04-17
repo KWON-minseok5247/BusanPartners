@@ -33,6 +33,14 @@
             android:name=".mainScreen.message.AttachmentMapActivity"
             android:exported="true"></activity>
 
+        <activity
+            android:name=".mainScreen.profile.OnboardingExample1Activity"
+            android:exported="true"></activity>
+
+        <activity
+            android:name=".mainScreen.profile.OnboardingFinishActivity"
+            android:exported="true"></activity>
+
 
         <activity
             android:name=".login.LoginRegisterActivity"

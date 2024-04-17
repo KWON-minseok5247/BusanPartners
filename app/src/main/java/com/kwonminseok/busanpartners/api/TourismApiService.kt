@@ -69,11 +69,12 @@ interface TourismApiService {
     }
 
     @GET("KorService1/locationBasedList1")
-    fun getLocationBasedTourismInfoKr(
+    fun locationBasedList1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
         @Query("MobileOS") mobileOS: String,
         @Query("MobileApp") mobileApp: String,
+        @Query("_type") responseType: String = "json",
         @Query("mapX") mapX: Double,
         @Query("mapY") mapY: Double,
         @Query("radius") radius: Int,
@@ -82,13 +83,5 @@ interface TourismApiService {
         @Query("serviceKey") serviceKey: String,
         ): Call<TourismResponse>
 
-
-    @GET("AttractionService/getAttractionKr")
-    fun getTouristDestination(
-        @Query("serviceKey") apiKey: String,
-        @Query("numOfRows") numOfRows: Int,
-        @Query("pageNo") pageNo: Int,
-        @Query("resultType") type: String
-    ): Call<TouristDestinationResponse>
 
 }

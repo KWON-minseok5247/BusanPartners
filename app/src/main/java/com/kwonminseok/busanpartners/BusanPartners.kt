@@ -39,7 +39,9 @@ class BusanPartners: Application() {
 //        BusanFestivalApiService.init(this)
 
         TourismApiService.init(this)
+
         WorldTimeApiService.init(this)
+
         preferences = PreferenceUtil(applicationContext)
         super.onCreate()
 

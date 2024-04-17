@@ -6,35 +6,42 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kwonminseok.busanpartners.data.FestivalItem
+import com.kwonminseok.busanpartners.data.TourismItem
 import com.kwonminseok.busanpartners.data.TouristDestination
-import com.kwonminseok.busanpartners.databinding.ItemFestivalBinding
-import com.kwonminseok.busanpartners.databinding.ItemTouristBinding
+import com.kwonminseok.busanpartners.databinding.ItemTourismBinding
+import kotlin.math.roundToInt
 
 class   TourismAdapter : RecyclerView.Adapter<TourismAdapter.TouristDestinationViewHolder>() {
 
-    inner class TouristDestinationViewHolder(val binding: ItemTouristBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(touristDestination: TouristDestination){
-            binding.textViewFestivalName.text = touristDestination.MAIN_TITLE
-            binding.textViewFestivalPeriod.text = touristDestination.USAGE_DAY_WEEK_AND_TIME
-            binding.textViewLocation.text = touristDestination.ADDR1
-            Glide.with(binding.root.context)
-                .load(touristDestination.MAIN_IMG_THUMB)
-                .into(binding.imageViewThumbnail)
+    inner class TouristDestinationViewHolder(val binding: ItemTourismBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(tourismItem: TourismItem){
+
+            if (tourismItem.firstimage == "") {
+                return
+            } else {
+                binding.textViewFestivalName.text = tourismItem.title
+                binding.textViewFestivalPeriod.text = "${tourismItem.dist.toDouble().roundToInt().toString()}m"
+                binding.textViewLocation.text = "${tourismItem.addr1} ${tourismItem.addr2}"
+                Glide.with(binding.root.context)
+                    .load(tourismItem.firstimage)
+                    .into(binding.imageViewThumbnail)
+
+            }
+
         }
     }
 
     // RecyclerView의 성능 향상을 위해 사용하는 DiffUtil은 서로 다른 아이템인지를 체크하여 달라진 아이템만 갱신을 도와주는 Util이다. 아래는 자세한 내용
     //https://zion830.tistory.com/86
-    private val diffCallback = object : DiffUtil.ItemCallback<TouristDestination>() {
+    private val diffCallback = object : DiffUtil.ItemCallback<TourismItem>() {
         // 컨트롤 + I를 누르면 필요한 함수를 자동으로 추가할 수 있다.
         // items는 고유값을 비교하는 것
         // 이게 먼저 실행된다. 이게 true로 반환이 되어야 contents로 넘어간다.
-        override fun areItemsTheSame(oldItem: TouristDestination, newItem: TouristDestination): Boolean {
-            return oldItem.MAIN_TITLE == newItem.MAIN_TITLE
+        override fun areItemsTheSame(oldItem: TourismItem, newItem: TourismItem): Boolean {
+            return oldItem.title == newItem.title
         }
         // contents는 아이템을 비교하는 것
-        override fun areContentsTheSame(oldItem: TouristDestination, newItem: TouristDestination): Boolean {
+        override fun areContentsTheSame(oldItem: TourismItem, newItem: TourismItem): Boolean {
             return oldItem == newItem
         }
     }
@@ -43,7 +50,7 @@ class   TourismAdapter : RecyclerView.Adapter<TourismAdapter.TouristDestinationV
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TouristDestinationViewHolder {
         return TouristDestinationViewHolder(
-            ItemTouristBinding.inflate(
+            ItemTourismBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
@@ -51,12 +58,16 @@ class   TourismAdapter : RecyclerView.Adapter<TourismAdapter.TouristDestinationV
 
     // getCurrentList() : adapter에서 사용하는 item 리스트에 접근하고 싶다면 사용하면 된다.
     override fun onBindViewHolder(holder: TouristDestinationViewHolder, position: Int) {
-        val touristDestination = differ.currentList[position]
+        val touristItem = differ.currentList[position]
         // 여기서 따로 SpecialProductsViewHolder를 들고 오는게 아니라 holder를 사용하면 된다.
-        holder.bind(touristDestination)
+        if (touristItem.firstimage == "") {
+            return
+        }else {
+            holder.bind(touristItem)
+        }
 
         holder.itemView.setOnClickListener {
-            onProductClick?.invoke(touristDestination)
+            onProductClick?.invoke(touristItem)
         }
     }
 
@@ -64,5 +75,5 @@ class   TourismAdapter : RecyclerView.Adapter<TourismAdapter.TouristDestinationV
         return differ.currentList.size
     }
 
-    var onProductClick: ((TouristDestination) -> Unit)? = null
+    var onProductClick: ((TourismItem) -> Unit)? = null
 }

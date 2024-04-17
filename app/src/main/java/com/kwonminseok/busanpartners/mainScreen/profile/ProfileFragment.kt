@@ -115,7 +115,12 @@ class ProfileFragment : Fragment() {
         binding.collegeAuthentication.setOnClickListener {
             if (user.authentication.studentEmailAuthenticationComplete) {
                 findNavController().navigate(R.id.action_profileFragment_to_collegeAuthImageFragment)
-            } else findNavController().navigate(R.id.action_profileFragment_to_collegeAuthFragment)
+            } else {
+                val intent =
+                    Intent(requireContext(), OnboardingExample1Activity::class.java)
+                startActivity(intent)
+
+            }
         }
 
         //TODO 클릭하면 information 창으로 넘어가기
