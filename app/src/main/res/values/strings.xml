@@ -43,16 +43,23 @@
 
 
     <!-- 온보딩 페이지 위해서 작성 -->
-    <string name="title_onboarding_1">Welcome to Onboarding App !</string>
-    <string name="description_onboarding_1">Here is an open-source project which shows sweet &amp; original onboarding ViewPagers that follows Material Design Guidelines</string>
+    <string name="student_authentication_onboarding_1">대학생 인증 절차</string>
+    <string name="student_description_onboarding_1">무분별한 인증을 막기 위해 최소한의 인증 절차를 두고 있습니다. \n 대학교 이메일 확인이 필요합니다.</string>
 
-    <string name="title_onboarding_2">Try AirBnB Lottie</string>
-    <string name="description_onboarding_2">We use Lottie Animations on our Intro to make it interactive &amp; pleasant. Did you already tried it ? If no, let\'s start now. It\'s just awesome</string>
+    <string name="student_authentication_onboarding_2">학생증 인증 절차</string>
+    <string name="student_description_onboarding_2">자신의 이름이 나오도록 학생증 사진을 찍어주세요.</string>
 
-    <string name="title_onboarding_3">Code beautiful apps</string>
-    <string name="description_onboarding_3">Our mission is to make useful &amp; subtle apps. We love help people to save time with open-source stuffs, but we also make life easier by creating new things. Good Coding!</string>
+    <string name="student_authentication_onboarding_3">인증 완료시</string>
+    <string name="student_description_onboarding_3">인증된 대학생은 제한없이 자유롭게 채팅이 가능합니다. \n 언제든지 채팅을 그만둘 수 있습니다. </string>
 
     <string name="start_text_advice">By continuing on this application you agree to our Terms of Use and Privacy Policy</string>
+
+    <string name="traveler_authentication_onboarding_1">관광객 인증 절차</string>
+    <string name="traveler_description_onboarding_1">무분별한 인증을 막기 위해 최소한의 인증 절차를 두고 있습니다.</string>
+
+    <string name="traveler_authentication_onboarding_2">본인의 이름이 적힌 사진을 캡쳐 혹은 촬영해주세요.</string>
+    <string name="traveler_description_onboarding_2">비행기 티켓 + 숙박증명서 등 2장 이상의 사진을 첨부해주세요.</string>
+
 
     <string name="start">start</string>
     <string name="skip">Skip</string>

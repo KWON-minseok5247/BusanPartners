@@ -27,6 +27,7 @@ import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.notifications.handler.NotificationConfig
 import io.getstream.chat.android.client.token.TokenProvider
 import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.User
@@ -237,71 +238,9 @@ class MessageFragment : Fragment() {
             // Make a request to your backend to generate a valid token for the user
             override fun loadToken(): String = BusanPartners.preferences.getString(TOKEN, "")
         }
-
-//
-//        client?.let { chatClient ->
-//            chatClient.connectUser(
-//                myUser,
-//                tokenProvider
-//            ).enqueue { result ->
-//                // 비동기 작업 결과 처리
-//                // 프래그먼트의 뷰가 생성된 상태인지 확인
-//
-//
-//                if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-//                    if (result.isSuccess) {
-//                        // ViewModel 바인딩과 UI 업데이트
-//                        val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
-//
-//                        val channelListFactory: ChannelListViewModelFactory =
-//                            ChannelListViewModelFactory(
-//                                filter = Filters.and(
-//                                    Filters.eq("type", "messaging"),
-//                                    Filters.`in`(
-//                                        "members",
-//                                        listOf(ChatClient.instance().getCurrentUser()!!.id)
-//                                    ),
-//                                ),
-//                                sort = QuerySortByField.descByName("last_updated"),
-//                                limit = 30,
-//
-//                                )
-//
-//
-//                        val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
-//
-//
-//                        channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
-//                        channelListViewModel.bindView(binding.channelListView, this)
-//
-//                        binding.channelListView.setChannelItemClickListener { channel ->
-//                            startActivity(ChannelActivity.newIntent(requireContext(), channel))
-//                        }
-//
-//                        binding.channelListView.setIsMoreOptionsVisible { channel ->
-//                            // You can determine visibility based on the channel object.
-//                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_setting)
-//
-//                            true
-//                        }
-//
-//                        binding.channelListView.setIsDeleteOptionVisible { channel ->
-//                            // You can determine visibility based on the channel object.
-//                            // Here is the default implementation:
-//                            channel.ownCapabilities.contains("delete-channel")
-//                        }
-//
-//                    } else {
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Something went wrong!",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            }
-//        }
-
+        val notificationConfig = NotificationConfig(
+            pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "providerName"))
+        )
 
 
         client?.let { chatClient ->

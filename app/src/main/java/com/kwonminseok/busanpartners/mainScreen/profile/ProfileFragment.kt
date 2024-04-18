@@ -8,34 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.BusanPartners
 import com.kwonminseok.busanpartners.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.R
-import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.kwonminseok.busanpartners.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.util.Constants
-import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.kwonminseok.busanpartners.util.Resource
-import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
-import com.kwonminseok.busanpartners.viewmodel.ProfileViewModel
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
-import com.univcert.api.UnivCert
 import dagger.hilt.android.AndroidEntryPoint
-import io.getstream.chat.android.client.ChatClient
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -116,16 +105,18 @@ class ProfileFragment : Fragment() {
             if (user.authentication.studentEmailAuthenticationComplete) {
                 findNavController().navigate(R.id.action_profileFragment_to_collegeAuthImageFragment)
             } else {
-                val intent =
-                    Intent(requireContext(), OnboardingExample1Activity::class.java)
-                startActivity(intent)
+                findNavController().navigate(R.id.action_profileFragment_to_onboardingStudentInformationFragment)
+
+//                val intent =
+//                    Intent(requireContext(), OnboardingStudentInformationActivity::class.java)
+//                startActivity(intent)
 
             }
         }
 
         //TODO 클릭하면 information 창으로 넘어가기
         binding.travelerAuthentication.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_travelerAuthFragment)
+            findNavController().navigate(R.id.action_profileFragment_to_onboardingTravelerInformationFragment)
         }
 
         binding.chat.setOnClickListener {

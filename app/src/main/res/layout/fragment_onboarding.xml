@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.OnboardingExample1Activity"
     android:padding="30dp">
 
 
@@ -13,11 +12,14 @@
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
         android:scaleType="centerCrop"
-        app:lottie_rawRes="@raw/lottie_developer"
+        app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_autoPlay="true" />
+        app:lottie_rawRes="@raw/lottie_developer" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_onboarding_title"
@@ -26,7 +28,7 @@
         android:layout_below="@id/image_onboarding"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:text="@string/title_onboarding_1"
+        android:text="@string/student_authentication_onboarding_1"
         android:textSize="19sp"
         android:gravity="center"
         android:textStyle="bold"
@@ -38,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_onboarding_title"
-        android:text="@string/description_onboarding_1"
+        android:text="@string/student_description_onboarding_1"
         android:textSize="14sp"
         android:textColor="@color/light_grey"
         android:gravity="center"

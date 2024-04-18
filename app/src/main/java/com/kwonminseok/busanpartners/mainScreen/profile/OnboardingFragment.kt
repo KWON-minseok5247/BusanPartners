@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import com.airbnb.lottie.LottieAnimationView
-import com.kwonminseok.busanpartners.databinding.FragmentOnboarding1Binding
+import com.kwonminseok.busanpartners.databinding.FragmentOnboardingBinding
+import com.kwonminseok.busanpartners.util.hideBottomNavigationView
+import com.kwonminseok.busanpartners.util.showBottomNavigationView
 
 class OnboardingFragment : Fragment() {
     private var title: String? = null
@@ -26,7 +28,7 @@ class OnboardingFragment : Fragment() {
         }
     }
 
-    private var _binding: FragmentOnboarding1Binding? = null
+    private var _binding: FragmentOnboardingBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -35,7 +37,7 @@ class OnboardingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentOnboarding1Binding.inflate(inflater, container, false)
+        _binding = FragmentOnboardingBinding.inflate(inflater, container, false)
         val view = binding.root
 
         tvTitle = binding.textOnboardingTitle
@@ -71,4 +73,7 @@ class OnboardingFragment : Fragment() {
             return fragment
         }
     }
+
+
+
 }

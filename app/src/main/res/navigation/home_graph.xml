@@ -37,17 +37,17 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_collegeAuthFragment"
-            app:destination="@id/collegeAuthFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_travelerAuthFragment"
-            app:destination="@id/travelerAuthFragment" />
-        <action
             android:id="@+id/action_profileFragment_to_userAccountFragment"
             app:destination="@id/userAccountFragment" />
         <action
             android:id="@+id/action_profileFragment_to_collegeAuthImageFragment"
             app:destination="@id/collegeAuthImageFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_onboardingStudentInformationFragment"
+            app:destination="@id/onboardingStudentInformationFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_onboardingTravelerInformationFragment"
+            app:destination="@id/onboardingTravelerInformationFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
@@ -121,6 +121,24 @@
         <action
             android:id="@+id/action_collegeAuthImageFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingStudentInformationFragment"
+        android:name="com.kwonminseok.busanpartners.mainScreen.profile.OnboardingStudentInformationFragment"
+        android:label="OnboardingStudentInformationFragment"
+        tools:layout="@layout/fragment_onboarding_information">
+        <action
+            android:id="@+id/action_onboardingStudentInformationFragment_to_collegeAuthFragment"
+            app:destination="@id/collegeAuthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingTravelerInformationFragment"
+        android:name="com.kwonminseok.busanpartners.mainScreen.profile.OnboardingTravelerInformationFragment"
+        android:label="OnboardingTravelerInformationFragment"
+        tools:layout="@layout/fragment_onboarding_information">
+        <action
+            android:id="@+id/action_onboardingTravelerInformationFragment_to_travelerAuthFragment"
+            app:destination="@id/travelerAuthFragment" />
     </fragment>
 
 
