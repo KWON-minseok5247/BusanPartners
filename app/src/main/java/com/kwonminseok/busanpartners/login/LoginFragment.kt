@@ -69,19 +69,19 @@ class LoginFragment : Fragment() {
 
 
         // 자동 로그인 과정 -> 실제로는 splash 스크린에서 사용해야 할 것!
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.getIdToken(true)?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val idToken = task.result.token
-                Log.d(TAG, "아이디 토큰 = $idToken")
-                val intent =
-                    Intent(requireContext(), HomeActivity::class.java).addFlags(
-                        Intent.FLAG_ACTIVITY_NEW_TASK or
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    )
-                startActivity(intent)
-            }
-        }
+//        val user = FirebaseAuth.getInstance().currentUser
+//        user?.getIdToken(true)?.addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                val idToken = task.result.token
+//                Log.d(TAG, "아이디 토큰 = $idToken")
+//                val intent =
+//                    Intent(requireContext(), HomeActivity::class.java).addFlags(
+//                        Intent.FLAG_ACTIVITY_NEW_TASK or
+//                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    )
+//                startActivity(intent)
+//            }
+//        }
 
 
         binding.apply {

@@ -83,46 +83,46 @@ class BusanPartners: Application() {
             pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners"))
 
         )
-        val notificationHandler = object : NotificationHandler {
-            var notificationManager: NotificationManager
-            init {
-                notificationManager =
-                    this@BusanPartners.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            }
-            override fun dismissAllNotifications() {
-            }
-            override fun dismissChannelNotifications(channelType: String, channelId: String) {
-            }
-            override fun onNotificationPermissionStatus(status: NotificationPermissionStatus) {
-                when (status) {
-                    NotificationPermissionStatus.REQUESTED -> {
-                        // invoked when POST_NOTIFICATIONS permission is requested
-                    }
-                    NotificationPermissionStatus.GRANTED -> {
-                        // invoked when POST_NOTIFICATIONS permission is granted
-                    }
-                    NotificationPermissionStatus.DENIED -> {
-                        // invoked when POST_NOTIFICATIONS permission is denied
-                    }
-                    NotificationPermissionStatus.RATIONALE_NEEDED -> {
-                        // invoked when POST_NOTIFICATIONS permission requires rationale
-                    }
-                }            }
-
-            override fun showNotification(channel: Channel, message: Message) {
-                val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
-
-                val notification = NotificationCompat.Builder(this@BusanPartners, channel.id)
-                    .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
-                    .setContentTitle("New message in ${channel.name}") // 알림 제목 설정
-                    .setContentText(message.text) // 메시지 텍스트 설정
-                    .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정
-                    .setAutoCancel(true) // 탭하면 알림이 자동으로 취소되도록 설정
-                    .build()
-
-                notificationManager.notify(notificationId, notification)
-            }
-        }
+//        val notificationHandler = object : NotificationHandler {
+//            var notificationManager: NotificationManager
+//            init {
+//                notificationManager =
+//                    this@BusanPartners.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//            }
+//            override fun dismissAllNotifications() {
+//            }
+//            override fun dismissChannelNotifications(channelType: String, channelId: String) {
+//            }
+//            override fun onNotificationPermissionStatus(status: NotificationPermissionStatus) {
+//                when (status) {
+//                    NotificationPermissionStatus.REQUESTED -> {
+//                        // invoked when POST_NOTIFICATIONS permission is requested
+//                    }
+//                    NotificationPermissionStatus.GRANTED -> {
+//                        // invoked when POST_NOTIFICATIONS permission is granted
+//                    }
+//                    NotificationPermissionStatus.DENIED -> {
+//                        // invoked when POST_NOTIFICATIONS permission is denied
+//                    }
+//                    NotificationPermissionStatus.RATIONALE_NEEDED -> {
+//                        // invoked when POST_NOTIFICATIONS permission requires rationale
+//                    }
+//                }            }
+//
+//            override fun showNotification(channel: Channel, message: Message) {
+//                val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
+//
+//                val notification = NotificationCompat.Builder(this@BusanPartners, channel.id)
+//                    .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
+//                    .setContentTitle("New message in ${channel.name}") // 알림 제목 설정
+//                    .setContentText(message.text) // 메시지 텍스트 설정
+//                    .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정
+//                    .setAutoCancel(true) // 탭하면 알림이 자동으로 취소되도록 설정
+//                    .build()
+//
+//                notificationManager.notify(notificationId, notification)
+//            }
+//        }
 
         val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
         val statePluginFactory = StreamStatePluginFactory(
@@ -133,7 +133,7 @@ class BusanPartners: Application() {
         chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
-            .notifications(notificationConfig,notificationHandler)
+            .notifications(notificationConfig)
             .build()
     }
 
