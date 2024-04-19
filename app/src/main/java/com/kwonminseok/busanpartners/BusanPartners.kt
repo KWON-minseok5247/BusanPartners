@@ -84,20 +84,15 @@ class BusanPartners: Application() {
 
         )
         val notificationHandler = object : NotificationHandler {
-
             var notificationManager: NotificationManager
-
             init {
                 notificationManager =
                     this@BusanPartners.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             }
-
             override fun dismissAllNotifications() {
             }
-
             override fun dismissChannelNotifications(channelType: String, channelId: String) {
             }
-
             override fun onNotificationPermissionStatus(status: NotificationPermissionStatus) {
                 when (status) {
                     NotificationPermissionStatus.REQUESTED -> {
