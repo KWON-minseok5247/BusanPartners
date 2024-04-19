@@ -26,6 +26,7 @@ import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatListViewModel
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.getstream.android.push.firebase.FirebasePushDeviceGenerator
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.notifications.handler.NotificationConfig
 import io.getstream.chat.android.client.token.TokenProvider
@@ -238,9 +239,8 @@ class MessageFragment : Fragment() {
             // Make a request to your backend to generate a valid token for the user
             override fun loadToken(): String = BusanPartners.preferences.getString(TOKEN, "")
         }
-        val notificationConfig = NotificationConfig(
-            pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "providerName"))
-        )
+
+
 
 
         client?.let { chatClient ->
