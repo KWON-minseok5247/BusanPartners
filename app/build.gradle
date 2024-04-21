@@ -192,6 +192,17 @@ dependencies {
 
 
 
+    //room 라이브러리
+    def room_version = "2.6.1"
+
+    //Room
+    implementation 'androidx.room:room-runtime:2.6.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
+    implementation "androidx.room:room-ktx:2.6.1"
+
+    // optional - Paging 3 Integration
+    implementation "androidx.room:room-paging:$room_version"
+
 
 }
 // Allow references to generated code

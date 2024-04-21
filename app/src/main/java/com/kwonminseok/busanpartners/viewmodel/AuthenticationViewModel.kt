@@ -3,14 +3,12 @@ package com.kwonminseok.busanpartners.viewmodel
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 import com.kwonminseok.busanpartners.data.User
-import com.kwonminseok.busanpartners.mainScreen.TAG
+import com.kwonminseok.busanpartners.ui.TAG
 import com.kwonminseok.busanpartners.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope

@@ -1,47 +1,35 @@
 package com.kwonminseok.busanpartners.repository
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
+import UserDao
+import UserEntity
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.storage.StorageReference
 import com.kwonminseok.busanpartners.BusanPartners
-import com.kwonminseok.busanpartners.data.CheckAuthentication
 import com.kwonminseok.busanpartners.data.User
-import com.kwonminseok.busanpartners.mainScreen.TAG
 import com.kwonminseok.busanpartners.util.Constants.STUDENT
-import com.kwonminseok.busanpartners.util.Constants.TRAVLER_AUTHENTICATION
-import com.kwonminseok.busanpartners.util.Constants.UNIVERSITY_AUTHENTICATION
 import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
 import com.kwonminseok.busanpartners.util.Resource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 interface FirebaseUserRepository {
-    //    suspend fun getCurrentUser(): Resource<User>
+
+    suspend fun insertUser(user: UserEntity)
+    suspend fun updateUser(user: UserEntity)
+    suspend fun deleteUser(user: UserEntity)
+    fun getUser(userId: String): LiveData<UserEntity?>
+
+
+
     suspend fun getCurrentUser(): Flow<Resource<User>>
 
 //    suspend fun updateCurrentUser(map: Map<String, Any?>): Resource<Boolean>
@@ -73,7 +61,25 @@ class FirebaseUserRepositoryImpl(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val storage: StorageReference,
-) : FirebaseUserRepository {
+    ) : FirebaseUserRepository {
+    override suspend fun insertUser(user: UserEntity) {
+        userDao.insertUser(user)
+    }
+
+    override suspend fun updateUser(user: UserEntity) {
+        userDao.updateUser(user)
+    }
+
+    override suspend fun deleteUser(user: UserEntity) {
+        userDao.deleteUser(user)
+    }
+
+    override fun getUser(userId: String): LiveData<UserEntity?> = userDao.getUser(userId)
+
+
+
+
+
 
     override suspend fun getCurrentUser(): Flow<Resource<User>> = callbackFlow {
         val docRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
@@ -121,50 +127,6 @@ class FirebaseUserRepositoryImpl(
         }
     }
 
-//    override suspend fun uploadUserImagesAndUpdateToFirestore(
-//        imageUris: List<Uri>,
-//        status: String
-//    ): Resource<Boolean> {
-//            return try {
-//                val storageRef = storage.child("user/${auth.uid!!}/authentication")
-////                val uploadedImageUrls = mutableListOf<String>()
-////
-////                for (uri in imageUris) {
-////                    val imageRef =
-////                        storageRef.child("${System.currentTimeMillis()}-${uri.lastPathSegment}")
-////                    val uploadTask = imageRef.putFile(uri).await()
-////                    val downloadUrl = uploadTask.storage.downloadUrl.await().toString()
-////                    uploadedImageUrls.add(downloadUrl)
-////                }
-////
-////                // 모든 이미지 업로드 작업을 동시에 시작
-////                val uploadTasks = imageUris.map { uri ->
-////
-////                    async {
-////                        val imageRef = storageRef.child("${System.currentTimeMillis()}-${uri.lastPathSegment}")
-////                        val uploadTask = imageRef.putFile(uri).await()
-////                        uploadTask.storage.downloadUrl.await().toString()
-////                    }
-////                }
-////
-////                // 모든 업로드 작업이 완료될 때까지 기다림
-////                val uploadedImageUrls = uploadTasks.awaitAll()
-////
-//
-//                val userRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
-//                val updateField =
-//                    if (status == STUDENT) "authentication.studentIdentificationCard" else "authentication.travelerAuthenticationImage"
-//                val map = mapOf(updateField to uploadedImageUrls,
-//                    "authentication.authenticationStatus" to "loading"
-//                    )
-//                userRef.update(map).await()
-//
-//                Resource.Success(true) // 성공 시 true 반환
-//            } catch (e: Exception) {
-//                Resource.Error(e.localizedMessage ?: "An error occurred while uploading images.")
-//            }
-//
-//    }
 
     override suspend fun uploadUserImagesAndUpdateToFirestore(
         imageUris: List<Uri>,

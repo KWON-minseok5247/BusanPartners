@@ -1,12 +1,10 @@
 package com.kwonminseok.busanpartners.adapter
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.OnboardingPage
-import com.kwonminseok.busanpartners.mainScreen.profile.OnboardingFragment
+import com.kwonminseok.busanpartners.ui.profile.OnboardingFragment
 
 //class OnboardingViewPagerAdapter(
 //    fragmentActivity: FragmentActivity,

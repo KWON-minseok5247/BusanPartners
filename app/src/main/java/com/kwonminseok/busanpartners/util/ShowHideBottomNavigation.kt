@@ -4,7 +4,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kwonminseok.busanpartners.R
-import com.kwonminseok.busanpartners.mainScreen.HomeActivity
+import com.kwonminseok.busanpartners.ui.HomeActivity
 
 fun Fragment.hideBottomNavigationView(){
     val bottomNavigationView =

@@ -1,13 +1,5 @@
 package com.kwonminseok.busanpartners.util
 
-import android.util.Log
-import com.google.firebase.functions.FirebaseFunctions
-import com.kwonminseok.busanpartners.BusanPartners
-import com.kwonminseok.busanpartners.mainScreen.TAG
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
-
 interface TokenProvider {
     fun loadToken(): String
 }

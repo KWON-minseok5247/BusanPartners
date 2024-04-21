@@ -1,7 +1,11 @@
 package com.kwonminseok.busanpartners.di
 
+import AppDatabase
+import UserDao
 import android.app.Application
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -21,6 +25,7 @@ import com.kwonminseok.busanpartners.repository.FirebaseUserRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 

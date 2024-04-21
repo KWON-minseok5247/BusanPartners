@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/connectFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.connect.ConnectFragment"
+        android:name="com.kwonminseok.busanpartners.ui.connect.ConnectFragment"
         android:label="fragment_connect"
         tools:layout="@layout/fragment_connect" >
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.home.HomeFragment"
+        android:name="com.kwonminseok.busanpartners.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/messageFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.message.MessageFragment"
+        android:name="com.kwonminseok.busanpartners.ui.message.MessageFragment"
         android:label="fragment_message"
 
         tools:layout="@layout/fragment_message" >
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.profile.ProfileFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.profile.CollegeAuthFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.CollegeAuthFragment"
         android:label="CollegeAuthFragment"
         tools:layout="@layout/fragment_college_auth">
         <action
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/collegeAuthNumberFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.profile.CollegeAuthNumberFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.CollegeAuthNumberFragment"
         android:label="CollegeAuthNumberFragment"
         tools:layout="@layout/fragment_college_auth_number">
         <argument
@@ -75,7 +75,7 @@
     </fragment>
     <fragment
         android:id="@+id/collegeAuthCompleteFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.profile.CollegeAuthCompleteFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.CollegeAuthCompleteFragment"
         android:label="CollegeAuthCompleteFragment"
         tools:layout="@layout/fragment_collete_auth_complete">
         <action
@@ -88,7 +88,7 @@
 
     <fragment
         android:id="@+id/travelerAuthFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.profile.TravelerAuthFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.TravelerAuthFragment"
         android:label="TravelerAuthFragment"
         tools:layout="@layout/fragment_traveler_auth">
         <action
@@ -97,12 +97,12 @@
     </fragment>
     <fragment
         android:id="@+id/userAccountFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.profile.UserAccountFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.UserAccountFragment"
         android:label="UserAccountFragment"
         tools:layout="@layout/fragment_user_account"/>
     <fragment
         android:id="@+id/selectedUniversityStudentListFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.connect.SelectedUniversityStudentListFragment"
+        android:name="com.kwonminseok.busanpartners.ui.connect.SelectedUniversityStudentListFragment"
         android:label="SelectedUniversityStudentListFragment"
         tools:layout="@layout/fragment_selected_university_student_list">
         <argument
@@ -115,7 +115,7 @@
     </fragment>
     <fragment
         android:id="@+id/collegeAuthImageFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.profile.CollegeAuthImageFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.CollegeAuthImageFragment"
         android:label="CollegeAuthImageFragment"
         tools:layout="@layout/fragment_college_auth_image">
         <action
@@ -124,7 +124,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingStudentInformationFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.profile.OnboardingStudentInformationFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.OnboardingStudentInformationFragment"
         android:label="OnboardingStudentInformationFragment"
         tools:layout="@layout/fragment_onboarding_information">
         <action
@@ -133,7 +133,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingTravelerInformationFragment"
-        android:name="com.kwonminseok.busanpartners.mainScreen.profile.OnboardingTravelerInformationFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.OnboardingTravelerInformationFragment"
         android:label="OnboardingTravelerInformationFragment"
         tools:layout="@layout/fragment_onboarding_information">
         <action

@@ -1,20 +1,36 @@
-package com.kwonminseok.busanpartners.api
+package com.kwonminseok.busanpartners.ui.home
 
 import android.content.Context
 import com.google.gson.GsonBuilder
+import com.kwonminseok.busanpartners.data.FestivalResponse
+import com.kwonminseok.busanpartners.data.TouristDestinationResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
-interface WorldTimeApiService {
+// Define an API interface
+interface BusanFestivalApiService {
+
     companion object {
 
 
         @Volatile //인스턴스가 메인 메모리를 바로 참조하여 인스턴스 중복 생성 방지
-        private var INSTANCE: WorldTimeApiService? = null
-        fun create(context: Context): WorldTimeApiService {
+        private var INSTANCE: BusanFestivalApiService? = null
+
+
+
+
+
+        /*        private val retrofit: Retrofit
+            get() = Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()*/
+        fun create(context: Context): BusanFestivalApiService {
 
             val httpLoggingInterceptor = HttpLoggingInterceptor()
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -37,11 +53,11 @@ interface WorldTimeApiService {
 
 
             return Retrofit.Builder()
-                .baseUrl("https://worldtimeapi.org/api/")
+                .baseUrl("http://apis.data.go.kr/6260000/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()
-                .create(WorldTimeApiService::class.java)
+                .create(BusanFestivalApiService::class.java)
         }
 
 
@@ -50,21 +66,26 @@ interface WorldTimeApiService {
                 INSTANCE = it
             }
         }
-        fun getInstance(): WorldTimeApiService = INSTANCE!!
+        fun getInstance(): BusanFestivalApiService = INSTANCE!!
 
     }
-    @GET("timezone/Asia/Seoul")
-    suspend fun getSeoulTime(): WorldTimeResponse
+
+    @GET("FestivalService/getFestivalKr")
+    fun getFestivalsKr(
+        @Query("serviceKey") apiKey: String,
+        @Query("numOfRows") numOfRows: Int,
+        @Query("pageNo") pageNo: Int,
+        @Query("resultType") type: String
+    ): Call<FestivalResponse>
+
+    @GET("AttractionService/getAttractionKr")
+    fun getTouristDestination(
+        @Query("serviceKey") apiKey: String,
+        @Query("numOfRows") numOfRows: Int,
+        @Query("pageNo") pageNo: Int,
+        @Query("resultType") type: String
+    ): Call<TouristDestinationResponse>
+
 }
 
-data class WorldTimeResponse(
-    val abbreviation: String,
-    val datetime: String,
-    val day_of_week: Int,
-    val day_of_year: Int,
-    val timezone: String,
-    val unixtime: Long,
-    val utc_datetime: String,
-    val utc_offset: String,
-    val week_number: Int
-)
+

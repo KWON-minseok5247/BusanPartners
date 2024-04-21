@@ -1,41 +1,21 @@
 package com.kwonminseok.busanpartners
 
+import AppDatabase
 import android.app.Application
-import android.app.NotificationManager
-import android.content.Context
-import android.content.Intent
-import androidx.core.app.NotificationCompat
-import androidx.fragment.app.viewModels
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
-import com.kwonminseok.busanpartners.api.WorldTimeResponse
-import com.kwonminseok.busanpartners.mainScreen.home.BusanFestivalApiService
-import com.kwonminseok.busanpartners.util.MyNotificationHandler
 import com.kwonminseok.busanpartners.util.PreferenceUtil
-import com.kwonminseok.busanpartners.util.Push
-import com.kwonminseok.busanpartners.viewmodel.TimeViewModel
-import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import io.getstream.android.push.firebase.FirebasePushDeviceGenerator
-import io.getstream.android.push.permissions.NotificationPermissionStatus
 import io.getstream.chat.android.client.ChatClient
-import io.getstream.chat.android.client.events.NewMessageEvent
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.client.notifications.handler.NotificationConfig
-import io.getstream.chat.android.client.notifications.handler.NotificationHandler
-import io.getstream.chat.android.client.notifications.handler.NotificationHandlerFactory
-import io.getstream.chat.android.models.Channel
-import io.getstream.chat.android.models.Message
-import io.getstream.chat.android.models.PushMessage
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 // Hilt를 사용하기 위해서 여기서 힐트를 추가한다.
 @HiltAndroidApp
@@ -44,22 +24,20 @@ class BusanPartners: Application() {
     companion object{
         lateinit var preferences: PreferenceUtil
         lateinit var chatClient: ChatClient
-
-
+        lateinit var db: AppDatabase
         lateinit var worldTimeApi: WorldTimeApiService
 //        var currentTime: WorldTimeResponse? = null
 
     }
     override fun onCreate() {
 //        BusanFestivalApiService.init(this)
-
+        super.onCreate()
 
         TourismApiService.init(this)
 
         WorldTimeApiService.init(this)
 
         preferences = PreferenceUtil(applicationContext)
-        super.onCreate()
 
         // ChatClient 초기화
         initializeChatClient()
@@ -68,6 +46,8 @@ class BusanPartners: Application() {
         AndroidThreeTen.init(this)
 
 
+        // room 데이터베이스
+        AppDatabase.init(this)
 
 
         // 네이버 지도
