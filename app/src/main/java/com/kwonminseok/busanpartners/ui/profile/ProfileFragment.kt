@@ -90,7 +90,7 @@ class ProfileFragment : Fragment() {
                         }
                     }
                 }
-            } else {
+            } else { // 여기는 Room으로부터 먼저 가져오되 서버에서도 가져와서 비교를 하고 업데이트 및 수정을 한다.
                 user = convertUserEntityToUser(userEntity)
                 fetchUserData(user)
             }
