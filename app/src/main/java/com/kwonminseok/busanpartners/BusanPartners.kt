@@ -1,11 +1,11 @@
 package com.kwonminseok.busanpartners
 
-import AppDatabase
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
+import com.kwonminseok.busanpartners.db.AppDatabase
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
@@ -45,10 +45,7 @@ class BusanPartners: Application() {
         // 24버전 서버 시간
         AndroidThreeTen.init(this)
 
-
-        // room 데이터베이스
-        AppDatabase.init(this)
-
+//        AppDatabase.getDatabase(this)
 
         // 네이버 지도
         NaverMapSdk.getInstance(this).client =

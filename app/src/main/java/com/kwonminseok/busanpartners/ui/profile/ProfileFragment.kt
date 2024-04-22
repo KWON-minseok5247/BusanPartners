@@ -19,6 +19,7 @@ import com.kwonminseok.busanpartners.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
+import com.kwonminseok.busanpartners.db.entity.UserEntity
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.Resource
@@ -29,14 +30,22 @@ import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 private val TAG = "ProfileFragment"
+
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
-//    private val viewModel by viewModels<ProfileViewModel>()
+
+    //    private val viewModel by viewModels<ProfileViewModel>()
     private val viewModel: UserViewModel by viewModels()
     lateinit var user: User
+    private val uid = BusanPartners.preferences.getString("uid", "")
 
 
+    //Todo 여기서 해야 할 거는 일단 room을 통해서 데이터를 가져오기 ->
+    // 만약 room에 데이터가 없다면 네트워크로부터 데이터를 가져오기 -> 가져온 데이터를 insert하기
+    // 만약 room의 데이터가 있으면 일단 그 데이터로 표시한다 -> 근데 네트워크로부터 가져온 데이터랑
+    // 다르다면 네트워크 데이터로 최신화한다. -> 그리고 데이터를 insert한다.
+    // 만약 room 데이터와 네트워크로부터 가져온 데이터가 동일하다면 굳이 업데이트는 필요 없음.
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,25 +59,62 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.user.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-                        showProgressBar()
+        viewModel.getUserStateFlowData(uid).observe(viewLifecycleOwner) { userEntity ->
+            // userEntity가 null이 아닐 때 UI 업데이트
+            if (userEntity == null) {
+                lifecycleScope.launchWhenStarted {
+                    viewModel.user.collectLatest {
+                        when (it) {
+                            is Resource.Loading -> {
+//                                showProgressBar()
+                            }
+
+                            is Resource.Success -> {
+//                                hideProgressBar()
+                                fetchUserData(it.data!!)
+                                user = it.data
+                                viewModel.insertUser(convertUserToUserEntity(user))
+
+                            }
+
+                            is Resource.Error -> {
+//                                hideProgressBar()
+                                Toast.makeText(
+                                    requireContext(),
+                                    it.message.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else -> Unit
+                        }
                     }
-                    is Resource.Success -> {
-                        hideProgressBar()
-                        fetchUserData(it.data!!)
-                        user = it.data
-                    }
-                    is Resource.Error -> {
-                        hideProgressBar()
-                        Toast.makeText(requireContext(),it.message.toString(),Toast.LENGTH_SHORT).show()
-                    }
-                    else -> Unit
                 }
+            } else {
+                user = convertUserEntityToUser(userEntity)
+                fetchUserData(user)
             }
+
         }
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.user.collectLatest {
+//                when (it) {
+//                    is Resource.Loading -> {
+//                        showProgressBar()
+//                    }
+//                    is Resource.Success -> {
+//                        hideProgressBar()
+//                        fetchUserData(it.data!!)
+//                        user = it.data
+//                    }
+//                    is Resource.Error -> {
+//                        hideProgressBar()
+//                        Toast.makeText(requireContext(),it.message.toString(),Toast.LENGTH_SHORT).show()
+//                    }
+//                    else -> Unit
+//                }
+//            }
+//        }
 
 
 //        lifecycleScope.launchWhenStarted {
@@ -94,9 +140,6 @@ class ProfileFragment : Fragment() {
         binding.constraintProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
         }
-
-
-
 
 
         //TODO 여기서 만약 이메일인증까지 진행했다면 바로 학생증 인증으로 넘어가기
@@ -140,10 +183,10 @@ class ProfileFragment : Fragment() {
                 if (result.isSuccess) {
                     // 성공적으로 사용자 연결 해제 및 로컬 캐시 지움
                     // 여기서 새 사용자로 ChatClient를 설정할 수 있습니다.
-                    Log.w(TAG," chatClient가 성공적으로 로그아웃되었습니다.")
+                    Log.w(TAG, " chatClient가 성공적으로 로그아웃되었습니다.")
                 } else {
                     // 연결 해제 실패 처리
-                    Log.w(TAG," chatClient가 로그아웃에 실패했습니다.")
+                    Log.w(TAG, " chatClient가 로그아웃에 실패했습니다.")
 
                 }
             }
@@ -164,8 +207,6 @@ class ProfileFragment : Fragment() {
         }
 
 
-
-
     }
 
     override fun onResume() {
@@ -173,9 +214,6 @@ class ProfileFragment : Fragment() {
 //        viewModel.getCurrentUser()
 //        Log.e("viewModel.getCurrentUser()", "실행되었다.")
     }
-
-
-
 
 
     private fun fetchUserData(user: User) {
@@ -195,26 +233,29 @@ class ProfileFragment : Fragment() {
                     authenticationLoadOrCompleteText.text = "인증 중입니다. 잠시만 기다려주세요."
                 }
             }
+
             "complete" -> {
-                if(user.authentication.collegeStudent) {
+                if (user.authentication.collegeStudent) {
                     binding.apply {
                         authenticationLoadOrCompleteCard.visibility = View.VISIBLE
                         travelerAuthentication.visibility = View.INVISIBLE
                         collegeAuthentication.visibility = View.INVISIBLE
-                        authenticationLoadOrCompleteText.text = "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
+                        authenticationLoadOrCompleteText.text =
+                            "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
                     }
-                }
-                else if (user.authentication.traveler) {
+                } else if (user.authentication.traveler) {
                     val tokenTime = formatDateTime(user.tokenTime.toString())
                     binding.apply {
                         authenticationLoadOrCompleteCard.visibility = View.VISIBLE
                         travelerAuthentication.visibility = View.INVISIBLE
                         collegeAuthentication.visibility = View.INVISIBLE
-                        authenticationLoadOrCompleteText.text = "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
+                        authenticationLoadOrCompleteText.text =
+                            "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
                     }
                 }
 
             }
+
             else -> {
                 binding.apply {
                     authenticationLoadOrCompleteCard.visibility = View.GONE
@@ -225,13 +266,13 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun showProgressBar() {
-        binding.progressbarSettings.visibility = View.VISIBLE
-    }
-
-    private fun hideProgressBar() {
-        binding.progressbarSettings.visibility = View.GONE
-    }
+//    private fun showProgressBar() {
+//        binding.progressbarSettings.visibility = View.VISIBLE
+//    }
+//
+//    private fun hideProgressBar() {
+//        binding.progressbarSettings.visibility = View.GONE
+//    }
 
     fun formatDateTime(dateTimeString: String): String {
         // ISO 8601 형식의 문자열을 OffsetDateTime 객체로 파싱
@@ -243,5 +284,47 @@ class ProfileFragment : Fragment() {
         // 날짜 형식화
         return offsetDateTime.format(formatter)
     }
+
+    private fun convertUserToUserEntity(user: User): UserEntity {
+        return UserEntity(
+            uid = user.uid,
+            firstName = user.firstName,
+            lastName = user.lastName,
+            email = user.email,
+            imagePath = user.imagePath,
+            gender = user.gender,
+            college = user.college,
+            introduction = user.introduction,
+            name = user.name,
+            authentication = user.authentication,
+            universityEmail = user.universityEmail,
+            tokenTime = user.tokenTime,
+            chipGroup = user.chipGroup,
+            major = user.major,
+            wantToMeet = user.wantToMeet
+        )
+    }
+
+    private fun convertUserEntityToUser(userEntity: UserEntity): User {
+        return User(
+            firstName = userEntity.firstName,
+            lastName = userEntity.lastName,
+            email = userEntity.email,
+            imagePath = userEntity.imagePath,
+            uid = userEntity.uid,
+            gender = userEntity.gender,
+            college = userEntity.college,
+            introduction = userEntity.introduction,
+            name = userEntity.name,
+            authentication = userEntity.authentication,
+            universityEmail = userEntity.universityEmail,
+            tokenTime = userEntity.tokenTime,
+            chipGroup = userEntity.chipGroup,
+            major = userEntity.major,
+            wantToMeet = userEntity.wantToMeet
+        )
+    }
+
+
 
 }

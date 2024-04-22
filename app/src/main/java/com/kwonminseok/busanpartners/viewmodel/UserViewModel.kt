@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kwonminseok.busanpartners.data.User
+import com.kwonminseok.busanpartners.db.entity.UserEntity
 import com.kwonminseok.busanpartners.repository.FirebaseUserRepository
+import com.kwonminseok.busanpartners.repository.RoomUserRepository
 import com.kwonminseok.busanpartners.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,7 +24,9 @@ import javax.inject.Inject
 private val TAG = "UserAccountViewModel"
 
 @HiltViewModel
-class UserViewModel @Inject constructor(private val userRepository: FirebaseUserRepository) :
+class UserViewModel @Inject constructor(
+    private val userRepository: FirebaseUserRepository,
+    private val roomUserRepository: RoomUserRepository) :
     ViewModel() {
 
     private val _user = MutableStateFlow<Resource<User>>(Resource.Unspecified())
@@ -37,7 +41,9 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
     private val _token = MutableLiveData<Resource<String>>()
     val token: LiveData<Resource<String>> = _token
 
+    // Room이 있으면 init에 넣어서 재빨리 확인할 수도 있지 않을까?
     init {
+
         getCurrentUser()
     }
 
@@ -98,6 +104,46 @@ class UserViewModel @Inject constructor(private val userRepository: FirebaseUser
             _token.value = userRepository.getStreamChatToken()
         }
     }
+
+    //Room 관련 함수
+    // ViewModel을 통해 UI에 제공될 LiveData
+//    fun getUserRoomData(userId: String) {
+//        viewModelScope.launch {
+//            _user.value = Resource.Loading()
+//            roomUserRepository.getUser(userId).collect { resource ->
+//                _user.value = resource
+//            }
+//        }
+//        return
+//
+//    }
+
+    fun getUserStateFlowData(userId: String): LiveData<UserEntity?> {
+        return roomUserRepository.getUser(userId)
+
+    }
+
+    // 사용자를 데이터베이스에 추가하는 함수
+    fun insertUser(user: UserEntity) {
+        viewModelScope.launch {
+            roomUserRepository.insertUser(user)
+        }
+    }
+
+    // 사용자 정보를 업데이트하는 함수
+    fun updateUser(user: UserEntity) {
+        viewModelScope.launch {
+            roomUserRepository.updateUser(user)
+        }
+    }
+
+    // 사용자를 데이터베이스에서 삭제하는 함수
+    fun deleteUser(user: UserEntity) {
+        viewModelScope.launch {
+            roomUserRepository.deleteUser(user)
+        }
+    }
+
 
 
 

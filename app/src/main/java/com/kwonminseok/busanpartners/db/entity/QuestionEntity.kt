@@ -1,3 +1,4 @@
+package com.kwonminseok.busanpartners.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,5 +1,11 @@
+package com.kwonminseok.busanpartners.db
+
+
 import android.content.Context
 import androidx.room.*
+import com.kwonminseok.busanpartners.db.dao.UserDao
+import com.kwonminseok.busanpartners.db.entity.UserEntity
+import kotlinx.coroutines.CoroutineScope
 
 
 @Database(entities = [UserEntity::class], version = 1, exportSchema = false)
@@ -7,12 +13,12 @@ import androidx.room.*
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
-    companion object {
-        const val FILENAME = "user_database"
-        @Volatile
-        var INSTANCE: AppDatabase? = null
-
-
+//    companion object {
+//        const val FILENAME = "user_database"
+//        @Volatile
+//        var INSTANCE: AppDatabase? = null
+//
+//
 //        fun getDatabase(
 //            context: Context
 //        ): AppDatabase {
@@ -29,26 +35,32 @@ abstract class AppDatabase : RoomDatabase() {
 //                instance
 //            }
 //        }
+//
+//    }
 
+//    companion object {
+//        @Volatile
+//        private var INSTANCE: AppDatabase? = null
+//        fun getDatabase(
+//            context: Context,
+////            scope: CoroutineScope
+//        ): AppDatabase {
+//            // if the INSTANCE is not null, then return it,
+//            // if it is, then create the database
+//            return INSTANCE ?: synchronized(this) {
+//                val instance = Room.databaseBuilder(
+//                    context.applicationContext,
+//                    AppDatabase::class.java,
+//                    "user_database"
+//                )   .fallbackToDestructiveMigration()
+//                    .build()
+//                INSTANCE = instance
+//                // return instance
+//                instance
+//            }
+//        }
+//    }
 
-        private fun create(context: Context): AppDatabase {
-            return Room.databaseBuilder(
-                context.applicationContext,
-                AppDatabase::class.java,
-                FILENAME
-            ).fallbackToDestructiveMigration()
-                .build()
-        }
-
-        fun init(context: Context): AppDatabase = INSTANCE ?:
-        synchronized(this) {
-            INSTANCE ?: create(context).also {
-                INSTANCE = it
-            }
-        }
-        fun getInstance(): AppDatabase = INSTANCE!!
-
-    }
 }
 
 //
@@ -87,3 +99,23 @@ abstract class AppDatabase : RoomDatabase() {
 //
 //    }
 //}
+
+
+//
+//
+//        private fun create(context: Context): AppDatabase {
+//            return Room.databaseBuilder(
+//                context.applicationContext,
+//                AppDatabase::class.java,
+//                FILENAME
+//            ).fallbackToDestructiveMigration()
+//                .build()
+//        }
+//
+//        fun init(context: Context): AppDatabase = INSTANCE ?:
+//        synchronized(this) {
+//            INSTANCE ?: create(context).also {
+//                INSTANCE = it
+//            }
+//        }
+//        fun getInstance(): AppDatabase = INSTANCE!!

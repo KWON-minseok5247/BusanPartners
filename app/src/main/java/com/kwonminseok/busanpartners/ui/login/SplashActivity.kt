@@ -1,6 +1,5 @@
 package com.kwonminseok.busanpartners.ui.login
 
-import AppDatabase
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -76,6 +75,7 @@ class SplashActivity : AppCompatActivity() {
 
                             is Resource.Success -> {
                                 user = it.data!!
+                                BusanPartners.preferences.setString("uid", it.data.uid)
                                 connectUserToStream(user)
                             }
 

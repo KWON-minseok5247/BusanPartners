@@ -1,7 +1,5 @@
 package com.kwonminseok.busanpartners.repository
 
-import UserDao
-import UserEntity
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
@@ -23,13 +21,7 @@ import kotlinx.coroutines.tasks.await
 
 interface FirebaseUserRepository {
 
-    suspend fun insertUser(user: UserEntity)
-    suspend fun updateUser(user: UserEntity)
-    suspend fun deleteUser(user: UserEntity)
-    fun getUser(userId: String): LiveData<UserEntity?>
-
-
-
+    // 파이어베이스 전용 함수
     suspend fun getCurrentUser(): Flow<Resource<User>>
 
 //    suspend fun updateCurrentUser(map: Map<String, Any?>): Resource<Boolean>
@@ -62,21 +54,6 @@ class FirebaseUserRepositoryImpl(
     private val firestore: FirebaseFirestore,
     private val storage: StorageReference,
     ) : FirebaseUserRepository {
-    override suspend fun insertUser(user: UserEntity) {
-        userDao.insertUser(user)
-    }
-
-    override suspend fun updateUser(user: UserEntity) {
-        userDao.updateUser(user)
-    }
-
-    override suspend fun deleteUser(user: UserEntity) {
-        userDao.deleteUser(user)
-    }
-
-    override fun getUser(userId: String): LiveData<UserEntity?> = userDao.getUser(userId)
-
-
 
 
 

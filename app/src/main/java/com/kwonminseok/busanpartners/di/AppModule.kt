@@ -1,7 +1,5 @@
 package com.kwonminseok.busanpartners.di
 
-import AppDatabase
-import UserDao
 import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -16,8 +14,12 @@ import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.kwonminseok.busanpartners.db.AppDatabase
+import com.kwonminseok.busanpartners.db.dao.UserDao
 import com.kwonminseok.busanpartners.repository.FirebaseUserRepository
 import com.kwonminseok.busanpartners.repository.FirebaseUserRepositoryImpl
+import com.kwonminseok.busanpartners.repository.RoomUserRepository
+import com.kwonminseok.busanpartners.repository.RoomUserRepositoryImpl
 //import com.google.firebase.firestore.FirebaseFirestore
 //import com.google.firebase.firestore.ktx.firestore
 //import com.google.firebase.ktx.Firebase
@@ -43,9 +45,28 @@ object AppModule {
         auth: FirebaseAuth,
         firestore: FirebaseFirestore,
         storage: StorageReference,
-
     ): FirebaseUserRepository = FirebaseUserRepositoryImpl(auth, firestore, storage)
 
+
+
+    // AppDatabase 인스턴스를 제공합니다.
+    @Singleton
+    @Provides
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "user_database")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRoomUserRepository(
+        userDao: UserDao
+        ): RoomUserRepository = RoomUserRepositoryImpl(userDao)
+
+    @Provides
+    @Singleton
+    fun provideUserDao(appDatabase: AppDatabase): UserDao = appDatabase.userDao()
 
     @Provides
     @Singleton // 여기저기 호출하고 다니지만 사실상 1개를 돌려쓰는 중임...
@@ -98,6 +119,9 @@ object AppModule {
 //        .collection(PRODUCTS_COLLECTION)
 ////        .orderBy("pageNumber")
 //        .limit(PAGE_SIZE.toLong())
+
+
+
 
 
 }
