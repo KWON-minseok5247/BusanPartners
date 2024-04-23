@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +25,11 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
+import com.kwonminseok.busanpartners.BusanPartners
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentUserAccountBinding
+import com.kwonminseok.busanpartners.extensions.toEntity
+import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
@@ -33,12 +37,15 @@ import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+
+//TODO 여기서도 관광객일 때는 많은 데이터가 필요없으니까 일부 지우는 과정이 필요함.
 @AndroidEntryPoint
 class UserAccountFragment : Fragment() {
     private var chipTexts: MutableList<String>? = null
     lateinit var binding: FragmentUserAccountBinding
+    private val uid = BusanPartners.preferences.getString("uid", "")
 
-        private val viewModel: UserViewModel by viewModels()
+    private val viewModel: UserViewModel by viewModels()
 //    private val viewModel: UserViewModel by activityViewModels()
 
     private val GALLERY = 1
@@ -62,28 +69,75 @@ class UserAccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        // MVVM 패턴으로 데이터를 받아와서 ui에 등록하는 과정
-        lifecycleScope.launchWhenStarted {
-            viewModel.user.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-                        showUserLoading()
+        viewModel.getUserStateFlowData(uid).observe(viewLifecycleOwner) { userEntity ->
+            // userEntity가 null이 아닐 때 UI 업데이트
+            if (userEntity == null) {
+                // 문제가 있었으면 프로필화면에서 이미 처리했지 여기는 굳이 신경안써도 될 듯?
+                viewModel.getCurrentUser()
+
+                lifecycleScope.launchWhenStarted {
+                    viewModel.user.collectLatest {
+                        when (it) {
+                            is Resource.Success -> {
+//                                hideProgressBar()
+                                enterData(it.data!!)
+                                oldUser = it.data
+                                viewModel.insertUser(oldUser.toEntity())
+                            }
+
+                            is Resource.Error -> {
+//                                hideProgressBar()
+                                Toast.makeText(
+                                    requireContext(),
+                                    it.message.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else -> Unit
+                        }
                     }
+                }
+            } else { // 여기는 Room으로부터 먼저 가져오되 서버에서도 가져와서 비교를 하고 업데이트 및 수정을 한다.
+                // TODO 아무리 빨리해도 속도 제한이 있는데 그 사이에 짧은 로딩바라도 넣는 게 낫나???
+                oldUser = userEntity.toUser()
+                enterData(oldUser)
 
-                    is Resource.Success -> {
-                        hideUserLoading()
-                        enterData(it.data!!)
-                        oldUser = it.data
+                viewModel.getCurrentUser()
+
+                lifecycleScope.launchWhenStarted {
+                    viewModel.user.collectLatest {
+                        when (it) {
+                            is Resource.Loading -> {
+                            }
+
+                            is Resource.Success -> {
+                                if (oldUser == it.data) { // room이랑 데이터가 똑같을 때
+                                    return@collectLatest
+                                } else { // Room이랑 데이터가 다를 때
+                                    enterData(it.data!!)
+                                    oldUser = it.data
+                                    viewModel.updateUser(oldUser.toEntity())
+
+                                }
+
+                            }
+
+                            is Resource.Error -> {
+//                                hideProgressBar()
+                                Toast.makeText(
+                                    requireContext(),
+                                    it.message.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else -> Unit
+                        }
                     }
-
-                    is Resource.Error -> {
-                        hideUserLoading()
-                    }
-
-                    else -> Unit
-
                 }
             }
+
         }
 
         binding.buttonSave.setOnClickListener {
@@ -108,7 +162,6 @@ class UserAccountFragment : Fragment() {
 
                 if (imageData == null) { // 사진을 변경하지 않은 경우
                     viewModel.setCurrentUser(noImageMap)
-
                     oldUser = oldUser.copy(
                         name = edName,
                         major = edMajor,
@@ -116,6 +169,7 @@ class UserAccountFragment : Fragment() {
                         chipGroup = chipTexts,
                         wantToMeet = wantToMeet
                     )
+//                    viewModel.updateUser(oldUser.toEntity())
 
 
                 } else { // 사진을 변경한 경우
@@ -130,7 +184,6 @@ class UserAccountFragment : Fragment() {
                         wantToMeet = wantToMeet
                     )
                     imageData = null
-
                 }
             }
 
@@ -159,7 +212,11 @@ class UserAccountFragment : Fragment() {
                         // 로딩 인디케이터 숨기기
                         binding.buttonSave.revertAnimation()
                         // 에러 메시지 표시
-                        Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            requireContext(),
+                            "${resource.message}",
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                     }
 
@@ -223,8 +280,6 @@ class UserAccountFragment : Fragment() {
 
     }
 
-
-    // TODO 이 부분에 문제가 약간 있네. 이유 없이 저장이 안됐다고 알린다. 추후 수정
     private fun backPress() {
 
         binding.apply {

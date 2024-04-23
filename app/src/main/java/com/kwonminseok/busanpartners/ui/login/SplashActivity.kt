@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui.login
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -30,6 +31,7 @@ import kotlin.coroutines.suspendCoroutine
 
 private val TAG = "SplashActivity"
 
+@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
@@ -63,6 +65,7 @@ class SplashActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 val idToken = task.result.token
                 Log.d(TAG, "아이디 토큰 = $idToken")
+                viewModel.getCurrentUser()
 
 
             // 여기서 파이어베이스 정보를 받고 user를 정의한다.

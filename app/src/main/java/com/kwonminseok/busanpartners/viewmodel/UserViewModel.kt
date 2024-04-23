@@ -42,9 +42,9 @@ class UserViewModel @Inject constructor(
     val token: LiveData<Resource<String>> = _token
 
     // Room이 있으면 init에 넣어서 재빨리 확인할 수도 있지 않을까?
-    init {
-        getCurrentUser()
-    }
+//    init {
+//        getCurrentUser()
+//    }
 
     fun getCurrentUser() {
         viewModelScope.launch {

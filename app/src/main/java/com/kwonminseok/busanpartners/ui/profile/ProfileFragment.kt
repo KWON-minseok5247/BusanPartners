@@ -20,6 +20,8 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.kwonminseok.busanpartners.db.entity.UserEntity
+import com.kwonminseok.busanpartners.extensions.toEntity
+import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.Resource
@@ -62,6 +64,8 @@ class ProfileFragment : Fragment() {
         viewModel.getUserStateFlowData(uid).observe(viewLifecycleOwner) { userEntity ->
             // userEntity가 null이 아닐 때 UI 업데이트
             if (userEntity == null) {
+                viewModel.getCurrentUser()
+
                 lifecycleScope.launchWhenStarted {
                     viewModel.user.collectLatest {
                         when (it) {
@@ -73,7 +77,7 @@ class ProfileFragment : Fragment() {
 //                                hideProgressBar()
                                 fetchUserData(it.data!!)
                                 user = it.data
-                                viewModel.insertUser(convertUserToUserEntity(user))
+                                viewModel.insertUser(user.toEntity())
 
                             }
 
@@ -91,51 +95,44 @@ class ProfileFragment : Fragment() {
                     }
                 }
             } else { // 여기는 Room으로부터 먼저 가져오되 서버에서도 가져와서 비교를 하고 업데이트 및 수정을 한다.
-                user = convertUserEntityToUser(userEntity)
+                user = userEntity.toUser()
                 fetchUserData(user)
+                viewModel.getCurrentUser()
+
+                lifecycleScope.launchWhenStarted {
+                    viewModel.user.collectLatest {
+                        when (it) {
+                            is Resource.Loading -> {
+                            }
+                            is Resource.Success -> {
+                                if (user == it.data) {
+                                    return@collectLatest
+                                } else {
+                                    fetchUserData(it.data!!)
+                                    user = it.data
+                                    viewModel.updateUser(user.toEntity())
+
+                                }
+
+                            }
+
+                            is Resource.Error -> {
+//                                hideProgressBar()
+                                Toast.makeText(
+                                    requireContext(),
+                                    it.message.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else -> Unit
+                        }
+                    }
+                }
             }
 
         }
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.user.collectLatest {
-//                when (it) {
-//                    is Resource.Loading -> {
-//                        showProgressBar()
-//                    }
-//                    is Resource.Success -> {
-//                        hideProgressBar()
-//                        fetchUserData(it.data!!)
-//                        user = it.data
-//                    }
-//                    is Resource.Error -> {
-//                        hideProgressBar()
-//                        Toast.makeText(requireContext(),it.message.toString(),Toast.LENGTH_SHORT).show()
-//                    }
-//                    else -> Unit
-//                }
-//            }
-//        }
 
-
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.updateStatus.collect {
-//                when (it.data) {
-//                    false -> {
-//                        Log.e("viewModel.getCurrentUser()","false")
-//
-//                    }
-//                    true  -> {
-//                        viewModel.getCurrentUser()
-//                        Log.e("viewModel.getCurrentUser()","true")
-//                    }
-//
-//                    else -> {
-//                        Log.e("viewModel.getCurrentUser()","${it.data} ${it.message}")
-//
-//                    }
-//                }
-//            }
-//        }
 
         binding.constraintProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
@@ -191,7 +188,12 @@ class ProfileFragment : Fragment() {
                 }
             }
 
+            // room 데이터 삭제
+            BusanPartners.preferences.setString("uid", "")
+            viewModel.deleteUser(user.toEntity())
+
             BusanPartners.preferences.setString(Constants.TOKEN, "")
+
             // 접근권한으로부터 해제
             GoogleSignIn.getClient(
                 requireActivity(),
@@ -207,12 +209,6 @@ class ProfileFragment : Fragment() {
         }
 
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        viewModel.getCurrentUser()
-//        Log.e("viewModel.getCurrentUser()", "실행되었다.")
     }
 
 
@@ -283,46 +279,6 @@ class ProfileFragment : Fragment() {
 
         // 날짜 형식화
         return offsetDateTime.format(formatter)
-    }
-
-    private fun convertUserToUserEntity(user: User): UserEntity {
-        return UserEntity(
-            uid = user.uid,
-            firstName = user.firstName,
-            lastName = user.lastName,
-            email = user.email,
-            imagePath = user.imagePath,
-            gender = user.gender,
-            college = user.college,
-            introduction = user.introduction,
-            name = user.name,
-            authentication = user.authentication,
-            universityEmail = user.universityEmail,
-            tokenTime = user.tokenTime,
-            chipGroup = user.chipGroup,
-            major = user.major,
-            wantToMeet = user.wantToMeet
-        )
-    }
-
-    private fun convertUserEntityToUser(userEntity: UserEntity): User {
-        return User(
-            firstName = userEntity.firstName,
-            lastName = userEntity.lastName,
-            email = userEntity.email,
-            imagePath = userEntity.imagePath,
-            uid = userEntity.uid,
-            gender = userEntity.gender,
-            college = userEntity.college,
-            introduction = userEntity.introduction,
-            name = userEntity.name,
-            authentication = userEntity.authentication,
-            universityEmail = userEntity.universityEmail,
-            tokenTime = userEntity.tokenTime,
-            chipGroup = userEntity.chipGroup,
-            major = userEntity.major,
-            wantToMeet = userEntity.wantToMeet
-        )
     }
 
 

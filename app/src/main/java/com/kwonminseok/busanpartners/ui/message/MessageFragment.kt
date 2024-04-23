@@ -39,7 +39,7 @@ class MessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-// 여기는 대학생 목록에서 원하는 대학생과 메세지를 보내는 과정
+        // 여기는 대학생 목록에서 원하는 대학생과 메세지를 보내는 과정
         getStudentChat()
 
         // ViewModel 바인딩과 UI 업데이트
@@ -64,8 +64,6 @@ class MessageFragment : Fragment() {
                 limit = 30,
 
                 )
-
-
         val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
 
 
@@ -92,45 +90,25 @@ class MessageFragment : Fragment() {
 
     private fun getStudentChat() {
 
-//        val uid: String by lazy { // by lazy를 사용하는 이유가 선언과 동시에 초기화인데 메모리를 줄여주나봄.
-//            requireArguments().getString(ARG_UID)!!
-//        }
 
         val studentUid = arguments?.getString("studentUid", null)
         if (studentUid != null) {
-
-//            val calendar = Calendar.getInstance().apply {
-//                add(Calendar.SECOND, 10)  // 현재 시간에서 5분을 추가
-//            }
-//
-//            val freezeTime =
-//                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).apply {
-//                    timeZone = TimeZone.getTimeZone("UTC")
-//                }.format(calendar.time)
-//
-//            val extraData = mapOf("freeze_time" to freezeTime)
-
             val channelClient = client?.channel(channelType = "messaging", channelId = "")
-            if (channelClient != null) {
-                channelClient.create(
-                    memberIds = listOf(studentUid, client?.getCurrentUser()!!.id),
-                    extraData = emptyMap()
-                )
-                    .enqueue { result ->
-                        if (result.isSuccess) {
-                            val newChannel = result.getOrThrow()
-                            startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
-                        } else {
-                            Log.e(
-                                "Channel Creation Failed",
-                                result.toString() ?: "Error creating channel"
-                            )
-                        }
-                    }
+            channelClient?.create(
+                memberIds = listOf(studentUid, client?.getCurrentUser()!!.id),
+                extraData = emptyMap()
+            )?.enqueue { result ->
+                if (result.isSuccess) {
+                    val newChannel = result.getOrThrow()
+                    startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
+                } else {
+                    Log.e(
+                        "Channel Creation Failed",
+                        result.toString() ?: "Error creating channel"
+                    )
+                }
             }
         }
     }
 
-
-    // 여기에서 GetStream 채팅 클라이언트에 토큰을 사용합니다.
 }

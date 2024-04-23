@@ -180,7 +180,6 @@ class ChannelActivity : AppCompatActivity() {
             ChatUI.attachmentPreviewFactoryManager = AttachmentPreviewFactoryManager(
                 attachmentPreviewFactories = listOf(
 //                DateAttachmentPreviewFactory(),
-
                     MediaAttachmentPreviewFactory(),
                     FileAttachmentPreviewFactory()
                 )
@@ -192,8 +191,7 @@ class ChannelActivity : AppCompatActivity() {
                     LocationAttachmentViewFactory(lifecycleOwner = this)
                 )
             )
-        } else {
-            Log.e("else???", "뭐지")
+        } else { // 평범한 대화일 경우
             // Step 1 - Create three separate ViewModels for the views so it's easy
             //          to customize them individually
             val factory = MessageListViewModelFactory(this, cid)

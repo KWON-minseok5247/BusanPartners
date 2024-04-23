@@ -97,6 +97,7 @@ class FirebaseUserRepositoryImpl(
     override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
         return try {
             firestore.collection(USER_COLLECTION).document(auth.uid!!).update(map).await()
+
             Resource.Success(true) // 업데이트 성공 시 true 반환
 
         } catch (e: Exception) {
