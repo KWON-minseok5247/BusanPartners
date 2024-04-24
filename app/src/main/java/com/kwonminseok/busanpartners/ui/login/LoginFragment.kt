@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.kwonminseok.busanpartners.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentLoginBinding
@@ -265,8 +266,9 @@ class LoginFragment : Fragment() {
                                     }
                             } else {
                                 // 사용자 데이터가 이미 존재하는 경우, 바로 홈 화면으로 이동
+
                                 val intent =
-                                    Intent(context, HomeActivity::class.java).addFlags(
+                                    Intent(context, SplashActivity::class.java).addFlags(
                                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     )
                                 startActivity(intent)

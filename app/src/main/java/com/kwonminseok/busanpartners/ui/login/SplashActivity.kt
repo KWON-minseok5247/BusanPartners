@@ -35,10 +35,14 @@ private val TAG = "SplashActivity"
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
+
+    //TODO 여기서 위치 정보를 무조건 받아야 한다.
+    // 만약 못받으면 그 위치를 켜야 한다는 화면으로 넘어가는 게 좋음..
+
     private var client: ChatClient? = BusanPartners.chatClient
     lateinit var user: com.kwonminseok.busanpartners.data.User
     private val viewModel: UserViewModel by viewModels()
-    private lateinit var currentServerTime: String
+    private var currentServerTime: String? = "2021-04-09T12:38:11.818609+09:00"
 
 
 
@@ -55,12 +59,20 @@ class SplashActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             TimeRepository.fetchCurrentTime()
-            currentServerTime = TimeRepository.currentTime!!.datetime
+            // TODO 이거 밑으로 옮겨도 안괜찮겠나?
         }
 
 
-        // 자동 로그인 과정 -> 실제로는 splash 스크린에서 사용해야 할 것!
         val firebaseUser = FirebaseAuth.getInstance().currentUser
+        if (firebaseUser == null) {
+            val intent =
+                Intent(this, LoginRegisterActivity::class.java).addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK
+                )
+            startActivity(intent)
+        }
+
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val idToken = task.result.token
@@ -72,34 +84,28 @@ class SplashActivity : AppCompatActivity() {
                 lifecycleScope.launchWhenStarted {
                     viewModel.user.collectLatest {
                         when (it) {
-                            is Resource.Loading -> {
-
-                            }
-
                             is Resource.Success -> {
                                 user = it.data!!
                                 BusanPartners.preferences.setString("uid", it.data.uid)
                                 connectUserToStream(user)
                             }
-
-                            is Resource.Error -> {
-
-                            }
-
                             else -> Unit
                         }
                     }
                 }
+            } else {
+                val intent =
+                    Intent(this, LoginRegisterActivity::class.java).addFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK or
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    )
+                startActivity(intent)
             }
         }?.addOnFailureListener {
-            val intent =
-                Intent(this, LoginRegisterActivity::class.java).addFlags(
-                    Intent.FLAG_ACTIVITY_NEW_TASK or
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK
-                )
-            startActivity(intent)
+            Log.e(TAG, it.message.toString())
         }
     }
+
 
     private suspend fun getNewToken(): String = suspendCoroutine {  continuation ->
         val functions = FirebaseFunctions.getInstance("asia-northeast3")
@@ -113,7 +119,7 @@ class SplashActivity : AppCompatActivity() {
                     continuation.resume(token) // 코루틴을 재개하고 결과를 반환합니다.
                 } else {
                     // 호출 실패. 에러를 처리합니다.
-                    Log.e(com.kwonminseok.busanpartners.ui.TAG, "토큰 호출을 실패했습니다.")
+                    Log.e(TAG, "토큰 호출을 실패했습니다.")
                     continuation.resumeWithException(
                         task.exception ?: RuntimeException("Unknown token fetch error")
                     )
@@ -123,53 +129,58 @@ class SplashActivity : AppCompatActivity() {
 
 
     private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
-
-        val currentServerTimeToDateTime = OffsetDateTime.parse(currentServerTime)
-        val tokenTimeToDateTime = OffsetDateTime.parse(user.tokenTime)
+        currentServerTime = TimeRepository.currentTime?.datetime
+        val currentServerTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(currentServerTime)
+        Log.e("currentServer", currentServerTimeToDateTime.toString())
+        Log.e("user.tokenTime", user.tokenTime.toString())
+        val tokenTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(user.tokenTime)
+        Log.e("tokenTimeToDateTime", tokenTimeToDateTime.toString())
 
 
         // 토큰 기간. 정상적으로 채팅이 가능한 시기
-        if (currentServerTimeToDateTime <= tokenTimeToDateTime) {
-            val myUser = User(
-                id = user.uid,
-                name = user.name!!,
-                image = user.imagePath
-            )
+        if (currentServerTimeToDateTime != null) {
+            if (currentServerTimeToDateTime <= tokenTimeToDateTime) {
+                val myUser = User(
+                    id = user.uid,
+                    name = user.name!!,
+                    image = user.imagePath
+                )
 
-            if (token == "") {
-                Log.e(com.kwonminseok.busanpartners.ui.TAG, "token이 비어있을 때.")
-                lifecycleScope.launch {
-                    getNewToken()
+                if (token == "") {
+                    Log.e(TAG, "token이 비어있을 때.")
+                    lifecycleScope.launch {
+                        getNewToken()
+                        connectClient(myUser)
+                    }
+                } else {
                     connectClient(myUser)
                 }
-            } else {
-                connectClient(myUser)
-            }
 
-        } else { // 인증이 되지 않았거나 토큰이 만료가 된 경우 게스트 모드로 로그인 해두기
+            } else { // 인증이 되지 않았거나 토큰이 만료가 된 경우 게스트 모드로 로그인 해두기
 
-            val guestUser = User(
-                id = "guestID",
-                name = "guestID",
-                image = "https://bit.ly/2TIt8NR"
-            )
+                val guestUser = User(
+                    id = "guestID",
+                    name = "guestID",
+                    image = "https://bit.ly/2TIt8NR"
+                )
 
-            client?.let { chatClient ->
-                chatClient.connectUser(
-                    guestUser,
-                    BuildConfig.GUEST_ID_TOKEN
-                ).enqueue { result ->
-                    // 비동기 작업 결과 처리
-                    // 프래그먼트의 뷰가 생성된 상태인지 확인
+                client?.let { chatClient ->
+                    chatClient.connectUser(
+                        guestUser,
+                        BuildConfig.GUEST_ID_TOKEN
+                    ).enqueue { result ->
+                        // 비동기 작업 결과 처리
+                        // 프래그먼트의 뷰가 생성된 상태인지 확인
 
-                    val intent =
-                        Intent(this, HomeActivity::class.java).addFlags(
-                            Intent.FLAG_ACTIVITY_NEW_TASK or
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        )
-                    startActivity(intent)
+                        val intent =
+                            Intent(this, HomeActivity::class.java).addFlags(
+                                Intent.FLAG_ACTIVITY_NEW_TASK or
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            )
+                        startActivity(intent)
 
 
+                    }
                 }
             }
         }

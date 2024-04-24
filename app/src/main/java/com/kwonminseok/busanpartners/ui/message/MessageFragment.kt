@@ -72,6 +72,8 @@ class MessageFragment : Fragment() {
 
         binding.channelListView.setChannelItemClickListener { channel ->
             startActivity(ChannelActivity.newIntent(requireContext(), channel))
+//            startActivity(ChannelActivity.getIntent(requireContext(), channel.cid))
+
         }
 
         binding.channelListView.setIsMoreOptionsVisible { channel ->
@@ -101,6 +103,8 @@ class MessageFragment : Fragment() {
                 if (result.isSuccess) {
                     val newChannel = result.getOrThrow()
                     startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
+//                    startActivity(ChannelActivity.getIntent(requireContext(), newChannel.id))
+
                 } else {
                     Log.e(
                         "Channel Creation Failed",

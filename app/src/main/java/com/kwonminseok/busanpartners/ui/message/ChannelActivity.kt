@@ -21,6 +21,7 @@ import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.ui.ChatUI
 import io.getstream.chat.android.ui.common.state.messages.Edit
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
+import io.getstream.chat.android.ui.feature.messages.composer.attachment.picker.AttachmentsPickerDialogFragment
 import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.AttachmentPreviewFactoryManager
 import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.FileAttachmentPreviewFactory
 import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.MediaAttachmentPreviewFactory
@@ -31,6 +32,45 @@ import io.getstream.chat.android.ui.viewmodel.messages.MessageListHeaderViewMode
 import io.getstream.chat.android.ui.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.ui.viewmodel.messages.MessageListViewModelFactory
 import io.getstream.chat.android.ui.viewmodel.messages.bindView
+
+//class ChannelActivity : ComponentActivity() {
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        // 1 - Load the ID of the selected channel
+//        val channelId = intent.getStringExtra(KEY_CHANNEL_ID)!!
+//
+//        // 2 - Add the MessagesScreen to your UI
+//        setContent {
+//            ChatTheme {
+//                MessagesScreen(
+//                    viewModelFactory = MessagesViewModelFactory(
+//                        context = this,
+//                        channelId = channelId,
+//                        messageLimit = 30
+//                    ),
+//                    onBackPressed = { finish() }
+//                )
+//            }
+//        }
+//    }
+//
+//    // 3 - Create an intent to start this Activity, with a given channelId
+//    companion object {
+//        private const val KEY_CHANNEL_ID = "channelId"
+//
+//        fun getIntent(context: Context, channelId: String): Intent {
+//            return Intent(context, ChannelActivity::class.java).apply {
+//                putExtra(KEY_CHANNEL_ID, channelId)
+//            }
+//        }
+//    }
+//}
+
+
+
+
+
 
 class ChannelActivity : AppCompatActivity() {
 
@@ -47,6 +87,7 @@ class ChannelActivity : AppCompatActivity() {
         val cid = checkNotNull(intent.getStringExtra(CID_KEY)) {
             "Specifying a channel id is required when starting ChannelActivity"
         }
+
 
 
         // 예시를 보여줄 때 -> 아직 제대로 인증이 되지 않았을 경우, 예시 채팅방만 볼 수 있다.
@@ -313,6 +354,11 @@ class ChannelActivity : AppCompatActivity() {
 
                         )
                     }
+
+
+
+
+
                     it.locationButtonClickListener = {
 //                    val intent = Intent(this, ShareLocationActivity::class.java)
 //                    intent.putExtra("key:cid", cid)
@@ -378,6 +424,7 @@ class ChannelActivity : AppCompatActivity() {
 
         }
     }
+
 
 
 }

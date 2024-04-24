@@ -102,8 +102,6 @@ class ProfileFragment : Fragment() {
                 lifecycleScope.launchWhenStarted {
                     viewModel.user.collectLatest {
                         when (it) {
-                            is Resource.Loading -> {
-                            }
                             is Resource.Success -> {
                                 if (user == it.data) {
                                     return@collectLatest
@@ -117,12 +115,7 @@ class ProfileFragment : Fragment() {
                             }
 
                             is Resource.Error -> {
-//                                hideProgressBar()
-                                Toast.makeText(
-                                    requireContext(),
-                                    it.message.toString(),
-                                    Toast.LENGTH_SHORT
-                                ).show()
+
                             }
 
                             else -> Unit
@@ -173,6 +166,11 @@ class ProfileFragment : Fragment() {
         }
 
         binding.linearLogOut.setOnClickListener {
+            // room 데이터 삭제
+            BusanPartners.preferences.setString("uid", "")
+            BusanPartners.preferences.setString(Constants.TOKEN, "")
+            viewModel.deleteUser(user.toEntity())
+
             viewModel.logOutCurrentUser()
 
 
@@ -188,11 +186,6 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-            // room 데이터 삭제
-            BusanPartners.preferences.setString("uid", "")
-            viewModel.deleteUser(user.toEntity())
-
-            BusanPartners.preferences.setString(Constants.TOKEN, "")
 
             // 접근권한으로부터 해제
             GoogleSignIn.getClient(

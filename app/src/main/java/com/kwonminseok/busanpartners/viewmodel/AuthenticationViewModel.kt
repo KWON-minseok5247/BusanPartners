@@ -8,7 +8,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 import com.kwonminseok.busanpartners.data.User
-import com.kwonminseok.busanpartners.ui.TAG
 import com.kwonminseok.busanpartners.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
+private val TAG = "AuthenticationViewModel"
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
     private val firestore: FirebaseFirestore,

@@ -53,29 +53,28 @@ class FirebaseUserRepositoryImpl(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val storage: StorageReference,
-    ) : FirebaseUserRepository {
-
-
+) : FirebaseUserRepository {
 
 
     override suspend fun getCurrentUser(): Flow<Resource<User>> = callbackFlow {
-        val docRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
-        val snapshotListener = docRef.addSnapshotListener { snapshot, error ->
-            // 에러 처리
-            if (error != null) {
-                trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
-                return@addSnapshotListener
+            val docRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
+            val snapshotListener = docRef.addSnapshotListener { snapshot, error ->
+                // 에러 처리
+                if (error != null) {
+                    trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
+                    return@addSnapshotListener
+                }
+                // 데이터 처리
+                val user = snapshot?.toObject(User::class.java)
+                if (user != null) {
+                    trySend(Resource.Success(user)).isSuccess
+                } else {
+                    trySend(Resource.Error("User not found")).isSuccess
+                }
+
             }
-            // 데이터 처리
-            val user = snapshot?.toObject(User::class.java)
-            if (user != null) {
-                trySend(Resource.Success(user)).isSuccess
-            } else {
-                trySend(Resource.Error("User not found")).isSuccess
-            }
-        }
-        // 채널이 닫힐 때 리스너 해제
-        awaitClose { snapshotListener.remove() }
+            awaitClose { snapshotListener.remove() }
+
     }
 //    override suspend fun getCurrentUser(): Resource<User> {
 //        return try {
@@ -117,7 +116,8 @@ class FirebaseUserRepositoryImpl(
                 // async로 각 이미지 업로드 작업을 병렬로 시작
                 val uploadedImageUrls = imageUris.map { uri ->
                     async {
-                        val imageRef = storageRef.child("${System.currentTimeMillis()}-${uri.lastPathSegment}")
+                        val imageRef =
+                            storageRef.child("${System.currentTimeMillis()}-${uri.lastPathSegment}")
                         val uploadTask = imageRef.putFile(uri).await()
                         uploadTask.storage.downloadUrl.await().toString()
                     }
@@ -125,8 +125,12 @@ class FirebaseUserRepositoryImpl(
 
                 // 업로드된 이미지 URL을 사용하여 Firestore 데이터 업데이트
                 val userRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
-                val updateField = if (status == STUDENT) "authentication.studentIdentificationCard" else "authentication.travelerAuthenticationImage"
-                val map = mapOf(updateField to uploadedImageUrls, "authentication.authenticationStatus" to "loading")
+                val updateField =
+                    if (status == STUDENT) "authentication.studentIdentificationCard" else "authentication.travelerAuthenticationImage"
+                val map = mapOf(
+                    updateField to uploadedImageUrls,
+                    "authentication.authenticationStatus" to "loading"
+                )
                 userRef.update(map).await()
 
                 Resource.Success(true)
