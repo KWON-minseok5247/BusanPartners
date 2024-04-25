@@ -44,12 +44,16 @@ class SplashActivity : AppCompatActivity() {
     private val viewModel: UserViewModel by viewModels()
     private var currentServerTime: String? = "2021-04-09T12:38:11.818609+09:00"
 
-
-
     // getStream 채팅 토큰
     // 토큰 절차 1: 일단 token이 있는지 없는지 확인, 있으면 바로 가져온다.
     private var token: String = BusanPartners.preferences.getString(Constants.TOKEN, "")
 
+    init {
+        //TODo 언젠가 이것도 수정을 할 필요가 있다.
+        lifecycleScope.launch {
+            TimeRepository.fetchCurrentTime()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,10 +61,10 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         // Create a Handler
 
-        lifecycleScope.launch {
-            TimeRepository.fetchCurrentTime()
-            // TODO 이거 밑으로 옮겨도 안괜찮겠나?
-        }
+//        lifecycleScope.launch {
+//            TimeRepository.fetchCurrentTime()
+//            // TODO 이거 밑으로 옮겨도 안괜찮겠나?
+//        }
 
 
         val firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -80,7 +84,7 @@ class SplashActivity : AppCompatActivity() {
                 viewModel.getCurrentUser()
 
 
-            // 여기서 파이어베이스 정보를 받고 user를 정의한다.
+                // 여기서 파이어베이스 정보를 받고 user를 정의한다.
                 lifecycleScope.launchWhenStarted {
                     viewModel.user.collectLatest {
                         when (it) {
@@ -89,6 +93,7 @@ class SplashActivity : AppCompatActivity() {
                                 BusanPartners.preferences.setString("uid", it.data.uid)
                                 connectUserToStream(user)
                             }
+
                             else -> Unit
                         }
                     }
@@ -107,7 +112,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
 
-    private suspend fun getNewToken(): String = suspendCoroutine {  continuation ->
+    private suspend fun getNewToken(): String = suspendCoroutine { continuation ->
         val functions = FirebaseFunctions.getInstance("asia-northeast3")
         functions.getHttpsCallable("ext-auth-chat-getStreamUserToken")
             .call()
@@ -215,5 +220,23 @@ class SplashActivity : AppCompatActivity() {
 
 
     }
+
+//    private fun fetchServerTime() {
+//        lifecycleScope.launch {
+//            TimeRepository.fetchCurrentTime()
+//            currentServerTime = TimeRepository.currentTime?.datetime
+//            val currentServerTimeToDateTime: OffsetDateTime? =
+//                OffsetDateTime.parse(currentServerTime)
+//            Log.e("currentServer", currentServerTimeToDateTime.toString())
+//            Log.e("user.tokenTime", user.tokenTime.toString())
+//            val tokenTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(user.tokenTime)
+//            Log.e("tokenTimeToDateTime", tokenTimeToDateTime.toString())
+//
+//            serverTime.value = TimeRepository.fetchCurrentTime()?.let {
+//                OffsetDateTime.parse(it.datetime)
+//            }
+//        }
+//    }
+
 
 }

@@ -1,18 +1,28 @@
 package com.kwonminseok.busanpartners
 
 import android.app.Application
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Intent
+import androidx.core.app.NotificationCompat
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.db.AppDatabase
+import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import io.getstream.android.push.firebase.FirebasePushDeviceGenerator
+import io.getstream.android.push.permissions.NotificationPermissionStatus
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.client.notifications.handler.NotificationConfig
+import io.getstream.chat.android.client.notifications.handler.NotificationHandler
+import io.getstream.chat.android.client.notifications.handler.NotificationHandlerFactory
+import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
@@ -60,6 +70,23 @@ class BusanPartners: Application() {
             pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners"))
 
         )
+
+//        val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
+//            context = this,
+//            newMessageIntent = {
+//                    message: Message,
+//                    channel: Channel,
+//                ->
+//                // Return the intent you want to be triggered when the notification is clicked
+//                val intent: Intent = Intent(this, ChannelActivity::class.java).addFlags(
+//                        Intent.FLAG_ACTIVITY_NEW_TASK or
+//                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    )
+//                startActivity(intent)
+//                intent
+//            }
+//        )
+
 //        val notificationHandler = object : NotificationHandler {
 //            var notificationManager: NotificationManager
 //            init {
@@ -84,7 +111,8 @@ class BusanPartners: Application() {
 //                    NotificationPermissionStatus.RATIONALE_NEEDED -> {
 //                        // invoked when POST_NOTIFICATIONS permission requires rationale
 //                    }
-//                }            }
+//                }
+//            }
 //
 //            override fun showNotification(channel: Channel, message: Message) {
 //                val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
@@ -114,16 +142,4 @@ class BusanPartners: Application() {
             .build()
     }
 
-
-
-//    private fun fetchCurrentTime() {
-//        // Global scope는 일반적으로 권장되지 않지만, Application context에서는 사용 가능합니다.
-//        CoroutineScope(Dispatchers.IO).launch {
-//            try {
-//                currentTime = worldTimeApi.getSeoulTime()
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
 }

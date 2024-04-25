@@ -47,7 +47,7 @@
 //            }
 //        }
 //    }
-//그런 슬픔도 결국은 향기로운 꽃처럼 아름답게 승화하고, 그 꽃은 하늘의 별이 되어 나를 빛나게 해준다.
+
 //    /**
 //     * @see [Using our NotificationHandlerFactory](https://getstream.io/chat/docs/sdk/android/client/guides/push-notifications/.using-our-notificationhandlerfactory)
 //     */

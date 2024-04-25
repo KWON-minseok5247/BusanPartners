@@ -58,13 +58,22 @@
             android:value = "${NAVER_CLIENT_ID}" />
 
 
-        <!--        <service-->
-<!--            android:name=".java.MyFirebaseMessagingService"-->
+<!--        <service-->
+<!--            android:name="ChatFirebaseMessagingService"-->
 <!--            android:exported="false">-->
 <!--            <intent-filter>-->
 <!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
 <!--            </intent-filter>-->
 <!--        </service>-->
+
+        <service
+            android:name=".util.CustomFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
 
     </application>
 

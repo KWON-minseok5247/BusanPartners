@@ -37,6 +37,7 @@ private val TAG = "ProfileFragment"
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
 
+    private var isLogOut = false
     //    private val viewModel by viewModels<ProfileViewModel>()
     private val viewModel: UserViewModel by viewModels()
     lateinit var user: User
@@ -63,7 +64,10 @@ class ProfileFragment : Fragment() {
 
         viewModel.getUserStateFlowData(uid).observe(viewLifecycleOwner) { userEntity ->
             // userEntity가 null이 아닐 때 UI 업데이트
-            if (userEntity == null) {
+            if (isLogOut) { // 로그아웃을 클릭할 때
+               return@observe
+            }
+            if (userEntity == null ) { //
                 viewModel.getCurrentUser()
 
                 lifecycleScope.launchWhenStarted {
@@ -166,7 +170,9 @@ class ProfileFragment : Fragment() {
         }
 
         binding.linearLogOut.setOnClickListener {
+            isLogOut = true
             // room 데이터 삭제
+//            viewModel.getUserStateFlowData(uid).removeObservers(this)
             BusanPartners.preferences.setString("uid", "")
             BusanPartners.preferences.setString(Constants.TOKEN, "")
             viewModel.deleteUser(user.toEntity())
