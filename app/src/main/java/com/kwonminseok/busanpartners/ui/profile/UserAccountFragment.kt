@@ -26,6 +26,7 @@ import com.google.android.material.chip.Chip
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.data.User
+import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.databinding.FragmentUserAccountBinding
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
@@ -41,7 +42,10 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 class UserAccountFragment : Fragment() {
     private var chipTexts: MutableList<String>? = null
-    lateinit var binding: FragmentUserAccountBinding
+
+    private var _binding: FragmentUserAccountBinding? = null
+    private val binding get() = _binding!!
+
     private val uid = BusanPartners.preferences.getString("uid", "")
 
     private val viewModel: UserViewModel by viewModels()
@@ -59,7 +63,7 @@ class UserAccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentUserAccountBinding.inflate(layoutInflater)
+        _binding = FragmentUserAccountBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -277,6 +281,11 @@ class UserAccountFragment : Fragment() {
 
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun backPress() {

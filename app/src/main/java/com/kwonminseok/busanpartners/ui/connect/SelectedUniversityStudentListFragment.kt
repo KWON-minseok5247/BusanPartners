@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.kelineyt.adapter.makeIt.StudentCardAdapter
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
+import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.databinding.FragmentSelectedUniversityStudentListBinding
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
@@ -20,8 +21,9 @@ private val TAG = "SelectedUniversityStudentListFragment"
 @AndroidEntryPoint
 class SelectedUniversityStudentListFragment : Fragment() {
     private var chipTexts: MutableList<String>? = null
+    private var _binding: FragmentSelectedUniversityStudentListBinding? = null
+    private val binding get() = _binding!!
 
-    lateinit var binding: FragmentSelectedUniversityStudentListBinding
 //    private val viewModel by viewModels<ConnectViewModel>()
     private val adapter by lazy { StudentCardAdapter() }
 
@@ -31,7 +33,7 @@ class SelectedUniversityStudentListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSelectedUniversityStudentListBinding.inflate(layoutInflater)
+        _binding = FragmentSelectedUniversityStudentListBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -81,6 +83,11 @@ class SelectedUniversityStudentListFragment : Fragment() {
 
 
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun studentCardRv() {

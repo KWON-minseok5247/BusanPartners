@@ -46,7 +46,9 @@ private val TAG = "ConnectFragment"
 
 @AndroidEntryPoint
 class ConnectFragment : Fragment(), OnMapReadyCallback {
-    lateinit var binding: FragmentConnectBinding
+    private var _binding: FragmentConnectBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var locationSource: FusedLocationSource
     private lateinit var naverMap: NaverMap
     private var studentsByUniversity: Map<String?, List<User>>? = null
@@ -67,7 +69,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
-        binding = FragmentConnectBinding.inflate(layoutInflater)
+    _binding = FragmentConnectBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -117,6 +119,14 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         }
 
     }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+
 
     // 연락할 수 있는 대학생 리스트 목록을 받은 후 과정
     private fun onDataLoaded() {

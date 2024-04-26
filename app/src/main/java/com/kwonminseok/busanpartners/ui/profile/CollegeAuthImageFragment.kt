@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.ImagesAdapter
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthImageBinding
+import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.util.Constants.STUDENT
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
@@ -35,7 +36,10 @@ import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class CollegeAuthImageFragment : Fragment() {
-    lateinit var binding: FragmentCollegeAuthImageBinding
+
+    private var _binding: FragmentCollegeAuthImageBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModels by viewModels<AuthenticationViewModel>()
     private val viewModel: UserViewModel by viewModels()
 
@@ -52,7 +56,7 @@ class CollegeAuthImageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCollegeAuthImageBinding.inflate(layoutInflater)
+        _binding = FragmentCollegeAuthImageBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -327,6 +331,11 @@ class CollegeAuthImageFragment : Fragment() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
         showBottomNavigationView()
         super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun showProgressBar() {

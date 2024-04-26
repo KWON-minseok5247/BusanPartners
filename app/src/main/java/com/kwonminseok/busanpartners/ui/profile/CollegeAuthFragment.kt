@@ -13,6 +13,7 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
+import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,10 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CollegeAuthFragment : Fragment() {
-    lateinit var binding: FragmentCollegeAuthBinding
+
+    private var _binding: FragmentCollegeAuthBinding? = null
+    private val binding get() = _binding!!
+
     lateinit var selectedUniversity: String
     private var emailDomain: String = "@pukyong.ac.kr" // 기본값으로 초기화
 
@@ -32,7 +36,7 @@ class CollegeAuthFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCollegeAuthBinding.inflate(layoutInflater)
+        _binding = FragmentCollegeAuthBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -137,5 +141,10 @@ class CollegeAuthFragment : Fragment() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
         showBottomNavigationView()
         super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

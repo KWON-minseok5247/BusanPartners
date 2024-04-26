@@ -294,10 +294,10 @@ class ChannelActivity : AppCompatActivity() {
             // 사용자가 메시지를 편집할 수 있는지 여부.
             binding.messageListView.setEditMessageEnabled(false)
 
-            // 매 채팅마다 프로필 사진을 보여주는 코드
-            binding.messageListView.setShowAvatarPredicate { messageItem ->
-                messageItem.isTheirs
-            }
+//            // 매 채팅마다 프로필 사진을 보여주는 코드
+//            binding.messageListView.setShowAvatarPredicate { messageItem ->
+//                messageItem.isTheirs
+//            }
 
 
             val reactions = mapOf(

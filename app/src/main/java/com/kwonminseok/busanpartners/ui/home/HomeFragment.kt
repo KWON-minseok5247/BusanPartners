@@ -36,7 +36,8 @@ class HomeFragment : Fragment() {
     private val touristDestinationAdapter by lazy { TouristDestinationAdapter() }
     private val tourismAdapter by lazy { TourismAdapter() }
     private val festivalAdapter by lazy { FestivalAdapter() }
-    lateinit var binding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
 
     private lateinit var locationSource: FusedLocationSource
@@ -50,11 +51,11 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         parseNotificationData()
-        
+
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
-        binding = FragmentHomeBinding.inflate(layoutInflater)
+        _binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -173,6 +174,11 @@ class HomeFragment : Fragment() {
 
 
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 //
 //    private fun getFestivalInformation() {

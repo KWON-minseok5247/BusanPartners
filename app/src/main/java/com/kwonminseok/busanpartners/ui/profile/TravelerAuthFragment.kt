@@ -19,6 +19,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.ImagesAdapter
+import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.databinding.FragmentTravelerAuthBinding
 import com.kwonminseok.busanpartners.util.Constants.TRAVELER
 import com.kwonminseok.busanpartners.util.Resource
@@ -35,7 +36,10 @@ import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class TravelerAuthFragment : Fragment() {
-    lateinit var binding: FragmentTravelerAuthBinding
+
+    private var _binding: FragmentTravelerAuthBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModels by viewModels<AuthenticationViewModel>()
     private val viewModel: UserViewModel by viewModels()
 
@@ -52,7 +56,7 @@ class TravelerAuthFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTravelerAuthBinding.inflate(layoutInflater)
+        _binding = FragmentTravelerAuthBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -275,6 +279,10 @@ class TravelerAuthFragment : Fragment() {
         super.onPause()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
     private fun showProgressBar() {
         binding.progressBar.visibility = View.VISIBLE
     }

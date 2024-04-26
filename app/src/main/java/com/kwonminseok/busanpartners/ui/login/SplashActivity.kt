@@ -61,54 +61,53 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         // Create a Handler
 
-//        lifecycleScope.launch {
-//            TimeRepository.fetchCurrentTime()
-//            // TODO 이거 밑으로 옮겨도 안괜찮겠나?
-//        }
 
 
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         if (firebaseUser == null) {
-            val intent =
-                Intent(this, LoginRegisterActivity::class.java).addFlags(
-                    Intent.FLAG_ACTIVITY_NEW_TASK or
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK
-                )
-            startActivity(intent)
+            navigateToLoginRegisterActivity()
         }
 
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val idToken = task.result.token
                 Log.d(TAG, "아이디 토큰 = $idToken")
-                viewModel.getCurrentUser()
 
+                setupUserStream()
 
-                // 여기서 파이어베이스 정보를 받고 user를 정의한다.
-                lifecycleScope.launchWhenStarted {
-                    viewModel.user.collectLatest {
-                        when (it) {
-                            is Resource.Success -> {
-                                user = it.data!!
-                                BusanPartners.preferences.setString("uid", it.data.uid)
-                                connectUserToStream(user)
-                            }
-
-                            else -> Unit
-                        }
-                    }
-                }
+//                viewModel.getCurrentUser()
+//
+//
+//                // 여기서 파이어베이스 정보를 받고 user를 정의한다.
+//                lifecycleScope.launchWhenStarted {
+//                    viewModel.user.collectLatest {
+//                        when (it) {
+//                            is Resource.Success -> {
+//                                user = it.data!!
+//                                BusanPartners.preferences.setString("uid", it.data.uid)
+//                                connectUserToStream(user)
+//                            }
+//
+//                            else -> Unit
+//                        }
+//                    }
+//                }
             } else {
-                val intent =
-                    Intent(this, LoginRegisterActivity::class.java).addFlags(
-                        Intent.FLAG_ACTIVITY_NEW_TASK or
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    )
-                startActivity(intent)
+                navigateToLoginRegisterActivity()
             }
         }?.addOnFailureListener {
             Log.e(TAG, it.message.toString())
+            navigateToLoginRegisterActivity()
         }
+    }
+
+    private fun navigateToLoginRegisterActivity() {
+        val intent =
+            Intent(this, LoginRegisterActivity::class.java).addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+            )
+        startActivity(intent)
     }
 
 
@@ -134,7 +133,7 @@ class SplashActivity : AppCompatActivity() {
 
 
     private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
-        currentServerTime = TimeRepository.currentTime?.datetime
+//        currentServerTime = TimeRepository.currentTime?.datetime
         val currentServerTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(currentServerTime)
         Log.e("currentServer", currentServerTimeToDateTime.toString())
         Log.e("user.tokenTime", user.tokenTime.toString())
@@ -219,6 +218,34 @@ class SplashActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun setupUserStream() {
+        lifecycleScope.launch {
+            // 서버 시간 먼저 가져오기
+            TimeRepository.fetchCurrentTime()
+            currentServerTime = TimeRepository.currentTime?.datetime
+            viewModel.getCurrentUser()
+
+            // 유저 정보 스트림 수집 시작
+            viewModel.user.collectLatest { userResource ->
+                when (userResource) {
+                    is Resource.Success -> {
+                        user = userResource.data!!
+                        BusanPartners.preferences.setString("uid", user.uid)
+                        connectUserToStream(user)
+                    }
+                    is Resource.Error -> {
+                        Log.e(TAG, "User data fetch error: ${userResource.message}")
+                        val intent = Intent(this@SplashActivity, LoginRegisterActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        }
+                        startActivity(intent)
+                    }
+                    else -> Log.d(TAG, "Loading user data")
+                }
+            }
+        }
     }
 
 //    private fun fetchServerTime() {

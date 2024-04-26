@@ -23,6 +23,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
+import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.databinding.FragmentLoginBinding
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.util.Resource
@@ -38,7 +39,9 @@ private val TAG = "LoginFragment"
 class LoginFragment : Fragment() {
     private val viewModel by viewModels<LoginsViewModel>()
 
-    lateinit var binding: FragmentLoginBinding
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreateView(
@@ -46,7 +49,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLoginBinding.inflate(inflater)
+        _binding = FragmentLoginBinding.inflate(inflater)
 
         // Google SignIn Options, 로그인하는 인스턴스를 생성하는 과정
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -204,6 +207,11 @@ class LoginFragment : Fragment() {
             // 이후의 작업(예: Firebase를 통한 인증, 사용자 정보 화면으로의 이동 등)을 진행
             handleSignInResult(task)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {

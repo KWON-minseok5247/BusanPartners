@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
+import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.databinding.FragmentRegisterBinding
 import com.kwonminseok.busanpartners.util.RegisterValidation
 import com.kwonminseok.busanpartners.util.Resource
@@ -25,8 +26,9 @@ import kotlinx.coroutines.withContext
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
+    private var _binding: FragmentRegisterBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var binding: FragmentRegisterBinding
     private val viewModel by viewModels<RegisterViewModel>()
 
 
@@ -35,7 +37,7 @@ class RegisterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRegisterBinding.inflate(inflater)
+        _binding = FragmentRegisterBinding.inflate(inflater)
         return binding.root
     }
 
@@ -190,6 +192,11 @@ class RegisterFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 //    fun checkItem(): Boolean {
 //        return binding.edFirstNameRegister.text.isNullOrEmpty() &&

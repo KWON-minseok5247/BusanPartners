@@ -18,6 +18,7 @@ import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
+import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
@@ -34,7 +35,10 @@ private val TAG = "ProfileFragment"
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
-    lateinit var binding: FragmentProfileBinding
+
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+
 
     private var isLogOut = false
     //    private val viewModel by viewModels<ProfileViewModel>()
@@ -53,7 +57,7 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProfileBinding.inflate(layoutInflater)
+        _binding = FragmentProfileBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -207,6 +211,11 @@ class ProfileFragment : Fragment() {
         }
 
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.FragmentColleteAuthCompleteBinding
+import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +20,10 @@ import dagger.hilt.android.AndroidEntryPoint
 private val TAG = "CollegeAuthCompleteFragment"
 @AndroidEntryPoint
 class CollegeAuthCompleteFragment : Fragment() {
-    lateinit var binding: FragmentColleteAuthCompleteBinding
+
+    private var _binding: FragmentColleteAuthCompleteBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,7 +50,7 @@ class CollegeAuthCompleteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentColleteAuthCompleteBinding.inflate(layoutInflater)
+        _binding = FragmentColleteAuthCompleteBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -89,5 +93,10 @@ class CollegeAuthCompleteFragment : Fragment() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
         showBottomNavigationView()
         super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthNumberBinding
+import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.util.Constants.COLLEGE_DATA
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
@@ -29,7 +30,10 @@ private val TAG = "CollegeAuthNumberFragment"
 
 @AndroidEntryPoint
 class CollegeAuthNumberFragment : Fragment() {
-    lateinit var binding: FragmentCollegeAuthNumberBinding
+
+    private var _binding: FragmentCollegeAuthNumberBinding? = null
+    private val binding get() = _binding!!
+
 
     //    private val viewModel by viewModels<AuthenticationInformationViewModel>()
     private val viewModel: UserViewModel by viewModels()
@@ -57,7 +61,7 @@ class CollegeAuthNumberFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCollegeAuthNumberBinding.inflate(layoutInflater)
+        _binding = FragmentCollegeAuthNumberBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -188,5 +192,10 @@ class CollegeAuthNumberFragment : Fragment() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
         showBottomNavigationView()
         super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
