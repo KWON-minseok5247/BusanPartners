@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import com.kwonminseok.busanpartners.BusanPartners
+import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
 import dagger.hilt.android.AndroidEntryPoint

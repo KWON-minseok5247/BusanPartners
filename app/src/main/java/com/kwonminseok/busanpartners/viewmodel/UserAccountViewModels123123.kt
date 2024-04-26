@@ -12,7 +12,7 @@
 //import com.google.firebase.auth.FirebaseAuth
 //import com.google.firebase.firestore.FirebaseFirestore
 //import com.google.firebase.storage.StorageReference
-//import com.kwonminseok.busanpartners.BusanPartners
+//import com.kwonminseok.busanpartners.application.BusanPartners
 //import com.kwonminseok.busanpartners.data.User
 //import com.kwonminseok.busanpartners.util.Resource
 //import dagger.hilt.android.lifecycle.HiltViewModel

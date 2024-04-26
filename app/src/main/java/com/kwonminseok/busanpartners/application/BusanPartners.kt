@@ -1,28 +1,25 @@
-package com.kwonminseok.busanpartners
+package com.kwonminseok.busanpartners.application
 
 import android.app.Application
+import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
-import android.content.Intent
-import androidx.core.app.NotificationCompat
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.db.AppDatabase
-import com.kwonminseok.busanpartners.ui.message.ChannelActivity
+import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import io.getstream.android.push.firebase.FirebasePushDeviceGenerator
-import io.getstream.android.push.permissions.NotificationPermissionStatus
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.client.notifications.handler.NotificationConfig
-import io.getstream.chat.android.client.notifications.handler.NotificationHandler
 import io.getstream.chat.android.client.notifications.handler.NotificationHandlerFactory
-import io.getstream.chat.android.models.Channel
-import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
@@ -30,6 +27,7 @@ import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
 // Hilt를 사용하기 위해서 여기서 힐트를 추가한다.
 @HiltAndroidApp
 class BusanPartners: Application() {
+//    val chatInitializer = ChatInitializer(context = this, autoTranslationEnabled = true)
 
     companion object{
         lateinit var preferences: PreferenceUtil
@@ -39,6 +37,7 @@ class BusanPartners: Application() {
 //        var currentTime: WorldTimeResponse? = null
 
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
 //        BusanFestivalApiService.init(this)
         super.onCreate()
@@ -51,6 +50,7 @@ class BusanPartners: Application() {
 
         // ChatClient 초기화
         initializeChatClient()
+//        chatInitializer.init(BuildConfig.API_KEY)
 
         // 24버전 서버 시간
         AndroidThreeTen.init(this)
@@ -65,12 +65,12 @@ class BusanPartners: Application() {
 
 
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initializeChatClient() {
         val notificationConfig = NotificationConfig(
             pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners"))
 
         )
-
 //        val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
 //            context = this,
 //            newMessageIntent = {
@@ -129,6 +129,28 @@ class BusanPartners: Application() {
 //            }
 //        }
 
+        val notificationChannel: () -> NotificationChannel = {
+            val channelId = "chat_channel"
+            val channelName = "Chat Messages"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            NotificationChannel(channelId, channelName, importance).apply {
+                description = "Notifications for chat messages"
+            }
+        }
+
+        val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
+            context = this,
+            newMessageIntent = { message, channel ->
+                HomeActivity.createLaunchIntent(
+                    context = this,
+                    messageId = message.id,
+                    parentMessageId = message.parentId,
+                    channelType = channel.type,
+                    channelId = channel.id
+                )
+            },
+            notificationChannel = notificationChannel
+        )
         val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
         val statePluginFactory = StreamStatePluginFactory(
             config = StatePluginConfig(backgroundSyncEnabled = true, userPresence = true),
@@ -138,7 +160,7 @@ class BusanPartners: Application() {
         chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
-            .notifications(notificationConfig)
+            .notifications(notificationConfig,notificationHandler)
             .build()
     }
 

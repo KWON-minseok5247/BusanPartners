@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.functions.FirebaseFunctions
 import com.kwonminseok.busanpartners.BuildConfig
-import com.kwonminseok.busanpartners.BusanPartners
+import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.repository.TimeRepository

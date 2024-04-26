@@ -1,9 +1,7 @@
 package com.kwonminseok.busanpartners.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kwonminseok.busanpartners.BusanPartners
 import kotlinx.coroutines.launch
 
 class TimeViewModel : ViewModel() {

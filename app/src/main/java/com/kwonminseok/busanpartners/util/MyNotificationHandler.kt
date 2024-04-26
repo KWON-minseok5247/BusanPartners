@@ -48,7 +48,7 @@ class MyNotificationHandler(private val context: Context) : NotificationHandler 
         val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
 
         val notification = NotificationCompat.Builder(context, channel.id)
-            .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
+//            .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
             .setContentTitle("New message in ${channel.name}") // 알림 제목 설정
             .setContentText(message.text) // 메시지 텍스트 설정
             .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정

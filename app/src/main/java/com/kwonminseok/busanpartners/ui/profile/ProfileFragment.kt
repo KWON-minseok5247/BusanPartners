@@ -14,12 +14,11 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.kwonminseok.busanpartners.BusanPartners
-import com.kwonminseok.busanpartners.BusanPartners.Companion.chatClient
+import com.kwonminseok.busanpartners.application.BusanPartners
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
-import com.kwonminseok.busanpartners.db.entity.UserEntity
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
