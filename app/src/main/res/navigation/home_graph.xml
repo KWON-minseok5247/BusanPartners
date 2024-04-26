@@ -19,6 +19,7 @@
         android:name="com.kwonminseok.busanpartners.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/messageFragment"
         android:name="com.kwonminseok.busanpartners.ui.message.MessageFragment"

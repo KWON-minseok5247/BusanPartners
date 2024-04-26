@@ -49,6 +49,8 @@ class HomeActivity: AppCompatActivity() {
                          true
                      }
         }
+
+
 //binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
 //    when (item.itemId) {
 //        R.id.navigation_home -> {
@@ -92,4 +94,5 @@ class HomeActivity: AppCompatActivity() {
             putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
         }
     }
+
 }

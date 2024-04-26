@@ -12,6 +12,8 @@ import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.db.AppDatabase
 import com.kwonminseok.busanpartners.ui.HomeActivity
+import com.kwonminseok.busanpartners.ui.message.ChannelActivity
+import com.kwonminseok.busanpartners.util.MyNotificationHandler
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
@@ -137,6 +139,7 @@ class BusanPartners: Application() {
                 description = "Notifications for chat messages"
             }
         }
+//        val notificationHandler = MyNotificationHandler(this)
 
         val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
             context = this,

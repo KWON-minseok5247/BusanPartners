@@ -14,6 +14,11 @@ import androidx.core.content.ContextCompat
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.ActivityChannelBinding
+import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
+import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
+import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
+import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
+import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.naver.maps.geometry.LatLng
 import io.getstream.chat.android.models.Attachment
 import io.getstream.chat.android.models.Channel
@@ -403,6 +408,19 @@ class ChannelActivity : AppCompatActivity() {
 
         fun newIntent(context: Context, channel: Channel): Intent =
             Intent(context, ChannelActivity::class.java).putExtra(CID_KEY, channel.cid)
+
+        fun createLaunchIntent(
+            context: Context,
+            messageId: String,
+            parentMessageId: String?,
+            channelType: String,
+            channelId: String,
+        ) = Intent(context, ChannelActivity::class.java).apply {
+            putExtra(EXTRA_CHANNEL_ID, channelId)
+            putExtra(EXTRA_CHANNEL_TYPE, channelType)
+            putExtra(EXTRA_MESSAGE_ID, messageId)
+            putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
+        }
     }
 
 
@@ -423,7 +441,6 @@ class ChannelActivity : AppCompatActivity() {
 
         }
     }
-
 
 
 }

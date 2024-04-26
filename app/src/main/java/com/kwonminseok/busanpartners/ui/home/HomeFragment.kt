@@ -1,6 +1,7 @@
 package com.kwonminseok.busanpartners.ui.home
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -19,6 +20,11 @@ import com.kwonminseok.busanpartners.adapter.TouristDestinationAdapter
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.data.TourismResponse
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
+import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
+import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
+import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
+import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
+import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.naver.maps.map.util.FusedLocationSource
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,7 +49,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
+        parseNotificationData()
+        
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
@@ -109,6 +116,10 @@ class HomeFragment : Fragment() {
 //                initializeMap(LatLng(35.1798159, 129.0750222))
             }
         }
+
+
+
+
 
 
         // 토큰을 확인하기 위해 서버 시간을 가져오는 과정
@@ -188,5 +199,26 @@ class HomeFragment : Fragment() {
 //            })
 //    }
 
+    private fun parseNotificationData() {
+        requireActivity().intent?.let {
+            if (it.hasExtra(EXTRA_CHANNEL_ID) && it.hasExtra(EXTRA_MESSAGE_ID) && it.hasExtra(EXTRA_CHANNEL_TYPE)) {
+                val channelType = it.getStringExtra(EXTRA_CHANNEL_TYPE)
+                val channelId = it.getStringExtra(EXTRA_CHANNEL_ID)
+                val cid = "$channelType:$channelId"
+                val messageId = it.getStringExtra(EXTRA_MESSAGE_ID)
+                val parentMessageId = it.getStringExtra(EXTRA_PARENT_MESSAGE_ID)
+
+                requireActivity().intent = null
+
+                // 새로운 인텐트 생성
+                val intent = Intent(context, ChannelActivity::class.java).apply {
+                    putExtra("key:cid", cid)
+                    putExtra(EXTRA_MESSAGE_ID, messageId)
+                    putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
+                }
+                startActivity(intent)
+            }
+        }
+    }
 
 }

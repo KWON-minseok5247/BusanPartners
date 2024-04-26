@@ -23,7 +23,8 @@ import io.getstream.chat.android.ui.viewmodel.channels.bindView
 @AndroidEntryPoint
 class MessageFragment : Fragment() {
 
-    private lateinit var binding: FragmentMessageBinding
+    private var _binding: FragmentMessageBinding? = null
+    private val binding get() = _binding!!
     private var client: ChatClient? = BusanPartners.chatClient
 
     override fun onCreateView(
@@ -31,7 +32,7 @@ class MessageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMessageBinding.inflate(layoutInflater)
+        _binding = FragmentMessageBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -47,6 +48,12 @@ class MessageFragment : Fragment() {
 
 
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 
     private fun getChatList() {
         val channelListHeaderViewModel: ChannelListHeaderViewModel by viewModels()
