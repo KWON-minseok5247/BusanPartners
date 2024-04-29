@@ -9,9 +9,14 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
+import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.db.AppDatabase
@@ -23,13 +28,24 @@ import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.MyNotificationHandler
 import com.kwonminseok.busanpartners.util.PreferenceUtil
+import com.kwonminseok.busanpartners.util.Push
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
+import io.getstream.android.push.PushDeviceGenerator
+import io.getstream.android.push.firebase.FirebaseMessagingDelegate
 import io.getstream.android.push.firebase.FirebasePushDeviceGenerator
+import io.getstream.android.push.permissions.NotificationPermissionStatus
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.events.NewMessageEvent
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.client.notifications.handler.NotificationConfig
+import io.getstream.chat.android.client.notifications.handler.NotificationHandler
 import io.getstream.chat.android.client.notifications.handler.NotificationHandlerFactory
+import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.models.Device
+import io.getstream.chat.android.models.Message
+import io.getstream.chat.android.models.PushMessage
+import io.getstream.chat.android.models.PushProvider
 import io.getstream.chat.android.models.User
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
@@ -53,6 +69,7 @@ class BusanPartners : Application() {
     override fun onCreate() {
 //        BusanFestivalApiService.init(this)
         super.onCreate()
+        FirebaseApp.initializeApp(this)
 
         TourismApiService.init(this)
 
@@ -60,8 +77,21 @@ class BusanPartners : Application() {
 
         preferences = PreferenceUtil(applicationContext)
 
+
         // ChatClient 초기화
         initializeChatClient()
+//        val pushNotificationEnabled = true
+//        val ignorePushMessagesWhenUserOnline = true
+//        val pushDeviceGeneratorList: List<PushDeviceGenerator> = ArrayList()
+//
+//        val notificationConfig = NotificationConfig(
+//            pushNotificationEnabled,
+//            pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners"))
+//
+//        )
+
+//        customizeNotificationStyle(this, notificationConfig)
+//        customizeNotificationStyle(this,notificationConfig )
 //        chatInitializer.init(BuildConfig.API_KEY)
 
         // 24버전 서버 시간
@@ -78,7 +108,12 @@ class BusanPartners : Application() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initializeChatClient() {
+        val pushNotificationEnabled = true
+        val ignorePushMessagesWhenUserOnline = true
+        val pushDeviceGeneratorList: List<PushDeviceGenerator> = ArrayList()
+
         val notificationConfig = NotificationConfig(
+            pushNotificationEnabled,
             pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners"))
 
         )
@@ -129,7 +164,7 @@ class BusanPartners : Application() {
 //                val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
 //
 //                val notification = NotificationCompat.Builder(this@BusanPartners, channel.id)
-//                    .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
+//                    .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
 //                    .setContentTitle("New message in ${channel.name}") // 알림 제목 설정
 //                    .setContentText(message.text) // 메시지 텍스트 설정
 //                    .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정
@@ -148,10 +183,10 @@ class BusanPartners : Application() {
                 description = "Notifications for chat messages"
             }
         }
-//        val notificationHandler = MyNotificationHandler(this)
 
-        val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
-            context = this,
+//        val notificationHandler = MyNotificationHandler(this)
+        val d = NotificationHandlerFactory.createNotificationHandler(
+            this,
             newMessageIntent = { message, channel ->
                 HomeActivity.createLaunchIntent(
                     context = this,
@@ -163,6 +198,20 @@ class BusanPartners : Application() {
             },
             notificationChannel = notificationChannel
         )
+
+//        val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
+//            context = this,
+//            newMessageIntent = { message, channel ->
+//                HomeActivity.createLaunchIntent(
+//                    context = this,
+//                    messageId = message.id,
+//                    parentMessageId = message.parentId,
+//                    channelType = channel.type,
+//                    channelId = channel.id
+//                )
+//            },
+//            notificationChannel = notificationChannel
+//        )
         val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
         val statePluginFactory = StreamStatePluginFactory(
             config = StatePluginConfig(backgroundSyncEnabled = true, userPresence = true),
@@ -172,98 +221,135 @@ class BusanPartners : Application() {
         chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
-            .notifications(notificationConfig, notificationHandler)
+            .notifications(notificationConfig, d)
             .build()
 
     }
-}
 
-class NotificationReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
-        // 알림 처리
-        if (ChatClient.instance().getCurrentUser() == null) {
-            // ChatClient 초기화 및 사용자 연결 로직
+    fun customizeNotificationStyle(context: Context, notificationConfig: NotificationConfig) {
+        val notificationChannelId = ""
+        val notificationId = 1
 
-            val guestUser = User(
-                id = "5dtxXAmlQgcjAidXFY1bPuGPIjP2",
-                name = "권민석",
-                image = "https://firebasestorage.googleapis.com/v0/b/busanpartners-86b94.appspot.com/o/user%2F5dtxXAmlQgcjAidXFY1bPuGPIjP2%2FimagePath?alt=media&token=6167f5f4-8ee1-41b9-84e8-6249a8108bdc"
-            )
-            val client = ChatClient.Builder("api_key", context).build()
-            client.connectUser(
-                guestUser,
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWR0eFhBbWxRZ2NqQWlkWEZZMWJQdUdQSWpQMiJ9.s6CURR7-mTKmZWKQDYNGelRQuja8nFg-pUBHlyadKeY"
-            ).enqueue { result ->
-                if (result.isSuccess) {
-                    // 연결 성공, 알림 처리 로직 수행
-                    intent.extras?.let {
-                        val channelType = it.getString(EXTRA_CHANNEL_TYPE)
-                        val channelId = it.getString(EXTRA_CHANNEL_ID)
-                        val messageId = it.getString(EXTRA_MESSAGE_ID)
-                        val parentMessageId = it.getString(EXTRA_PARENT_MESSAGE_ID)
+        class MyNotificationHandler(context: Context) : NotificationHandler {
+            var notificationManager: NotificationManager
 
-                        if (channelType != null && channelId != null && messageId != null) {
-                            val cid = "$channelType:$channelId"
 
-                            // 새로운 인텐트 생성하여 ChannelActivity 시작
-                            val newIntent = Intent(context, ChannelActivity::class.java).apply {
-                                putExtra("key:cid", cid)
-                                putExtra(EXTRA_MESSAGE_ID, messageId)
-                                putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
-                            }
-                            newIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK  // 필요한 경우 새 태스크로 시작
-                            context.startActivity(newIntent)
-                        }
-                    }
-                } else {
-                    // 연결 실패 처리
-                    Log.e("ChatClient", "Failed to connect user")
+            init {
+                notificationManager =
+                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+//                val notificationChannel: () -> NotificationChannel = {
+//                    val channelId = "chat_channel"
+//                    val channelName = "Chat Messages"
+//                    val importance = NotificationManager.IMPORTANCE_HIGH
+//                    NotificationChannel(channelId, channelName, importance).apply {
+//                        description = "Notifications for chat messages"
+//                    }
+//                }
+//                val d = NotificationHandlerFactory.createNotificationHandler(context,
+//                    newMessageIntent = { message, channel ->
+//                        HomeActivity.createLaunchIntent(
+//                            context = context,
+//                            messageId = message.id,
+//                            parentMessageId = message.parentId,
+//                            channelType = channel.type,
+//                            channelId = channel.id
+//                        )
+//                    },
+//                    notificationChannel = notificationChannel
+//
+//                )
+
+            }
+
+            override fun onNotificationPermissionStatus(status: NotificationPermissionStatus) {
+                when (status) {
+                    NotificationPermissionStatus.REQUESTED -> {}
+                    NotificationPermissionStatus.GRANTED -> {}
+                    NotificationPermissionStatus.DENIED -> {}
+                    NotificationPermissionStatus.RATIONALE_NEEDED -> {}
                 }
             }
-        } else {
-            // 이미 연결된 상태, 알림 처리 로직 수행
-            intent.extras?.let {
-                val channelType = it.getString(EXTRA_CHANNEL_TYPE)
-                val channelId = it.getString(EXTRA_CHANNEL_ID)
-                val messageId = it.getString(EXTRA_MESSAGE_ID)
-                val parentMessageId = it.getString(EXTRA_PARENT_MESSAGE_ID)
 
-                if (channelType != null && channelId != null && messageId != null) {
-                    val cid = "$channelType:$channelId"
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun showNotification(channel: Channel, message: Message) {
+                Log.e("MyNotificationHandler가 실행되나?", message.toString())
 
-                    // 새로운 인텐트 생성하여 ChannelActivity 시작
-                    val newIntent = Intent(context, ChannelActivity::class.java).apply {
-                        putExtra("key:cid", cid)
-                        putExtra(EXTRA_MESSAGE_ID, messageId)
-                        putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
-                    }
-                    newIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK  // 필요한 경우 새 태스크로 시작
-                    context.startActivity(newIntent)
-                }
+
+//        val notificationHandler = MyNotificationHandler(this)
+
+
+//                val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
+//                Log.e("notificationId 실행되나?", notificationId.toString())
+//
+//                val notification = NotificationCompat.Builder(context, channel.id)
+////            .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
+//                    .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
+//                    .setContentTitle("New message in ${channel.name}") // 알림 제목 설정
+//                    .setContentText(message.text) // 메시지 텍스트 설정
+//                    .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정
+//                    .setAutoCancel(true) // 탭하면 알림이 자동으로 취소되도록 설정
+//                    .build()
+//
+//                notificationManager.notify(notificationId, notification)
+
+                val notification = NotificationCompat.Builder(context, channel.id)
+                    .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
+
+                    .build()
+                notificationManager.notify(notificationId, notification)
+            }
+
+            override fun dismissChannelNotifications(channelType: String, channelId: String) {
+                // Dismiss all notification related with this channel
+            }
+
+            override fun dismissAllNotifications() {
+                // Dismiss all notifications
+            }
+
+            override fun onChatEvent(event: NewMessageEvent): Boolean {
+                return true
+            }
+
+            override fun onPushMessage(message: PushMessage): Boolean {
+                return false
             }
         }
 
+        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
+        val statePluginFactory = StreamStatePluginFactory(
+            config = StatePluginConfig(backgroundSyncEnabled = true, userPresence = true),
+            appContext = this
+        )
+        val notificationHandler: NotificationHandler = MyNotificationHandler(this)
+
+        chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
+            .withPlugins(offlinePluginFactory, statePluginFactory)
+            .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
+            .notifications(notificationConfig, notificationHandler)
+            .build()
+
+
     }
 
-//    private fun handlePushNotification(intent: Intent) {
-//        intent.extras?.let {
-//            val channelType = it.getString(EXTRA_CHANNEL_TYPE)
-//            val channelId = it.getString(EXTRA_CHANNEL_ID)
-//            val messageId = it.getString(EXTRA_MESSAGE_ID)
-//            val parentMessageId = it.getString(EXTRA_PARENT_MESSAGE_ID)
-//
-//            if (channelType != null && channelId != null && messageId != null) {
-//                val cid = "$channelType:$channelId"
-//
-//                // 새로운 인텐트 생성하여 ChannelActivity 시작
-//                val newIntent = Intent(context, ChannelActivity::class.java).apply {
-//                    putExtra("key:cid", cid)
-//                    putExtra(EXTRA_MESSAGE_ID, messageId)
-//                    putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
-//                }
-//                newIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK  // 필요한 경우 새 태스크로 시작
-//                context.startActivity(newIntent)
-//            }
-//        }
-//    }
+    /**
+     * @see [Dismissing Notifications](https://getstream.io/chat/docs/sdk/android/client/guides/push-notifications/.dismissing-notifications)
+     */
+    fun dismissingNotifications() {
+        ChatClient.instance().dismissChannelNotifications("messaging", "general")
+    }
+
+    /**
+     * @see [Multi Bundle](https://getstream.io/chat/docs/sdk/android/client/guides/push-notifications/.multi-bundle)
+     */
+    fun multiBundle() {
+        Device(
+            "token-generated-by-provider", PushProvider.FIREBASE,  // your push provider
+            "providerName"
+        )
+    }
+
 }
+
+

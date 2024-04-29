@@ -2,6 +2,7 @@ package com.kwonminseok.busanpartners.util
 
 import android.app.NotificationManager
 import android.content.Context
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.kwonminseok.busanpartners.R
 import io.getstream.android.push.permissions.NotificationPermissionStatus
@@ -45,6 +46,7 @@ class MyNotificationHandler(private val context: Context) : NotificationHandler 
 
     override fun showNotification(channel: Channel, message: Message) {
 
+        Log.e("핸들러의 showNotification", "작동을 하네요.")
         val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
 
         val notification = NotificationCompat.Builder(context, channel.id)

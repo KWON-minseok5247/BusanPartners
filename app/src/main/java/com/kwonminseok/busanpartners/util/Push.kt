@@ -3,10 +3,12 @@ package com.kwonminseok.busanpartners.util
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.kwonminseok.busanpartners.BuildConfig
+import com.kwonminseok.busanpartners.ui.HomeActivity
 import io.getstream.android.push.PushDeviceGenerator
 import io.getstream.android.push.firebase.FirebaseMessagingDelegate.handleRemoteMessage
 import io.getstream.android.push.firebase.FirebaseMessagingDelegate.registerFirebaseToken
@@ -61,9 +63,13 @@ class Push {
         )
         val notificationHandler = createNotificationHandler(
             context!!, { message: Message?, channel: Channel? ->
-                // Return the intent you want to be triggered when the notification is clicked
-                val intent = Intent()
-                intent
+                HomeActivity.createLaunchIntent(
+                    context = context,
+                    messageId = message!!.id,
+                    parentMessageId = message?.parentId,
+                    channelType = channel!!.type,
+                    channelId = channel!!.id
+                )
             })
         ChatClient.Builder(BuildConfig.API_KEY, context)
             .notifications(notificationConfig, notificationHandler)
@@ -175,7 +181,7 @@ class Push {
             override fun onNewToken(token: String) {
                 // Update device's token on Stream backend
                 try {
-                    registerFirebaseToken(token, "providerName")
+                    registerFirebaseToken(token, "BusanPartners")
                 } catch (exception: IllegalStateException) {
                     // ChatClient was not initialized
                 }
@@ -185,8 +191,12 @@ class Push {
                 try {
                     if (handleRemoteMessage(message)) {
                         // RemoteMessage was from Stream and it is already processed
+                        Log.d("FCM", "Stream Chat notification handled")
+
                     } else {
                         // RemoteMessage wasn't sent from Stream and it needs to be handled by you
+                        Log.d("FCM", "Handle non-Stream notification or data message")
+
                     }
                 } catch (exception: IllegalStateException) {
                     // ChatClient was not initialized
