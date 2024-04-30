@@ -389,24 +389,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     }
 
-    private fun reconnectUser() {
-
-        val guestUser = User(
-            id = "5dtxXAmlQgcjAidXFY1bPuGPIjP2",
-            name = "권민석",
-            image = "https://firebasestorage.googleapis.com/v0/b/busanpartners-86b94.appspot.com/o/user%2F5dtxXAmlQgcjAidXFY1bPuGPIjP2%2FimagePath?alt=media&token=6167f5f4-8ee1-41b9-84e8-6249a8108bdc"
-        )
-        chatClient.connectUser(
-            guestUser,
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWR0eFhBbWxRZ2NqQWlkWEZZMWJQdUdQSWpQMiJ9.s6CURR7-mTKmZWKQDYNGelRQuja8nFg-pUBHlyadKeY"
-        ).enqueue {
-            if (it.isSuccess) {
-                // 연결 성공
-            } else {
-                // 연결 실패 처리
-            }
-        }
-    }
 
     private fun handleNotification(remoteMessage: RemoteMessage) {
         // 알림 처리 로직

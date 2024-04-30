@@ -77,9 +77,10 @@ class BusanPartners : Application() {
 
         preferences = PreferenceUtil(applicationContext)
 
-
         // ChatClient 초기화
         initializeChatClient()
+        setupNotificationChannels(this)
+
 //        val pushNotificationEnabled = true
 //        val ignorePushMessagesWhenUserOnline = true
 //        val pushDeviceGeneratorList: List<PushDeviceGenerator> = ArrayList()
@@ -183,6 +184,20 @@ class BusanPartners : Application() {
                 description = "Notifications for chat messages"
             }
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val manager = this.getSystemService(NotificationManager::class.java)
+            // 기존 채널 조회 및 삭제 + 그리고 일단 삭제는 해놨는데 결과가 어떻게 될지는 모르겠다
+            // 삭제하는 방법 말고 완전 비활성화하는 방법도 괜찮아보이긴 함.
+            val existingChannel: NotificationChannel? = manager.getNotificationChannel(this.getString(R.string.stream_chat_other_notifications_channel_id))
+            if (existingChannel != null) {
+                manager.deleteNotificationChannel(existingChannel.id)
+//                existingChannel.importance = NotificationManager.IMPORTANCE_NONE
+//                manager.createNotificationChannel(existingChannel) // 변경사항 업데이트
+
+                Log.e("R.string.stream_chat_other_notifications_channel_id)",R.string.stream_chat_other_notifications_channel_id.toString())
+
+            }
+        }
 
 //        val notificationHandler = MyNotificationHandler(this)
         val d = NotificationHandlerFactory.createNotificationHandler(
@@ -223,132 +238,131 @@ class BusanPartners : Application() {
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
             .notifications(notificationConfig, d)
             .build()
-
     }
+    fun setupNotificationChannels(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val manager = context.getSystemService(NotificationManager::class.java)
+            // 기존 채널 조회 및 삭제 + 그리고 일단 삭제는 해놨는데 결과가 어떻게 될지는 모르겠다
+            // 삭제하는 방법 말고 완전 비활성화하는 방법도 괜찮아보이긴 함.
+            val existingChannel: NotificationChannel? = manager.getNotificationChannel(context.getString(R.string.stream_chat_other_notifications_channel_id))
+            if (existingChannel != null) {
+//                manager.deleteNotificationChannel(existingChannel.id)
+                existingChannel.importance = NotificationManager.IMPORTANCE_NONE
+                manager.createNotificationChannel(existingChannel) // 변경사항 업데이트
 
-    fun customizeNotificationStyle(context: Context, notificationConfig: NotificationConfig) {
-        val notificationChannelId = ""
-        val notificationId = 1
+                Log.e("R.string.stream_chat_other_notifications_channel_id)",R.string.stream_chat_other_notifications_channel_id.toString())
 
-        class MyNotificationHandler(context: Context) : NotificationHandler {
-            var notificationManager: NotificationManager
-
-
-            init {
-                notificationManager =
-                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-//                val notificationChannel: () -> NotificationChannel = {
-//                    val channelId = "chat_channel"
-//                    val channelName = "Chat Messages"
-//                    val importance = NotificationManager.IMPORTANCE_HIGH
-//                    NotificationChannel(channelId, channelName, importance).apply {
-//                        description = "Notifications for chat messages"
-//                    }
-//                }
-//                val d = NotificationHandlerFactory.createNotificationHandler(context,
-//                    newMessageIntent = { message, channel ->
-//                        HomeActivity.createLaunchIntent(
-//                            context = context,
-//                            messageId = message.id,
-//                            parentMessageId = message.parentId,
-//                            channelType = channel.type,
-//                            channelId = channel.id
-//                        )
-//                    },
-//                    notificationChannel = notificationChannel
-//
-//                )
-
-            }
-
-            override fun onNotificationPermissionStatus(status: NotificationPermissionStatus) {
-                when (status) {
-                    NotificationPermissionStatus.REQUESTED -> {}
-                    NotificationPermissionStatus.GRANTED -> {}
-                    NotificationPermissionStatus.DENIED -> {}
-                    NotificationPermissionStatus.RATIONALE_NEEDED -> {}
-                }
-            }
-
-            @RequiresApi(Build.VERSION_CODES.O)
-            override fun showNotification(channel: Channel, message: Message) {
-                Log.e("MyNotificationHandler가 실행되나?", message.toString())
-
-
-//        val notificationHandler = MyNotificationHandler(this)
-
-
-//                val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
-//                Log.e("notificationId 실행되나?", notificationId.toString())
-//
-//                val notification = NotificationCompat.Builder(context, channel.id)
-////            .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
-//                    .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
-//                    .setContentTitle("New message in ${channel.name}") // 알림 제목 설정
-//                    .setContentText(message.text) // 메시지 텍스트 설정
-//                    .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정
-//                    .setAutoCancel(true) // 탭하면 알림이 자동으로 취소되도록 설정
-//                    .build()
-//
-//                notificationManager.notify(notificationId, notification)
-
-                val notification = NotificationCompat.Builder(context, channel.id)
-                    .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
-
-                    .build()
-                notificationManager.notify(notificationId, notification)
-            }
-
-            override fun dismissChannelNotifications(channelType: String, channelId: String) {
-                // Dismiss all notification related with this channel
-            }
-
-            override fun dismissAllNotifications() {
-                // Dismiss all notifications
-            }
-
-            override fun onChatEvent(event: NewMessageEvent): Boolean {
-                return true
-            }
-
-            override fun onPushMessage(message: PushMessage): Boolean {
-                return false
             }
         }
-
-        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
-        val statePluginFactory = StreamStatePluginFactory(
-            config = StatePluginConfig(backgroundSyncEnabled = true, userPresence = true),
-            appContext = this
-        )
-        val notificationHandler: NotificationHandler = MyNotificationHandler(this)
-
-        chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
-            .withPlugins(offlinePluginFactory, statePluginFactory)
-            .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
-            .notifications(notificationConfig, notificationHandler)
-            .build()
-
-
     }
 
-    /**
-     * @see [Dismissing Notifications](https://getstream.io/chat/docs/sdk/android/client/guides/push-notifications/.dismissing-notifications)
-     */
-    fun dismissingNotifications() {
-        ChatClient.instance().dismissChannelNotifications("messaging", "general")
-    }
 
-    /**
-     * @see [Multi Bundle](https://getstream.io/chat/docs/sdk/android/client/guides/push-notifications/.multi-bundle)
-     */
-    fun multiBundle() {
-        Device(
-            "token-generated-by-provider", PushProvider.FIREBASE,  // your push provider
-            "providerName"
-        )
-    }
+//    fun customizeNotificationStyle(context: Context, notificationConfig: NotificationConfig) {
+//        val notificationChannelId = ""
+//        val notificationId = 1
+//
+//        class MyNotificationHandler(context: Context) : NotificationHandler {
+//            var notificationManager: NotificationManager
+//
+//
+//            init {
+//                notificationManager =
+//                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//
+////                val notificationChannel: () -> NotificationChannel = {
+////                    val channelId = "chat_channel"
+////                    val channelName = "Chat Messages"
+////                    val importance = NotificationManager.IMPORTANCE_HIGH
+////                    NotificationChannel(channelId, channelName, importance).apply {
+////                        description = "Notifications for chat messages"
+////                    }
+////                }
+////                val d = NotificationHandlerFactory.createNotificationHandler(context,
+////                    newMessageIntent = { message, channel ->
+////                        HomeActivity.createLaunchIntent(
+////                            context = context,
+////                            messageId = message.id,
+////                            parentMessageId = message.parentId,
+////                            channelType = channel.type,
+////                            channelId = channel.id
+////                        )
+////                    },
+////                    notificationChannel = notificationChannel
+////
+////                )
+//
+//            }
+//
+//            override fun onNotificationPermissionStatus(status: NotificationPermissionStatus) {
+//                when (status) {
+//                    NotificationPermissionStatus.REQUESTED -> {}
+//                    NotificationPermissionStatus.GRANTED -> {}
+//                    NotificationPermissionStatus.DENIED -> {}
+//                    NotificationPermissionStatus.RATIONALE_NEEDED -> {}
+//                }
+//            }
+//
+//            @RequiresApi(Build.VERSION_CODES.O)
+//            override fun showNotification(channel: Channel, message: Message) {
+//                Log.e("MyNotificationHandler가 실행되나?", message.toString())
+//
+//
+////        val notificationHandler = MyNotificationHandler(this)
+//
+//
+////                val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
+////                Log.e("notificationId 실행되나?", notificationId.toString())
+////
+////                val notification = NotificationCompat.Builder(context, channel.id)
+//////            .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
+////                    .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
+////                    .setContentTitle("New message in ${channel.name}") // 알림 제목 설정
+////                    .setContentText(message.text) // 메시지 텍스트 설정
+////                    .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정
+////                    .setAutoCancel(true) // 탭하면 알림이 자동으로 취소되도록 설정
+////                    .build()
+////
+////                notificationManager.notify(notificationId, notification)
+//
+//                val notification = NotificationCompat.Builder(context, channel.id)
+//                    .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
+//
+//                    .build()
+//                notificationManager.notify(notificationId, notification)
+//            }
+//
+//            override fun dismissChannelNotifications(channelType: String, channelId: String) {
+//                // Dismiss all notification related with this channel
+//            }
+//
+//            override fun dismissAllNotifications() {
+//                // Dismiss all notifications
+//            }
+//
+//            override fun onChatEvent(event: NewMessageEvent): Boolean {
+//                return true
+//            }
+//
+//            override fun onPushMessage(message: PushMessage): Boolean {
+//                return false
+//            }
+//        }
+//
+//        val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
+//        val statePluginFactory = StreamStatePluginFactory(
+//            config = StatePluginConfig(backgroundSyncEnabled = true, userPresence = true),
+//            appContext = this
+//        )
+//        val notificationHandler: NotificationHandler = MyNotificationHandler(this)
+//
+//        chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
+//            .withPlugins(offlinePluginFactory, statePluginFactory)
+//            .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
+//            .notifications(notificationConfig, notificationHandler)
+//            .build()
+//
+//
+//    }
 
 }
 

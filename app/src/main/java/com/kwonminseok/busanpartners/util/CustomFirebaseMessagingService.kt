@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -41,6 +42,31 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
 
         try {
             if (handleRemoteMessage(message)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val manager = this.getSystemService(NotificationManager::class.java)
+                    val channelId = this.getString(R.string.stream_chat_other_notifications_channel_id)
+                    Log.e("channelId", channelId)
+
+                    val existingChannel: NotificationChannel? =
+                        manager.getNotificationChannel(channelId)
+
+                    if (existingChannel != null) {
+//                        manager.deleteNotificationChannel(existingChannel.id)
+                        existingChannel.importance = NotificationManager.IMPORTANCE_NONE
+                        manager.createNotificationChannel(existingChannel) // 변경사항 업데이트
+
+                        Log.e(
+                            "R.string.stream_chat_other_notifications_channel_id)",
+                            R.string.stream_chat_other_notifications_channel_name.toString()
+                        )
+
+                    }
+                    Log.e(
+                        "existingChannel",
+                        existingChannel.toString()
+                    )
+
+                }
                 // RemoteMessage was from Stream and it is already processed
                 Log.e("FCM", "Stream Chat notification handled")
 
@@ -54,38 +80,6 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
             Log.e("FCM", "ChatClient was not initialized")
 
         }
-
-
-//
-//        try {
-//            if (handleRemoteMessage(message)) {
-//                // RemoteMessage was from Stream and it is already processed
-//                Log.w("FCM", "Stream Chat notification handled")
-//                val guestUser = User(
-//                    id = "5dtxXAmlQgcjAidXFY1bPuGPIjP2",
-//                    name = "권민석",
-//                    image = "https://firebasestorage.googleapis.com/v0/b/busanpartners-86b94.appspot.com/o/user%2F5dtxXAmlQgcjAidXFY1bPuGPIjP2%2FimagePath?alt=media&token=6167f5f4-8ee1-41b9-84e8-6249a8108bdc"
-//                )
-//                BusanPartners.chatClient.connectUser(
-//                    guestUser,
-//                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWR0eFhBbWxRZ2NqQWlkWEZZMWJQdUdQSWpQMiJ9.s6CURR7-mTKmZWKQDYNGelRQuja8nFg-pUBHlyadKeY"
-//                ).enqueue {
-//                    if (it.isSuccess) {
-//                        // 연결 성공
-//                    } else {
-//                        // 연결 실패 처리
-//                    }
-//                }
-//
-//            } else {
-//                // RemoteMessage wasn't sent from Stream and it needs to be handled by you
-//                Log.w("FCM", "Handle non-Stream notification or data message")
-//
-//            }
-//        } catch (exception: IllegalStateException) {
-//            // ChatClient was not initialized
-//        }
-
         // 이 방법이 Stream Chat 자체의 푸시 알림 처리 기능을 활용하는 방법인 것 같다.
 
 
