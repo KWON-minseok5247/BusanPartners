@@ -44,28 +44,57 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
             if (handleRemoteMessage(message)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val manager = this.getSystemService(NotificationManager::class.java)
-                    val channelId = this.getString(R.string.stream_chat_other_notifications_channel_id)
-                    Log.e("channelId", channelId)
-
-                    val existingChannel: NotificationChannel? =
-                        manager.getNotificationChannel(channelId)
-
-                    if (existingChannel != null) {
-//                        manager.deleteNotificationChannel(existingChannel.id)
-                        existingChannel.importance = NotificationManager.IMPORTANCE_NONE
-                        manager.createNotificationChannel(existingChannel) // 변경사항 업데이트
-
-                        Log.e(
-                            "R.string.stream_chat_other_notifications_channel_id)",
-                            R.string.stream_chat_other_notifications_channel_name.toString()
-                        )
-
+                    manager.notificationChannels.forEach { channel ->
+                        Log.e("NotificationChannelCheck", "ID: ${channel.id}, Name: ${channel.name}, Importance: ${channel.importance}")
                     }
-                    Log.e(
-                        "existingChannel",
-                        existingChannel.toString()
-                    )
 
+
+//                    val channelId = this.getString(R.string.stream_chat_other_notifications_channel_id)
+//                    Log.e("channelId", channelId)
+//
+//                    val existingChannel: NotificationChannel? =
+//                        manager.getNotificationChannel(channelId)
+//
+//                    if (existingChannel != null) {
+//                        existingChannel.importance = NotificationManager.IMPORTANCE_NONE
+//                        manager.createNotificationChannel(existingChannel) // 변경사항 업데이트
+//                        Log.e("업데이트", "완료")
+//
+//                        manager.deleteNotificationChannel(existingChannel.id)
+//                        Log.e("삭제", "완료")
+//                        Log.e("삭제 후 existingChannel", existingChannel.toString())
+//
+//                        Log.e(
+//                            "R.string.stream_chat_other_notifications_channel_id)",
+//                            R.string.stream_chat_other_notifications_channel_name.toString()
+//                        )
+//
+//                    }
+//                    Log.e(
+//                        "existingChannel",
+//                        existingChannel.toString()
+//                    )
+
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val channelId = "stream_GetStreamClientOther"
+                    val channelName = "기타 알림"
+                    val notificationManager = this.getSystemService(NotificationManager::class.java) as NotificationManager
+
+                    // 기존 채널 삭제
+                    notificationManager.deleteNotificationChannel(channelId)
+
+                    // 새로운 채널 생성, 중요도를 IMPORTANCE_NONE으로 설정
+                    val newChannel = NotificationChannel(
+                        channelId,
+                        channelName,
+                        NotificationManager.IMPORTANCE_NONE
+                    ).apply {
+                        description = "알림이 사용자에게 전혀 보이지 않도록 설정된 채널"
+                    }
+
+                    // 새로운 채널 등록
+                    notificationManager.createNotificationChannel(newChannel)
                 }
                 // RemoteMessage was from Stream and it is already processed
                 Log.e("FCM", "Stream Chat notification handled")

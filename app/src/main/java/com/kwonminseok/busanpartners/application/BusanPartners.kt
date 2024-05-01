@@ -1,6 +1,7 @@
 package com.kwonminseok.busanpartners.application
 
 import android.app.Application
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -178,26 +179,31 @@ class BusanPartners : Application() {
 
         val notificationChannel: () -> NotificationChannel = {
             val channelId = "chat_channel"
+//            val channelId = this.getString(R.string.stream_chat_other_notifications_channel_id)
             val channelName = "Chat Messages"
             val importance = NotificationManager.IMPORTANCE_HIGH
             NotificationChannel(channelId, channelName, importance).apply {
                 description = "Notifications for chat messages"
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val manager = this.getSystemService(NotificationManager::class.java)
-            // 기존 채널 조회 및 삭제 + 그리고 일단 삭제는 해놨는데 결과가 어떻게 될지는 모르겠다
-            // 삭제하는 방법 말고 완전 비활성화하는 방법도 괜찮아보이긴 함.
-            val existingChannel: NotificationChannel? = manager.getNotificationChannel(this.getString(R.string.stream_chat_other_notifications_channel_id))
-            if (existingChannel != null) {
-                manager.deleteNotificationChannel(existingChannel.id)
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val manager = this.getSystemService(NotificationManager::class.java)
+//            // 기존 채널 조회 및 삭제 + 그리고 일단 삭제는 해놨는데 결과가 어떻게 될지는 모르겠다
+//            // 삭제하는 방법 말고 완전 비활성화하는 방법도 괜찮아보이긴 함.
+//            val existingChannel: NotificationChannel? = manager.getNotificationChannel(this.getString(R.string.stream_chat_other_notifications_channel_id))
+//            if (existingChannel != null) {
 //                existingChannel.importance = NotificationManager.IMPORTANCE_NONE
+//                existingChannel.lockscreenVisibility = Notification.VISIBILITY_SECRET
+//
 //                manager.createNotificationChannel(existingChannel) // 변경사항 업데이트
-
-                Log.e("R.string.stream_chat_other_notifications_channel_id)",R.string.stream_chat_other_notifications_channel_id.toString())
-
-            }
-        }
+//                Log.e("업데이트", "완료")
+////                manager.deleteNotificationChannel(existingChannel.id)
+//                Log.e("삭제", "완료")
+//
+//                Log.e("R.string.stream_chat_other_notifications_channel_id)",R.string.stream_chat_other_notifications_channel_id.toString())
+//
+//            }
+//        }
 
 //        val notificationHandler = MyNotificationHandler(this)
         val d = NotificationHandlerFactory.createNotificationHandler(
@@ -241,19 +247,26 @@ class BusanPartners : Application() {
     }
     fun setupNotificationChannels(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val manager = context.getSystemService(NotificationManager::class.java)
-            // 기존 채널 조회 및 삭제 + 그리고 일단 삭제는 해놨는데 결과가 어떻게 될지는 모르겠다
-            // 삭제하는 방법 말고 완전 비활성화하는 방법도 괜찮아보이긴 함.
-            val existingChannel: NotificationChannel? = manager.getNotificationChannel(context.getString(R.string.stream_chat_other_notifications_channel_id))
-            if (existingChannel != null) {
-//                manager.deleteNotificationChannel(existingChannel.id)
-                existingChannel.importance = NotificationManager.IMPORTANCE_NONE
-                manager.createNotificationChannel(existingChannel) // 변경사항 업데이트
+            val channelId = "stream_GetStreamClientOther"
+            val channelName = "기타 알림"
+            val notificationManager = context.getSystemService(NotificationManager::class.java) as NotificationManager
 
-                Log.e("R.string.stream_chat_other_notifications_channel_id)",R.string.stream_chat_other_notifications_channel_id.toString())
+            // 기존 채널 삭제
+            notificationManager.deleteNotificationChannel(channelId)
 
+            // 새로운 채널 생성, 중요도를 IMPORTANCE_NONE으로 설정
+            val newChannel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_NONE
+            ).apply {
+                description = "알림이 사용자에게 전혀 보이지 않도록 설정된 채널"
             }
+
+            // 새로운 채널 등록
+            notificationManager.createNotificationChannel(newChannel)
         }
+
     }
 
 
