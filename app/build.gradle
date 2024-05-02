@@ -41,6 +41,7 @@ android {
         // 키 - 값으로 저장된다.
         manifestPlaceholders = [NAVER_CLIENT_ID: properties["NAVER_CLIENT_ID"]]
 
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -92,6 +93,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
     implementation 'com.google.android.gms:play-services-auth:21.0.0'
     implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.9'
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -203,27 +205,36 @@ dependencies {
     // optional - Paging 3 Integration
     implementation "androidx.room:room-paging:$room_version"
 
-    // 기존의 io.getstream 의존성 제거
-    implementation("io.getstream:stream-chat-android-ui-components:6.0.2") {
+//    // 기존의 io.getstream 의존성 제거
+    implementation("io.getstream:stream-chat-android-ui-components:6.1.1") {
 //        exclude group: 'io.getstream', module: 'stream-chat-android-client'
-    }
 
-// Stream Chat Offline with exclusion of the duplicated client
-    implementation("io.getstream:stream-chat-android-offline:6.0.2") {
+    }
+//
+////// Stream Chat Offline with exclusion of the duplicated client
+    implementation("io.getstream:stream-chat-android-offline:6.1.1") {
 //        exclude group: 'io.getstream', module: 'stream-chat-android-client'
     }
+//
+    implementation "io.getstream:stream-chat-android-core:6.1.1"
+//    implementation 'io.getstream:stream-log:1.1.4'
+//    implementation 'io.getstream:stream-log-android:1.1.4@aar'
+//    implementation 'io.getstream:stream-log-android-file:1.1.4@aar'
 
 // Stream Android Push Firebase with exclusion of the duplicated client
     implementation("io.getstream:stream-android-push-firebase:1.1.7") {
 //        exclude group: 'io.getstream', module: 'stream-chat-android-client'
     }
 
-////    configurations.all {
-////        resolutionStrategy.force 'io.getstream:stream-chat-android-client:6.0.3'
+
+
+
+//    configurations.all {
+//        resolutionStrategy.force 'io.getstream:stream-chat-android-client:6.0.2'
 ////        resolutionStrategy.force 'io.getstream:stream-chat-android-ui-components:6.0.3'
 ////        resolutionStrategy.force 'io.getstream:stream-chat-android-offline:6.0.3'
-////
-////    }
+//
+//    }
 //
 //
 //    // getStream fork한 부분

@@ -27,18 +27,16 @@ import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
-import com.kwonminseok.busanpartners.util.MyNotificationHandler
 import com.kwonminseok.busanpartners.util.PreferenceUtil
-import com.kwonminseok.busanpartners.util.Push
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import io.getstream.android.push.PushDeviceGenerator
 import io.getstream.android.push.firebase.FirebaseMessagingDelegate
 import io.getstream.android.push.firebase.FirebasePushDeviceGenerator
-import io.getstream.android.push.permissions.NotificationPermissionStatus
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.events.NewMessageEvent
 import io.getstream.chat.android.client.logger.ChatLogLevel
+import io.getstream.chat.android.client.notifications.PushNotificationReceivedListener
 import io.getstream.chat.android.client.notifications.handler.NotificationConfig
 import io.getstream.chat.android.client.notifications.handler.NotificationHandler
 import io.getstream.chat.android.client.notifications.handler.NotificationHandlerFactory
@@ -80,7 +78,7 @@ class BusanPartners : Application() {
 
         // ChatClient 초기화
         initializeChatClient()
-        setupNotificationChannels(this)
+//        setupNotificationChannels(this)
 
 //        val pushNotificationEnabled = true
 //        val ignorePushMessagesWhenUserOnline = true
@@ -116,7 +114,7 @@ class BusanPartners : Application() {
 
         val notificationConfig = NotificationConfig(
             pushNotificationEnabled,
-            pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners"))
+            pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners")),
 
         )
 //        val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
