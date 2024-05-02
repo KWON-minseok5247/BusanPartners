@@ -192,8 +192,12 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         val notificationManager =
             this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-//        val notificationId = message.messageId.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
-        val notificationId = 1 // 알림 ID를 메시지 ID의 해시코드로 설정
+        // RemoteMessage에서 cid 추출
+        val cid = message.data["cid"] ?: throw IllegalArgumentException("CID is missing in the message data")
+
+        // cid의 해시코드를 알림 ID로 사용
+        val notificationId = cid.hashCode()
+//        val notificationId = 1 // 알림 ID를 메시지 ID의 해시코드로 설정
 
         Log.e("message", message.data.toString())
         Log.e("channel", channel.toString())

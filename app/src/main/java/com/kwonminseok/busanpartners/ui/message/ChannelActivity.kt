@@ -2,6 +2,7 @@ package com.kwonminseok.busanpartners.ui.message
 
 
 import android.app.Activity
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -75,9 +76,9 @@ import io.getstream.chat.android.ui.viewmodel.messages.bindView
 
 
 
-
+private val TAG = "ChannelActivity"
 class ChannelActivity : AppCompatActivity() {
-
+    private var cid: String = ""  // 채팅방 ID를 저장하는 변수
     private lateinit var binding: ActivityChannelBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,9 +89,10 @@ class ChannelActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val cid = checkNotNull(intent.getStringExtra(CID_KEY)) {
+        cid = checkNotNull(intent.getStringExtra(CID_KEY)) {
             "Specifying a channel id is required when starting ChannelActivity"
         }
+        Log.e(TAG, cid)
 
 
 
@@ -399,8 +401,15 @@ class ChannelActivity : AppCompatActivity() {
         }
 
 
+        cancelChatRoomNotification(cid)
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        cancelChatRoomNotification(cid)
+    }
+
 
 
     companion object {
@@ -422,6 +431,14 @@ class ChannelActivity : AppCompatActivity() {
             putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
         }
     }
+
+    private fun cancelChatRoomNotification(cid: String) {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationId = cid.hashCode()
+
+        notificationManager.cancel(notificationId)  // 채팅방 ID를 사용하여 해당 채팅방 알림 취소
+    }
+
 
 
     class LocationActivityResultContract : ActivityResultContract<Void?, LatLng?>() {

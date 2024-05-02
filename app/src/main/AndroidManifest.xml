@@ -86,6 +86,15 @@
             </intent-filter>
         </service>
 
+        <receiver
+            android:name="io.getstream.chat.android.client.receivers.NotificationMessageReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="io.getstream.chat.android.READ" />
+                <action android:name="io.getstream.chat.android.REPLY" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
