@@ -1,4 +1,8 @@
 2024년 3월 6일 개발 시작
+![image](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/10a9ddcd-fefd-465e-9e6f-2e449d849ba6)
+
+
+![부산 파트너스 플로우차트-서비스 플로우 drawio](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/26916072-7c56-48bd-be23-e1388cb50497)
 
 -간단한 개요-
 
