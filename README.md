@@ -4,6 +4,7 @@
 
 ![부산 파트너스 플로우차트-서비스 플로우 drawio](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/26916072-7c56-48bd-be23-e1388cb50497)
 서비스 플로우 차트
+
 -간단한 개요-
 
 BusanPartners는 부산지역 내 대학생과 외국인 관광객을 매칭시켜주는 앱입니다.
