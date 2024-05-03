@@ -22,7 +22,7 @@ BusanPartners는 부산지역 내 대학생과 외국인 관광객을 매칭시�
 
 
 
-2024년 4월 14일 기준
+2024년 5월 4일 기준
 디자인은 아직 제작하지 못한 상태입니다. ui 위주가 아닌, 빠르게 앱을 개발하기 위해 필요한 기능 위주로 제작하고 있는 상태입니다.
 
 ![ezgif com-resize](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/089516ab-2a08-470f-b110-cf9e60ebfba4)
