@@ -146,7 +146,7 @@ class TravelerAuthFragment : Fragment() {
             // imageUri가 null이면 안되도록 설정한다.
             if (imageUris.isEmpty()) {
                 // 아무것도 실행되지 않도록
-                Toast.makeText(requireContext(), "학생증 사진을 추가해주세요!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "증명할 수 있는 사진을 추가해주세요!", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.viewModelScope.launch {
                     viewModel.uploadUserImagesAndUpdateToFirestore(imageUris, TRAVELER)

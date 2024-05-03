@@ -30,7 +30,7 @@
 //    private val storage: StorageReference,
 //    application: Application
 //) : AndroidViewModel(application) {
-//    //TODO 여기서는 일단 접속을 함과 동시에 파이어베이스의 데이터를 불러오고 작성할 수 있어야 한다.
+//    // 여기서는 일단 접속을 함과 동시에 파이어베이스의 데이터를 불러오고 작성할 수 있어야 한다.
 //    // 그리고 데이터를 수정했으면 다시 파이어베이스에 업로드를 해야 함.
 //    // 마지막으로 사진을 업로드하고 새로 수정하는 역할도 있어야 한다.
 //

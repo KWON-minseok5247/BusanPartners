@@ -62,7 +62,7 @@ package com.kwonminseok.busanpartners.viewmodel
 //    }
 //
 //    fun resetPasswordFun(email: String) {
-//        //TODO 여기서는 클릭을 함과 동시에 다이얼로그를 띄워야 하며 이메일을 보낼 수 있도록 한다. + 이메일 양식이 제대로 되어야 한다.
+//        // 여기서는 클릭을 함과 동시에 다이얼로그를 띄워야 하며 이메일을 보낼 수 있도록 한다. + 이메일 양식이 제대로 되어야 한다.
 //        viewModelScope.launch {
 //            _resetPassword.emit(Resource.Loading())
 //        }

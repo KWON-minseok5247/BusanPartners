@@ -86,7 +86,6 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
 
         binding.fabShareLocation.setOnClickListener {
 
-            //TODO 마커를 찍지 않았을 때도 로직을 구사할 필요가 있다.
             val intent = Intent(this, ChannelActivity::class.java).apply {
                 //비트맵은 인텐트로 전달할 수 없다.
                 putExtra("latitude", currentMarkerPosition?.latitude)

@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
     private val uid = BusanPartners.preferences.getString("uid", "")
 
 
-    //Todo 여기서 해야 할 거는 일단 room을 통해서 데이터를 가져오기 ->
+    // 여기서 해야 할 거는 일단 room을 통해서 데이터를 가져오기 ->
     // 만약 room에 데이터가 없다면 네트워크로부터 데이터를 가져오기 -> 가져온 데이터를 insert하기
     // 만약 room의 데이터가 있으면 일단 그 데이터로 표시한다 -> 근데 네트워크로부터 가져온 데이터랑
     // 다르다면 네트워크 데이터로 최신화한다. -> 그리고 데이터를 insert한다.
@@ -137,10 +137,18 @@ class ProfileFragment : Fragment() {
         binding.constraintProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
         }
+        if (binding.switchNotification.isChecked) {
+            chatClient.channel("messaging", "general")
+                .unmute()
+        } else {
+            chatClient.channel("messaging", "general")
+                .mute()
+        }
 
 
-        //TODO 여기서 만약 이메일인증까지 진행했다면 바로 학생증 인증으로 넘어가기
-        //TODO 클릭하면 information 창으로 넘어가기
+
+        // 여기서 만약 이메일인증까지 진행했다면 바로 학생증 인증으로 넘어가기
+        // 클릭하면 information 창으로 넘어가기
         binding.collegeAuthentication.setOnClickListener {
             if (user.authentication.studentEmailAuthenticationComplete) {
                 findNavController().navigate(R.id.action_profileFragment_to_collegeAuthImageFragment)
@@ -154,7 +162,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        //TODO 클릭하면 information 창으로 넘어가기
+        // 클릭하면 information 창으로 넘어가기
         binding.travelerAuthentication.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_onboardingTravelerInformationFragment)
         }

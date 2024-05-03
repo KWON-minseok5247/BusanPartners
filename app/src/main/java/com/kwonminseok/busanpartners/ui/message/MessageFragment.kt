@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.kwonminseok.busanpartners.application.BusanPartners
@@ -13,15 +14,19 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.querysort.QuerySortByField
+import io.getstream.chat.android.ui.feature.channels.ChannelListFragment
+import io.getstream.chat.android.ui.feature.channels.list.ChannelListView
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListHeaderViewModel
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFactory
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
 
 @AndroidEntryPoint
-class MessageFragment : Fragment() {
+class MessageFragment : Fragment()
+{
 
     private var _binding: FragmentMessageBinding? = null
     private val binding get() = _binding!!
@@ -82,19 +87,43 @@ class MessageFragment : Fragment() {
 //            startActivity(ChannelActivity.getIntent(requireContext(), channel.cid))
 
         }
+        binding.channelListView.setIsDeleteOptionVisible { true }
 
         binding.channelListView.setIsMoreOptionsVisible { channel ->
             // You can determine visibility based on the channel object.
-            ContextCompat.getDrawable(requireContext(), R.drawable.ic_setting)
+            ContextCompat.getDrawable(requireContext(), R.drawable.pusan_logo)
 
-            true
+            false
         }
 
         binding.channelListView.setIsDeleteOptionVisible { channel ->
             // You can determine visibility based on the channel object.
             // Here is the default implementation:
             channel.ownCapabilities.contains("delete-channel")
+            false
         }
+
+        binding.channelListView.setChannelLongClickListener { channel ->
+            //todo 여기서 삭제나 알림을 끄는 선택지를 제공하면 된다.
+            val options = arrayOf("채팅방 알림 끄기", "채팅방 나가기")
+            AlertDialog.Builder(requireContext())
+//                .setTitle("Channel Options")
+                .setItems(options) { dialog, which ->
+                    when (which) {
+                        0 -> Log.e("채팅방 알림 끄기", "clicked")// "Mute User" 선택 시
+                        1 -> channel.ownCapabilities.contains("delete-channel")
+
+                    }
+                }
+                .show()
+            true
+        }
+
+        fun showChannelOptionsDialog(channel: Channel) {
+
+        }
+
+
     }
 
     private fun getStudentChat() {
@@ -121,5 +150,6 @@ class MessageFragment : Fragment() {
             }
         }
     }
+
 
 }

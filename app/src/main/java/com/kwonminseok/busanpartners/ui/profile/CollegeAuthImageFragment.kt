@@ -108,7 +108,6 @@ class CollegeAuthImageFragment : Fragment() {
 //                        // 얘도 함수로 만드는 게 맞고.
 //                        Log.e("제일제일 중요", it.data.toString())
 //                        if (it.data?.authentication?.studentIdentificationCard != null) {
-//                            // TODO 이미지 불러오고 삭제하는 기능을 효율적으로 만들지 않았다. 나중에 따로 시간나면 다시 만들자.
 //                            val urlList = it.data?.authentication?.studentIdentificationCard
 //                            imagesAdapter = ImagesAdapter(requireContext(), urlList).apply {
 //                                onClick = { imageUrl, position ->
@@ -195,7 +194,6 @@ class CollegeAuthImageFragment : Fragment() {
         }
 
 
-        //TODO 데이터들이 전부 갖춰져야 클릭을 할 수 있다거나 버튼이 보여선 안됨. 지금은 테스트용이라 냅둔다.
         binding.btnSendAllData.setOnClickListener {
             // imageUri가 null이면 안되도록 설정한다.
             if (imageUris.isEmpty()) {

@@ -42,6 +42,18 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+//        super.onMessageReceived(remoteMessage)
+//        Log.e("remoteMessage", remoteMessage.data.toString())
+//
+//        if (remoteMessage.data["type"] == "message.new") {
+//            // 알림 생성 로직
+//            handleRemoteMessage(remoteMessage)
+//
+//        }
+//    }
+
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
@@ -73,10 +85,51 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
 
         }
         // 이 방법이 Stream Chat 자체의 푸시 알림 처리 기능을 활용하는 방법인 것 같다.
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun showNotification(channel: NotificationChannel, message: RemoteMessage) {
+        val notificationManager =
+            this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        // RemoteMessage에서 cid 추출
+        val cid = message.data["cid"] ?: throw IllegalArgumentException("CID is missing in the message data")
+
+        // cid의 해시코드를 알림 ID로 사용
+        val notificationId = cid.hashCode()
+//        val notificationId = 1 // 알림 ID를 메시지 ID의 해시코드로 설정
+
+        Log.e("message", message.data.toString())
+        Log.e("channel", channel.toString())
+
+        // 특정 화면으로 이동하는 Intent 생성
+        val launchIntent = HomeActivity.createLaunchIntent(
+            context = this,
+            messageId = message.data["message_id"] ?: "",
+            parentMessageId = message.data["parentMessageId"] ?: "",
+            channelType = message.data["channel_type"] ?: "",
+            channelId = message.data["cid"] ?: ""
+        )
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        val pendingIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
 
 
+        val notification = NotificationCompat.Builder(this, channel.id)
+//            .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
+            .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
+            .setContentTitle("상대방으로부터 메세지가 왔습니다!") // 알림 제목 설정
+            .setContentText("알림을 눌러 확인해보세요.") // 메시지 텍스트 설정
+            .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정
+            .setAutoCancel(true) // 탭하면 알림이 자동으로 취소되도록 설정
+            .setContentIntent(pendingIntent)  // 알림 클릭 시 실행할 Intent 설정
+            .build()
 
+        notificationManager.notify(notificationId, notification)
+
+
+    }
+}
 //        val notificationHandler = MyNotificationHandler(applicationContext)
 //        notificationHandler.showNotification(channel, msg)
 
@@ -118,7 +171,6 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
 //                notificationManager.notify(notificationId, notification)
 //
 //                handleNotification(message)
-
 //            if (handleRemoteMessage(message)) {
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //                    val manager = this.getSystemService(NotificationManager::class.java)
@@ -185,48 +237,3 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
 //                Log.e("FCM", "Handle non-Stream notification or data message")
 //
 //            }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun showNotification(channel: NotificationChannel, message: RemoteMessage) {
-        val notificationManager =
-            this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        // RemoteMessage에서 cid 추출
-        val cid = message.data["cid"] ?: throw IllegalArgumentException("CID is missing in the message data")
-
-        // cid의 해시코드를 알림 ID로 사용
-        val notificationId = cid.hashCode()
-//        val notificationId = 1 // 알림 ID를 메시지 ID의 해시코드로 설정
-
-        Log.e("message", message.data.toString())
-        Log.e("channel", channel.toString())
-
-        // 특정 화면으로 이동하는 Intent 생성
-        val launchIntent = HomeActivity.createLaunchIntent(
-            context = this,
-            messageId = message.data["message_id"] ?: "",
-            parentMessageId = message.data["parentMessageId"] ?: "",
-            channelType = message.data["channel_type"] ?: "",
-            channelId = message.data["cid"] ?: ""
-        )
-        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        val pendingIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-
-
-
-        val notification = NotificationCompat.Builder(this, channel.id)
-//            .setSmallIcon(R.drawable.stream_ic_notification) // 알림 아이콘 설정
-            .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
-            .setContentTitle("상대방으로부터 메세지가 왔습니다!") // 알림 제목 설정
-            .setContentText("알림을 눌러 확인해보세요.") // 메시지 텍스트 설정
-            .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정
-            .setAutoCancel(true) // 탭하면 알림이 자동으로 취소되도록 설정
-            .setContentIntent(pendingIntent)  // 알림 클릭 시 실행할 Intent 설정
-            .build()
-
-        notificationManager.notify(notificationId, notification)
-
-
-    }
-}
