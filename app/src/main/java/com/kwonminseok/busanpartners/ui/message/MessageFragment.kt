@@ -119,10 +119,6 @@ class MessageFragment : Fragment()
             true
         }
 
-        fun showChannelOptionsDialog(channel: Channel) {
-
-        }
-
 
     }
 

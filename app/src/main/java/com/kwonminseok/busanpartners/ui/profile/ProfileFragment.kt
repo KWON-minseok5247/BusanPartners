@@ -27,6 +27,7 @@ import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.getstream.result.call.enqueue
 import kotlinx.coroutines.flow.collectLatest
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -137,12 +138,26 @@ class ProfileFragment : Fragment() {
         binding.constraintProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
         }
-        if (binding.switchNotification.isChecked) {
-            chatClient.channel("messaging", "general")
-                .unmute()
-        } else {
-            chatClient.channel("messaging", "general")
-                .mute()
+        binding.switchNotification.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                // 사용자가 스위치를 켜면 채널 알림을 활성화합니다.
+                chatClient.unmuteChannel("messaging", "!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40").enqueue { result ->
+                    if (result.isSuccess) {
+                        Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Log.e("ChatMute", "Failed to mute: ${result}")
+                    }
+                }
+            } else {
+                // 사용자가 스위치를 끄면 채널 알림을 비활성화합니다.
+                chatClient.muteChannel("messaging", "!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40").enqueue { result ->
+                    if (result.isSuccess) {
+                        Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Log.e("ChatMute", "Failed to mute: ${result}")
+                    }
+                }
+            }
         }
 
 

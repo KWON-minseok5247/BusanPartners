@@ -31,6 +31,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 private val TAG = "HomeFragment"
+
 class HomeFragment : Fragment() {
 
     private val touristDestinationAdapter by lazy { TouristDestinationAdapter() }
@@ -42,9 +43,11 @@ class HomeFragment : Fragment() {
 
     private lateinit var locationSource: FusedLocationSource
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,8 +81,6 @@ class HomeFragment : Fragment() {
         }
 
 
-
-
         // 초기 위치 설정 과정
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             // 사용자의 현재 위치를 받았습니다. 지도 로딩을 시작합니다.
@@ -87,40 +88,78 @@ class HomeFragment : Fragment() {
 
                 val currentLatitude = it.latitude
                 val currentLongitude = it.longitude
-                Log.e("currentLatitude",currentLatitude.toString() )
-                Log.e("currentLongitude",currentLongitude.toString() )
+                Log.e("currentLatitude", currentLatitude.toString())
+                Log.e("currentLongitude", currentLongitude.toString())
 
-                TourismApiService.getInstance().locationBasedList1(10,1,"AND","BusanPartners","json",
-                    currentLongitude,currentLatitude,10000,12,null,BuildConfig.BUSAN_FESTIVAL_KEY).enqueue(object :
+                TourismApiService.getInstance().locationBasedList1(
+                    10,
+                    1,
+                    "AND",
+                    "BusanPartners",
+                    "json",
+                    currentLongitude,
+                    currentLatitude,
+                    10000,
+                    12,
+                    null,
+                    BuildConfig.BUSAN_FESTIVAL_KEY
+                ).enqueue(object :
                     Callback<TourismResponse> {
-                    override fun onResponse(call: Call<TourismResponse>,
-                                            response: Response<TourismResponse>) {
-                        if (response.isSuccessful) {
-                            binding.touristRecyclerView.adapter = tourismAdapter
-//                    val exceptedImageData = response.body()?.response?.body?.items?.item
-//                    tourismAdapter.differ.submitList(response.body()?.response?.body?.items?.item)
-                            response.body()?.response?.body?.items?.item?.let { itemList ->
-                                val itemsWithImages = itemList.filter { it.firstimage != "" && it.firstimage.isNotEmpty() }
-                                tourismAdapter.differ.submitList(itemsWithImages)
-                            }
-
-                            Log.e(TAG, response.body()?.response?.body?.items.toString())
+                    override fun onResponse(
+                        call: Call<TourismResponse>,
+                        response: Response<TourismResponse>
+                    ) {
+//                        if (response.isSuccessful) {
+//                            _binding?.touristRecyclerView?.adapter = tourismAdapter
+//                            response.body()?.response?.body?.items?.item?.let { itemList ->
+//                                val itemsWithImages = itemList.filter { it.firstimage.isNotEmpty() }
+//                                tourismAdapter.differ.submitList(itemsWithImages)
+//                            }
+//
+////                            binding.touristRecyclerView.adapter = tourismAdapter
+//////                    val exceptedImageData = response.body()?.response?.body?.items?.item
+//////                    tourismAdapter.differ.submitList(response.body()?.response?.body?.items?.item)
+////                            response.body()?.response?.body?.items?.item?.let { itemList ->
+////                                val itemsWithImages = itemList.filter { it.firstimage != "" && it.firstimage.isNotEmpty() }
+////                                tourismAdapter.differ.submitList(itemsWithImages)
+////                            }
+//
+//                            Log.e(TAG, response.body()?.response?.body?.items.toString())
+//                        } else {
+//                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+//                        }
+                        if (!isAdded) {
+                            return
                         }
+
+                        // 이제 안전하게 UI 업데이트를 진행합니다.
+                        _binding?.let { binding ->
+                            if (response.isSuccessful) {
+                                binding.touristRecyclerView.adapter = tourismAdapter
+                                response.body()?.response?.body?.items?.item?.let { itemList ->
+                                    val itemsWithImages = itemList.filter { it.firstimage.isNotEmpty() }
+                                    tourismAdapter.differ.submitList(itemsWithImages)
+                                }
+                            } else {
+                                Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+                            }
+                        }
+
+
+
+
                     }
 
                     override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
-                        Log.e(TAG,t.message.toString())
+                        Log.e(TAG, t.message.toString())
 
                     }
-                })            } ?: run {
+                })
+            } ?: run {
 //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
 //                initializeMap(LatLng(35.1798159, 129.0750222))
             }
         }
-
-
-
-
 
 
         // 토큰을 확인하기 위해 서버 시간을 가져오는 과정
@@ -173,7 +212,6 @@ class HomeFragment : Fragment() {
 //        })
 
 
-
     }
 
     override fun onDestroyView() {
@@ -207,7 +245,10 @@ class HomeFragment : Fragment() {
 
     private fun parseNotificationData() {
         requireActivity().intent?.let {
-            if (it.hasExtra(EXTRA_CHANNEL_ID) && it.hasExtra(EXTRA_MESSAGE_ID) && it.hasExtra(EXTRA_CHANNEL_TYPE)) {
+            if (it.hasExtra(EXTRA_CHANNEL_ID) && it.hasExtra(EXTRA_MESSAGE_ID) && it.hasExtra(
+                    EXTRA_CHANNEL_TYPE
+                )
+            ) {
                 val channelType = it.getStringExtra(EXTRA_CHANNEL_TYPE)
                 val channelId = it.getStringExtra(EXTRA_CHANNEL_ID)
                 val cid = "$channelType:$channelId"
