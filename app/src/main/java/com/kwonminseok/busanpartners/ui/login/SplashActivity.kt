@@ -71,6 +71,7 @@ class SplashActivity : AppCompatActivity() {
             navigateToLoginRegisterActivity()
         }
 
+        // 구글 자동 로그인 과정
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val idToken = task.result.token
@@ -147,10 +148,11 @@ class SplashActivity : AppCompatActivity() {
         // 토큰 기간. 정상적으로 채팅이 가능한 시기
         if (currentServerTimeToDateTime != null) {
             if (currentServerTimeToDateTime <= tokenTimeToDateTime) {
+                // 채팅이 사라지는 이유로 의심할 수 있겠다.  unreadCount 등 추가를 하지 않았다면 0으로 인식을 할 거니까.
                 val myUser = User(
                     id = user.uid,
                     name = user.name!!,
-                    image = user.imagePath
+                    image = user.imagePath,
                 )
 
                 if (token == "") {

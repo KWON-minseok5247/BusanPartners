@@ -45,6 +45,7 @@ import io.getstream.chat.android.models.Device
 import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.models.PushMessage
 import io.getstream.chat.android.models.PushProvider
+import io.getstream.chat.android.models.UploadAttachmentsNetworkType
 import io.getstream.chat.android.models.User
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
@@ -117,63 +118,7 @@ class BusanPartners : Application() {
             pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners")),
 
         )
-//        val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
-//            context = this,
-//            newMessageIntent = {
-//                    message: Message,
-//                    channel: Channel,
-//                ->
-//                // Return the intent you want to be triggered when the notification is clicked
-//                val intent: Intent = Intent(this, ChannelActivity::class.java).addFlags(
-//                        Intent.FLAG_ACTIVITY_NEW_TASK or
-//                                Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                    )
-//                startActivity(intent)
-//                intent
-//            }
-//        )
 
-//        val notificationHandler = object : NotificationHandler {
-//            var notificationManager: NotificationManager
-//            init {
-//                notificationManager =
-//                    this@BusanPartners.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//            }
-//            override fun dismissAllNotifications() {
-//            }
-//            override fun dismissChannelNotifications(channelType: String, channelId: String) {
-//            }
-//            override fun onNotificationPermissionStatus(status: NotificationPermissionStatus) {
-//                when (status) {
-//                    NotificationPermissionStatus.REQUESTED -> {
-//                        // invoked when POST_NOTIFICATIONS permission is requested
-//                    }
-//                    NotificationPermissionStatus.GRANTED -> {
-//                        // invoked when POST_NOTIFICATIONS permission is granted
-//                    }
-//                    NotificationPermissionStatus.DENIED -> {
-//                        // invoked when POST_NOTIFICATIONS permission is denied
-//                    }
-//                    NotificationPermissionStatus.RATIONALE_NEEDED -> {
-//                        // invoked when POST_NOTIFICATIONS permission requires rationale
-//                    }
-//                }
-//            }
-//
-//            override fun showNotification(channel: Channel, message: Message) {
-//                val notificationId = message.id.hashCode() // 알림 ID를 메시지 ID의 해시코드로 설정
-//
-//                val notification = NotificationCompat.Builder(this@BusanPartners, channel.id)
-//                    .setSmallIcon(R.drawable.pukyong_logo) // 알림 아이콘 설정
-//                    .setContentTitle("New message in ${channel.name}") // 알림 제목 설정
-//                    .setContentText(message.text) // 메시지 텍스트 설정
-//                    .setPriority(NotificationCompat.PRIORITY_HIGH) // 알림 우선 순위 설정
-//                    .setAutoCancel(true) // 탭하면 알림이 자동으로 취소되도록 설정
-//                    .build()
-//
-//                notificationManager.notify(notificationId, notification)
-//            }
-//        }
 
         val notificationChannel: () -> NotificationChannel = {
             val channelId = "chat_channel"
@@ -184,24 +129,6 @@ class BusanPartners : Application() {
                 description = "Notifications for chat messages"
             }
         }
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val manager = this.getSystemService(NotificationManager::class.java)
-//            // 기존 채널 조회 및 삭제 + 그리고 일단 삭제는 해놨는데 결과가 어떻게 될지는 모르겠다
-//            // 삭제하는 방법 말고 완전 비활성화하는 방법도 괜찮아보이긴 함.
-//            val existingChannel: NotificationChannel? = manager.getNotificationChannel(this.getString(R.string.stream_chat_other_notifications_channel_id))
-//            if (existingChannel != null) {
-//                existingChannel.importance = NotificationManager.IMPORTANCE_NONE
-//                existingChannel.lockscreenVisibility = Notification.VISIBILITY_SECRET
-//
-//                manager.createNotificationChannel(existingChannel) // 변경사항 업데이트
-//                Log.e("업데이트", "완료")
-////                manager.deleteNotificationChannel(existingChannel.id)
-//                Log.e("삭제", "완료")
-//
-//                Log.e("R.string.stream_chat_other_notifications_channel_id)",R.string.stream_chat_other_notifications_channel_id.toString())
-//
-//            }
-//        }
 
 //        val notificationHandler = MyNotificationHandler(this)
         val d = NotificationHandlerFactory.createNotificationHandler(
@@ -217,20 +144,6 @@ class BusanPartners : Application() {
             },
             notificationChannel = notificationChannel
         )
-
-//        val notificationHandler = NotificationHandlerFactory.createNotificationHandler(
-//            context = this,
-//            newMessageIntent = { message, channel ->
-//                HomeActivity.createLaunchIntent(
-//                    context = this,
-//                    messageId = message.id,
-//                    parentMessageId = message.parentId,
-//                    channelType = channel.type,
-//                    channelId = channel.id
-//                )
-//            },
-//            notificationChannel = notificationChannel
-//        )
         val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
         val statePluginFactory = StreamStatePluginFactory(
             config = StatePluginConfig(backgroundSyncEnabled = true, userPresence = true),
@@ -241,6 +154,7 @@ class BusanPartners : Application() {
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
             .notifications(notificationConfig, d)
+            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
     }
     fun setupNotificationChannels(context: Context) {

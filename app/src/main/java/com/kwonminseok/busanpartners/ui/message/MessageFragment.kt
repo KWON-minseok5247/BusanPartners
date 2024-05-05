@@ -17,7 +17,11 @@ import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
 import com.kwonminseok.busanpartners.viewmodel.ChatInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.events.MarkAllReadEvent
+import io.getstream.chat.android.client.events.NewMessageEvent
 import io.getstream.chat.android.client.events.NotificationChannelMutesUpdatedEvent
+import io.getstream.chat.android.client.events.NotificationMarkReadEvent
+import io.getstream.chat.android.client.events.NotificationMessageNewEvent
 import io.getstream.chat.android.client.subscribeFor
 import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.Filters
@@ -32,11 +36,10 @@ import io.getstream.chat.android.ui.viewmodel.channels.bindView
 @AndroidEntryPoint
 class MessageFragment : Fragment()
 {
-    private val viewModel: ChatInfoViewModel by viewModels()
+//    private val viewModel: ChatInfoViewModel by viewModels()
 
     private var _binding: FragmentMessageBinding? = null
     private val binding get() = _binding!!
-    private var client: ChatClient? = BusanPartners.chatClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,7 +78,7 @@ class MessageFragment : Fragment()
                     Filters.eq("type", "messaging"),
                     Filters.`in`(
                         "members",
-                        listOf(client?.getCurrentUser()!!.id)
+                        listOf(chatClient.getCurrentUser()!!.id)
                     ),
                 ),
                 sort = QuerySortByField.descByName("last_updated"),
@@ -86,7 +89,7 @@ class MessageFragment : Fragment()
 
 
         channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
-        channelListViewModel.bindView(binding.channelListView, this)
+        channelListViewModel.bindView(binding.channelListView, viewLifecycleOwner)
 
         binding.channelListView.setChannelItemClickListener { channel ->
             startActivity(ChannelActivity.newIntent(requireContext(), channel))
@@ -129,6 +132,35 @@ class MessageFragment : Fragment()
             true
         }
 
+        chatClient.subscribeFor(
+            NewMessageEvent::class,
+            NotificationMessageNewEvent::class,
+            MarkAllReadEvent::class,
+            NotificationMarkReadEvent::class
+        ) { event ->
+            when (event) {
+                is NewMessageEvent -> {
+                    val unreadChannels = event.unreadChannels
+                    val totalUnreadCount = event.totalUnreadCount
+                }
+                is NotificationMessageNewEvent -> {
+                    val unreadChannels = event.unreadChannels
+                    val totalUnreadCount = event.totalUnreadCount
+                }
+                is MarkAllReadEvent -> {
+                    val unreadChannels = event.unreadChannels
+                    val totalUnreadCount = event.totalUnreadCount
+                }
+                is NotificationMarkReadEvent -> {
+                    val unreadChannels = event.unreadChannels
+                    val totalUnreadCount = event.totalUnreadCount
+                }
+
+                else -> {}
+            }
+        }
+
+
 //        subscribeForChannelMutesUpdatedEvents()
 
 
@@ -139,9 +171,9 @@ class MessageFragment : Fragment()
 
         val studentUid = arguments?.getString("studentUid", null)
         if (studentUid != null) {
-            val channelClient = client?.channel(channelType = "messaging", channelId = "")
+            val channelClient = chatClient.channel(channelType = "messaging", channelId = "")
             channelClient?.create(
-                memberIds = listOf(studentUid, client?.getCurrentUser()!!.id),
+                memberIds = listOf(studentUid, chatClient.getCurrentUser()!!.id),
                 extraData = emptyMap()
             )?.enqueue { result ->
                 if (result.isSuccess) {
@@ -182,14 +214,14 @@ class MessageFragment : Fragment()
         }
 
     }
-    private fun subscribeForChannelMutesUpdatedEvents() {
-        chatClient.subscribeFor<NotificationChannelMutesUpdatedEvent>(viewLifecycleOwner) {
-            viewModel.onAction(ChatInfoViewModel.Action.ChannelMutesUpdated(it.me.channelMutes))
-        }
-//        ChatClient.instance().subscribeFor<NotificationChannelMutesUpdatedEvent>(viewLifecycleOwner) {
+//    private fun subscribeForChannelMutesUpdatedEvents() {
+//        chatClient.subscribeFor<NotificationChannelMutesUpdatedEvent>(viewLifecycleOwner) {
 //            viewModel.onAction(ChatInfoViewModel.Action.ChannelMutesUpdated(it.me.channelMutes))
 //        }
-    }
+////        ChatClient.instance().subscribeFor<NotificationChannelMutesUpdatedEvent>(viewLifecycleOwner) {
+////            viewModel.onAction(ChatInfoViewModel.Action.ChannelMutesUpdated(it.me.channelMutes))
+////        }
+//    }
 
 
 }
