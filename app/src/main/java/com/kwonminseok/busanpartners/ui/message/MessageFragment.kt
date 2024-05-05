@@ -6,14 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
+import com.kwonminseok.busanpartners.viewmodel.ChatInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.events.NotificationChannelMutesUpdatedEvent
+import io.getstream.chat.android.client.subscribeFor
 import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.querysort.QuerySortByField
@@ -27,6 +32,7 @@ import io.getstream.chat.android.ui.viewmodel.channels.bindView
 @AndroidEntryPoint
 class MessageFragment : Fragment()
 {
+    private val viewModel: ChatInfoViewModel by viewModels()
 
     private var _binding: FragmentMessageBinding? = null
     private val binding get() = _binding!!
@@ -96,6 +102,8 @@ class MessageFragment : Fragment()
             false
         }
 
+
+
         binding.channelListView.setIsDeleteOptionVisible { channel ->
             // You can determine visibility based on the channel object.
             // Here is the default implementation:
@@ -105,19 +113,23 @@ class MessageFragment : Fragment()
 
         binding.channelListView.setChannelLongClickListener { channel ->
             //todo 여기서 삭제나 알림을 끄는 선택지를 제공하면 된다.
-            val options = arrayOf("채팅방 알림 끄기", "채팅방 나가기")
+            val options = arrayOf("채팅방 알림 끄기", "채팅방 나가기", "33")
             AlertDialog.Builder(requireContext())
 //                .setTitle("Channel Options")
                 .setItems(options) { dialog, which ->
                     when (which) {
-                        0 -> Log.e("채팅방 알림 끄기", "clicked")// "Mute User" 선택 시
-                        1 -> channel.ownCapabilities.contains("delete-channel")
+                        0 -> muteChat(channel.id)
+                        // "Mute User" 선택 시
+                        1 -> unmuteChat(channel.id)
+                        2 -> ""
 
                     }
                 }
                 .show()
             true
         }
+
+//        subscribeForChannelMutesUpdatedEvents()
 
 
     }
@@ -145,6 +157,38 @@ class MessageFragment : Fragment()
                 }
             }
         }
+    }
+
+    private fun muteChat(channelId: String) {
+
+
+    chatClient.muteChannel("messaging", channelId).enqueue { result ->
+        if (result.isSuccess) {
+            Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
+        } else {
+            Log.e("ChatMute", "Failed to mute: ${result}")
+        }
+    }
+
+    }
+    private fun unmuteChat(channelId: String) {
+
+        chatClient.unmuteChannel("messaging", channelId).enqueue { result ->
+            if (result.isSuccess) {
+                Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.e("ChatMute", "Failed to mute: ${result}")
+            }
+        }
+
+    }
+    private fun subscribeForChannelMutesUpdatedEvents() {
+        chatClient.subscribeFor<NotificationChannelMutesUpdatedEvent>(viewLifecycleOwner) {
+            viewModel.onAction(ChatInfoViewModel.Action.ChannelMutesUpdated(it.me.channelMutes))
+        }
+//        ChatClient.instance().subscribeFor<NotificationChannelMutesUpdatedEvent>(viewLifecycleOwner) {
+//            viewModel.onAction(ChatInfoViewModel.Action.ChannelMutesUpdated(it.me.channelMutes))
+//        }
     }
 
 

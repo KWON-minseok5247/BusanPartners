@@ -12,6 +12,7 @@ import com.google.firebase.functions.FirebaseFunctions
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.repository.TimeRepository
 import com.kwonminseok.busanpartners.util.Constants
@@ -19,7 +20,10 @@ import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.ChatEventListener
+import io.getstream.chat.android.client.events.NotificationChannelMutesUpdatedEvent
 import io.getstream.chat.android.client.token.TokenProvider
+import io.getstream.chat.android.models.ChannelMute
 import io.getstream.chat.android.models.User
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -60,7 +64,6 @@ class SplashActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.activity_splash)
         // Create a Handler
-
 
 
         val firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -205,6 +208,11 @@ class SplashActivity : AppCompatActivity() {
                 tokenProvider
             ).enqueue { result ->
                 // 비동기 작업 결과 처리
+                if (result.isSuccess) {
+                    val user = result.getOrNull()?.user
+                    // Result contains the list of channel mutes
+                    val mutes: List<ChannelMute>? = user?.channelMutes
+                }
 
                 val intent =
                     Intent(this, HomeActivity::class.java).addFlags(
@@ -216,6 +224,8 @@ class SplashActivity : AppCompatActivity() {
 
             }
         }
+
+
 
 
     }
@@ -235,13 +245,17 @@ class SplashActivity : AppCompatActivity() {
                         BusanPartners.preferences.setString("uid", user.uid)
                         connectUserToStream(user)
                     }
+
                     is Resource.Error -> {
                         Log.e(TAG, "User data fetch error: ${userResource.message}")
-                        val intent = Intent(this@SplashActivity, LoginRegisterActivity::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        }
+                        val intent =
+                            Intent(this@SplashActivity, LoginRegisterActivity::class.java).apply {
+                                flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            }
                         startActivity(intent)
                     }
+
                     else -> Log.d(TAG, "Loading user data")
                 }
             }
