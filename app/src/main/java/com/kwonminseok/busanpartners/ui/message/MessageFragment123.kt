@@ -31,9 +31,6 @@ import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.ChannelMute
 import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.querysort.QuerySortByField
-import io.getstream.chat.android.ui.databinding.StreamUiFragmentChannelListBinding
-import io.getstream.chat.android.ui.databinding.StreamUiFragmentMessageListBinding
-import io.getstream.chat.android.ui.feature.channels.ChannelListActivity
 import io.getstream.chat.android.ui.feature.channels.ChannelListFragment
 import io.getstream.chat.android.ui.feature.channels.list.ChannelListView
 import io.getstream.chat.android.ui.feature.messages.MessageListFragment
@@ -43,24 +40,21 @@ import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFacto
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
 
 @AndroidEntryPoint
-class MessageFragment : ChannelListFragment()
+class MessageFragment123 : Fragment()
 {
-
 //    private val viewModel: ChatInfoViewModel by viewModels()
-//    private var _binding: StreamUiFragmentChannelListBinding? = null
-//    private val binding get() = _messageBinding!!
 
-//    private var _binding: StreamUiFragmentChannelListBinding? = null
-//    protected override val binding: StreamUiFragmentChannelListBinding get() = _binding!!
+    private var _binding: FragmentMessageBinding? = null
+    private val binding get() = _binding!!
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        _messageBinding = StreamUiFragmentChannelListBinding.inflate(layoutInflater)
-//        return messageBinding.root
-//    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentMessageBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,15 +64,15 @@ class MessageFragment : ChannelListFragment()
         getStudentChat()
 
         // ViewModel 바인딩과 UI 업데이트
-//        getChatList()
+        getChatList()
 
 
     }
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _messageBinding = null
-//    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 
     private fun getChatList() {
@@ -185,7 +179,7 @@ class MessageFragment : ChannelListFragment()
 
         val studentUid = arguments?.getString("studentUid", null)
         if (studentUid != null) {
-            val channelClient = chatClient.channel(channelType = "messaging", channelId = "example01")
+            val channelClient = chatClient.channel(channelType = "messaging", channelId = "")
             channelClient?.create(
                 memberIds = listOf(studentUid, chatClient.getCurrentUser()!!.id),
                 extraData = emptyMap()
