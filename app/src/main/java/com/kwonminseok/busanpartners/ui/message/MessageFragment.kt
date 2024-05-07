@@ -81,7 +81,6 @@ class MessageFragment : ChannelListFragment()
             // 클릭 이벤트를 비어 있는 블록으로 처리하여 아무 작업도 수행하지 않음
 
         }
-        binding.channelListHeaderView.
 
 
 
