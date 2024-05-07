@@ -40,7 +40,7 @@ import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFacto
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
 
 @AndroidEntryPoint
-class MessageFragment123 : Fragment()
+class MessageFragment1234 : Fragment()
 {
 //    private val viewModel: ChatInfoViewModel by viewModels()
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
@@ -68,6 +69,46 @@ class MessageFragment : ChannelListFragment()
 
         // 여기는 대학생 목록에서 원하는 대학생과 메세지를 보내는 과정
         getStudentChat()
+
+        binding.channelListView.setIsMoreOptionsVisible { channel ->
+            // You can determine visibility based on the channel object.
+            ContextCompat.getDrawable(requireContext(), R.drawable.pusan_logo)
+
+            false
+        }
+
+        binding.channelListHeaderView.setOnActionButtonClickListener {
+            // 클릭 이벤트를 비어 있는 블록으로 처리하여 아무 작업도 수행하지 않음
+
+        }
+        binding.channelListHeaderView.
+
+
+
+        binding.channelListView.setIsDeleteOptionVisible { channel ->
+            // You can determine visibility based on the channel object.
+            // Here is the default implementation:
+            channel.ownCapabilities.contains("delete-channel")
+            false
+        }
+
+        binding.channelListView.setChannelLongClickListener { channel ->
+            //todo 여기서 삭제나 알림을 끄는 선택지를 제공하면 된다.
+            val options = arrayOf("채팅방 알림 끄기", "채팅방 나가기", "33")
+            AlertDialog.Builder(requireContext())
+//                .setTitle("Channel Options")
+                .setItems(options) { dialog, which ->
+                    when (which) {
+                        0 -> muteChat(channel.id)
+                        // "Mute User" 선택 시
+                        1 -> unmuteChat(channel.id)
+                        2 -> ""
+
+                    }
+                }
+                .show()
+            true
+        }
 
         // ViewModel 바인딩과 UI 업데이트
 //        getChatList()
@@ -183,9 +224,10 @@ class MessageFragment : ChannelListFragment()
     private fun getStudentChat() {
 
 
+        // 일단 원인은 찾아냈다. -> 채널이 이상하게 꼬인 것 같음.
         val studentUid = arguments?.getString("studentUid", null)
         if (studentUid != null) {
-            val channelClient = chatClient.channel(channelType = "messaging", channelId = "example01")
+            val channelClient = chatClient.channel(channelType = "messaging", channelId = "")
             channelClient?.create(
                 memberIds = listOf(studentUid, chatClient.getCurrentUser()!!.id),
                 extraData = emptyMap()
@@ -239,3 +281,6 @@ class MessageFragment : ChannelListFragment()
 
 
 }
+
+
+
