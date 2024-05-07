@@ -149,20 +149,30 @@ class SplashActivity : AppCompatActivity() {
         if (currentServerTimeToDateTime != null) {
             if (currentServerTimeToDateTime <= tokenTimeToDateTime) {
                 // 채팅이 사라지는 이유로 의심할 수 있겠다.  unreadCount 등 추가를 하지 않았다면 0으로 인식을 할 거니까.
-                val myUser = User(
-                    id = user.uid,
-                    name = user.name!!,
-                    image = user.imagePath,
-                )
+
+                val myUser = User.Builder()
+                    .withId(user.uid)
+                    .build()
+                Log.e("myUser", myUser.toString())
+
+//                val myUser = User(
+//                    id = user.uid,
+//                    name = user.name!!,
+//                    image = user.imagePath,
+//                )
 
                 if (token == "") {
                     Log.e(TAG, "token이 비어있을 때.")
                     lifecycleScope.launch {
                         getNewToken()
-                        connectClient(myUser)
+                        if (myUser != null) {
+                            connectClient(myUser)
+                        }
                     }
                 } else {
-                    connectClient(myUser)
+                    if (myUser != null) {
+                        connectClient(myUser)
+                    }
                 }
 
             } else { // 인증이 되지 않았거나 토큰이 만료가 된 경우 게스트 모드로 로그인 해두기
@@ -212,6 +222,8 @@ class SplashActivity : AppCompatActivity() {
                 // 비동기 작업 결과 처리
                 if (result.isSuccess) {
                     val user = result.getOrNull()?.user
+                    Log.e("user?.unreadChannels", user?.unreadChannels.toString())
+                    Log.e("user?.totalUnreadCount", user?.totalUnreadCount.toString())
                     // Result contains the list of channel mutes
                     val mutes: List<ChannelMute>? = user?.channelMutes
                 }

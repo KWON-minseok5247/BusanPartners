@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui.message
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +15,8 @@ import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
+import com.kwonminseok.busanpartners.ui.HomeActivity
+import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.viewmodel.ChatInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
@@ -23,11 +26,14 @@ import io.getstream.chat.android.client.events.NotificationChannelMutesUpdatedEv
 import io.getstream.chat.android.client.events.NotificationMarkReadEvent
 import io.getstream.chat.android.client.events.NotificationMessageNewEvent
 import io.getstream.chat.android.client.subscribeFor
+import io.getstream.chat.android.client.token.TokenProvider
 import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.models.ChannelMute
 import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.querysort.QuerySortByField
 import io.getstream.chat.android.ui.feature.channels.ChannelListFragment
 import io.getstream.chat.android.ui.feature.channels.list.ChannelListView
+import io.getstream.chat.android.ui.feature.messages.MessageListFragment
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListHeaderViewModel
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFactory
@@ -88,6 +94,8 @@ class MessageFragment : Fragment()
         val channelListViewModel: ChannelListViewModel by viewModels { channelListFactory }
 
 
+
+
         channelListHeaderViewModel.bindView(binding.channelListHeaderView, this)
         channelListViewModel.bindView(binding.channelListView, viewLifecycleOwner)
 
@@ -132,33 +140,33 @@ class MessageFragment : Fragment()
             true
         }
 
-        chatClient.subscribeFor(
-            NewMessageEvent::class,
-            NotificationMessageNewEvent::class,
-            MarkAllReadEvent::class,
-            NotificationMarkReadEvent::class
-        ) { event ->
-            when (event) {
-                is NewMessageEvent -> {
-                    val unreadChannels = event.unreadChannels
-                    val totalUnreadCount = event.totalUnreadCount
-                }
-                is NotificationMessageNewEvent -> {
-                    val unreadChannels = event.unreadChannels
-                    val totalUnreadCount = event.totalUnreadCount
-                }
-                is MarkAllReadEvent -> {
-                    val unreadChannels = event.unreadChannels
-                    val totalUnreadCount = event.totalUnreadCount
-                }
-                is NotificationMarkReadEvent -> {
-                    val unreadChannels = event.unreadChannels
-                    val totalUnreadCount = event.totalUnreadCount
-                }
-
-                else -> {}
-            }
-        }
+//        chatClient.subscribeFor(
+//            NewMessageEvent::class,
+//            NotificationMessageNewEvent::class,
+//            MarkAllReadEvent::class,
+//            NotificationMarkReadEvent::class
+//        ) { event ->
+//            when (event) {
+//                is NewMessageEvent -> {
+//                    val unreadChannels = event.unreadChannels
+//                    val totalUnreadCount = event.totalUnreadCount
+//                }
+//                is NotificationMessageNewEvent -> {
+//                    val unreadChannels = event.unreadChannels
+//                    val totalUnreadCount = event.totalUnreadCount
+//                }
+//                is MarkAllReadEvent -> {
+//                    val unreadChannels = event.unreadChannels
+//                    val totalUnreadCount = event.totalUnreadCount
+//                }
+//                is NotificationMarkReadEvent -> {
+//                    val unreadChannels = event.unreadChannels
+//                    val totalUnreadCount = event.totalUnreadCount
+//                }
+//
+//                else -> {}
+//            }
+//        }
 
 
 //        subscribeForChannelMutesUpdatedEvents()

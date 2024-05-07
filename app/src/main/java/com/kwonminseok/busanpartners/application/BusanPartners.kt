@@ -154,7 +154,7 @@ class BusanPartners : Application() {
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
             .notifications(notificationConfig, d)
-            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
+//            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
     }
     fun setupNotificationChannels(context: Context) {
