@@ -93,6 +93,7 @@ class MessageFragment : ChannelListFragment()
 
         binding.channelListView.setChannelLongClickListener { channel ->
             //todo 여기서 삭제나 알림을 끄는 선택지를 제공하면 된다.
+            // 여기서 만약에 채널이 mute상태다 -> 채팅방 알림 켜기로 세팅하고 반대면 반대로 세팅하기
             val options = arrayOf("채팅방 알림 끄기", "채팅방 나가기", "33")
             AlertDialog.Builder(requireContext())
 //                .setTitle("Channel Options")
