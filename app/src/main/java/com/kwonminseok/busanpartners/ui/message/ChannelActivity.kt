@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.databinding.ActivityChannelBinding
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
@@ -23,7 +25,9 @@ import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.naver.maps.geometry.LatLng
 import io.getstream.chat.android.models.Attachment
 import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.Message
+import io.getstream.chat.android.models.querysort.QuerySorter
 import io.getstream.chat.android.ui.ChatUI
 import io.getstream.chat.android.ui.common.state.messages.Edit
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
@@ -405,6 +409,8 @@ class ChannelActivity : AppCompatActivity() {
 
     }
 
+
+
     override fun onResume() {
         super.onResume()
         cancelChatRoomNotification(cid)
@@ -458,6 +464,7 @@ class ChannelActivity : AppCompatActivity() {
 
         }
     }
+
 
 
 }

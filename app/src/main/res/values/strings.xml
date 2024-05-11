@@ -84,5 +84,10 @@
     <string name="stream_ui_message_input_permission_notifications_message">Notifications blocked</string>
     <string name="stream_ui_channel_list_untitled_channel">Notifications 123</string>
 
+    <string name="init_introduction_one">부산파트너스</string>
+    <string name="init_introduction_two">2</string>
+    <string name="init_introduction_three">3</string>
+
+
 
 </resources>

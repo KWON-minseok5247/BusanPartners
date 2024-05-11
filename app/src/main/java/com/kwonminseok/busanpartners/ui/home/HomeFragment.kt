@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.kwonminseok.busanpartners.BuildConfig
@@ -65,21 +68,101 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
+//
         // 위치 기반 퍼미션 허가 절차
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: 권한 요청 처리
-            return
+//        if (ActivityCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            // TODO: 권한 요청 처리
+//            return
+//        }
+
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // 이전에 퍼미션 요청을 거부당한 적이 있는 경우
+            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // 사용자에게 왜 퍼미션이 필요한지 설명을 제공하고, 요청을 다시 시도할 수 있습니다.
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+                fetchTourApi()
+            } else {
+                // 처음 퍼미션을 요청하거나, '다시 묻지 않기'를 선택했을 경우
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+                fetchTourApi()
+
+            }
+        } else {
+            // 퍼미션이 이미 허용된 경우
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+            // 초기 위치 설정 과정
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                // 사용자의 현재 위치를 받았습니다. 지도 로딩을 시작합니다.
+                location?.let {
+                    val currentLatitude = it.latitude
+                    val currentLongitude = it.longitude
+                    Log.e("currentLatitude", currentLatitude.toString())
+                    Log.e("currentLongitude", currentLongitude.toString())
+
+                    TourismApiService.getInstance().locationBasedList1(
+                        10,
+                        1,
+                        "AND",
+                        "BusanPartners",
+                        "json",
+                        currentLongitude,
+                        currentLatitude,
+                        10000,
+                        12,
+                        null,
+                        BuildConfig.BUSAN_FESTIVAL_KEY
+                    ).enqueue(object :
+                        Callback<TourismResponse> {
+                        override fun onResponse(
+                            call: Call<TourismResponse>,
+                            response: Response<TourismResponse>
+                        ) {
+                            if (!isAdded) {
+                                return
+                            }
+
+                            // 이제 안전하게 UI 업데이트를 진행합니다.
+                            _binding?.let { binding ->
+                                if (response.isSuccessful) {
+                                    binding.touristRecyclerView.adapter = tourismAdapter
+                                    response.body()?.response?.body?.items?.item?.let { itemList ->
+                                        val itemsWithImages =
+                                            itemList.filter { it.firstimage.isNotEmpty() }
+                                        tourismAdapter.differ.submitList(itemsWithImages)
+                                    }
+                                } else {
+                                    Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+                                }
+                            }
+
+                        }
+
+                        override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
+                            Log.e(TAG, t.message.toString())
+
+                        }
+                    })
+                } ?: run {
+                    //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
+                    //                initializeMap(LatLng(35.1798159, 129.0750222))
+                }
+            }
         }
 
+
+
+    }
+
+    private fun fetchTourApi() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         // 초기 위치 설정 과정
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
@@ -109,25 +192,6 @@ class HomeFragment : Fragment() {
                         call: Call<TourismResponse>,
                         response: Response<TourismResponse>
                     ) {
-//                        if (response.isSuccessful) {
-//                            _binding?.touristRecyclerView?.adapter = tourismAdapter
-//                            response.body()?.response?.body?.items?.item?.let { itemList ->
-//                                val itemsWithImages = itemList.filter { it.firstimage.isNotEmpty() }
-//                                tourismAdapter.differ.submitList(itemsWithImages)
-//                            }
-//
-////                            binding.touristRecyclerView.adapter = tourismAdapter
-//////                    val exceptedImageData = response.body()?.response?.body?.items?.item
-//////                    tourismAdapter.differ.submitList(response.body()?.response?.body?.items?.item)
-////                            response.body()?.response?.body?.items?.item?.let { itemList ->
-////                                val itemsWithImages = itemList.filter { it.firstimage != "" && it.firstimage.isNotEmpty() }
-////                                tourismAdapter.differ.submitList(itemsWithImages)
-////                            }
-//
-//                            Log.e(TAG, response.body()?.response?.body?.items.toString())
-//                        } else {
-//                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
-//                        }
                         if (!isAdded) {
                             return
                         }
@@ -137,16 +201,14 @@ class HomeFragment : Fragment() {
                             if (response.isSuccessful) {
                                 binding.touristRecyclerView.adapter = tourismAdapter
                                 response.body()?.response?.body?.items?.item?.let { itemList ->
-                                    val itemsWithImages = itemList.filter { it.firstimage.isNotEmpty() }
+                                    val itemsWithImages =
+                                        itemList.filter { it.firstimage.isNotEmpty() }
                                     tourismAdapter.differ.submitList(itemsWithImages)
                                 }
                             } else {
                                 Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
                             }
                         }
-
-
-
 
                     }
 
@@ -156,62 +218,10 @@ class HomeFragment : Fragment() {
                     }
                 })
             } ?: run {
-//                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
-//                initializeMap(LatLng(35.1798159, 129.0750222))
+    //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
+    //                initializeMap(LatLng(35.1798159, 129.0750222))
             }
         }
-
-
-        // 토큰을 확인하기 위해 서버 시간을 가져오는 과정
-//        lifecycleScope.launch {
-//            TimeRepository.fetchCurrentTime()
-//        }
-//
-//        TourismApiService.getInstance().locationBasedList1(100,1,"AND","BusanPartners","json",
-//             129.1059852,35.1335411,40000,12,null,BuildConfig.BUSAN_FESTIVAL_KEY).enqueue(object :
-//            Callback<TourismResponse> {
-//            override fun onResponse(call: Call<TourismResponse>,
-//                                    response: Response<TourismResponse>) {
-//                if (response.isSuccessful) {
-//                    binding.touristRecyclerView.adapter = tourismAdapter
-////                    val exceptedImageData = response.body()?.response?.body?.items?.item
-////                    tourismAdapter.differ.submitList(response.body()?.response?.body?.items?.item)
-//                    response.body()?.response?.body?.items?.item?.let { itemList ->
-//                        val itemsWithImages = itemList.filter { it.firstimage != "" && it.firstimage.isNotEmpty() }
-//                        tourismAdapter.differ.submitList(itemsWithImages)
-//                    }
-//
-//                    Log.e(TAG, response.body()?.response?.body?.items.toString())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
-//                Log.e(TAG,t.message.toString())
-//
-//            }
-//        })
-
-
-//        // festival 정보 가져오는 함수
-//        getFestivalInformation()
-//
-//
-//        BusanFestivalApiService.getInstance().getTouristDestination(BuildConfig.BUSAN_FESTIVAL_KEY, 10, 1, "json").enqueue(object :
-//            Callback<TouristDestinationResponse> {
-//            override fun onResponse(call: Call<TouristDestinationResponse>,
-//                                    response: Response<TouristDestinationResponse>) {
-//                if (response.isSuccessful) {
-//                    binding.touristRecyclerView.adapter = touristDestinationAdapter
-//                    touristDestinationAdapter.differ.submitList(response.body()?.getAttractionKr?.item)
-//                }
-//            }
-//            override fun onFailure(call: Call<TouristDestinationResponse>, t: Throwable) {
-//                Log.e(TAG,t.message.toString())
-//
-//            }
-//        })
-
-
     }
 
     override fun onDestroyView() {
@@ -267,5 +277,69 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+
+
+//    private fun requestLocationPermission() {
+//        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+//                // 사용자에게 권한이 필요한 이유 설명 후 권한 요청
+//                showRationaleDialog("위치 권한 필요", "이 기능을 사용하기 위해 위치 권한이 필요합니다.", Manifest.permission.ACCESS_FINE_LOCATION)
+//            } else {
+//                // 권한 요청
+//                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+//            }
+//        } else {
+//            // 권한이 이미 허용된 경우
+//            proceedWithLocationAccess()
+//        }
+//    }
+//
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//            // 권한이 허용됐을 때
+//            proceedWithLocationAccess()
+//            fetchTourApi()
+//        } else {
+//            // 권한이 거부됐을 때
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(
+//                    requireActivity(),
+//                    Manifest.permission.ACCESS_FINE_LOCATION
+//                )
+//            ) {
+//                // 사용자에게 왜 퍼미션이 필요한지 설명을 제공하고, 요청을 다시 시도할 수 있습니다.
+//                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+//            } else {
+//                // 처음 퍼미션을 요청하거나, '다시 묻지 않기'를 선택했을 경우
+//                ActivityCompat.requestPermissions(
+//                    requireActivity(),
+//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                    LOCATION_PERMISSION_REQUEST_CODE
+//                )
+//            }
+//            Toast.makeText(context, "위치 권한 거부됨", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//
+//    private fun proceedWithLocationAccess() {
+//        // 위치 권한이 있을 때 수행할 작업
+//        Toast.makeText(context, "위치 권한 허용됨", Toast.LENGTH_SHORT).show()
+//    }
+//
+//    private fun showRationaleDialog(title: String, message: String, permission: String) {
+//        AlertDialog.Builder(requireContext())
+//            .setTitle(title)
+//            .setMessage(message)
+//            .setPositiveButton("확인") { dialog, which ->
+//                requestPermissions(arrayOf(permission), LOCATION_PERMISSION_REQUEST_CODE)
+//            }
+//            .setNegativeButton("취소") { dialog, which ->
+//                dialog.dismiss()
+//            }
+//            .create().show()
+//    }
+
+
 
 }

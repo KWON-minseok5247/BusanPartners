@@ -137,7 +137,7 @@ class ProfileFragment : Fragment() {
         binding.constraintProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
         }
-        binding.switchNotification.setOnCheckedChangeListener { _, isChecked ->
+        binding.eventSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 // 사용자가 스위치를 켜면 채널 알림을 활성화합니다.
                 chatClient.unmuteChannel("messaging", "!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40").enqueue { result ->

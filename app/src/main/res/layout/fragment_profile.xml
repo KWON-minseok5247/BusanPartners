@@ -213,14 +213,48 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Notifications"
+                        android:text="일반 알림"
                         android:textColor="@color/g_gray700"
                         android:textStyle="bold"
                         android:layout_marginStart="15dp"
                         android:layout_gravity="center_vertical"/>
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switchNotification"
+                        android:id="@+id/eventSwitchNotification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:buttonTint="#4cd964"
+                        android:checked="true"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/settings_items_background"
+                        app:tint="@color/white"
+                        android:backgroundTint="#4cd964"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="채팅 알림"
+                        android:textColor="@color/g_gray700"
+                        android:textStyle="bold"
+                        android:layout_marginStart="15dp"
+                        android:layout_gravity="center_vertical"/>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/chatSwitchNotification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

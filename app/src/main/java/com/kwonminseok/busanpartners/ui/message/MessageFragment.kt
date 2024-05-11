@@ -44,8 +44,7 @@ import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFacto
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
 
 @AndroidEntryPoint
-class MessageFragment : ChannelListFragment()
-{
+class MessageFragment : ChannelListFragment() {
 
 //    private val viewModel: ChatInfoViewModel by viewModels()
 //    private var _binding: StreamUiFragmentChannelListBinding? = null
@@ -92,17 +91,25 @@ class MessageFragment : ChannelListFragment()
         }
 
         binding.channelListView.setChannelLongClickListener { channel ->
-            //todo 여기서 삭제나 알림을 끄는 선택지를 제공하면 된다.
-            // 여기서 만약에 채널이 mute상태다 -> 채팅방 알림 켜기로 세팅하고 반대면 반대로 세팅하기
-            val options = arrayOf("채팅방 알림 끄기", "채팅방 나가기", "33")
+            //todo 추후 dialog 사이즈 늘리기
+            val isMuted =
+                chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }
+                    ?: false
+
+            val options = if (isMuted) {
+                arrayOf("채팅방 알림 켜기", "채팅방 나가기")
+            } else {
+                arrayOf("채팅방 알림 끄기", "채팅방 나가기")
+            }
+//                val cid = "$channelType:$channelId"
             AlertDialog.Builder(requireContext())
 //                .setTitle("Channel Options")
                 .setItems(options) { dialog, which ->
                     when (which) {
-                        0 -> muteChat(channel.id)
-                        // "Mute User" 선택 시
-                        1 -> unmuteChat(channel.id)
-                        2 -> ""
+                        0 -> if (isMuted) unmuteChat(channel.id) else muteChat(channel.id)
+//                        1 -> if (canDelete) chatClient.channel("${channel.type}:${channel.id}").delete().enqueue()
+                        1 -> deleteChattingRoom(channel)
+//                        1 -> if (canDelete) chatClient.channel("${channel.type}:${channel.id}").removeMembers(chatClient.getCurrentUser()?.id ?: "").enqueue()
 
                     }
                 }
@@ -116,10 +123,36 @@ class MessageFragment : ChannelListFragment()
 
     }
 
-//    override fun onDestroyView() {
+    //    override fun onDestroyView() {
 //        super.onDestroyView()
 //        _messageBinding = null
 //    }
+    private fun deleteChattingRoom(channel: Channel) {
+        val userId = chatClient.getCurrentUser()?.id
+        AlertDialog.Builder(requireContext())
+            .setTitle("채팅방 나가기")
+            .setMessage("정말로 채팅방을 나가시겠습니까?")
+            .setPositiveButton("예") { dialog, which ->
+                if (userId != null) {
+                    chatClient.channel("${channel.type}:${channel.id}").removeMembers(listOf(userId)).enqueue { result ->
+                        if (result.isSuccess) {
+                            Log.e("사용자가 채널을 성공적으로 나갔습니다.", "확인")
+                        } else {
+                            Log.e("사용자가 채널.", "실패")
+
+                        }
+                    }
+                }
+
+            }
+            .setNegativeButton("아니오") { dialog, which ->
+                // 아무 작업 없이 다이얼로그 닫기
+                Log.e("정상적으로", "아니오.")
+
+            }
+            .show()
+
+    }
 
 
     private fun getChatList() {
@@ -187,38 +220,6 @@ class MessageFragment : ChannelListFragment()
             true
         }
 
-//        chatClient.subscribeFor(
-//            NewMessageEvent::class,
-//            NotificationMessageNewEvent::class,
-//            MarkAllReadEvent::class,
-//            NotificationMarkReadEvent::class
-//        ) { event ->
-//            when (event) {
-//                is NewMessageEvent -> {
-//                    val unreadChannels = event.unreadChannels
-//                    val totalUnreadCount = event.totalUnreadCount
-//                }
-//                is NotificationMessageNewEvent -> {
-//                    val unreadChannels = event.unreadChannels
-//                    val totalUnreadCount = event.totalUnreadCount
-//                }
-//                is MarkAllReadEvent -> {
-//                    val unreadChannels = event.unreadChannels
-//                    val totalUnreadCount = event.totalUnreadCount
-//                }
-//                is NotificationMarkReadEvent -> {
-//                    val unreadChannels = event.unreadChannels
-//                    val totalUnreadCount = event.totalUnreadCount
-//                }
-//
-//                else -> {}
-//            }
-//        }
-
-
-//        subscribeForChannelMutesUpdatedEvents()
-
-
     }
 
     private fun getStudentChat() {
@@ -250,20 +251,21 @@ class MessageFragment : ChannelListFragment()
     private fun muteChat(channelId: String) {
 
 
-    chatClient.muteChannel("messaging", channelId).enqueue { result ->
-        if (result.isSuccess) {
-            Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
-        } else {
-            Log.e("ChatMute", "Failed to mute: ${result}")
+        chatClient.muteChannel("messaging", channelId).enqueue { result ->
+            if (result.isSuccess) {
+//            Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.e("ChatMute", "Failed to mute: ${result}")
+            }
         }
-    }
 
     }
+
     private fun unmuteChat(channelId: String) {
 
         chatClient.unmuteChannel("messaging", channelId).enqueue { result ->
             if (result.isSuccess) {
-                Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
             } else {
                 Log.e("ChatMute", "Failed to mute: ${result}")
             }
