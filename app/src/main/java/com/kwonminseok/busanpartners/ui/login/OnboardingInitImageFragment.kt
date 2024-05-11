@@ -1,9 +1,20 @@
+
 package com.kwonminseok.busanpartners.ui.login
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
@@ -11,6 +22,8 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.OnboardingViewPagerAdapter
 import com.kwonminseok.busanpartners.data.OnboardingPage
 import com.kwonminseok.busanpartners.databinding.FragmentOnboardingInformationBinding
+import com.kwonminseok.busanpartners.databinding.FragmentOnboardingInitImageBinding
+import com.kwonminseok.busanpartners.ui.home.HomeFragment
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 
@@ -62,37 +75,41 @@ import com.kwonminseok.busanpartners.util.showBottomNavigationView
 //}
 class OnboardingInitImageFragment : Fragment() {
 
-    private var _binding: FragmentOnboardingInformationBinding? = null
+    private var _binding: FragmentOnboardingInitImageBinding? = null
     private val binding get() = _binding!!
     private val mViewPager get() = binding.viewPager
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+        private const val POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE = 2000
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOnboardingInformationBinding.inflate(inflater, container, false)
+        _binding = FragmentOnboardingInitImageBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val onboardingPages = listOf(
             OnboardingPage(
+                R.string.init_title_one,
                 R.string.init_introduction_one,
-                R.string.init_introduction_one,
-                R.raw.lottie_watch_videos
+                R.raw.lottie_splash_animation
             ),
             OnboardingPage(
+                R.string.init_title_two,
                 R.string.init_introduction_two,
-                R.string.init_introduction_two,
-                R.raw.lottie_delivery_boy_bumpy_ride
+                R.raw.lottie_messaging
             ),
             OnboardingPage(
+                R.string.init_title_three,
                 R.string.init_introduction_three,
-                R.string.init_introduction_three,
-                R.raw.lottie_girl_with_a_notebook
+                R.raw.drink
             )
         )
 
@@ -108,16 +125,50 @@ class OnboardingInitImageFragment : Fragment() {
 
         // "건너뛰기" 버튼 클릭 시 이벤트 처리
         binding.textSkip.setOnClickListener {
-            findNavController().navigate(R.id.action_onboardingStudentInformationFragment_to_collegeAuthFragment)
+            //여기서 위치 정보 얻어야 한다.
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NOTIFICATION_POLICY),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+
+            }
+
+            findNavController().navigate(R.id.action_onboardingInitImageFragment_to_loginFragment)
         }
 
         // "다음 단계" 버튼 클릭 시 이벤트 처리
         binding.btnNextStep.setOnClickListener {
             val nextItem = getItem() + 1
             if (nextItem >= mViewPager.adapter?.itemCount ?: 0) {
-                findNavController().navigate(R.id.action_onboardingStudentInformationFragment_to_collegeAuthFragment)
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NOTIFICATION_POLICY),
+                        LOCATION_PERMISSION_REQUEST_CODE
+                    )
+
+                }
+                askNotificationPermission()
+                findNavController().navigate(R.id.action_onboardingInitImageFragment_to_loginFragment)
             } else {
                 mViewPager.setCurrentItem(nextItem, true)
+                askNotificationPermission()
             }
         }
     }
@@ -132,12 +183,29 @@ class OnboardingInitImageFragment : Fragment() {
     }
     override fun onResume() {
         super.onResume()
-        hideBottomNavigationView()
+//        hideBottomNavigationView()
     }
 
     override fun onPause() {
 
-        showBottomNavigationView()
+//        showBottomNavigationView()
         super.onPause()
     }
+
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                val intent =
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:BusanPartners"))
+                startActivity(intent)
+            } else {
+            }
+        }
+    }
+
 }

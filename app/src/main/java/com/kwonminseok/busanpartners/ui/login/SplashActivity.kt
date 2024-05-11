@@ -1,11 +1,19 @@
 package com.kwonminseok.busanpartners.ui.login
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.functions.FirebaseFunctions
@@ -39,7 +47,7 @@ private val TAG = "SplashActivity"
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
-
+    private val PERMISSION_REQUEST_CODE = 1000
     //TODO 여기서 위치 정보를 무조건 받아야 한다.
     // 만약 못받으면 그 위치를 켜야 한다는 화면으로 넘어가는 게 좋음..
 
@@ -68,35 +76,20 @@ class SplashActivity : AppCompatActivity() {
 
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         if (firebaseUser == null) {
+            Log.e("firebaseUser가", "null이다.")
             navigateToLoginRegisterActivity()
+            return
         }
 
         // 구글 자동 로그인 과정
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val idToken = task.result.token
-                Log.d(TAG, "아이디 토큰 = $idToken")
 
-                setupUserStream()
+                requestNotificationPermission()
 
-//                viewModel.getCurrentUser()
-//
-//
-//                // 여기서 파이어베이스 정보를 받고 user를 정의한다.
-//                lifecycleScope.launchWhenStarted {
-//                    viewModel.user.collectLatest {
-//                        when (it) {
-//                            is Resource.Success -> {
-//                                user = it.data!!
-//                                BusanPartners.preferences.setString("uid", it.data.uid)
-//                                connectUserToStream(user)
-//                            }
-//
-//                            else -> Unit
-//                        }
-//                    }
-//                }
             } else {
+                // TODO 여기서 로그아웃처럼 각종 데이터 초기화하는 과정이 필요할 수 있겠다.
                 navigateToLoginRegisterActivity()
             }
         }?.addOnFailureListener {
@@ -190,7 +183,7 @@ class SplashActivity : AppCompatActivity() {
                     ).enqueue { result ->
                         // 비동기 작업 결과 처리
                         // 프래그먼트의 뷰가 생성된 상태인지 확인
-
+                        //여기 알림 권한 먼저 요청 그 후
                         val intent =
                             Intent(this, HomeActivity::class.java).addFlags(
                                 Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -204,7 +197,6 @@ class SplashActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun connectClient(myUser: User) {
 
@@ -227,7 +219,6 @@ class SplashActivity : AppCompatActivity() {
                     // Result contains the list of channel mutes
                     val mutes: List<ChannelMute>? = user?.channelMutes
                 }
-
                 val intent =
                     Intent(this, HomeActivity::class.java).addFlags(
                         Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -236,10 +227,16 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
 
 
+//                val intent =
+//                    Intent(this, HomeActivity::class.java).addFlags(
+//                        Intent.FLAG_ACTIVITY_NEW_TASK or
+//                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    )
+//                startActivity(intent)
+
+
             }
         }
-
-
 
 
     }
@@ -292,6 +289,70 @@ class SplashActivity : AppCompatActivity() {
 //            }
 //        }
 //    }
+private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
+
+    // 알림 권한 요청 다이얼로그 띄우기
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // 알림 권한이 이미 허용된 경우
+                Log.e("알림이 ", "허용된 상태")
+                setupUserStream()
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                // 알림 권한이 거부되었지만 다시 요청 가능한 경우
+                Log.e("알림이 ", "다시 요청 상태")
+
+                // 사용자에게 알림이 필요한 이유를 설명하고 권한 요청 다이얼로그 띄우기
+                showNotificationPermissionExplanationDialog()
+            } else {
+                // 알림 권한을 요청하는 다이얼로그 띄우기
+                Log.e("알림이 ", "처음 요청 상태")
+
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    // 권한 요청 결과 처리
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // 알림 권한이 허용된 경우
+                setupUserStream()
+            } else {
+                // 알림 권한이 거부된 경우
+                // 사용자에게 다시 알림 권한이 필요한 이유를 설명하거나 추가 조치를 취해야 함
+                showNotificationPermissionDeniedDialog()
+            }
+        }
+
+    // 알림 권한이 허용된 경우 MainFragment로 이동
+    private fun proceedToMainFragment() {
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    // 사용자에게 알림 권한이 필요한 이유를 설명하고 권한 요청 다이얼로그 띄우기
+    private fun showNotificationPermissionExplanationDialog() {
+        // 다이얼로그를 통해 알림 권한이 필요한 이유를 설명하고, 사용자에게 권한 요청
+        // 사용자가 권한 요청을 수락하면 requestPermissionLauncher를 통해 결과를 처리함
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NOTIFICATION_POLICY),
+            NOTIFICATION_PERMISSION_REQUEST_CODE        )
+    }
+
+    // 사용자에게 알림 권한이 거부된 경우 다시 설명하거나 추가 조치를 취할 수 있는 다이얼로그 표시
+    private fun showNotificationPermissionDeniedDialog() {
+        // 알림 권한이 거부된 경우, 사용자에게 추가적인 안내를 제공하거나 앱 설정으로 이동할 수 있는 옵션 제공
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NOTIFICATION_POLICY),
+            NOTIFICATION_PERMISSION_REQUEST_CODE        )
+
+    }
+
 
 
 }

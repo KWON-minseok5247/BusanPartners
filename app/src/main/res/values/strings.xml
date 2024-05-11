@@ -84,9 +84,12 @@
     <string name="stream_ui_message_input_permission_notifications_message">Notifications blocked</string>
     <string name="stream_ui_channel_list_untitled_channel">Notifications 123</string>
 
-    <string name="init_introduction_one">부산파트너스</string>
-    <string name="init_introduction_two">2</string>
-    <string name="init_introduction_three">3</string>
+    <string name="init_title_one">부산파트너스</string>
+    <string name="init_introduction_one">부산을 방문하는 외국인 관광객과 지역 대학생을 연결하여 서로의 문화를 공유할 수 있습니다. </string>
+    <string name="init_title_two">상대방과 메시지를 나눠보세요</string>
+    <string name="init_introduction_two">인증을 마치고 원하는 상대방과 메시지를 나눠보세요.</string>
+    <string name="init_title_three">실제로 만나서 문화를 공유해보세요.</string>
+    <string name="init_introduction_three">분명 같은 언어를 사용할 수 있을 거에요.</string>
 
 
 

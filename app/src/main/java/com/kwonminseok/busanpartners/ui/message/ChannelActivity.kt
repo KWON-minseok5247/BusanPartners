@@ -416,6 +416,11 @@ class ChannelActivity : AppCompatActivity() {
         cancelChatRoomNotification(cid)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAffinity()
+    }
+
 
 
     companion object {

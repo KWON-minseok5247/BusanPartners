@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_graph"
-    app:startDestination="@id/onboardingInitImageFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/connectFragment"
@@ -141,10 +141,6 @@
             android:id="@+id/action_onboardingTravelerInformationFragment_to_travelerAuthFragment"
             app:destination="@id/travelerAuthFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/onboardingInitImageFragment"
-        android:name="com.kwonminseok.busanpartners.ui.login.OnboardingInitImageFragment"
-        android:label="OnboardingInitImageFragment" />
 
 
 </navigation>
