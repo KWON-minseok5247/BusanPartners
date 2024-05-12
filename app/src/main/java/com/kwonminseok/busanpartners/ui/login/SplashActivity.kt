@@ -86,8 +86,8 @@ class SplashActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 val idToken = task.result.token
 
-                requestNotificationPermission()
-
+//                requestNotificationPermission()
+                setupUserStream()
             } else {
                 // TODO 여기서 로그아웃처럼 각종 데이터 초기화하는 과정이 필요할 수 있겠다.
                 navigateToLoginRegisterActivity()

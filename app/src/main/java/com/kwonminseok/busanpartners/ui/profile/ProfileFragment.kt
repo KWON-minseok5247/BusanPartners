@@ -1,6 +1,9 @@
 package com.kwonminseok.busanpartners.ui.profile
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,6 +26,7 @@ import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
+import com.kwonminseok.busanpartners.ui.home.HomeFragment
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.Resource
@@ -229,6 +235,34 @@ class ProfileFragment : Fragment() {
                 startActivity(intent)
             }
 
+
+        }
+        binding.chat.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    // 알림 권한이 이미 허용된 경우
+                    Log.e("알림이 ", "허용된 상태")
+                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                    // 알림 권한이 거부되었지만 다시 요청 가능한 경우
+                    Log.e("알림이 ", "다시 요청 상태")
+                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                        1
+                    )
+                    // 사용자에게 알림이 필요한 이유를 설명하고 권한 요청 다이얼로그 띄우기
+                } else {
+                    // 알림 권한을 요청하는 다이얼로그 띄우기
+                    Log.e("알림이 ", "처음 요청 상태")
+                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                        1
+                    )
+
+
+                }
+            }
 
         }
 
