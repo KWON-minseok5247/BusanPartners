@@ -11,6 +11,7 @@ import io.getstream.chat.android.ui.common.state.messages.Edit
 import io.getstream.chat.android.ui.common.state.messages.composer.MessageComposerState
 import io.getstream.chat.android.ui.feature.messages.composer.MessageComposerContext
 import io.getstream.chat.android.ui.feature.messages.composer.MessageComposerViewStyle
+import io.getstream.chat.android.ui.feature.messages.composer.attachment.picker.AttachmentsPickerDialogStyle
 import io.getstream.chat.android.ui.feature.messages.composer.content.MessageComposerContent
 
 class CustomMessageComposerLeadingContent : FrameLayout, MessageComposerContent {
@@ -33,8 +34,7 @@ class CustomMessageComposerLeadingContent : FrameLayout, MessageComposerContent 
         defStyleAttr
     ) {
         binding = CustomMessageComposerLeadingContentBinding.inflate(LayoutInflater.from(context), this)
-        binding.attachmentsButton.setOnClickListener { attachmentsButtonClickListener()
-        }
+        binding.attachmentsButton.setOnClickListener { attachmentsButtonClickListener() }
 
         // Set click listener for the date picker button
 
@@ -45,6 +45,7 @@ class CustomMessageComposerLeadingContent : FrameLayout, MessageComposerContent 
     }
 
     override fun attachContext(messageComposerContext: MessageComposerContext) {
+
         this.style = messageComposerContext.style
     }
 

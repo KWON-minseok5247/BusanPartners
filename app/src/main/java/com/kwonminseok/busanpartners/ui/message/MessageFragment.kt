@@ -15,7 +15,7 @@ import androidx.fragment.app.viewModels
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
-import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
+//import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.viewmodel.ChatInfoViewModel
@@ -180,7 +180,7 @@ class MessageFragment : ChannelListFragment() {
         channelListViewModel.bindView(binding.channelListView, viewLifecycleOwner)
 
         binding.channelListView.setChannelItemClickListener { channel ->
-            startActivity(ChannelActivity.newIntent(requireContext(), channel))
+//            startActivity(ChannelActivity.newIntent(requireContext(), channel))
 //            startActivity(ChannelActivity.getIntent(requireContext(), channel.cid))
 
         }
@@ -235,7 +235,7 @@ class MessageFragment : ChannelListFragment() {
             )?.enqueue { result ->
                 if (result.isSuccess) {
                     val newChannel = result.getOrThrow()
-                    startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
+//                    startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
 //                    startActivity(ChannelActivity.getIntent(requireContext(), newChannel.id))
 
                 } else {
