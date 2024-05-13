@@ -230,6 +230,7 @@ class MessageFragment : ChannelListFragment() {
         if (studentUid != null) {
             val channelClient = chatClient.channel(channelType = "messaging", channelId = "")
             channelClient?.create(
+                //6
                 memberIds = listOf(studentUid, chatClient.getCurrentUser()!!.id),
                 extraData = emptyMap()
             )?.enqueue { result ->
