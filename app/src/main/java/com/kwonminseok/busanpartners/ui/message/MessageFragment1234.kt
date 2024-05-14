@@ -43,21 +43,21 @@
 //class MessageFragment1234 : Fragment()
 //{
 ////    private val viewModel: ChatInfoViewModel by viewModels()
-//
-//    private var _binding: FragmentMessageBinding? = null
-//    private val binding get() = _binding!!
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        _binding = FragmentMessageBinding.inflate(layoutInflater)
-//        return binding.root
-//    }
-//
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+////
+////    private var _binding: FragmentMessageBinding? = null
+////    private val binding get() = _binding!!
+////
+////    override fun onCreateView(
+////        inflater: LayoutInflater,
+////        container: ViewGroup?,
+////        savedInstanceState: Bundle?
+////    ): View? {
+////        _binding = FragmentMessageBinding.inflate(layoutInflater)
+////        return binding.root
+////    }
+////
+////
+////    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
 //
 //        // 여기는 대학생 목록에서 원하는 대학생과 메세지를 보내는 과정

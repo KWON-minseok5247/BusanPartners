@@ -42,10 +42,9 @@ import io.getstream.chat.android.ui.viewmodel.channels.ChannelListHeaderViewMode
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFactory
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
-import io.getstream.chat.android.ui.viewmodel.search.SearchViewModel
 
 @AndroidEntryPoint
-class MessageFragment : ChannelListFragment() {
+class MessageFragmentForCompose : ChannelListFragment() {
 
 //    private val viewModel: ChatInfoViewModel by viewModels()
 //    private var _binding: StreamUiFragmentChannelListBinding? = null
@@ -82,10 +81,7 @@ class MessageFragment : ChannelListFragment() {
 
         }
 
-        binding.channelListView.setChannelItemClickListener { channel ->
-            startActivity(ChannelActivity.newIntent(requireContext(), channel))
 
-        }
 
         binding.channelListView.setIsDeleteOptionVisible { channel ->
             // You can determine visibility based on the channel object.
@@ -93,22 +89,6 @@ class MessageFragment : ChannelListFragment() {
             channel.ownCapabilities.contains("delete-channel")
             false
         }
-
-//                binding.channelListView.setChannelItemClickListener { channel ->
-//            startActivity(ChannelActivity.createIntent(requireContext(), channel.cid))
-////                    val intent = Intent(requireContext(), ChannelActivity::class.java)
-////                    intent.putExtra("channelId", channel.id) // 채널 ID를 ChannelActivity로 전달
-////                    startActivity(intent)
-//
-////            startActivity(ChannelActivity.getIntent(requireContext(), channel.cid))
-//
-//        }
-
-//        binding.channelListView.setChannelItemClickListener { channel ->
-//            val intent = Intent(requireContext(), ChannelActivity::class.java)
-//            intent.putExtra("channelId", channel.cid) // 채널 ID를 ChannelActivity로 전달
-//            startActivity(intent)
-//        }
 
         binding.channelListView.setChannelLongClickListener { channel ->
             //todo 추후 dialog 사이즈 늘리기
@@ -200,7 +180,7 @@ class MessageFragment : ChannelListFragment() {
         channelListViewModel.bindView(binding.channelListView, viewLifecycleOwner)
 
         binding.channelListView.setChannelItemClickListener { channel ->
-            startActivity(ChannelActivity.newIntent(requireContext(), channel))
+//            startActivity(ChannelActivity.newIntent(requireContext(), channel))
 //            startActivity(ChannelActivity.getIntent(requireContext(), channel.cid))
 
         }

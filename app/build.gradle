@@ -253,8 +253,8 @@ dependencies {
 //    implementation(fileTree(dir: 'libs', include: ['stream-chat-android-client-release.aar']))
 
     // getStream jetpack compose 시험
-    implementation 'io.getstream:stream-chat-android-compose:6.0.8'
-    implementation 'io.getstream:stream-chat-android-offline:6.0.8'
+    implementation 'io.getstream:stream-chat-android-compose:6.1.1'
+    implementation 'io.getstream:stream-chat-android-offline:6.1.1'
     implementation 'androidx.compose.material:material-icons-extended:1.6.0-alpha08'
     def composeBom = platform('androidx.compose:compose-bom:2024.04.01')
     implementation composeBom
