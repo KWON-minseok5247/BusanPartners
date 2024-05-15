@@ -1,11 +1,10 @@
 package com.kwonminseok.busanpartners.ui.message
 
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
@@ -21,13 +20,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AddCircle
+import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,13 +38,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import com.kwonminseok.busanpartners.R
-import com.kwonminseok.busanpartners.application.BusanPartners
-import com.kwonminseok.busanpartners.databinding.ActivityChannelBinding
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
@@ -49,42 +51,30 @@ import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.naver.maps.geometry.LatLng
 import io.getstream.chat.android.compose.state.mediagallerypreview.MediaGalleryPreviewResultType
 import io.getstream.chat.android.compose.state.messages.attachments.StatefulStreamMediaRecorder
+import io.getstream.chat.android.compose.ui.attachments.StreamAttachmentFactories
 import io.getstream.chat.android.compose.ui.components.composer.MessageInput
 import io.getstream.chat.android.compose.ui.components.messageoptions.defaultMessageOptionsState
 import io.getstream.chat.android.compose.ui.components.reactionpicker.ReactionsPicker
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedMessageMenu
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedReactionsMenu
-import io.getstream.chat.android.compose.ui.messages.MessagesScreen
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
+import io.getstream.chat.android.compose.ui.messages.attachments.factory.AttachmentsPickerTabFactories
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
+import io.getstream.chat.android.compose.ui.messages.header.MessageListHeader
 import io.getstream.chat.android.compose.ui.messages.list.MessageList
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.theme.ChatTheme.shapes
-import io.getstream.chat.android.compose.ui.theme.StreamShapes
 import io.getstream.chat.android.compose.ui.util.rememberMessageListState
 import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerViewModel
+import io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
-import io.getstream.chat.android.models.Attachment
 import io.getstream.chat.android.models.Channel
-import io.getstream.chat.android.models.Message
-import io.getstream.chat.android.ui.ChatUI
-import io.getstream.chat.android.ui.common.state.messages.Edit
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
 import io.getstream.chat.android.ui.common.state.messages.Reply
 import io.getstream.chat.android.ui.common.state.messages.list.DeletedMessageVisibility
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageOptionsState
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageReactionsPickerState
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageReactionsState
-import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.AttachmentPreviewFactoryManager
-import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.FileAttachmentPreviewFactory
-import io.getstream.chat.android.ui.feature.messages.composer.attachment.preview.factory.MediaAttachmentPreviewFactory
-import io.getstream.chat.android.ui.feature.messages.list.adapter.viewholder.attachment.AttachmentFactoryManager
-import io.getstream.chat.android.ui.helper.SupportedReactions
-import io.getstream.chat.android.ui.viewmodel.messages.MessageComposerViewModel
-import io.getstream.chat.android.ui.viewmodel.messages.MessageListHeaderViewModel
-import io.getstream.chat.android.ui.viewmodel.messages.MessageListViewModel
-import io.getstream.chat.android.ui.viewmodel.messages.MessageListViewModelFactory
-import io.getstream.chat.android.ui.viewmodel.messages.bindView
 import io.getstream.sdk.chat.audio.recording.DefaultStreamMediaRecorder
 import io.getstream.sdk.chat.audio.recording.StreamMediaRecorder
 
@@ -92,7 +82,7 @@ private val TAG = "ChannelActivity"
 
 class ChannelActivity : BaseConnectedActivity() {
     private var cid: String = ""  // 채팅방 ID를 저장하는 변수
-        val channelId :String? = intent.getStringExtra("key:cid") ?: "!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40"
+//        val channelId = intent.getStringExtra("key:cid")
 
     //    private lateinit var binding: ActivityChannelBinding
     private val streamMediaRecorder: StreamMediaRecorder by lazy {
@@ -118,17 +108,201 @@ class ChannelActivity : BaseConnectedActivity() {
 
     private val listViewModel by viewModels<io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel>(
         factoryProducer = { factory })
+    private val user = chatClient.getCurrentUser()
 
     private val attachmentsPickerViewModel by viewModels<AttachmentsPickerViewModel>(factoryProducer = { factory })
     private val composerViewModel by viewModels<io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel>(
         factoryProducer = { factory })
 
+    @SuppressLint("StateFlowValueCalledInComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val defaultFactories = StreamAttachmentFactories.defaultFactories()
+
         setContent {
-            ChatTheme {
-                MyCustomUi()
+            ChatTheme(attachmentFactories = defaultFactories) {
+//                MyCustomUi()
+                val isShowingAttachments = attachmentsPickerViewModel.isShowingAttachments
+                val selectedMessageState = listViewModel.currentMessagesState.selectedMessageState
+                val user by listViewModel.user.collectAsState()
+                val lazyListState = rememberMessageListState()
+
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Scaffold(
+                        topBar = {
+                            MessageListHeader(
+                                channel = listViewModel.channel,
+                                currentUser = user,
+                                connectionState = listViewModel.connectionState.value,
+                                onBackPressed = { finish() },
+                                onHeaderTitleClick = { },
+                                onChannelAvatarClick = { },
+
+                                )
+
+                        },
+                        modifier = Modifier.fillMaxSize(),
+                        bottomBar = {
+                            CustomMessageComposer(composerViewModel)
+//                            CustomMessageComposer(
+//                                onDateSelected = { date ->
+//                                    // 2
+//                                    val payload = SimpleDateFormat("MMMM dd, yyyy").format(Date(date))
+//                                    val attachment = Attachment(
+//                                        type = "date",
+//                                        extraData = mutableMapOf("payload" to payload)
+//                                    )
+//
+//                                    // 3
+//                                    composerViewModel.addSelectedAttachments(listOf(attachment))
+//                                }
+//                            )
+//                            CustomMessageComposer(
+//                                composerViewModel,
+//                                attachmentsPickerViewModel
+//                            )
+//                            MyCustomComposer()
+//                            MessageComposer(
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .wrapContentHeight(),
+//                                viewModel = composerViewModel,
+//                                onAttachmentsClick = { attachmentsPickerViewModel.changeAttachmentState(true) },
+//
+//                                statefulStreamMediaRecorder = statefulStreamMediaRecorder,
+//                            )
+                        },
+                    ) {
+                        MessageList(
+                            modifier = Modifier
+                                .padding(it)
+                                .background(ChatTheme.colors.appBackground)
+                                .fillMaxSize(),
+                            viewModel = listViewModel,
+                            messagesLazyListState = if (listViewModel.isInThread) rememberMessageListState() else lazyListState,
+                            onThreadClick = { message ->
+                                composerViewModel.setMessageMode(MessageMode.MessageThread(message))
+                                listViewModel.openMessageThread(message)
+                            },
+                            onMediaGalleryPreviewResult = { result ->
+                                when (result?.resultType) {
+                                    MediaGalleryPreviewResultType.QUOTE -> {
+                                        val message = listViewModel.getMessageById(result.messageId)
+
+                                        if (message != null) {
+                                            composerViewModel.performMessageAction(Reply(message))
+                                        }
+                                    }
+
+                                    MediaGalleryPreviewResultType.SHOW_IN_CHAT -> {
+                                    }
+
+                                    null -> Unit
+                                }
+                            },
+                        )
+                    }
+
+
+
+                    if (isShowingAttachments) {
+                        val defaultTabFactories = AttachmentsPickerTabFactories.defaultFactories(takeImageEnabled = true, recordVideoEnabled = false, filesTabEnabled = false)
+                        val customTabFactories = listOf(AttachmentsPickerCustomTabFactory())
+                        val tabFactories = defaultTabFactories + customTabFactories
+//                        val tabFactories = defaultTabFactories
+
+                        AttachmentsPicker(
+                            attachmentsPickerViewModel = attachmentsPickerViewModel,
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .height(350.dp),
+                            onAttachmentsSelected = { attachments ->
+                                attachmentsPickerViewModel.changeAttachmentState(false)
+                                composerViewModel.addSelectedAttachments(attachments)
+                            },
+                            onDismiss = {
+                                attachmentsPickerViewModel.changeAttachmentState(false)
+                                attachmentsPickerViewModel.dismissAttachments()
+                            },
+                            tabFactories = tabFactories
+                        )
+                    }
+
+                    if (selectedMessageState != null) {
+                        val selectedMessage = selectedMessageState.message
+                        val messageActions = listViewModel.messageActions
+
+                        when (selectedMessageState) {
+                            is SelectedMessageOptionsState -> {
+                                SelectedMessageMenu(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .padding(horizontal = 20.dp)
+                                        .wrapContentSize(),
+                                    shape = shapes.attachment,
+                                    messageOptions = defaultMessageOptionsState(
+                                        selectedMessage = selectedMessage,
+                                        currentUser = user,
+                                        isInThread = listViewModel.isInThread,
+                                        ownCapabilities = selectedMessageState.ownCapabilities,
+                                    ),
+                                    message = selectedMessage,
+                                    ownCapabilities = selectedMessageState.ownCapabilities,
+                                    onMessageAction = { action ->
+                                        composerViewModel.performMessageAction(action)
+                                        listViewModel.performMessageAction(action)
+                                    },
+                                    onShowMoreReactionsSelected = {
+                                        listViewModel.selectExtendedReactions(selectedMessage)
+                                    },
+                                    onDismiss = { listViewModel.removeOverlay() },
+
+                                )
+                            }
+
+                            is SelectedMessageReactionsState -> {
+                                SelectedReactionsMenu(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .padding(horizontal = 20.dp)
+                                        .wrapContentSize(),
+                                    shape = shapes.attachment,
+                                    message = selectedMessage,
+                                    currentUser = user,
+                                    onMessageAction = { action ->
+                                        composerViewModel.performMessageAction(action)
+                                        listViewModel.performMessageAction(action)
+                                    },
+                                    onShowMoreReactionsSelected = {
+                                        listViewModel.selectExtendedReactions(selectedMessage)
+                                    },
+                                    onDismiss = { listViewModel.removeOverlay() },
+                                    ownCapabilities = selectedMessageState.ownCapabilities,
+                                )
+                            }
+
+                            is SelectedMessageReactionsPickerState -> {
+                                ReactionsPicker(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .padding(horizontal = 20.dp)
+                                        .wrapContentSize(),
+                                    shape = shapes.attachment,
+                                    message = selectedMessage,
+                                    onMessageAction = { action ->
+                                        composerViewModel.performMessageAction(action)
+                                        listViewModel.performMessageAction(action)
+                                    },
+                                    onDismiss = { listViewModel.removeOverlay() },
+                                )
+                            }
+
+                            else -> Unit
+                        }
+                    }
+                }
+
             }
         }
 //        val channelId = intent.getStringExtra("key:cid")!!
@@ -465,138 +639,119 @@ class ChannelActivity : BaseConnectedActivity() {
 //        cancelChatRoomNotification(cid)
 
     }
+
+
+
+//    @Composable
+//    private fun CustomMessageComposer(
+//        composerViewModel: io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel,
+//        attachmentsPickerViewModel: AttachmentsPickerViewModel,
+//    ) {
+//        MessageComposer(
+//            viewModel = composerViewModel,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .wrapContentHeight(),
+//            input = {composerState ->
+//                // Standard component that we can customize
+//                MessageInput(
+//                    messageComposerState = composerState,
+//                    onValueChange = { composerViewModel.setMessageInput(it) },
+//                    onAttachmentRemoved = { composerViewModel.removeSelectedAttachment(it) },
+//                    modifier = Modifier
+//                        .padding(horizontal = 10.dp)
+//                        .align(Alignment.CenterVertically),
+//                    // ... See below
+//                    label = {
+//                        Text(
+//                            modifier = Modifier.padding(start = 4.dp),
+//                            text = "Type a message",
+//                            color = ChatTheme.colors.textLowEmphasis
+//                        )
+//                    },
+//
+//                    innerTrailingContent = {
+//                        Row {
+//                            IconButton(
+//                                modifier = Modifier.size(24.dp),
+//                                onClick = {
+//                                    attachmentsPickerViewModel.changeAttachmentState(showAttachments = true)
+//                                },
+//                                content = {
+//                                    Icon(
+//                                        imageVector = Icons.Outlined.AddCircle,
+//                                        contentDescription = null,
+//                                        tint = Color.DarkGray
+//                                    )
+//                                }
+//                            )
+//                            Spacer(modifier = Modifier.width(20.dp))
+//                            IconButton(
+//                                modifier = Modifier.size(24.dp),
+//                                onClick = {
+//                                    composerViewModel.sendMessage(
+//                                        composerViewModel.buildNewMessage(
+//                                            composerState.inputValue,
+//                                            composerState.attachments
+//                                        )
+//                                    )
+//                                },
+//                                content = {
+//                                    Icon(
+//                                        imageVector = Icons.Outlined.Send,
+//                                        contentDescription = null,
+//                                        tint = Color.DarkGray
+//                                    )
+//                                }
+//                            )
+//                        }
+//                    }
+//
+//
+//                )
+//            },
+//            onAttachmentsClick = { attachmentsPickerViewModel.changeAttachmentState(showAttachments = true) },
+//            integrations = {} // Important for hiding the default Add Attachments button
+//        )
+//    }
+
+
+
     @Composable
-    fun MyCustomUi() {
-        val isShowingAttachments = attachmentsPickerViewModel.isShowingAttachments
-        val selectedMessageState = listViewModel.currentMessagesState.selectedMessageState
-        val user by listViewModel.user.collectAsState()
-        val lazyListState = rememberMessageListState()
+    fun CustomMessageComposer(
+        messageComposerViewModel: MessageComposerViewModel
+    ) {
+        val activity = LocalContext.current as AppCompatActivity
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                bottomBar = {
-                    MyCustomComposer()
-                },
-            ) {
-                MessageList(
+        MessageComposer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            viewModel = messageComposerViewModel,
+            integrations = { // here
+                IconButton(
                     modifier = Modifier
-                        .padding(it)
-                        .background(ChatTheme.colors.appBackground)
-                        .fillMaxSize(),
-                    viewModel = listViewModel,
-                    messagesLazyListState = if (listViewModel.isInThread) rememberMessageListState() else lazyListState,
-                    onThreadClick = { message ->
-                        composerViewModel.setMessageMode(MessageMode.MessageThread(message))
-                        listViewModel.openMessageThread(message)
+                        .size(48.dp)
+                        .padding(12.dp),
+                    content = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_more_dots),
+                            contentDescription = null,
+                            tint = ChatTheme.colors.textLowEmphasis
+                        )
                     },
-                    onMediaGalleryPreviewResult = { result ->
-                        when (result?.resultType) {
-                            MediaGalleryPreviewResultType.QUOTE -> {
-                                val message = listViewModel.getMessageById(result.messageId)
-
-                                if (message != null) {
-                                    composerViewModel.performMessageAction(Reply(message))
-                                }
-                            }
-
-                            MediaGalleryPreviewResultType.SHOW_IN_CHAT -> {
-                            }
-
-                            null -> Unit
-                        }
-                    },
+                    onClick = {
+                        attachmentsPickerViewModel.changeAttachmentState(showAttachments = true)
+                    }
                 )
             }
-
-            if (isShowingAttachments) {
-                AttachmentsPicker(
-                    attachmentsPickerViewModel = attachmentsPickerViewModel,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .height(350.dp),
-                    onAttachmentsSelected = { attachments ->
-                        attachmentsPickerViewModel.changeAttachmentState(false)
-                        composerViewModel.addSelectedAttachments(attachments)
-                    },
-                    onDismiss = {
-                        attachmentsPickerViewModel.changeAttachmentState(false)
-                        attachmentsPickerViewModel.dismissAttachments()
-                    },
-                )
-            }
-
-            if (selectedMessageState != null) {
-                val selectedMessage = selectedMessageState.message
-                when (selectedMessageState) {
-                    is SelectedMessageOptionsState -> {
-                        SelectedMessageMenu(
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .padding(horizontal = 20.dp)
-                                .wrapContentSize(),
-                            shape = shapes.attachment,
-                            messageOptions = defaultMessageOptionsState(
-                                selectedMessage = selectedMessage,
-                                currentUser = user,
-                                isInThread = listViewModel.isInThread,
-                                ownCapabilities = selectedMessageState.ownCapabilities,
-                            ),
-                            message = selectedMessage,
-                            ownCapabilities = selectedMessageState.ownCapabilities,
-                            onMessageAction = { action ->
-                                composerViewModel.performMessageAction(action)
-                                listViewModel.performMessageAction(action)
-                            },
-                            onShowMoreReactionsSelected = {
-                                listViewModel.selectExtendedReactions(selectedMessage)
-                            },
-                            onDismiss = { listViewModel.removeOverlay() },
-                        )
-                    }
-
-                    is SelectedMessageReactionsState -> {
-                        SelectedReactionsMenu(
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .padding(horizontal = 20.dp)
-                                .wrapContentSize(),
-                            shape = shapes.attachment,
-                            message = selectedMessage,
-                            currentUser = user,
-                            onMessageAction = { action ->
-                                composerViewModel.performMessageAction(action)
-                                listViewModel.performMessageAction(action)
-                            },
-                            onShowMoreReactionsSelected = {
-                                listViewModel.selectExtendedReactions(selectedMessage)
-                            },
-                            onDismiss = { listViewModel.removeOverlay() },
-                            ownCapabilities = selectedMessageState.ownCapabilities,
-                        )
-                    }
-
-                    is SelectedMessageReactionsPickerState -> {
-                        ReactionsPicker(
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .padding(horizontal = 20.dp)
-                                .wrapContentSize(),
-                            shape = shapes.attachment,
-                            message = selectedMessage,
-                            onMessageAction = { action ->
-                                composerViewModel.performMessageAction(action)
-                                listViewModel.performMessageAction(action)
-                            },
-                            onDismiss = { listViewModel.removeOverlay() },
-                        )
-                    }
-
-                    else -> Unit
-                }
-            }
-        }
+        )
     }
+
+
+
+
+
 
     @Composable
     fun MyCustomComposer() {
