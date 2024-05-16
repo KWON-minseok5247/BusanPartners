@@ -27,7 +27,7 @@ class AttachmentsPickerCustomTabFactory: AttachmentsPickerTabFactory {
     override val attachmentsPickerMode: AttachmentsPickerMode
         get() = CustomPickerMode()
 
-    override fun isPickerTabEnabled(): Boolean {
+    fun isPickerTabEnabled(): Boolean {
         // Place your custom logic here to be able to disable the tab if needed.
         // Return true if the tab should be enabled.
         return true

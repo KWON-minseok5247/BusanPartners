@@ -217,17 +217,17 @@ dependencies {
     implementation "androidx.room:room-paging:$room_version"
 
 //    // 기존의 io.getstream 의존성 제거
-    implementation("io.getstream:stream-chat-android-ui-components:6.1.1") {
+    implementation("io.getstream:stream-chat-android-ui-components:6.0.1") {
 //        exclude group: 'io.getstream', module: 'stream-chat-android-client'
 
     }
 //
 ////// Stream Chat Offline with exclusion of the duplicated client
-    implementation("io.getstream:stream-chat-android-offline:6.1.1") {
+    implementation("io.getstream:stream-chat-android-offline:6.0.1") {
 //        exclude group: 'io.getstream', module: 'stream-chat-android-client'
     }
 //
-    implementation "io.getstream:stream-chat-android-core:6.1.1"
+    implementation "io.getstream:stream-chat-android-core:6.0.1"
 //    implementation 'io.getstream:stream-log:1.1.4'
 //    implementation 'io.getstream:stream-log-android:1.1.4@aar'
 //    implementation 'io.getstream:stream-log-android-file:1.1.4@aar'
@@ -253,10 +253,11 @@ dependencies {
 //    implementation(fileTree(dir: 'libs', include: ['stream-chat-android-client-release.aar']))
 
     // getStream jetpack compose 시험
-    implementation 'io.getstream:stream-chat-android-compose:6.1.1'
-    implementation 'io.getstream:stream-chat-android-offline:6.1.1'
-    implementation 'androidx.compose.material:material-icons-extended:1.6.0-alpha08'
+    implementation 'io.getstream:stream-chat-android-compose:6.0.1'
+    implementation 'io.getstream:stream-chat-android-offline:6.0.1'
+    implementation 'androidx.compose.material:material-icons-extended:1.6.7'
     def composeBom = platform('androidx.compose:compose-bom:2024.04.01')
+//    def composeBom = platform('androidx.compose:compose-bom:1.9.0')
     implementation composeBom
     androidTestImplementation composeBom
 

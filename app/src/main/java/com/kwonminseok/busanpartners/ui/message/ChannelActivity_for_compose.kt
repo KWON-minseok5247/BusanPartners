@@ -313,7 +313,7 @@ class ChannelActivity_for_compose : AppCompatActivity() {
 
 
             ChatUI.supportedReactions = SupportedReactions(this, reactions)
-            binding.messageComposerView.attachmentsPickerDialogBuilder
+            binding.messageComposerView.attachmentSelectionListener
             binding.messageComposerView.setLeadingContent(
                 CustomMessageComposerLeadingContent(this).also {
                     it.attachmentsButtonClickListener = { binding.messageComposerView.attachmentsButtonClickListener() }

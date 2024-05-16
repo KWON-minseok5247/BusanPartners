@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
@@ -13,6 +14,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,43 +22,47 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AddCircle
-import androidx.compose.material.icons.outlined.Send
+import androidx.compose.material.TextField
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.kwonminseok.busanpartners.R
-import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
+import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.naver.maps.geometry.LatLng
+import io.getstream.chat.android.client.utils.message.isDeleted
 import io.getstream.chat.android.compose.state.mediagallerypreview.MediaGalleryPreviewResultType
 import io.getstream.chat.android.compose.state.messages.attachments.StatefulStreamMediaRecorder
-import io.getstream.chat.android.compose.ui.attachments.StreamAttachmentFactories
 import io.getstream.chat.android.compose.ui.components.composer.MessageInput
 import io.getstream.chat.android.compose.ui.components.messageoptions.defaultMessageOptionsState
 import io.getstream.chat.android.compose.ui.components.reactionpicker.ReactionsPicker
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedMessageMenu
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedReactionsMenu
+import io.getstream.chat.android.compose.ui.messages.MessagesScreen
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
 import io.getstream.chat.android.compose.ui.messages.attachments.factory.AttachmentsPickerTabFactories
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
@@ -69,6 +75,7 @@ import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerVie
 import io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
 import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.ui.common.state.messages.MessageAction
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
 import io.getstream.chat.android.ui.common.state.messages.Reply
 import io.getstream.chat.android.ui.common.state.messages.list.DeletedMessageVisibility
@@ -77,8 +84,6 @@ import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageRe
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageReactionsState
 import io.getstream.sdk.chat.audio.recording.DefaultStreamMediaRecorder
 import io.getstream.sdk.chat.audio.recording.StreamMediaRecorder
-
-private val TAG = "ChannelActivity"
 
 class ChannelActivity : BaseConnectedActivity() {
     private var cid: String = ""  // 채팅방 ID를 저장하는 변수
@@ -101,6 +106,7 @@ class ChannelActivity : BaseConnectedActivity() {
             context = this,
             channelId = requireNotNull(intent.getStringExtra("key:cid")),
             deletedMessageVisibility = DeletedMessageVisibility.ALWAYS_VISIBLE,
+
             messageId = intent.getStringExtra("messageId"),
             parentMessageId = intent.getStringExtra("parentMessageId"),
         )
@@ -108,33 +114,45 @@ class ChannelActivity : BaseConnectedActivity() {
 
     private val listViewModel by viewModels<io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel>(
         factoryProducer = { factory })
-    private val user = chatClient.getCurrentUser()
+    private val user = BusanPartners.chatClient.getCurrentUser()
 
     private val attachmentsPickerViewModel by viewModels<AttachmentsPickerViewModel>(factoryProducer = { factory })
-    private val composerViewModel by viewModels<io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel>(
+    private val composerViewModel by viewModels<MessageComposerViewModel>(
         factoryProducer = { factory })
 
     @SuppressLint("StateFlowValueCalledInComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val defaultFactories = StreamAttachmentFactories.defaultFactories()
 
         setContent {
-            ChatTheme(attachmentFactories = defaultFactories) {
+            ChatTheme {
+                MessagesScreen(viewModelFactory = factory)
 //                MyCustomUi()
                 val isShowingAttachments = attachmentsPickerViewModel.isShowingAttachments
                 val selectedMessageState = listViewModel.currentMessagesState.selectedMessageState
                 val user by listViewModel.user.collectAsState()
                 val lazyListState = rememberMessageListState()
+                Log.e("isShowingAttachments", isShowingAttachments.toString())
+                Log.e("selectedMessageState", selectedMessageState.toString())
+
+
+
+                val context = LocalContext.current
+                val keyboardController = LocalSoftwareKeyboardController.current
+                val textState = remember { mutableStateOf("") }
+
+
 
                 Box(modifier = Modifier.fillMaxSize()) {
                     Scaffold(
                         topBar = {
+                            val connectionState by listViewModel.connectionState.collectAsState()
+
                             MessageListHeader(
                                 channel = listViewModel.channel,
                                 currentUser = user,
-                                connectionState = listViewModel.connectionState.value,
+                                connectionState = connectionState,
                                 onBackPressed = { finish() },
                                 onHeaderTitleClick = { },
                                 onChannelAvatarClick = { },
@@ -174,13 +192,15 @@ class ChannelActivity : BaseConnectedActivity() {
 //                            )
                         },
                     ) {
+                        val currentState = listViewModel.currentMessagesState
+
                         MessageList(
                             modifier = Modifier
                                 .padding(it)
                                 .background(ChatTheme.colors.appBackground)
                                 .fillMaxSize(),
                             viewModel = listViewModel,
-                            messagesLazyListState = if (listViewModel.isInThread) rememberMessageListState() else lazyListState,
+                            messagesLazyListState = if (listViewModel.isInThread) rememberMessageListState(parentMessageId = currentState.parentMessageId) else lazyListState,
                             onThreadClick = { message ->
                                 composerViewModel.setMessageMode(MessageMode.MessageThread(message))
                                 listViewModel.openMessageThread(message)
@@ -250,6 +270,8 @@ class ChannelActivity : BaseConnectedActivity() {
                                     message = selectedMessage,
                                     ownCapabilities = selectedMessageState.ownCapabilities,
                                     onMessageAction = { action ->
+                                        Log.e("CustomMessageList", "onMessageAction: $action")
+
                                         composerViewModel.performMessageAction(action)
                                         listViewModel.performMessageAction(action)
                                     },
@@ -728,6 +750,9 @@ class ChannelActivity : BaseConnectedActivity() {
                 .fillMaxWidth()
                 .wrapContentHeight(),
             viewModel = messageComposerViewModel,
+            onValueChange = { composerViewModel.setMessageInput(it) },
+            onAttachmentRemoved = { composerViewModel.removeSelectedAttachment(it) },
+
             integrations = { // here
                 IconButton(
                     modifier = Modifier
@@ -777,7 +802,7 @@ class ChannelActivity : BaseConnectedActivity() {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.pukyong_logo),
+                                painter = painterResource(id = R.drawable.ic_setting),
                                 contentDescription = null,
                             )
 
@@ -805,7 +830,7 @@ class ChannelActivity : BaseConnectedActivity() {
                                         ),
                                     )
                                 },
-                            painter = painterResource(id = R.drawable.pusan_logo),
+                            painter = painterResource(id = R.drawable.ic_more_dots),
                             tint = ChatTheme.colors.primaryAccent,
                             contentDescription = null,
                         )
@@ -815,7 +840,6 @@ class ChannelActivity : BaseConnectedActivity() {
             trailingContent = { Spacer(modifier = Modifier.size(8.dp)) },
         )
     }
-
 
 
     override fun onResume() {
