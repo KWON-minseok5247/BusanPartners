@@ -16,7 +16,6 @@
 
 package com.kwonminseok.busanpartners.ui.message
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,16 +41,19 @@ import io.getstream.chat.android.compose.ui.components.CancelIcon
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.models.Attachment
 
-val dateAttachmentFactory: AttachmentFactory = AttachmentFactory(
-            canHandle = { attachments -> attachments.any { it.type == "date" } },
+/**
+ * A custom [AttachmentFactory] that adds support for date attachments.
+ */
+val locationAttachmentFactory: AttachmentFactory = AttachmentFactory(
+            canHandle = { attachments -> attachments.any { it.type == "location" } },
         content = @Composable { modifier, attachmentState ->
-            DateAttachmentContent(
+            LocationAttachmentContent(
             modifier = modifier,
             attachmentState = attachmentState,
         )
     },
     previewContent = { modifier, attachments, onAttachmentRemoved ->
-        DateAttachmentPreviewContent(
+        LocationAttachmentPreviewContent(
             modifier = modifier,
             attachments = attachments,
             onAttachmentRemoved = onAttachmentRemoved,
@@ -70,12 +72,12 @@ val dateAttachmentFactory: AttachmentFactory = AttachmentFactory(
  * @param modifier Modifier for styling.
  */
 @Composable
-fun DateAttachmentPreviewContent(
+fun LocationAttachmentPreviewContent(
     attachments: List<Attachment>,
     onAttachmentRemoved: (Attachment) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val attachment = attachments.first { it.type == "date" }
+    val attachment = attachments.first { it.type == "location" }
     val formattedDate = attachment.extraData["payload"].toString()
 
     Box(
@@ -111,11 +113,11 @@ fun DateAttachmentPreviewContent(
  * @param modifier Modifier for styling.
  */
 @Composable
-fun DateAttachmentContent(
+fun LocationAttachmentContent(
     attachmentState: AttachmentState,
     modifier: Modifier = Modifier,
 ) {
-    val attachment = attachmentState.message.attachments.first { it.type == "date" }
+    val attachment = attachmentState.message.attachments.first { it.type == "location" }
     val formattedDate = attachment.extraData["payload"].toString()
 
     Column(
@@ -146,6 +148,3 @@ fun DateAttachmentContent(
         }
     }
 }
-
-
-

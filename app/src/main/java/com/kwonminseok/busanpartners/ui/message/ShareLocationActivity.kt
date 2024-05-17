@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -93,6 +94,7 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
 //                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             }
 //            startActivity(intent)
+            Log.e("SharedActivity", "좌표 전달 완료")
             // 결과 설정 및 액티비티 종료
             setResult(Activity.RESULT_OK, intent)
             finish()

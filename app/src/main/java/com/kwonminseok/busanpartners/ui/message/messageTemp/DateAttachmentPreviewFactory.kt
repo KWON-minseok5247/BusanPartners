@@ -1,4 +1,4 @@
-package com.kwonminseok.busanpartners.ui.message
+package com.kwonminseok.busanpartners.ui.message.messageTemp
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
