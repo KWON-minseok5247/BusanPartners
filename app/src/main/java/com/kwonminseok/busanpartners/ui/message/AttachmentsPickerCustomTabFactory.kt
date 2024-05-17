@@ -2,6 +2,7 @@ package com.kwonminseok.busanpartners.ui.message
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import io.getstream.chat.android.compose.state.messages.attachments.AttachmentPickerItemState
 import io.getstream.chat.android.compose.state.messages.attachments.AttachmentsPickerMode
 import io.getstream.chat.android.compose.state.messages.attachments.CustomPickerMode
@@ -25,6 +27,7 @@ import io.getstream.chat.android.compose.ui.messages.attachments.factory.Attachm
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.core.ExperimentalStreamChatApi
 import io.getstream.chat.android.models.Attachment
+import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.ui.common.state.messages.composer.AttachmentMetaData
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -130,6 +133,35 @@ class AttachmentsPickerCustomTabFactory: AttachmentsPickerTabFactory {
         onAttachmentsSubmitted: (List<AttachmentMetaData>) -> Unit,
     ) {
         val context = LocalContext.current
+        val locationLauncher = rememberLauncherForActivityResult(
+            contract = ChannelActivity.LocationActivityResultContract()
+        ) { result ->
+            result?.let { location ->
+                val attachment = Attachment(
+                    type = "location",
+                    extraData = mutableMapOf(
+                        "latitude" to location.latitude,
+                        "longitude" to location.longitude,
+                    )
+                )
+//                composerViewModel.addSelectedAttachments(listOf(attachment))
+
+                val message = Message(
+                    cid = "messaging:!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40",
+                    text = "지도 공유",
+                    attachments = mutableListOf(attachment)
+                )
+                Log.e("message", message.toString())
+
+                chatClient.channel("messaging:!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40").sendMessage(message).enqueue { result ->
+                    if (result.isSuccess) {
+                        Log.e("지도 사진 처리 성공", "성공")
+                    } else {
+                        Log.e("지도 사진 처리 실패", result.toString())
+                    }
+                }
+            }
+        }
 
         LaunchedEffect(Unit) {
             onAttachmentsChanged(emptyList())
@@ -146,7 +178,9 @@ class AttachmentsPickerCustomTabFactory: AttachmentsPickerTabFactory {
             )
             Button(onClick = {
 //                showDatePickerDialog(context, onAttachmentsSubmitted)
-                ChannelActivity.LocationActivityResultContract()
+
+                locationLauncher.launch(null)
+//                ChannelActivity.LocationActivityResultContract()
 //                context.startActivity(Intent(context, ShareLocationActivity::class.java))
             }) {
                 Text("Pick a Date")

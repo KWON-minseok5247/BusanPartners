@@ -17,6 +17,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -79,6 +80,7 @@ import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPick
 import io.getstream.chat.android.compose.ui.messages.attachments.factory.AttachmentsPickerTabFactories
 import io.getstream.chat.android.compose.ui.messages.attachments.factory.AttachmentsPickerTabFactory
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
+import io.getstream.chat.android.compose.ui.messages.header.DefaultMessageListHeaderCenterContent
 import io.getstream.chat.android.compose.ui.messages.header.MessageListHeader
 import io.getstream.chat.android.compose.ui.messages.list.MessageList
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
@@ -86,10 +88,12 @@ import io.getstream.chat.android.compose.ui.theme.ChatTheme.shapes
 import io.getstream.chat.android.compose.ui.util.rememberMessageListState
 import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel
+import io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
 import io.getstream.chat.android.models.Attachment
 import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.Message
+import io.getstream.chat.android.models.User
 import io.getstream.chat.android.ui.common.state.messages.MessageAction
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
 import io.getstream.chat.android.ui.common.state.messages.Reply
@@ -105,12 +109,13 @@ import java.util.Date
 
 class ChannelActivity : BaseConnectedActivity() {
     private var cid: String = ""  // 채팅방 ID를 저장하는 변수
-//        val channelId = intent.getStringExtra("key:cid")
 
     private val factory by lazy {
+
         MessagesViewModelFactory(
             context = this,
             channelId = requireNotNull(intent.getStringExtra("key:cid")),
+//            channelId = channelId,
             deletedMessageVisibility = DeletedMessageVisibility.ALWAYS_VISIBLE,
 
             messageId = intent.getStringExtra("messageId"),
@@ -136,35 +141,7 @@ class ChannelActivity : BaseConnectedActivity() {
         val defaultFactories = StreamAttachmentFactories.defaultFactories()
 
         setContent {
-            val locationLauncher = rememberLauncherForActivityResult(
-                contract = LocationActivityResultContract()
-            ) { result ->
-                result?.let { location ->
-                    val attachment = Attachment(
-                        type = "location",
-                        extraData = mutableMapOf(
-                            "latitude" to location.latitude,
-                            "longitude" to location.longitude,
-                        )
-                    )
-                    composerViewModel.addSelectedAttachments(listOf(attachment))
 
-                    val message = Message(
-                        cid = cid,
-                        text = "지도 공유",
-                        attachments = mutableListOf(attachment)
-                    )
-                    Log.e("message", message.toString())
-
-                    chatClient.channel(cid).sendMessage(message).enqueue { result ->
-                        if (result.isSuccess) {
-                            Log.e("지도 사진 처리 성공", "성공")
-                        } else {
-                            Log.e("지도 사진 처리 실패", result.toString())
-                        }
-                    }
-                }
-            }
             ChatTheme(
                 attachmentFactories = customFactories + defaultFactories,
             ) {
@@ -180,7 +157,36 @@ class ChannelActivity : BaseConnectedActivity() {
                 val textState = remember { mutableStateOf("") }
 
 
+// LocationActivityResultContract를 사용하여 런처를 기억
+                val locationLauncher = rememberLauncherForActivityResult(
+                    contract = LocationActivityResultContract()
+                ) { result ->
+                    result?.let { location ->
+                        val attachment = Attachment(
+                            type = "location",
+                            extraData = mutableMapOf(
+                                "latitude" to location.latitude,
+                                "longitude" to location.longitude,
+                            )
+                        )
+                        composerViewModel.addSelectedAttachments(listOf(attachment))
 
+//                        val message = Message(
+//                            cid = requireNotNull(intent.getStringExtra("key:cid")),
+//                            text = "지도 공유",
+//                            attachments = mutableListOf(attachment)
+//                        )
+//                        Log.e("message", message.toString())
+//
+//                        chatClient.channel(requireNotNull(intent.getStringExtra("key:cid"))).sendMessage(message).enqueue { result ->
+//                            if (result.isSuccess) {
+//                                Log.e("지도 사진 처리 성공", "성공")
+//                            } else {
+//                                Log.e("지도 사진 처리 실패", result.toString())
+//                            }
+//                        }
+                    }
+                }
 
 
 
@@ -194,8 +200,15 @@ class ChannelActivity : BaseConnectedActivity() {
                                 currentUser = user,
                                 connectionState = connectionState,
                                 onBackPressed = { finish() },
-                                onHeaderTitleClick = { },
-                                onChannelAvatarClick = { },
+                                onHeaderTitleClick = {
+                                },
+                                onChannelAvatarClick = {
+                                    locationLauncher.launch(null)
+
+//                                    locationActivityResultLauncher.launch(null)
+
+                                },
+
                                 )
 
                         },
@@ -375,7 +388,7 @@ class ChannelActivity : BaseConnectedActivity() {
                         }
                     }
                 }
-                MyComposeScreen("messaging:!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40", chatClient)
+//                MyComposeScreen("messaging:!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40", chatClient)
 
             }
         }
@@ -418,7 +431,7 @@ class ChannelActivity : BaseConnectedActivity() {
 
     }
 
-    @Composable
+        @Composable
     fun CustomMessageComposer(
         messageComposerViewModel: MessageComposerViewModel,
 //        onDateSelected: (Long) -> Unit,
@@ -608,7 +621,7 @@ class ChannelActivity : BaseConnectedActivity() {
                         "longitude" to location.longitude,
                     )
                 )
-                composerViewModel.addSelectedAttachments(listOf(attachment))
+//                composerViewModel.addSelectedAttachments(listOf(attachment))
 
                 val message = Message(
                     cid = cid,
@@ -620,17 +633,18 @@ class ChannelActivity : BaseConnectedActivity() {
                 chatClient.channel(cid).sendMessage(message).enqueue { result ->
                     if (result.isSuccess) {
                         Log.e("지도 사진 처리 성공", "성공")
+
                     } else {
                         Log.e("지도 사진 처리 실패", result.toString())
                     }
                 }
             }
         }
-
+        locationLauncher.launch(null)
         // UI 요소 예시
-        Button(onClick = { locationLauncher.launch(null) }) {
-            Text(text = "위치 공유")
-        }
+//        Button(onClick = {  }) {
+//            Text(text = "위치 공유")
+//        }
     }
 
     @Composable
