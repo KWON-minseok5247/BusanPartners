@@ -2,28 +2,35 @@ package com.kwonminseok.busanpartners.ui.message
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import com.kwonminseok.busanpartners.databinding.ActivityShareLocationBinding
 
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.application.BusanPartners
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
+import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.NaverMapOptions
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
+import java.io.File
+import java.io.FileOutputStream
 
 private val TAG = "ShareLocationActivity"
 class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
@@ -87,17 +94,56 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
 
         binding.fabShareLocation.setOnClickListener {
 
-            val intent = Intent(this, ChannelActivity::class.java).apply {
-                //비트맵은 인텐트로 전달할 수 없다.
-                putExtra("latitude", currentMarkerPosition?.latitude)
-                putExtra("longitude", currentMarkerPosition?.longitude)
-//                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-//            startActivity(intent)
-            Log.e("SharedActivity", "좌표 전달 완료")
-            // 결과 설정 및 액티비티 종료
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+
+//            naverMap.takeSnapshot { bitmap ->
+//                // 스냅샷을 찍은 후 비트맵을 얻습니다.
+//                val croppedBitmap = cropBitmapAroundMarker(bitmap, currentMarkerPosition)
+//
+//                // 비트맵을 파일로 저장
+//                val uri = saveBitmapToFile(croppedBitmap)
+//                Log.e("uri", uri.toString())
+//
+//                val intent = Intent(this, ChannelActivity::class.java).apply {
+//                    putExtra("latitude", currentMarkerPosition.latitude)
+//                    putExtra("longitude", currentMarkerPosition.longitude)
+//                    putExtra("snapshot_uri", uri.toString())
+//                }
+//
+//                setResult(Activity.RESULT_OK, intent)
+//                finish()
+//            }
+
+
+//            naverMap.takeSnapshot { bitmap ->
+//                // 스냅샷을 찍은 후 비트맵을 얻습니다.
+//                snapshotBitmap = bitmap
+//
+//                // 비트맵을 파일로 저장하거나 직접 인텐트에 추가할 수 있습니다.
+//                val uri = saveBitmapToFile(bitmap)
+//                Log.e("uri", uri.toString())
+
+                val intent = Intent(this, ChannelActivity::class.java).apply {
+                    putExtra("latitude", currentMarkerPosition?.latitude)
+                    putExtra("longitude", currentMarkerPosition?.longitude)
+//                    putExtra("snapshot_uri", uri.toString())
+                }
+
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+
+
+
+//            val intent = Intent(this, ChannelActivity::class.java).apply {
+//                //비트맵은 인텐트로 전달할 수 없다.
+//                putExtra("latitude", currentMarkerPosition?.latitude)
+//                putExtra("longitude", currentMarkerPosition?.longitude)
+////                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+//            }
+////            startActivity(intent)
+//            Log.e("SharedActivity", "좌표 전달 완료")
+//            // 결과 설정 및 액티비티 종료
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
 
 
 
@@ -105,9 +151,35 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
 
 
     }
+    fun cropBitmapAroundMarker(bitmap: Bitmap, markerPosition: LatLng): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+
+        // 중심 좌표
+        val centerX = width / 2
+        val centerY = height / 2
+
+        // 크롭할 크기 설정 (원하는 크기로 조정)
+        val cropWidth = width / 2
+        val cropHeight = height / 2
+
+        // 크롭할 영역 설정
+        val left = (centerX - cropWidth / 2).coerceAtLeast(0)
+        val top = (centerY - cropHeight / 2).coerceAtLeast(0)
+        // 크롭할 영역의 우측 하단 좌표 계산
+        val right = (left + cropWidth).coerceAtMost(width)
+        val bottom = (top + cropHeight).coerceAtMost(height)
+
+        // 비트맵 크롭
+        return Bitmap.createBitmap(bitmap, left, top, right - left, bottom - top)
 
 
-    // 시작하자마자 자기 인근 위치에서 지도를 볼 수 있음.
+
+
+    }
+
+
+                // 시작하자마자 자기 인근 위치에서 지도를 볼 수 있음.
     private fun initializeMap(userLocation: LatLng) {
         val options = NaverMapOptions()
             .minZoom(11.0)
@@ -206,6 +278,16 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
 
 
     }
+
+//    private fun saveBitmapToFile(bitmap: Bitmap): Uri {
+//        val file = File(cacheDir, "snapshot.png")
+//        FileOutputStream(file).use {
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+//            it.flush()
+//        }
+//        return FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
+//    }
+
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000

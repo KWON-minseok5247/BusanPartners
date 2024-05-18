@@ -17,9 +17,12 @@
 package com.kwonminseok.busanpartners.ui.message
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,10 +47,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.kwonminseok.busanpartners.R
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -345,33 +352,37 @@ fun LocationAttachmentContent(
     val longitude = attachment.extraData["longitude"] as? Double ?: 0.0
     val location = LatLng(latitude, longitude)
 
-    val mapView = remember { MapView(context) }
 
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_CREATE -> mapView.onCreate(Bundle())
-                Lifecycle.Event.ON_START -> mapView.onStart()
-                Lifecycle.Event.ON_RESUME -> mapView.onResume()
-                Lifecycle.Event.ON_PAUSE -> mapView.onPause()
-                Lifecycle.Event.ON_STOP -> mapView.onStop()
-                Lifecycle.Event.ON_DESTROY -> mapView.onDestroy()
-                else -> {}
-            }
-        }
+    val mapView = rememberMapViewWithLifecycle()
 
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
+
+//    val mapView = remember { MapView(context) }
+
+//    DisposableEffect(lifecycleOwner) {
+//        val observer = LifecycleEventObserver { _, event ->
+//            when (event) {
+//                Lifecycle.Event.ON_CREATE -> mapView.onCreate(Bundle())
+//                Lifecycle.Event.ON_START -> mapView.onStart()
+//                Lifecycle.Event.ON_RESUME -> mapView.onResume()
+//                Lifecycle.Event.ON_PAUSE -> mapView.onPause()
+//                Lifecycle.Event.ON_STOP -> mapView.onStop()
+//                Lifecycle.Event.ON_DESTROY -> mapView.onDestroy()
+//                else -> {}
+//            }
+//        }
+//
+//        lifecycleOwner.lifecycle.addObserver(observer)
+//        onDispose {
+//            lifecycleOwner.lifecycle.removeObserver(observer)
+//        }
+//    }
 
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(4.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(Color(0xFFE1F5FE))
+//            .background(Color(0xFFE1F5FE))
             .padding(8.dp),
     ) {
         Box(
@@ -423,6 +434,80 @@ fun LocationAttachmentContent(
                 },
                 modifier = Modifier.matchParentSize()
             )
+            }
+
+        Text(
+            text = "지도 공유",
+            modifier = Modifier
+                .padding(top = 4.dp)
+                .align(Alignment.CenterHorizontally),
+            color = Color.Black
+        )
+
+    }
+
+    }
+@Composable
+fun rememberMapViewWithLifecycle(): MapView {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val mapView = remember { MapView(context) }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_CREATE -> mapView.onCreate(Bundle())
+                Lifecycle.Event.ON_START -> mapView.onStart()
+                Lifecycle.Event.ON_RESUME -> mapView.onResume()
+                Lifecycle.Event.ON_PAUSE -> mapView.onPause()
+                Lifecycle.Event.ON_STOP -> mapView.onStop()
+                Lifecycle.Event.ON_DESTROY -> mapView.onDestroy()
+                else -> {}
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
+    return mapView
 }
+
+
+
+//@Composable
+//fun LocationAttachmentContent(
+//    attachmentState: AttachmentState,
+//    modifier: Modifier = Modifier,
+//) {
+//    val context = LocalContext.current
+//    val attachment = attachmentState.message.attachments.first { it.type == "location" }
+//    val snapshotUri = attachment.extraData["snapshot_uri"] as? String
+//    val b = snapshotUri?.toUri()
+//    Log.e("b", b.toString())
+//
+//    val imageUri = snapshotUri?.let { Uri.parse(it) }
+//    Log.e("imageUri", imageUri.toString())
+//
+//    Column(
+//        modifier = modifier
+//            .fillMaxWidth()
+//            .padding(4.dp)
+//            .clip(RoundedCornerShape(8.dp))
+//            .background(Color(0xFFE1F5FE))
+//            .padding(8.dp),
+//    ) {
+//        imageUri?.let {
+//            Image(
+//                painter = rememberAsyncImagePainter(it),
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(200.dp)
+//                    .clip(RoundedCornerShape(8.dp))
+//                    .background(Color.Gray)
+//            )
+//        }
+//    }
+//}
