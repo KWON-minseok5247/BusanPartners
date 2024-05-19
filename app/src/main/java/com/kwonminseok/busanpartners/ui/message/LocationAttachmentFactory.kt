@@ -118,7 +118,7 @@ fun LocationAttachmentPreviewContent(
                 .align(Alignment.CenterStart)
                 .padding(16.dp)
                 .fillMaxWidth(),
-            text = formattedDate,
+            text = "지도 공유",
             style = ChatTheme.typography.body,
             maxLines = 1,
             color = ChatTheme.colors.textHighEmphasis,

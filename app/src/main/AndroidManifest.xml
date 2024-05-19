@@ -72,22 +72,22 @@
 <!--            </intent-filter>-->
 <!--        </service>-->
 
-<!--        <service-->
-<!--            android:name=".util.MyFirebaseMessagingService"-->
-<!--            android:exported="false">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
-
         <service
-            android:name=".util.CustomFirebaseMessagingService"
+            android:name=".util.MyFirebaseMessagingService"
             android:exported="false">
-            <intent-filter android:priority="1">
-
+            <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+<!--        <service-->
+<!--            android:name=".util.CustomFirebaseMessagingService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter android:priority="1">-->
+
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
 
 <!--        <receiver-->
 <!--            android:name="io.getstream.chat.android.client.receivers.NotificationMessageReceiver"-->
@@ -98,15 +98,6 @@
 <!--                <action android:name="io.getstream.chat.android.REPLY" />-->
 <!--            </intent-filter>-->
 <!--        </receiver>-->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
 
 
     </application>

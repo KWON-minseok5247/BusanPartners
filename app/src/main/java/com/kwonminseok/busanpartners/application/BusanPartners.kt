@@ -27,6 +27,7 @@ import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
+import com.kwonminseok.busanpartners.util.CustomNotificationHandlerFactory
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
@@ -129,6 +130,20 @@ class BusanPartners : Application() {
                 description = "Notifications for chat messages"
             }
         }
+        val notificationHandler = CustomNotificationHandlerFactory.createNotificationHandler(
+            this,
+            newMessageIntent = { message, channel ->
+                HomeActivity.createLaunchIntent(
+                    context = this,
+                    messageId = message.id,
+                    parentMessageId = message.parentId,
+                    channelType = channel.type,
+                    channelId = channel.id
+                )
+            },
+            notificationChannel = notificationChannel
+        )
+
 
 //        val notificationHandler = MyNotificationHandler(this)
         val d = NotificationHandlerFactory.createNotificationHandler(
@@ -153,7 +168,7 @@ class BusanPartners : Application() {
         chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
-            .notifications(notificationConfig, d)
+            .notifications(notificationConfig, notificationHandler)
 //            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
     }
