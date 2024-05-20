@@ -1,7 +1,9 @@
 package com.kwonminseok.busanpartners.ui.profile
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -32,6 +34,9 @@ import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.api.models.QueryChannelsRequest
+import io.getstream.chat.android.models.Filters
 import io.getstream.result.call.enqueue
 import kotlinx.coroutines.flow.collectLatest
 import org.threeten.bp.OffsetDateTime
@@ -51,6 +56,7 @@ class ProfileFragment : Fragment() {
     private val viewModel: UserViewModel by viewModels()
     lateinit var user: User
     private val uid = BusanPartners.preferences.getString("uid", "")
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     // 여기서 해야 할 거는 일단 room을 통해서 데이터를 가져오기 ->
@@ -143,25 +149,23 @@ class ProfileFragment : Fragment() {
         binding.constraintProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
         }
-        binding.eventSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
+        sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", true)
+        binding.chatSwitchNotification.isChecked = notificationsEnabled
+
+
+        binding.chatSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
+            sharedPreferences.edit().putBoolean("notifications_enabled", isChecked).apply()
+
+            // 약간 알림 1개까지 추가로 제공하고 막히고 제공하는 느낌???????
             if (isChecked) {
                 // 사용자가 스위치를 켜면 채널 알림을 활성화합니다.
-                chatClient.unmuteChannel("messaging", "!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40").enqueue { result ->
-                    if (result.isSuccess) {
-                        Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Log.e("ChatMute", "Failed to mute: ${result}")
-                    }
-                }
+                unmuteAllChannels(requireContext(), chatClient)
             } else {
                 // 사용자가 스위치를 끄면 채널 알림을 비활성화합니다.
-                chatClient.muteChannel("messaging", "!members-zpdKwxmT5xg3bH4HXljyiB0_EWX9Vno99BXhn8fzt40").enqueue { result ->
-                    if (result.isSuccess) {
-                        Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Log.e("ChatMute", "Failed to mute: ${result}")
-                    }
-                }
+                muteAllChannels(requireContext(), chatClient)
+
+
             }
         }
 
@@ -343,6 +347,63 @@ class ProfileFragment : Fragment() {
         // 날짜 형식화
         return offsetDateTime.format(formatter)
     }
+
+    fun muteAllChannels(context: Context, chatClient: ChatClient) {
+        val filter = Filters.and(
+            Filters.eq("type", "messaging"),
+            Filters.`in`("members", listOf(chatClient.getCurrentUser()?.id ?: ""))
+        )
+        val request = QueryChannelsRequest(filter, 0, 100)
+
+        chatClient.queryChannels(request).enqueue { result ->
+            if (result.isSuccess) {
+                val channels = result.getOrNull()
+                if (channels == null) {
+                    return@enqueue
+                }
+
+                for (channel in channels) {
+                    chatClient.muteChannel(channel.type, channel.id).enqueue { muteResult ->
+                        if (!muteResult.isSuccess) {
+                            Log.e("ChatMute", "Failed to mute channel: ${channel.id}")
+                        }
+                    }
+                }
+                Toast.makeText(context, "모든 채널의 알림이 비활성화되었습니다", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.e("ChatMute", "Failed to query channels: ${result.errorOrNull()?.message}")
+            }
+        }
+    }
+
+    fun unmuteAllChannels(context: Context, chatClient: ChatClient) {
+        val filter = Filters.and(
+            Filters.eq("type", "messaging"),
+            Filters.`in`("members", listOf(chatClient.getCurrentUser()?.id ?: ""))
+        )
+        val request = QueryChannelsRequest(filter, 0, 100)
+
+        chatClient.queryChannels(request).enqueue { result ->
+            if (result.isSuccess) {
+                val channels = result.getOrNull()
+                if (channels == null) {
+                    return@enqueue
+                }
+                for (channel in channels) {
+                    chatClient.unmuteChannel(channel.type, channel.id).enqueue { unmuteResult ->
+                        if (!unmuteResult.isSuccess) {
+                            Log.e("ChatMute", "Failed to unmute channel: ${channel.id}")
+                        }
+                    }
+                }
+                Toast.makeText(context, "모든 채널의 알림이 활성화되었습니다", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.e("ChatMute", "Failed to query channels: ${result.errorOrNull()?.message}")
+            }
+        }
+    }
+
+
 
 
 
