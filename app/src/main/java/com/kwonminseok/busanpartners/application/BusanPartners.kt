@@ -27,6 +27,7 @@ import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
+import com.kwonminseok.busanpartners.util.CustomNotificationHandler
 import com.kwonminseok.busanpartners.util.CustomNotificationHandlerFactory
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.naver.maps.map.NaverMapSdk
@@ -34,6 +35,7 @@ import dagger.hilt.android.HiltAndroidApp
 import io.getstream.android.push.PushDeviceGenerator
 import io.getstream.android.push.firebase.FirebaseMessagingDelegate
 import io.getstream.android.push.firebase.FirebasePushDeviceGenerator
+import io.getstream.android.push.permissions.NotificationPermissionHandler
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.events.NewMessageEvent
 import io.getstream.chat.android.client.logger.ChatLogLevel
@@ -114,6 +116,7 @@ class BusanPartners : Application() {
         val ignorePushMessagesWhenUserOnline = true
         val pushDeviceGeneratorList: List<PushDeviceGenerator> = ArrayList()
 
+
         val notificationConfig = NotificationConfig(
             pushNotificationEnabled,
             pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners")),
@@ -125,10 +128,25 @@ class BusanPartners : Application() {
             val channelId = "chat_channel"
 //            val channelId = this.getString(R.string.stream_chat_other_notifications_channel_id)
             val channelName = "Chat Messages"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            NotificationChannel(channelId, channelName, importance).apply {
-                description = "Notifications for chat messages"
+            val importance = if (channelId == "stream_GetStreamClientOther") {
+                NotificationManager.IMPORTANCE_NONE // 특정 채널 ID에 대해 중요도를 NONE으로 설정
+            } else {
+                NotificationManager.IMPORTANCE_HIGH // 다른 채널에 대해선 HIGH로 설정
             }
+            NotificationChannel(channelId, channelName, importance).apply {
+                description = "Notifications for other messages with importance set to NONE"
+            }
+
+//            val importance = NotificationManager.IMPORTANCE_HIGH
+//            NotificationChannel(channelId, channelName, importance).apply {
+//                if (channelId == "stream_GetStreamClientOther") {
+//
+//
+//                }
+//                description = "Notifications for chat messages"
+//            }
+
+
         }
         val notificationHandler = CustomNotificationHandlerFactory.createNotificationHandler(
             this,
@@ -141,8 +159,10 @@ class BusanPartners : Application() {
                     channelId = channel.id
                 )
             },
+
             notificationChannel = notificationChannel
         )
+        val c = CustomNotificationHandler(this)
 
 
 //        val notificationHandler = MyNotificationHandler(this)
@@ -159,6 +179,7 @@ class BusanPartners : Application() {
             },
             notificationChannel = notificationChannel
         )
+
         val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
         val statePluginFactory = StreamStatePluginFactory(
             config = StatePluginConfig(backgroundSyncEnabled = true, userPresence = true),
@@ -168,18 +189,19 @@ class BusanPartners : Application() {
         chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
-            .notifications(notificationConfig, notificationHandler)
+            .notifications(notificationConfig, d)
 //            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
     }
     fun setupNotificationChannels(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = "stream_GetStreamClientOther"
-            val channelName = "기타 알림"
+            val channelName = "기타 알림?"
             val notificationManager = context.getSystemService(NotificationManager::class.java) as NotificationManager
 
             // 기존 채널 삭제
-            notificationManager.deleteNotificationChannel(channelId)
+//            notificationManager.deleteNotificationChannel(channelId)
+//            notificationManager.cancel()
 
             // 새로운 채널 생성, 중요도를 IMPORTANCE_NONE으로 설정
             val newChannel = NotificationChannel(

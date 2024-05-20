@@ -2,7 +2,10 @@ package com.kwonminseok.busanpartners.ui
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavOptions
@@ -49,6 +52,7 @@ class HomeActivity: AppCompatActivity() {
                          true
                      }
         }
+//        requestNotificationAccess(this)
 
 
 //binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -95,4 +99,18 @@ class HomeActivity: AppCompatActivity() {
         }
     }
 
+    private fun requestNotificationAccess(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!isNotificationServiceEnabled(context)) {
+                val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+                context.startActivity(intent)
+            }
+        }
+    }
+
+    private fun isNotificationServiceEnabled(context: Context): Boolean {
+        val pkgName = context.packageName
+        val flat = Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
+        return !TextUtils.isEmpty(flat) && flat.contains(pkgName)
+    }
 }

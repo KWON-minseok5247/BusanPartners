@@ -16,6 +16,7 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.ui.HomeActivity
+import com.kwonminseok.busanpartners.ui.message.ActivityState
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import io.getstream.android.push.firebase.FirebaseMessagingDelegate
 import io.getstream.android.push.firebase.FirebaseMessagingDelegate.handleRemoteMessage
@@ -61,6 +62,16 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.e("CustomFirebaseMessagingService 메시지", message.data.toString())
                 val manager = getSystemService(NotificationManager::class.java)
+
+                val cid = message.data["cid"] ?: return
+
+                // 현재 활동 상태 확인
+                if (ActivityState.currentActivity == ChannelActivity::class.java.simpleName && ActivityState.currentChannelId == cid) {
+                    Log.e("FCM", "현재 채팅방에 있음, 알림 생략")
+                    return  // 현재 채팅방에 있으면 알림을 생략
+                }
+
+
                 // 모든 알림 채널을 확인하고, 지정된 채널의 알림만 처리
                 manager.notificationChannels.forEach { channel ->
                     Log.e("channel", channel.toString())

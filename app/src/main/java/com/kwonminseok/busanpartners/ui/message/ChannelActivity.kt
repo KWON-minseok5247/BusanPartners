@@ -138,6 +138,7 @@ class ChannelActivity : BaseConnectedActivity() {
     @SuppressLint("StateFlowValueCalledInComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        cid = intent.getStringExtra("key:cid") ?: ""
 
         // 지도 기능을 추가하기 위한 코드
         val customFactories = listOf(locationAttachmentFactory)
@@ -145,7 +146,7 @@ class ChannelActivity : BaseConnectedActivity() {
         val defaultFactories = StreamAttachmentFactories.defaultFactories()
 
         // 예시 채팅방에 접속했을 때!
-        if (requireNotNull(intent.getStringExtra("key:cid") == "messaging:ExampleChat")) {
+        if (requireNotNull(cid == "messaging:ExampleChat")) {
             setContent {
 
                 ChatTheme(
@@ -695,8 +696,18 @@ class ChannelActivity : BaseConnectedActivity() {
 
     override fun onResume() {
         super.onResume()
+        ActivityState.currentActivity = this::class.java.simpleName
+        ActivityState.currentChannelId = cid
+
         cancelChatRoomNotification(cid)
     }
+
+    override fun onPause() {
+        super.onPause()
+        ActivityState.currentActivity = null
+        ActivityState.currentChannelId = null
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

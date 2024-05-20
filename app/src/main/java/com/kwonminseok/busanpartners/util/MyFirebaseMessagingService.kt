@@ -54,17 +54,31 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        try {
-            if (FirebaseMessagingDelegate.handleRemoteMessage(remoteMessage)) {
-                // RemoteMessage was from Stream and it is already processed
-            } else {
-                // RemoteMessage wasn't sent from Stream and it needs to be handled by you
+        Log.e("remoteMessage.data[type]", "${remoteMessage.data}")
+
+            try {
+                if (FirebaseMessagingDelegate.handleRemoteMessage(remoteMessage)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val channelId = "stream_GetStreamClientOther"
+                        val channelName = "기타 알림?"
+                        val notificationManager = this.getSystemService(NotificationManager::class.java) as NotificationManager
+
+                        // 기존 채널 삭제
+            notificationManager.deleteNotificationChannel(channelId)
+//            notificationManager.cancel()
+                        // 채널이 존재하는지 확인
+
+                    }
+                    // RemoteMessage was from Stream and it is already processed
+                } else {
+                    // RemoteMessage wasn't sent from Stream and it needs to be handled by you
+                }
+            } catch (exception: IllegalStateException) {
+                // ChatClient was not initialized
             }
-        } catch (exception: IllegalStateException) {
-            // ChatClient was not initialized
         }
+
+
     }
 
-
-}
 

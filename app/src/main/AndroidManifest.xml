@@ -72,22 +72,22 @@
 <!--            </intent-filter>-->
 <!--        </service>-->
 
-        <service
-            android:name=".util.MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
 <!--        <service-->
-<!--            android:name=".util.CustomFirebaseMessagingService"-->
+<!--            android:name=".util.MyFirebaseMessagingService"-->
 <!--            android:exported="false">-->
-<!--            <intent-filter android:priority="1">-->
-
+<!--            <intent-filter>-->
 <!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
 <!--            </intent-filter>-->
 <!--        </service>-->
+
+        <service
+            android:name=".util.CustomFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter android:priority="1">
+
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
 <!--        <receiver-->
 <!--            android:name="io.getstream.chat.android.client.receivers.NotificationMessageReceiver"-->
@@ -98,6 +98,15 @@
 <!--                <action android:name="io.getstream.chat.android.REPLY" />-->
 <!--            </intent-filter>-->
 <!--        </receiver>-->
+
+<!--        <service-->
+<!--            android:name=".util.MyNotificationListenerService"-->
+<!--            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.service.notification.NotificationListenerService" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
 
 
     </application>
