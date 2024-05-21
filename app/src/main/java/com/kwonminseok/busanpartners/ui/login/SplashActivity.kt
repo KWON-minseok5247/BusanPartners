@@ -205,7 +205,6 @@ class SplashActivity : AppCompatActivity() {
             override fun loadToken(): String =
                 BusanPartners.preferences.getString(Constants.TOKEN, "")
         }
-
         client?.let { chatClient ->
             chatClient.connectUser(
                 user = myUser,
@@ -214,10 +213,8 @@ class SplashActivity : AppCompatActivity() {
                 // 비동기 작업 결과 처리
                 if (result.isSuccess) {
                     val user = result.getOrNull()?.user
-                    Log.e("user?.unreadChannels", user?.unreadChannels.toString())
                     Log.e("user?.totalUnreadCount", user?.totalUnreadCount.toString())
-                    // Result contains the list of channel mutes
-                    val mutes: List<ChannelMute>? = user?.channelMutes
+
                 }
                 val intent =
                     Intent(this, HomeActivity::class.java).addFlags(

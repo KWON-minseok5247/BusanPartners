@@ -150,12 +150,17 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
         }
         sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", true)
-        binding.chatSwitchNotification.isChecked = notificationsEnabled
+
+        binding.eventSwitchNotification.isChecked = sharedPreferences.getBoolean("all_notifications_enabled", true)
+
+        val allNotificationsEnabled = sharedPreferences.getBoolean("all_notifications_enabled", true)
+
+        val chatNotificationsEnabled = sharedPreferences.getBoolean("chat_notifications_enabled", true)
+        binding.chatSwitchNotification.isChecked = chatNotificationsEnabled
 
 
         binding.chatSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
-            sharedPreferences.edit().putBoolean("notifications_enabled", isChecked).apply()
+            sharedPreferences.edit().putBoolean("chat_notifications_enabled", isChecked).apply()
 
             // 약간 알림 1개까지 추가로 제공하고 막히고 제공하는 느낌???????
             if (isChecked) {
@@ -164,6 +169,22 @@ class ProfileFragment : Fragment() {
             } else {
                 // 사용자가 스위치를 끄면 채널 알림을 비활성화합니다.
                 muteAllChannels(requireContext(), chatClient)
+
+
+            }
+        }
+
+        binding.eventSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
+            sharedPreferences.edit().putBoolean("all_notifications_enabled", isChecked).apply()
+
+            // 약간 알림 1개까지 추가로 제공하고 막히고 제공하는 느낌???????
+            if (isChecked) {
+                // 사용자가 스위치를 켜면 채널 알림을 활성화합니다.
+                Toast.makeText(requireContext(), "알림이 활성화되었습니다", Toast.LENGTH_SHORT).show()
+
+            } else {
+                // 사용자가 스위치를 끄면 채널 알림을 비활성화합니다.
+                Toast.makeText(requireContext(), "알림이 비활성화되었습니다", Toast.LENGTH_SHORT).show()
 
 
             }

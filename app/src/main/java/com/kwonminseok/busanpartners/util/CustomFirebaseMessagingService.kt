@@ -71,6 +71,15 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                     return  // 현재 채팅방에 있으면 알림을 생략
                 }
 
+                val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+                val notificationsEnabled = sharedPreferences.getBoolean("all_notifications_enabled", true)
+
+                if (!notificationsEnabled) {
+                    Log.e("CustomFirebaseMessagingService", "Notifications are disabled")
+                    return  // 사용자가 알림을 비활성화한 경우 알림을 표시하지 않음
+                }
+
+
 
                 // 모든 알림 채널을 확인하고, 지정된 채널의 알림만 처리
                 manager.notificationChannels.forEach { channel ->

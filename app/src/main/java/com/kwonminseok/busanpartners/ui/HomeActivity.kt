@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.databinding.ActivityHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,6 +45,7 @@ class HomeActivity: AppCompatActivity() {
         val navController = findNavController(R.id.homeHostFragment)
 //        binding.bottomNavigation.setupWithNavController(navController)
 
+
          binding.bottomNavigation.apply {
                  setupWithNavController(navController)
                  setOnItemSelectedListener { item ->
@@ -51,7 +53,20 @@ class HomeActivity: AppCompatActivity() {
                          navController.popBackStack(item.itemId, inclusive = false)
                          true
                      }
-        }
+             val count = chatClient.getCurrentUser()?.totalUnreadCount
+             if(count == null || count == 0) {
+                 removeBadge(R.id.messageFragment)
+             } else {
+                 getOrCreateBadge(R.id.messageFragment).apply {
+                     number =  count
+                     backgroundColor = resources.getColor(R.color.g_blue)
+                 }
+             }
+
+
+
+
+         }
 //        requestNotificationAccess(this)
 
 
