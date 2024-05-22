@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -47,6 +48,10 @@ class HomeFragment : Fragment() {
     private lateinit var locationSource: FusedLocationSource
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+
+    private var backPressedTime: Long = 0
+    private lateinit var toast: Toast
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
@@ -67,6 +72,21 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+//        // 뒤로가기 2번시 종료
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                if (System.currentTimeMillis() - backPressedTime < 2000) {
+//                    toast.cancel()
+//                    requireActivity().finish()
+//                } else {
+//                    backPressedTime = System.currentTimeMillis()
+//                    toast = Toast.makeText(requireContext(), "뒤로가기를 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT)
+//                    toast.show()
+//                }
+//            }
+//        })
 
 //
         // 위치 기반 퍼미션 허가 절차

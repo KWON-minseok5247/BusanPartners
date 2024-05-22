@@ -140,6 +140,7 @@ class ChannelActivity : BaseConnectedActivity() {
         super.onCreate(savedInstanceState)
         cid = intent.getStringExtra("key:cid") ?: ""
 
+
         // 지도 기능을 추가하기 위한 코드
         val customFactories = listOf(locationAttachmentFactory)
 //        val customFactories = listOf(dateAttachmentFactory)

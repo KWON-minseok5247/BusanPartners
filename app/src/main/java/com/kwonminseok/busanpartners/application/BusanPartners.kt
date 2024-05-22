@@ -26,6 +26,7 @@ import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.HomeActivity
+import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.CustomNotificationHandler
 import com.kwonminseok.busanpartners.util.CustomNotificationHandlerFactory
@@ -148,25 +149,7 @@ class BusanPartners : Application() {
 
 
         }
-        val notificationHandler = CustomNotificationHandlerFactory.createNotificationHandler(
-            this,
-            newMessageIntent = { message, channel ->
-                HomeActivity.createLaunchIntent(
-                    context = this,
-                    messageId = message.id,
-                    parentMessageId = message.parentId,
-                    channelType = channel.type,
-                    channelId = channel.id
-                )
-            },
-
-            notificationChannel = notificationChannel
-        )
-        val c = CustomNotificationHandler(this)
-
-
-//        val notificationHandler = MyNotificationHandler(this)
-//        val d = NotificationHandlerFactory.createNotificationHandler(
+//        val notificationHandler = CustomNotificationHandlerFactory.createNotificationHandler(
 //            this,
 //            newMessageIntent = { message, channel ->
 //                HomeActivity.createLaunchIntent(
@@ -177,8 +160,26 @@ class BusanPartners : Application() {
 //                    channelId = channel.id
 //                )
 //            },
+//
 //            notificationChannel = notificationChannel
 //        )
+//        val c = CustomNotificationHandler(this)
+
+
+//        val notificationHandler = MyNotificationHandler(this)
+        val d = NotificationHandlerFactory.createNotificationHandler(
+            this,
+            newMessageIntent = { message, channel ->
+                HomeActivity.createLaunchIntent(
+                    context = this,
+                    messageId = message.id,
+                    parentMessageId = message.parentId,
+                    channelType = channel.type,
+                    channelId = channel.id
+                )
+            },
+            notificationChannel = notificationChannel
+        )
 
         val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
         val statePluginFactory = StreamStatePluginFactory(
@@ -189,7 +190,7 @@ class BusanPartners : Application() {
         chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
-            .notifications(notificationConfig, )
+            .notifications(notificationConfig,d)
 //            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
     }

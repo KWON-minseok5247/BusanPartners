@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.text.TextUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavOptions
@@ -23,8 +24,10 @@ const val EXTRA_MESSAGE_ID = "extra_message_id"
 const val EXTRA_PARENT_MESSAGE_ID = "extra_parent_message_id"
 
 @AndroidEntryPoint
-class HomeActivity: AppCompatActivity() {
-//    private val viewModel: UserViewModel by viewModels()
+class HomeActivity : AppCompatActivity() {
+    //    private val viewModel: UserViewModel by viewModels()
+    private var backPressedTime: Long = 0
+    private lateinit var toast: Toast
 
     private lateinit var fragmentManager: FragmentManager
 
@@ -46,27 +49,25 @@ class HomeActivity: AppCompatActivity() {
 //        binding.bottomNavigation.setupWithNavController(navController)
 
 
-         binding.bottomNavigation.apply {
-                 setupWithNavController(navController)
-                 setOnItemSelectedListener { item ->
-                         NavigationUI.onNavDestinationSelected(item, navController)
-                         navController.popBackStack(item.itemId, inclusive = false)
-                         true
-                     }
-             val count = chatClient.getCurrentUser()?.totalUnreadCount
-             if(count == null || count == 0) {
-                 removeBadge(R.id.messageFragment)
-             } else {
-                 getOrCreateBadge(R.id.messageFragment).apply {
-                     number =  count
-                     backgroundColor = resources.getColor(R.color.g_blue)
-                 }
-             }
+        binding.bottomNavigation.apply {
+            setupWithNavController(navController)
+            setOnItemSelectedListener { item ->
+                NavigationUI.onNavDestinationSelected(item, navController)
+                navController.popBackStack(item.itemId, inclusive = false)
+                true
+            }
+            val count = chatClient.getCurrentUser()?.totalUnreadCount
+            if (count == null || count == 0) {
+                removeBadge(R.id.messageFragment)
+            } else {
+                getOrCreateBadge(R.id.messageFragment).apply {
+                    number = count
+                    backgroundColor = resources.getColor(R.color.g_blue)
+                }
+            }
 
 
-
-
-         }
+        }
 //        requestNotificationAccess(this)
 
 
@@ -98,6 +99,18 @@ class HomeActivity: AppCompatActivity() {
 //}
 
     }
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - backPressedTime < 2000) {
+            toast.cancel()
+            finishAffinity() // 앱의 모든 활동을 종료
+        } else {
+            backPressedTime = System.currentTimeMillis()
+            toast = Toast.makeText(this, "뒤로가기를 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT)
+            toast.show()
+        }
+    }
+
     companion object {
 
         fun createLaunchIntent(
@@ -125,7 +138,8 @@ class HomeActivity: AppCompatActivity() {
 
     private fun isNotificationServiceEnabled(context: Context): Boolean {
         val pkgName = context.packageName
-        val flat = Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
+        val flat =
+            Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
         return !TextUtils.isEmpty(flat) && flat.contains(pkgName)
     }
 }

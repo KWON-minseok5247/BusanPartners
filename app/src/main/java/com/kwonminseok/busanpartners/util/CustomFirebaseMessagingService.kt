@@ -16,6 +16,7 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.ui.HomeActivity
+import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.message.ActivityState
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import io.getstream.android.push.firebase.FirebaseMessagingDelegate
@@ -124,7 +125,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         Log.e("channel", channel.toString())
 
         // 특정 화면으로 이동하는 Intent 생성
-        val launchIntent = HomeActivity.createLaunchIntent(
+        val launchIntent = SplashActivity.createLaunchIntent(
             context = this,
             messageId = message.data["message_id"] ?: "",
             parentMessageId = message.data["parentMessageId"] ?: "",

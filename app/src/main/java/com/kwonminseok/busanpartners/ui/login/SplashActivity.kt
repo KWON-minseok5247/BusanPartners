@@ -2,6 +2,7 @@ package com.kwonminseok.busanpartners.ui.login
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -23,6 +24,11 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.repository.TimeRepository
+import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
+import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
+import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
+import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
+import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
@@ -137,7 +143,6 @@ class SplashActivity : AppCompatActivity() {
         val tokenTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(user.tokenTime)
         Log.e("tokenTimeToDateTime", tokenTimeToDateTime.toString())
 
-
         // 토큰 기간. 정상적으로 채팅이 가능한 시기
         if (currentServerTimeToDateTime != null) {
             if (currentServerTimeToDateTime <= tokenTimeToDateTime) {
@@ -210,6 +215,9 @@ class SplashActivity : AppCompatActivity() {
                 user = myUser,
                 tokenProvider
             ).enqueue { result ->
+
+                parseNotificationData()
+
                 // 비동기 작업 결과 처리
                 if (result.isSuccess) {
                     val user = result.getOrNull()?.user
@@ -314,6 +322,32 @@ private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
         }
     }
 
+    private fun parseNotificationData() {
+        intent?.let {
+            if (it.hasExtra(EXTRA_CHANNEL_ID) && it.hasExtra(EXTRA_MESSAGE_ID) && it.hasExtra(
+                    EXTRA_CHANNEL_TYPE
+                )
+            ) {
+                val channelType = it.getStringExtra(EXTRA_CHANNEL_TYPE)
+                val channelId = it.getStringExtra(EXTRA_CHANNEL_ID)
+                val cid = "$channelType:$channelId"
+                val messageId = it.getStringExtra(EXTRA_MESSAGE_ID)
+                val parentMessageId = it.getStringExtra(EXTRA_PARENT_MESSAGE_ID)
+
+                intent = null
+
+                // 새로운 인텐트 생성
+                val intent = Intent(this, ChannelActivity::class.java).apply {
+                    putExtra("key:cid", cid)
+                    putExtra(EXTRA_MESSAGE_ID, messageId)
+                    putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
+                }
+                Log.e("startSplash", cid)
+                startActivity(intent)
+            } else return
+        }
+    }
+
     // 권한 요청 결과 처리
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -351,5 +385,20 @@ private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
     }
 
 
+    companion object {
+
+        fun createLaunchIntent(
+            context: Context,
+            messageId: String,
+            parentMessageId: String?,
+            channelType: String,
+            channelId: String,
+        ) = Intent(context, HomeActivity::class.java).apply {
+            putExtra(EXTRA_CHANNEL_ID, channelId)
+            putExtra(EXTRA_CHANNEL_TYPE, channelType)
+            putExtra(EXTRA_MESSAGE_ID, messageId)
+            putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
+        }
+    }
 
 }
