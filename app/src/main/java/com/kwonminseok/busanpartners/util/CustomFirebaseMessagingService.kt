@@ -114,6 +114,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
 
         // RemoteMessage에서 cid 추출
         val cid = message.data["cid"] ?: throw IllegalArgumentException("CID is missing in the message data")
+        Log.e("CustomFirebaseMessagingService cid", cid)
 
         // cid의 해시코드를 알림 ID로 사용
         val notificationId = cid.hashCode()

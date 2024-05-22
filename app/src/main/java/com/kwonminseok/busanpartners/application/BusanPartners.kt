@@ -166,19 +166,19 @@ class BusanPartners : Application() {
 
 
 //        val notificationHandler = MyNotificationHandler(this)
-        val d = NotificationHandlerFactory.createNotificationHandler(
-            this,
-            newMessageIntent = { message, channel ->
-                HomeActivity.createLaunchIntent(
-                    context = this,
-                    messageId = message.id,
-                    parentMessageId = message.parentId,
-                    channelType = channel.type,
-                    channelId = channel.id
-                )
-            },
-            notificationChannel = notificationChannel
-        )
+//        val d = NotificationHandlerFactory.createNotificationHandler(
+//            this,
+//            newMessageIntent = { message, channel ->
+//                HomeActivity.createLaunchIntent(
+//                    context = this,
+//                    messageId = message.id,
+//                    parentMessageId = message.parentId,
+//                    channelType = channel.type,
+//                    channelId = channel.id
+//                )
+//            },
+//            notificationChannel = notificationChannel
+//        )
 
         val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
         val statePluginFactory = StreamStatePluginFactory(
@@ -189,7 +189,7 @@ class BusanPartners : Application() {
         chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
-            .notifications(notificationConfig, d)
+            .notifications(notificationConfig, )
 //            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
     }
