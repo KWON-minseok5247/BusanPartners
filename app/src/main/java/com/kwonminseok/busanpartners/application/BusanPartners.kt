@@ -170,7 +170,7 @@ class BusanPartners : Application() {
         val d = NotificationHandlerFactory.createNotificationHandler(
             this,
             newMessageIntent = { message, channel ->
-                HomeActivity.createLaunchIntent(
+                SplashActivity.createLaunchIntent(
                     context = this,
                     messageId = message.id,
                     parentMessageId = message.parentId,
@@ -194,30 +194,30 @@ class BusanPartners : Application() {
 //            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
     }
-    fun setupNotificationChannels(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "stream_GetStreamClientOther"
-            val channelName = "기타 알림?"
-            val notificationManager = context.getSystemService(NotificationManager::class.java) as NotificationManager
-
-            // 기존 채널 삭제
-//            notificationManager.deleteNotificationChannel(channelId)
-//            notificationManager.cancel()
-
-            // 새로운 채널 생성, 중요도를 IMPORTANCE_NONE으로 설정
-            val newChannel = NotificationChannel(
-                channelId,
-                channelName,
-                NotificationManager.IMPORTANCE_NONE
-            ).apply {
-                description = "알림이 사용자에게 전혀 보이지 않도록 설정된 채널"
-            }
-
-            // 새로운 채널 등록
-            notificationManager.createNotificationChannel(newChannel)
-        }
-
-    }
+//    fun setupNotificationChannels(context: Context) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val channelId = "stream_GetStreamClientOther"
+//            val channelName = "기타 알림?"
+//            val notificationManager = context.getSystemService(NotificationManager::class.java) as NotificationManager
+//
+//            // 기존 채널 삭제
+////            notificationManager.deleteNotificationChannel(channelId)
+////            notificationManager.cancel()
+//
+//            // 새로운 채널 생성, 중요도를 IMPORTANCE_NONE으로 설정
+//            val newChannel = NotificationChannel(
+//                channelId,
+//                channelName,
+//                NotificationManager.IMPORTANCE_NONE
+//            ).apply {
+//                description = "알림이 사용자에게 전혀 보이지 않도록 설정된 채널"
+//            }
+//
+//            // 새로운 채널 등록
+//            notificationManager.createNotificationChannel(newChannel)
+//        }
+//
+//    }
 
 
 //    fun customizeNotificationStyle(context: Context, notificationConfig: NotificationConfig) {

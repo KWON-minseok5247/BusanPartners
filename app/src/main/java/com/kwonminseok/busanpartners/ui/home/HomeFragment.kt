@@ -12,9 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.kwonminseok.busanpartners.BuildConfig
@@ -22,14 +25,24 @@ import com.kwonminseok.busanpartners.adapter.FestivalAdapter
 import com.kwonminseok.busanpartners.adapter.TourismAdapter
 import com.kwonminseok.busanpartners.adapter.TouristDestinationAdapter
 import com.kwonminseok.busanpartners.api.TourismApiService
+import com.kwonminseok.busanpartners.application.BusanPartners
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.data.TourismResponse
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
+import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
+import com.kwonminseok.busanpartners.util.Constants
+import com.kwonminseok.busanpartners.util.Resource
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import com.naver.maps.map.util.FusedLocationSource
+import io.getstream.chat.android.client.token.TokenProvider
+import io.getstream.chat.android.models.User
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +60,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var locationSource: FusedLocationSource
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-
 
     private var backPressedTime: Long = 0
     private lateinit var toast: Toast
@@ -74,19 +86,19 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-//        // 뒤로가기 2번시 종료
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                if (System.currentTimeMillis() - backPressedTime < 2000) {
-//                    toast.cancel()
-//                    requireActivity().finish()
-//                } else {
-//                    backPressedTime = System.currentTimeMillis()
-//                    toast = Toast.makeText(requireContext(), "뒤로가기를 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT)
-//                    toast.show()
-//                }
-//            }
-//        })
+        // 뒤로가기 2번시 종료
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - backPressedTime < 2000) {
+                    toast.cancel()
+                    requireActivity().finish()
+                } else {
+                    backPressedTime = System.currentTimeMillis()
+                    toast = Toast.makeText(requireContext(), "뒤로가기를 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT)
+                    toast.show()
+                }
+            }
+        })
 
 //
         // 위치 기반 퍼미션 허가 절차
@@ -274,6 +286,7 @@ class HomeFragment : Fragment() {
 //    }
 
     private fun parseNotificationData() {
+        Log.e("HomeFragment에서","parseNotificationData가 실행되었습니다." )
         requireActivity().intent?.let {
             if (it.hasExtra(EXTRA_CHANNEL_ID) && it.hasExtra(EXTRA_MESSAGE_ID) && it.hasExtra(
                     EXTRA_CHANNEL_TYPE
@@ -293,10 +306,11 @@ class HomeFragment : Fragment() {
                     putExtra(EXTRA_MESSAGE_ID, messageId)
                     putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
                 }
+                Log.e("HomeFragment에서","ChannelActivity로 이동을 시작합니다." )
+
                 startActivity(intent)
             }
         }
-    }
 
 
 
@@ -362,4 +376,5 @@ class HomeFragment : Fragment() {
 
 
 
+}
 }

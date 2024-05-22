@@ -100,16 +100,16 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
-        if (System.currentTimeMillis() - backPressedTime < 2000) {
-            toast.cancel()
-            finishAffinity() // 앱의 모든 활동을 종료
-        } else {
-            backPressedTime = System.currentTimeMillis()
-            toast = Toast.makeText(this, "뒤로가기를 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT)
-            toast.show()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (System.currentTimeMillis() - backPressedTime < 2000) {
+//            toast.cancel()
+//            finishAffinity() // 앱의 모든 활동을 종료
+//        } else {
+//            backPressedTime = System.currentTimeMillis()
+//            toast = Toast.makeText(this, "뒤로가기를 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT)
+//            toast.show()
+//        }
+//    }
 
     companion object {
 

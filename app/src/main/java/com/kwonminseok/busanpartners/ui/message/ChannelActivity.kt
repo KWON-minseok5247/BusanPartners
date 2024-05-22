@@ -139,6 +139,7 @@ class ChannelActivity : BaseConnectedActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cid = intent.getStringExtra("key:cid") ?: ""
+        Log.e("ChatClient!", chatClient.getCurrentUser().toString())
 
 
         // 지도 기능을 추가하기 위한 코드

@@ -78,6 +78,7 @@ class SplashActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.activity_splash)
         // Create a Handler
+        Log.e("Splash 화면이", "지나갔습니다.")
 
 
         val firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -204,6 +205,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun connectClient(myUser: User) {
+//        parseNotificationData()
 
         val tokenProvider = object : TokenProvider {
             // Make a request to your backend to generate a valid token for the user
@@ -216,7 +218,6 @@ class SplashActivity : AppCompatActivity() {
                 tokenProvider
             ).enqueue { result ->
 
-                parseNotificationData()
 
                 // 비동기 작업 결과 처리
                 if (result.isSuccess) {
@@ -344,7 +345,8 @@ private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
                 }
                 Log.e("startSplash", cid)
                 startActivity(intent)
-            } else return
+            }
+            else return
         }
     }
 
@@ -393,7 +395,7 @@ private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
             parentMessageId: String?,
             channelType: String,
             channelId: String,
-        ) = Intent(context, HomeActivity::class.java).apply {
+        ) = Intent(context, SplashActivity::class.java).apply {
             putExtra(EXTRA_CHANNEL_ID, channelId)
             putExtra(EXTRA_CHANNEL_TYPE, channelType)
             putExtra(EXTRA_MESSAGE_ID, messageId)

@@ -21,9 +21,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.MainActivity"
-            android:exported="true"></activity>
-        <activity
             android:name=".ui.HomeActivity"
             android:exported="true"></activity>
         <activity
@@ -80,14 +77,14 @@
 <!--            </intent-filter>-->
 <!--        </service>-->
 
-<!--        <service-->
-<!--            android:name=".util.CustomFirebaseMessagingService"-->
-<!--            android:exported="false">-->
-<!--            <intent-filter android:priority="1">-->
+        <service
+            android:name=".util.CustomFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter android:priority="1">
 
-<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
 <!--        <receiver-->
 <!--            android:name="io.getstream.chat.android.client.receivers.NotificationMessageReceiver"-->
