@@ -4,11 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.text.TextUtils
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -17,6 +23,16 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.databinding.ActivityHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import io.getstream.chat.android.client.api.models.QueryChannelsRequest
+import io.getstream.chat.android.client.events.ChatEvent
+import io.getstream.chat.android.client.events.MessageReadEvent
+import io.getstream.chat.android.client.events.NewMessageEvent
+import io.getstream.chat.android.client.events.NotificationMarkReadEvent
+import io.getstream.chat.android.client.events.NotificationMessageNewEvent
+import io.getstream.chat.android.client.events.UserPresenceChangedEvent
+import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.models.Filters
+import io.getstream.result.Result
 
 const val EXTRA_CHANNEL_ID = "extra_channel_id"
 const val EXTRA_CHANNEL_TYPE = "extra_channel_type"
@@ -30,6 +46,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var toast: Toast
 
     private lateinit var fragmentManager: FragmentManager
+    private val unreadCountLiveData = MutableLiveData<Int>()
+
 
     val binding by lazy {
         ActivityHomeBinding.inflate(layoutInflater)
@@ -49,6 +67,9 @@ class HomeActivity : AppCompatActivity() {
 //        binding.bottomNavigation.setupWithNavController(navController)
 
 
+
+
+
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
             setOnItemSelectedListener { item ->
@@ -56,60 +77,131 @@ class HomeActivity : AppCompatActivity() {
                 navController.popBackStack(item.itemId, inclusive = false)
                 true
             }
-            val count = chatClient.getCurrentUser()?.totalUnreadCount
-            if (count == null || count == 0) {
-                removeBadge(R.id.messageFragment)
+        }
+
+//        chatClient.subscribeFor(
+//            NotificationMessageNewEvent::class.java,
+//            NewMessageEvent::class.java,
+//            MessageReadEvent::class.java
+//        ) { event: ChatEvent ->
+//            when (event) {
+//                is NotificationMessageNewEvent -> {
+//                    updateBadge(event.totalUnreadCount ?: 0)
+//                }
+//                is NewMessageEvent -> {
+//                    updateBadge(chatClient.getCurrentUser()?.totalUnreadCount ?: 0)
+//                }
+//                is MessageReadEvent -> {
+//                    updateBadge(chatClient.getCurrentUser()?.totalUnreadCount ?: 0)
+//                }
+//                else -> {
+//                    // No action needed
+//                }
+//            }
+//            Log.d("ChatEvent", "새 메시지가 도착했습니다: $event")
+//        }
+//
+//        updateBadge(chatClient.getCurrentUser()?.totalUnreadCount ?: 0)
+
+        // 예시: GetStream SDK에서 메시지 수신 이벤트를 옵저빙
+//        getUnreadMessageCountLiveData().observe(this, Observer { unreadCount ->
+//            if (unreadCount == 0) {
+//                binding.bottomNavigation.removeBadge(R.id.messageFragment)
+//            } else {
+//                binding.bottomNavigation.getOrCreateBadge(R.id.messageFragment).apply {
+//                    number = unreadCount
+//                    backgroundColor = resources.getColor(R.color.g_blue)
+//                }
+//            }
+//        })
+
+        unreadCountLiveData.observe(this, Observer { unreadCount ->
+            if (unreadCount == 0) {
+                binding.bottomNavigation.removeBadge(R.id.messageFragment)
             } else {
-                getOrCreateBadge(R.id.messageFragment).apply {
-                    number = count
+                binding.bottomNavigation.getOrCreateBadge(R.id.messageFragment).apply {
+                    number = unreadCount
                     backgroundColor = resources.getColor(R.color.g_blue)
                 }
             }
+        })
+        subscribeToChannelUpdates()
+        getUnreadMessageCountLiveData()
 
-
-        }
-//        requestNotificationAccess(this)
-
-
-//binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
-//    when (item.itemId) {
-//        R.id.navigation_home -> {
-//            // Home 프래그먼트를 새로 생성하고 표시
-//            val homeFragment = HomeFragment.newInstance()
-//            navController.navigate(R.id.homeFragment, null, NavOptions.Builder()
-//                .setPopUpTo(R.id.homeFragment, true).build())
-//            true
-//        }
-//        R.id.navigation_dashboard -> {
-//            // Dashboard 프래그먼트를 새로 생성하고 표시
-//            val dashboardFragment = DashboardFragment.newInstance()
-//            navController.navigate(R.id.dashboardFragment, null, NavOptions.Builder()
-//                .setPopUpTo(R.id.dashboardFragment, true).build())
-//            true
-//        }
-//        R.id.navigation_notifications -> {
-//            // Notifications 프래그먼트를 새로 생성하고 표시
-//            val notificationsFragment = NotificationsFragment.newInstance()
-//            navController.navigate(R.id.notificationsFragment, null, NavOptions.Builder()
-//                .setPopUpTo(R.id.notificationsFragment, true).build())
-//            true
-//        }
-//        else -> false
-//    }
-//}
 
     }
 
-//    override fun onBackPressed() {
-//        if (System.currentTimeMillis() - backPressedTime < 2000) {
-//            toast.cancel()
-//            finishAffinity() // 앱의 모든 활동을 종료
-//        } else {
-//            backPressedTime = System.currentTimeMillis()
-//            toast = Toast.makeText(this, "뒤로가기를 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT)
-//            toast.show()
-//        }
-//    }
+    private fun updateBadge(unreadCount: Int) {
+        Handler(Looper.getMainLooper()).post {
+            Log.d("MainActivity", "Updating badge with count: $unreadCount")
+            if (unreadCount == 0) {
+                binding.bottomNavigation.removeBadge(R.id.messageFragment)
+            } else {
+                binding.bottomNavigation.getOrCreateBadge(R.id.messageFragment).apply {
+                    number = unreadCount
+                    backgroundColor = resources.getColor(R.color.g_blue, null)
+                }
+            }
+        }
+
+
+    }
+
+    private fun subscribeToChannelUpdates() {
+        chatClient.subscribeFor(
+            NewMessageEvent::class.java,
+            NotificationMarkReadEvent::class.java,
+            UserPresenceChangedEvent::class.java
+        ) { event ->
+            when (event) {
+                is NewMessageEvent -> {
+                    // 메시지가 새로 수신되었을 때 처리
+                    getUnreadMessageCountLiveData()
+                }
+                is NotificationMarkReadEvent -> {
+                    // 메시지가 읽혔을 때 처리
+                    getUnreadMessageCountLiveData()
+                }
+                is UserPresenceChangedEvent -> {
+                    // 사용자의 상태가 변경되었을 때 처리
+                    getUnreadMessageCountLiveData()
+                }
+
+                else -> {getUnreadMessageCountLiveData()}
+            }
+        }
+    }
+
+
+
+    private fun getUnreadMessageCountLiveData() {
+
+        val filter = Filters.and(
+            Filters.eq("type", "messaging"),
+            Filters.`in`("members", listOf(chatClient.getCurrentUser()?.id ?: ""))
+        )
+
+        val request = QueryChannelsRequest(
+            filter = filter,
+            offset = 0,
+            limit = 30,
+        ).apply {
+            watch = true
+            state = true
+        }
+
+        chatClient.queryChannels(request).enqueue { result: Result<List<Channel>> ->
+            if (result.isSuccess) {
+                val channels = result.getOrThrow()
+                val unreadCount = channels.sumOf { it.unreadCount ?: 0 }
+                unreadCountLiveData.postValue(unreadCount)
+            } else {
+                // Error handling
+                unreadCountLiveData.postValue(0)
+            }
+        }
+    }
+
 
     companion object {
 

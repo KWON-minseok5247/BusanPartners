@@ -121,9 +121,6 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         val notificationId = cid.hashCode()
 //        val notificationId = 1 // 알림 ID를 메시지 ID의 해시코드로 설정
 
-        Log.e("message", message.data.toString())
-        Log.e("channel", channel.toString())
-
         // 특정 화면으로 이동하는 Intent 생성
         val launchIntent = SplashActivity.createLaunchIntent(
             context = this,
