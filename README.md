@@ -1,7 +1,7 @@
 2024년 3월 6일 개발 시작
 
 https://www.2024tourapi.com/
-2024년 5월 21일 한국관광공사 x 카카오 2024 관광데이터 활용 공모전 선정
+2024년 5월 21일 한국관광공사 x 카카오 2024 관광데이터 활용 공모전 예비 심사 합격
 
 
 ![image](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/10a9ddcd-fefd-465e-9e6f-2e449d849ba6)
