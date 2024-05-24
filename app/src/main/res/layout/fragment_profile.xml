@@ -313,7 +313,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="15dp"
                         android:layout_weight="1"
-                        android:text="Logout"
+                        android:text="로그아웃"
                         android:textColor="@color/g_gray700"
                         android:textStyle="bold" />
 
@@ -325,7 +325,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linearChat"
+                    android:id="@+id/linearCustomerService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -343,13 +343,124 @@
                         />
 
                     <TextView
-                        android:id="@+id/chat"
+                        android:id="@+id/customerService"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="15dp"
                         android:layout_weight="1"
-                        android:text="Chat"
+                        android:text="고객센터"
+                        android:textColor="@color/g_gray700"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_arrow"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:id="@+id/linearPersonalInformation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/stream_ui_shape_video_information_background"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/settings_items_background"
+                        android:backgroundTint="#ff5823"
+                        app:tint="@color/white"
+                        />
+
+                    <TextView
+                        android:id="@+id/personalInformation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:text="개인정보처리방침"
+                        android:textColor="@color/g_gray700"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_arrow"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearUseTerms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/custom_info_window_background"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/settings_items_background"
+                        android:backgroundTint="#ff5823"
+                        app:tint="@color/white"
+                        />
+
+                    <TextView
+                        android:id="@+id/userTerms"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:text="이용 약관"
+                        android:textColor="@color/g_gray700"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_arrow"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearDeleteAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/stream_ui_ic_delete"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/settings_items_background"
+                        android:backgroundTint="#ff5823"
+                        app:tint="@color/white"
+                        />
+
+                    <TextView
+                        android:id="@+id/deleteAccount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:text="회원 탈퇴"
                         android:textColor="@color/g_gray700"
                         android:textStyle="bold" />
 

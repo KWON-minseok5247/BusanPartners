@@ -26,9 +26,6 @@ data class User(
     val major: String? = "",
     val wantToMeet: Boolean = false
 
-
-
-
 ) : Parcelable {
     constructor(): this("","","","", "")
 }

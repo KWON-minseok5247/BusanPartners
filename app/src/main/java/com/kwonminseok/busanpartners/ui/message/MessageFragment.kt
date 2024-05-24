@@ -43,6 +43,7 @@ import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModel
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFactory
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
 import io.getstream.chat.android.ui.viewmodel.search.SearchViewModel
+import io.getstream.result.call.Call
 
 @AndroidEntryPoint
 class MessageFragment : ChannelListFragment() {
@@ -115,12 +116,25 @@ class MessageFragment : ChannelListFragment() {
             val isMuted =
                 chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }
                     ?: false
+            // 차단 상태 확인 (임시로 false로 설정, 실제 로직 필요)
+//            val isBlocked = checkIfUserIsBlocked(otherUser?.id, channel.cid)
+            val isBlocked = checkIfUserIsBlocked(channel, chatClient.getCurrentUser()!!.id)
+            Log.e("channel", channel.toString())
 
-            val options = if (isMuted) {
-                arrayOf("채팅방 알림 켜기", "채팅방 나가기")
-            } else {
-                arrayOf("채팅방 알림 끄기", "채팅방 나가기")
+            Log.e("isBlocked", isBlocked.toString())
+//            val options = if (isMuted) {
+//                arrayOf("채팅방 알림 켜기", "채팅방 나가기")
+//            } else {
+//                arrayOf("채팅방 알림 끄기", "채팅방 나가기")
+//            }
+
+            val options = when {
+                isMuted && isBlocked -> arrayOf("채팅방 알림 켜기", "사용자 차단 해제", "채팅방 나가기")
+                !isMuted && isBlocked -> arrayOf("채팅방 알림 끄기", "사용자 차단 해제", "채팅방 나가기")
+                isMuted && !isBlocked -> arrayOf("채팅방 알림 켜기", "사용자 차단", "채팅방 나가기")
+                else -> arrayOf("채팅방 알림 끄기", "사용자 차단", "채팅방 나가기")
             }
+
 //                val cid = "$channelType:$channelId"
             AlertDialog.Builder(requireContext())
 //                .setTitle("Channel Options")
@@ -128,7 +142,8 @@ class MessageFragment : ChannelListFragment() {
                     when (which) {
                         0 -> if (isMuted) unmuteChat(channel.id) else muteChat(channel.id)
 //                        1 -> if (canDelete) chatClient.channel("${channel.type}:${channel.id}").delete().enqueue()
-                        1 -> deleteChattingRoom(channel)
+                        1 -> if (isBlocked) unBlockUser(channel) else blockUser(channel)
+                        2 -> deleteChattingRoom(channel)
 //                        1 -> if (canDelete) chatClient.channel("${channel.type}:${channel.id}").removeMembers(chatClient.getCurrentUser()?.id ?: "").enqueue()
 
                     }
@@ -154,7 +169,8 @@ class MessageFragment : ChannelListFragment() {
             .setMessage("정말로 채팅방을 나가시겠습니까?")
             .setPositiveButton("예") { dialog, which ->
                 if (userId != null) {
-                    chatClient.channel("${channel.type}:${channel.id}").removeMembers(listOf(userId)).enqueue { result ->
+                    chatClient.channel("${channel.type}:${channel.id}")
+                        .removeMembers(listOf(userId)).enqueue { result ->
                         if (result.isSuccess) {
                             Log.e("사용자가 채널을 성공적으로 나갔습니다.", "확인")
                         } else {
@@ -171,6 +187,47 @@ class MessageFragment : ChannelListFragment() {
 
             }
             .show()
+
+    }
+
+    private fun checkIfUserIsBlocked(channel: Channel, userId: String): Boolean {
+        val member = channel.members.find { it.user.id == userId }
+        return member?.user?.banned ?: false
+    }
+
+
+    private fun blockUser(channel: Channel) {
+        val currentUserId = ChatClient.instance().getCurrentUser()?.id
+        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
+        Log.e("otherUser", otherUser.toString())
+
+        if (otherUser != null) {
+            chatClient.banUser(otherUser.id, "messaging", channel.id, "유저의 선택으로 삭제되었습니다.", null)
+                .enqueue {
+                    Toast.makeText(
+                        requireContext(),
+                        "${otherUser.name}님이 차단되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+
+    }
+
+    private fun unBlockUser(channel: Channel) {
+        val currentUserId = ChatClient.instance().getCurrentUser()?.id
+        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
+        Log.e("otherUser", otherUser.toString())
+        if (otherUser != null) {
+            chatClient.unbanUser(otherUser.id, "messaging", channel.id)
+                .enqueue {
+                    Toast.makeText(
+                        requireContext(),
+                        "${otherUser.name}님이 차단 해제되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
 
     }
 

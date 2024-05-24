@@ -21,6 +21,9 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.functions.FirebaseFunctionsException
+import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.R
@@ -39,6 +42,7 @@ import io.getstream.chat.android.client.api.models.QueryChannelsRequest
 import io.getstream.chat.android.models.Filters
 import io.getstream.result.call.enqueue
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -212,7 +216,14 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_onboardingTravelerInformationFragment)
         }
 
-        binding.chat.setOnClickListener {
+        binding.customerService.setOnClickListener {
+            lifecycleScope.launch {
+//                val deeplClient = DeeplClient(BuildConfig.DEEPL_API)
+//                val translatedText = deeplClient.translate("안녕하세요", to = TargetLang.Japanese)
+//                Log.e("translatedText",translatedText.toString())
+
+            }
+
 //            GlobalScope.launch(Dispatchers.IO) {
 //                try {
 //                    UnivCert.clear(BuildConfig.COLLEGE_KEY)
@@ -221,7 +232,36 @@ class ProfileFragment : Fragment() {
 //                    e.printStackTrace()
 //                }
 //
-
+//            val data = hashMapOf(
+//                "text" to "안녕하세요",
+//                "languages" to listOf("en", "zh-CN", "zh-TW", "ja", "ko")
+//            )
+//
+//            val functions = FirebaseFunctions.getInstance("asia-northeast3")
+//            functions.getHttpsCallable("ext-firestore-translate-text-fstranslate")
+//                .call(data)
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        // 번역 결과 추출
+//                        val result = task.result?.data as Map<String, Any>
+//                        val translations = result["translations"] as Map<String, String>
+//                        Log.e("result", result.toString())
+//                        Log.e("translations", translations.toString())
+//
+//
+//                    } else {
+//                        // 호출 실패 처리
+//                        val e = task.exception
+//                        if (e is FirebaseFunctionsException) {
+//                            val code = e.code
+//                            val details = e.details
+//                            println("Firebase Functions error: $code, $details")
+//                        } else {
+//                            println("Error calling Firebase Functions: ${e?.message}")
+//                        }
+//                    }
+//
+//                }
 
         }
 
@@ -262,34 +302,34 @@ class ProfileFragment : Fragment() {
 
 
         }
-        binding.chat.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.POST_NOTIFICATIONS
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    // 알림 권한이 이미 허용된 경우
-                    Log.e("알림이 ", "허용된 상태")
-                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                    // 알림 권한이 거부되었지만 다시 요청 가능한 경우
-                    Log.e("알림이 ", "다시 요청 상태")
-                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                        1
-                    )
-                    // 사용자에게 알림이 필요한 이유를 설명하고 권한 요청 다이얼로그 띄우기
-                } else {
-                    // 알림 권한을 요청하는 다이얼로그 띄우기
-                    Log.e("알림이 ", "처음 요청 상태")
-                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                        1
-                    )
-
-
-                }
-            }
-
-        }
+//        binding.chat.setOnClickListener {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                if (ContextCompat.checkSelfPermission(
+//                        requireContext(),
+//                        Manifest.permission.POST_NOTIFICATIONS
+//                    ) == PackageManager.PERMISSION_GRANTED
+//                ) {
+//                    // 알림 권한이 이미 허용된 경우
+//                    Log.e("알림이 ", "허용된 상태")
+//                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+//                    // 알림 권한이 거부되었지만 다시 요청 가능한 경우
+//                    Log.e("알림이 ", "다시 요청 상태")
+//                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+//                        1
+//                    )
+//                    // 사용자에게 알림이 필요한 이유를 설명하고 권한 요청 다이얼로그 띄우기
+//                } else {
+//                    // 알림 권한을 요청하는 다이얼로그 띄우기
+//                    Log.e("알림이 ", "처음 요청 상태")
+//                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+//                        1
+//                    )
+//
+//
+//                }
+//            }
+//
+//        }
 
 
     }

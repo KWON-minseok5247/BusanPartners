@@ -1,15 +1,25 @@
 package com.kwonminseok.busanpartners.repository
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.storage.StorageReference
+import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.util.Constants.STUDENT
 import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
 import com.kwonminseok.busanpartners.util.Resource
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.awaitClose
@@ -17,6 +27,13 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
 interface FirebaseUserRepository {
 
@@ -56,7 +73,8 @@ class FirebaseUserRepositoryImpl(
 
 
     override suspend fun getCurrentUser(): Flow<Resource<User>> = callbackFlow {
-            val docRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
+
+        val docRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
             val snapshotListener = docRef.addSnapshotListener { snapshot, error ->
                 // 에러 처리
                 if (error != null) {
@@ -73,6 +91,9 @@ class FirebaseUserRepositoryImpl(
 
             }
             awaitClose { snapshotListener.remove() }
+
+
+
 
     }
 //    override suspend fun getCurrentUser(): Resource<User> {
@@ -94,6 +115,47 @@ class FirebaseUserRepositoryImpl(
     // 데이터를 수정하도록 한다.
     override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
         return try {
+            //TODO 이제 여기서 각종 데이터를 전부 번역해서 넣어야 한다.
+            val client = OkHttpClient()
+            val apiKey = BuildConfig.DEEPL_API
+            val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
+
+
+
+//            val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
+//            val translatedMap = mutableMapOf<String, Any?>()
+//            translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
+//            Log.e("translatedMap1",translatedMap.toString())
+
+            translateText("안녕하세요.", client, apiKey, mediaType)
+//            val translatedMap = mutableMapOf<String, Any?>()
+
+//            translatableMap.forEach { (key, value) ->
+//                if (value is String) {
+//                    val translations = translateText(value, client, apiKey, mediaType)
+//                    Log.e("translations",translations.toString())
+//
+//                    translatedMap[key] = translations
+//                } else if (value is List<*>) {
+//                    val translationsList = mutableMapOf<String, List<String>>()
+//                    value.filterIsInstance<String>().forEach { item ->
+//                        val itemTranslations = translateText(item, client, apiKey, mediaType)
+//                        Log.e("itemTranslations",itemTranslations.toString())
+//
+//                        itemTranslations.forEach { (lang, translatedText) ->
+//                            translationsList[lang] = (translationsList[lang] ?: emptyList()) + translatedText
+//                        }
+//                    }
+//                    translatedMap[key] = translationsList
+//                }
+//            }
+//            Log.e("translatedMap2",translatedMap.toString())
+
+
+
+
+
+
             firestore.collection(USER_COLLECTION).document(auth.uid!!).update(map).await()
 
             Resource.Success(true) // 업데이트 성공 시 true 반환
@@ -102,6 +164,43 @@ class FirebaseUserRepositoryImpl(
             Resource.Error(e.message ?: "Unknown error")
         }
     }
+
+    suspend fun translateText(text: String, client: OkHttpClient, apiKey: String, mediaType: MediaType?): Map<String, String> {
+        val languages = listOf("en", "ja", "zh", "zh-TW")
+        val translations = mutableMapOf<String, String>()
+
+        languages.forEach { lang ->
+            val json = JSONObject()
+            json.put("text", text)
+            json.put("target_lang", lang)
+            Log.e("json",json.toString())
+
+            val requestBody = json.toString().toRequestBody(mediaType)
+            Log.e("requestBody",requestBody.toString())
+
+            val request = Request.Builder()
+                .url("https://api-free.deepl.com/v2/translate")
+                .post(requestBody)
+                .addHeader("Authorization", "DeepL-Auth-Key $apiKey")
+                .build()
+            Log.e("request",request.toString())
+
+            val response = withContext(Dispatchers.IO) {
+                client.newCall(request).execute()
+            }
+            Log.e("response",response.toString())
+
+            val responseBody = response.body?.string()
+            val responseJson = JSONObject(responseBody)
+            val translatedText = responseJson.getJSONArray("translations").getJSONObject(0).getString("text").trim()
+
+            translations[lang] = translatedText
+        }
+
+        Log.e("translations", translations.toString())
+        return translations
+    }
+
 
 
     override suspend fun uploadUserImagesAndUpdateToFirestore(

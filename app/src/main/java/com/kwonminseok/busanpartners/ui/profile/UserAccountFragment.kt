@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +27,6 @@ import com.google.android.material.chip.Chip
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.data.User
-import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.databinding.FragmentUserAccountBinding
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
@@ -72,6 +72,7 @@ class UserAccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        // Room으로부터 데이터를 받는 과정
         viewModel.getUserStateFlowData(uid).observe(viewLifecycleOwner) { userEntity ->
             // userEntity가 null이 아닐 때 UI 업데이트
             if (userEntity == null) {
@@ -145,17 +146,20 @@ class UserAccountFragment : Fragment() {
 
         binding.buttonSave.setOnClickListener {
             binding.apply {
+                // TODO 여기서 변경사항을 찾아서 제공하는 게 더 합리적인 것 같다?
                 val edName = edName.text.toString()
                 val edMajor = edMajor.text.toString()
                 val introduction = introduction.text.toString()
                 val wantToMeet = switchShowHideTags.isChecked
 
                 chipTexts = mutableListOf<String>()
+
                 for (i in 0 until chipGroupHobbies.childCount) {
                     val chip = chipGroupHobbies.getChildAt(i) as Chip
                     chipTexts!!.add(chip.text.toString())
                 }
-                val noImageMap = mapOf(
+
+                val newData = mapOf(
                     "name" to edName,
                     "major" to edMajor,
                     "introduction" to introduction,
@@ -163,8 +167,16 @@ class UserAccountFragment : Fragment() {
                     "wantToMeet" to wantToMeet
                 )
 
+                val changes = mutableMapOf<String, Any?>()
+                if (edName != oldUser.name) changes["name"] = edName
+                if (edMajor != oldUser.major) changes["major"] = edMajor
+                if (introduction != oldUser.introduction) changes["introduction"] = introduction
+                if (chipTexts != oldUser.chipGroup) changes["chipGroup"] = chipTexts
+                if (wantToMeet != oldUser.wantToMeet) changes["wantToMeet"] = wantToMeet
+
+
                 if (imageData == null) { // 사진을 변경하지 않은 경우
-                    viewModel.setCurrentUser(noImageMap)
+                    viewModel.setCurrentUser(changes)
                     oldUser = oldUser.copy(
                         name = edName,
                         major = edMajor,
@@ -177,7 +189,7 @@ class UserAccountFragment : Fragment() {
 
                 } else { // 사진을 변경한 경우
                     val image = convertUriToByteArray(imageData!!)
-                    viewModel.setCurrentUserWithImage(image, noImageMap)
+                    viewModel.setCurrentUserWithImage(image, changes)
 
                     oldUser = oldUser.copy(
                         name = edName,
@@ -249,37 +261,66 @@ class UserAccountFragment : Fragment() {
             startActivityForResult(intent, GALLERY)
         }
 
-
         binding.editTag.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                // 사용자가 완료 버튼을 눌렀을 때의 처리를 작성합니다.
-                // 예: 입력한 텍스트 값을 사용하거나, 다른 화면으로 넘어가는 등의 처리
                 val tagText = binding.editTag.text.toString()
                 if (tagText.isNotEmpty()) {
-                    val chip = Chip(requireContext()).apply {
-                        text = tagText
-                        isCloseIconVisible = true // 닫기 아이콘을 보여줍니다.
-                        setOnCloseIconClickListener {
-                            // Chip을 클릭했을 때 ChipGroup에서 제거합니다.
-                            binding.chipGroupHobbies.removeView(this)
+                    if (binding.chipGroupHobbies.childCount < 10) {
+                        val chip = Chip(requireContext()).apply {
+                            text = tagText
+                            isCloseIconVisible = true
+                            setOnCloseIconClickListener {
+                                binding.chipGroupHobbies.removeView(this)
+                            }
                         }
+
+                        chip.alpha = 0f
+                        binding.chipGroupHobbies.addView(chip)
+
+                        chip.animate()
+                            .alpha(1f)
+                            .setDuration(300)
+                            .start()
+
+                        binding.editTag.text.clear()
+                    } else {
+                        Toast.makeText(requireContext(), "최대 10개의 태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT).show()
                     }
-
-                    chip.alpha = 0f // 초기 알파 값을 0으로 설정
-                    binding.chipGroupHobbies.addView(chip)
-
-                    // 애니메이션으로 알파 값을 0에서 1로 변경
-                    chip.animate()
-                        .alpha(1f)
-                        .setDuration(300) // 애니메이션 지속 시간 설정
-                        .start()
-
-                    binding.editTag.text.clear() // EditText의 텍스트를 지웁니다.
                 }
                 true
             } else false
-
         }
+
+//        binding.editTag.setOnEditorActionListener { v, actionId, event ->
+//            if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                // 사용자가 완료 버튼을 눌렀을 때의 처리를 작성합니다.
+//                // 예: 입력한 텍스트 값을 사용하거나, 다른 화면으로 넘어가는 등의 처리
+//                val tagText = binding.editTag.text.toString()
+//                if (tagText.isNotEmpty()) {
+//                    val chip = Chip(requireContext()).apply {
+//                        text = tagText
+//                        isCloseIconVisible = true // 닫기 아이콘을 보여줍니다.
+//                        setOnCloseIconClickListener {
+//                            // Chip을 클릭했을 때 ChipGroup에서 제거합니다.
+//                            binding.chipGroupHobbies.removeView(this)
+//                        }
+//                    }
+//
+//                    chip.alpha = 0f // 초기 알파 값을 0으로 설정
+//                    binding.chipGroupHobbies.addView(chip)
+//
+//                    // 애니메이션으로 알파 값을 0에서 1로 변경
+//                    chip.animate()
+//                        .alpha(1f)
+//                        .setDuration(300) // 애니메이션 지속 시간 설정
+//                        .start()
+//
+//                    binding.editTag.text.clear() // EditText의 텍스트를 지웁니다.
+//                }
+//                true
+//            } else false
+//
+//        }
 
     }
 

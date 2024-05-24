@@ -34,6 +34,8 @@ android {
         buildConfigField "String", "BUSAN_TOURIST_DESTINATION_KEY", properties['BUSAN_TOURIST_DESTINATION_KEY']
         buildConfigField "String", "COLLEGE_KEY", properties['COLLEGE_KEY']
         buildConfigField "String", "NAVER_CLIENT_ID", properties['NAVER_CLIENT_ID']
+        buildConfigField "String", "DEEPL_API", properties['DEEPL_API']
+
         // 매니페스트에서 사용이 가능하다. 구글맵 같은 경우가 이에 해당한다.
 
         buildConfigField "String", "GUEST_ID_TOKEN", properties['GUEST_ID_TOKEN']
@@ -79,6 +81,8 @@ android {
 
 
 
+
+
 //    configurations.all {
 //        resolutionStrategy {
 //            force 'org.hamcrest:hamcrest-junit:2.0.0.0'
@@ -86,6 +90,7 @@ android {
 //    }
 
 }
+
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.12.0'
@@ -313,6 +318,11 @@ dependencies {
 //    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
 //    // UI Tests
 //    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.2.1'
+
+    // deepl 임시 땜빵용
+//    implementation("moe.micha:deeplkt:0.2.0")
+    implementation("io.ktor:ktor-client-cio:1.6.7")
+    implementation("io.ktor:ktor-client-core:1.6.7")
 
 
 }
