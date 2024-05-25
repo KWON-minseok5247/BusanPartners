@@ -116,7 +116,6 @@ class FirebaseUserRepositoryImpl(
             val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
             val translatedMap = mutableMapOf<String, Any?>()
             translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
-            Log.e("translatedMap1",translatedMap.toString())
 
 //            translateText("안녕하세요.", apiKey)
 
@@ -131,7 +130,7 @@ class FirebaseUserRepositoryImpl(
                     val listAsString = value.joinToString(separator = ",")
                     // 문자열 번역
                     val translations = translateText(listAsString, apiKey)
-                    Log.e("translations", translations.toString())
+                    Log.e("chipGroup translations", translations.toString())
 
                     // 번역된 문자열을 다시 리스트로 변환
                     val translatedLists = mutableMapOf<String, List<String>>()
@@ -193,7 +192,6 @@ class FirebaseUserRepositoryImpl(
             }
         }
 
-        Log.e("translations", translations.toString())
         return translations
     }
 
