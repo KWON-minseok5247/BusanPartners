@@ -12,12 +12,6 @@ import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.util.Constants.STUDENT
 import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
 import com.kwonminseok.busanpartners.util.Resource
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -28,6 +22,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import okhttp3.FormBody
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -116,40 +111,38 @@ class FirebaseUserRepositoryImpl(
     override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
         return try {
             //TODO 이제 여기서 각종 데이터를 전부 번역해서 넣어야 한다.
-            val client = OkHttpClient()
             val apiKey = BuildConfig.DEEPL_API
-            val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
 
+            val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
+            val translatedMap = mutableMapOf<String, Any?>()
+            translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
+            Log.e("translatedMap1",translatedMap.toString())
 
+//            translateText("안녕하세요.", apiKey)
 
-//            val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
-//            val translatedMap = mutableMapOf<String, Any?>()
-//            translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
-//            Log.e("translatedMap1",translatedMap.toString())
+            translatableMap.forEach { (key, value) ->
+                if (value is String) {
+                    val translations = translateText(value, apiKey)
+                    Log.e("translations",translations.toString())
 
-            translateText("안녕하세요.", client, apiKey, mediaType)
-//            val translatedMap = mutableMapOf<String, Any?>()
+                    translatedMap[key] = translations
+                } else if (key == "chipGroup" && value is List<*>) {
+                    // 리스트를 하나의 문자열로 변환
+                    val listAsString = value.joinToString(separator = ",")
+                    // 문자열 번역
+                    val translations = translateText(listAsString, apiKey)
+                    Log.e("translations", translations.toString())
 
-//            translatableMap.forEach { (key, value) ->
-//                if (value is String) {
-//                    val translations = translateText(value, client, apiKey, mediaType)
-//                    Log.e("translations",translations.toString())
-//
-//                    translatedMap[key] = translations
-//                } else if (value is List<*>) {
-//                    val translationsList = mutableMapOf<String, List<String>>()
-//                    value.filterIsInstance<String>().forEach { item ->
-//                        val itemTranslations = translateText(item, client, apiKey, mediaType)
-//                        Log.e("itemTranslations",itemTranslations.toString())
-//
-//                        itemTranslations.forEach { (lang, translatedText) ->
-//                            translationsList[lang] = (translationsList[lang] ?: emptyList()) + translatedText
-//                        }
-//                    }
-//                    translatedMap[key] = translationsList
-//                }
-//            }
-//            Log.e("translatedMap2",translatedMap.toString())
+                    // 번역된 문자열을 다시 리스트로 변환
+                    val translatedLists = mutableMapOf<String, List<String>>()
+                    translations.forEach { (lang, translatedText) ->
+                        translatedLists[lang] = translatedText.split(",").map { it.trim() }
+                    }
+                    translatedMap[key] = translatedLists
+                }
+            }
+
+            Log.e("translatedMap",translatedMap.toString())
 
 
 
@@ -165,36 +158,39 @@ class FirebaseUserRepositoryImpl(
         }
     }
 
-    suspend fun translateText(text: String, client: OkHttpClient, apiKey: String, mediaType: MediaType?): Map<String, String> {
-        val languages = listOf("en", "ja", "zh", "zh-TW")
+    suspend fun translateText(
+        text: String,
+        apiKey: String
+    ): Map<String, String> {
+        val client = OkHttpClient()
+        val languages = listOf("EN", "JA", "ZH")
         val translations = mutableMapOf<String, String>()
 
         languages.forEach { lang ->
-            val json = JSONObject()
-            json.put("text", text)
-            json.put("target_lang", lang)
-            Log.e("json",json.toString())
-
-            val requestBody = json.toString().toRequestBody(mediaType)
-            Log.e("requestBody",requestBody.toString())
+            val formBody = FormBody.Builder()
+                .add("auth_key", apiKey)
+                .add("text", text)
+                .add("target_lang", lang)
+                .build()
 
             val request = Request.Builder()
                 .url("https://api-free.deepl.com/v2/translate")
-                .post(requestBody)
-                .addHeader("Authorization", "DeepL-Auth-Key $apiKey")
+                .post(formBody)
                 .build()
-            Log.e("request",request.toString())
 
             val response = withContext(Dispatchers.IO) {
                 client.newCall(request).execute()
             }
-            Log.e("response",response.toString())
 
-            val responseBody = response.body?.string()
-            val responseJson = JSONObject(responseBody)
-            val translatedText = responseJson.getJSONArray("translations").getJSONObject(0).getString("text").trim()
+            if (response.isSuccessful) {
+                val responseBody = response.body?.string()
+                val responseJson = JSONObject(responseBody)
+                val translatedText = responseJson.getJSONArray("translations").getJSONObject(0).getString("text").trim()
 
-            translations[lang] = translatedText
+                translations[lang] = translatedText
+            } else {
+                Log.e("translationError", "Failed to translate to $lang: ${response.code}")
+            }
         }
 
         Log.e("translations", translations.toString())
