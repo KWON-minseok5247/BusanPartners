@@ -86,7 +86,7 @@ class ProfileFragment : Fragment() {
             if (isLogOut) { // 로그아웃을 클릭할 때
                return@observe
             }
-            if (userEntity == null ) { //
+            if (userEntity == null ) { // 처음 로그인을 했을 때.
                 viewModel.getCurrentUser()
 
                 lifecycleScope.launchWhenStarted {

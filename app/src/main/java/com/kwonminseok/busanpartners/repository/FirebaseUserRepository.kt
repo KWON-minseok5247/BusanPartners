@@ -8,6 +8,8 @@ import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.storage.StorageReference
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
+import com.kwonminseok.busanpartners.data.AuthenticationInformation
+import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.util.Constants.STUDENT
 import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
@@ -108,31 +110,74 @@ class FirebaseUserRepositoryImpl(
 //    }
 
     // 데이터를 수정하도록 한다.
+//    override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
+//        return try {
+//            //TODO 이제 여기서 각종 데이터를 전부 번역해서 넣어야 한다.
+//            val apiKey = BuildConfig.DEEPL_API
+//
+//            val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
+//            val translatedMap = mutableMapOf<String, Any?>()
+//            translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
+//
+//            Log.e("initialTranslatedMap", translatedMap.toString())
+//
+//            translatableMap.forEach { (key, value) ->
+//                if (value is String) {
+//                    val translations = translateText(value, apiKey)
+//                    Log.e("translations for $key", translations.toString())
+//                    translatedMap[key] = translations
+//                } else if (key == "chipGroup" && value is List<*>) {
+//                    // 리스트를 하나의 문자열로 변환
+//                    val listAsString = value.joinToString(separator = ",")
+//                    // 문자열 번역
+//                    val translations = translateText(listAsString, apiKey)
+//                    Log.e("chipGroup translations", translations.toString())
+//
+//                    // 번역된 문자열을 다시 리스트로 변환
+//                    val translatedLists = mutableMapOf<String, List<String>>()
+//                    translations.forEach { (lang, translatedText) ->
+//                        translatedLists[lang] = if (translatedText.isBlank()) emptyList() else translatedText.split(",").map { it.trim() }
+//                    }
+//                    translatedMap[key] = translatedLists
+//                }
+//            }
+//            // 내가 수동으로 추가하는 방법으로 해야겠다.
+//            Log.e("finalTranslatedMap", translatedMap.toString())
+//
+//
+//
+//
+//
+//            firestore.collection(USER_COLLECTION).document(auth.uid!!).update(map).await()
+//
+//            Resource.Success(true) // 업데이트 성공 시 true 반환
+//
+//        } catch (e: Exception) {
+//            Resource.Error(e.message ?: "Unknown error")
+//        }
+//    }
     override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
         return try {
-            //TODO 이제 여기서 각종 데이터를 전부 번역해서 넣어야 한다.
-            //TODO 이제 여기서 각종 데이터를 전부 번역해서 넣어야 한다.
             val apiKey = BuildConfig.DEEPL_API
 
+            // 번역이 필요한 필드만 추출
             val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
             val translatedMap = mutableMapOf<String, Any?>()
             translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
 
-            Log.e("initialTranslatedMap", translatedMap.toString())
-
+            // 번역 작업 수행
             translatableMap.forEach { (key, value) ->
                 if (value is String) {
                     val translations = translateText(value, apiKey)
-                    Log.e("translations for $key", translations.toString())
-                    translatedMap[key] = translations
+                    translatedMap[key] = TranslatedText(
+                        ko = translations["KO"] ?: "",
+                        en = translations["EN"],
+                        ja = translations["JA"],
+                        zh = translations["ZH"]
+                    )
                 } else if (key == "chipGroup" && value is List<*>) {
-                    // 리스트를 하나의 문자열로 변환
                     val listAsString = value.joinToString(separator = ",")
-                    // 문자열 번역
                     val translations = translateText(listAsString, apiKey)
-                    Log.e("chipGroup translations", translations.toString())
-
-                    // 번역된 문자열을 다시 리스트로 변환
                     val translatedLists = mutableMapOf<String, List<String>>()
                     translations.forEach { (lang, translatedText) ->
                         translatedLists[lang] = if (translatedText.isBlank()) emptyList() else translatedText.split(",").map { it.trim() }
@@ -140,20 +185,18 @@ class FirebaseUserRepositoryImpl(
                     translatedMap[key] = translatedLists
                 }
             }
-            // 내가 수동으로 추가하는 방법으로 해야겠다.
-            Log.e("finalTranslatedMap", translatedMap.toString())
+            Log.e("translatedMap", translatedMap.toString() )
 
 
+            // Firestore에 저장
+            firestore.collection(USER_COLLECTION).document(auth.uid!!).update(translatedMap).await()
 
-
-
-            firestore.collection(USER_COLLECTION).document(auth.uid!!).update(map).await()
-
-            Resource.Success(true) // 업데이트 성공 시 true 반환
+            Resource.Success(true)
 
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Unknown error")
         }
+
     }
 
     suspend fun translateText(
@@ -161,7 +204,7 @@ class FirebaseUserRepositoryImpl(
         apiKey: String
     ): Map<String, String> {
         val client = OkHttpClient()
-        val languages = listOf("EN", "JA", "ZH", "ZH-TW")
+        val languages = listOf("EN", "JA", "ZH")
         val translations = mutableMapOf<String, String>()
 
         languages.forEach { lang ->
@@ -191,6 +234,7 @@ class FirebaseUserRepositoryImpl(
             }
         }
 
+        translations["KO"] = text
         Log.e("translations", translations.toString())
         return translations
     }

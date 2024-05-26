@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kwonminseok.busanpartners.data.AuthenticationInformation
+import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
 import java.time.LocalDate
 import java.util.*
@@ -20,6 +21,18 @@ class Converters {
     fun toTranslatedText(translatedTextString: String?): TranslatedText? {
         return translatedTextString?.let { gson.fromJson(it, TranslatedText::class.java) }
     }
+
+    @TypeConverter
+    fun fromTranslatedList(translatedList: TranslatedList?): String? {
+        return Gson().toJson(translatedList)
+    }
+
+    @TypeConverter
+    fun toTranslatedList(translatedListString: String?): TranslatedList? {
+        val type = object : TypeToken<TranslatedList>() {}.type
+        return Gson().fromJson(translatedListString, type)
+    }
+
 
     @TypeConverter
     fun fromChipGroup(chipGroup: List<String>?): String? {

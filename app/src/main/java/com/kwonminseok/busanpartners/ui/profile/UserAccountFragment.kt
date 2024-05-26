@@ -75,6 +75,7 @@ class UserAccountFragment : Fragment() {
 
         // Room으로부터 데이터를 받는 과정
         viewModel.getUserStateFlowData(uid).observe(viewLifecycleOwner) { userEntity ->
+            Log.e("userEntity", userEntity.toString())
             // userEntity가 null이 아닐 때 UI 업데이트
             if (userEntity == null) {
                 // 문제가 있었으면 프로필화면에서 이미 처리했지 여기는 굳이 신경안써도 될 듯?
@@ -106,6 +107,7 @@ class UserAccountFragment : Fragment() {
             } else { // 여기는 Room으로부터 먼저 가져오되 서버에서도 가져와서 비교를 하고 업데이트 및 수정을 한다.
                 // TODO 아무리 빨리해도 속도 제한이 있는데 그 사이에 짧은 로딩바라도 넣는 게 낫나???
                 oldUser = userEntity.toUser()
+                Log.e("oldUser", oldUser.toString())
                 enterData(oldUser)
 
                 viewModel.getCurrentUser()
@@ -120,6 +122,8 @@ class UserAccountFragment : Fragment() {
                                 if (oldUser == it.data) { // room이랑 데이터가 똑같을 때
                                     return@collectLatest
                                 } else { // Room이랑 데이터가 다를 때
+                                    Log.e("it.data", it.data.toString())
+
                                     enterData(it.data!!)
                                     oldUser = it.data
                                     viewModel.updateUser(oldUser.toEntity())
