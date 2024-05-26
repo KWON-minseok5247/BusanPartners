@@ -217,51 +217,6 @@ class ProfileFragment : Fragment() {
         }
 
         binding.customerService.setOnClickListener {
-            lifecycleScope.launch {
-//                val deeplClient = DeeplClient(BuildConfig.DEEPL_API)
-//                val translatedText = deeplClient.translate("안녕하세요", to = TargetLang.Japanese)
-//                Log.e("translatedText",translatedText.toString())
-
-            }
-
-//            GlobalScope.launch(Dispatchers.IO) {
-//                try {
-//                    UnivCert.clear(BuildConfig.COLLEGE_KEY)
-//
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//
-//            val data = hashMapOf(
-//                "text" to "안녕하세요",
-//                "languages" to listOf("en", "zh-CN", "zh-TW", "ja", "ko")
-//            )
-//
-//            val functions = FirebaseFunctions.getInstance("asia-northeast3")
-//            functions.getHttpsCallable("ext-firestore-translate-text-fstranslate")
-//                .call(data)
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//                        // 번역 결과 추출
-//                        val result = task.result?.data as Map<String, Any>
-//                        val translations = result["translations"] as Map<String, String>
-//                        Log.e("result", result.toString())
-//                        Log.e("translations", translations.toString())
-//
-//
-//                    } else {
-//                        // 호출 실패 처리
-//                        val e = task.exception
-//                        if (e is FirebaseFunctionsException) {
-//                            val code = e.code
-//                            val details = e.details
-//                            println("Firebase Functions error: $code, $details")
-//                        } else {
-//                            println("Error calling Firebase Functions: ${e?.message}")
-//                        }
-//                    }
-//
-//                }
 
         }
 
