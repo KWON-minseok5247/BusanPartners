@@ -12,12 +12,6 @@ import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.util.Constants.STUDENT
 import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
 import com.kwonminseok.busanpartners.util.Resource
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

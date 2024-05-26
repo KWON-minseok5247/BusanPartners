@@ -3,6 +3,7 @@ package com.kwonminseok.busanpartners.ui.connect
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -75,6 +76,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         // ViewModel 함수 호출
         viewModel.getUniversityStudentsWantToMeet()

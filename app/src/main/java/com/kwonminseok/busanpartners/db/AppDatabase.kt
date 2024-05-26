@@ -8,7 +8,7 @@ import com.kwonminseok.busanpartners.db.entity.UserEntity
 import kotlinx.coroutines.CoroutineScope
 
 
-@Database(entities = [UserEntity::class], version = 1, exportSchema = false)
+@Database(entities = [UserEntity::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

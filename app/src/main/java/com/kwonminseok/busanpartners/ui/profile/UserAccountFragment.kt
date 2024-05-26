@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
 import com.kwonminseok.busanpartners.application.BusanPartners
+import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentUserAccountBinding
 import com.kwonminseok.busanpartners.extensions.toEntity
@@ -168,9 +169,9 @@ class UserAccountFragment : Fragment() {
                 )
 
                 val changes = mutableMapOf<String, Any?>()
-                if (edName != oldUser.name) changes["name"] = edName
-                if (edMajor != oldUser.major) changes["major"] = edMajor
-                if (introduction != oldUser.introduction) changes["introduction"] = introduction
+                if (edName != oldUser.name?.ko) changes["name"] = edName
+                if (edMajor != oldUser.major?.ko) changes["major"] = edMajor
+                if (introduction != oldUser.introduction?.ko) changes["introduction"] = introduction
                 if (chipTexts != oldUser.chipGroup) changes["chipGroup"] = chipTexts
                 if (wantToMeet != oldUser.wantToMeet) changes["wantToMeet"] = wantToMeet
 
@@ -178,9 +179,9 @@ class UserAccountFragment : Fragment() {
                 if (imageData == null) { // 사진을 변경하지 않은 경우
                     viewModel.setCurrentUser(changes)
                     oldUser = oldUser.copy(
-                        name = edName,
-                        major = edMajor,
-                        introduction = introduction,
+                        name = TranslatedText(ko = edName),
+                        major = TranslatedText(ko = edMajor),
+                        introduction = TranslatedText(ko = introduction),
                         chipGroup = chipTexts,
                         wantToMeet = wantToMeet
                     )
@@ -192,9 +193,9 @@ class UserAccountFragment : Fragment() {
                     viewModel.setCurrentUserWithImage(image, changes)
 
                     oldUser = oldUser.copy(
-                        name = edName,
-                        major = edMajor,
-                        introduction = introduction,
+                        name = TranslatedText(ko = edName),
+                        major = TranslatedText(ko = edMajor),
+                        introduction = TranslatedText(ko = introduction),
                         chipGroup = chipTexts,
                         wantToMeet = wantToMeet
                     )
@@ -342,10 +343,10 @@ class UserAccountFragment : Fragment() {
                 chipTexts!!.add(chip.text.toString())
             }
 
-            if (oldUser.name == edName &&
-                oldUser.major == edMajor &&
+            if (oldUser.name?.ko == edName &&
+                oldUser.major?.ko == edMajor &&
                 oldUser.wantToMeet == wantToMeet &&
-                oldUser.introduction == introduction &&
+                oldUser.introduction?.ko == introduction &&
                 oldUser.chipGroup == chipTexts &&
                 imageData == null
             ) {   // 변경이 없을 때.
@@ -466,11 +467,11 @@ class UserAccountFragment : Fragment() {
     private fun enterData(user: User) {
         Glide.with(this).load(user.imagePath).into(binding.imageUser)
         binding.apply {
-            edName.setText(user.name)
+            edName.setText(user.name?.ko)
             tvUniversity.text = user.college
-            edMajor.setText(user.major)
+            edMajor.setText(user.major?.ko)
             edEmail.text = user.email
-            introduction.setText(user.introduction)
+            introduction.setText(user.introduction?.ko)
             switchShowHideTags.isChecked = user.wantToMeet
         }
         binding.chipGroupHobbies.removeAllViews()

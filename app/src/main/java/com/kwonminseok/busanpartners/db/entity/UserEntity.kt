@@ -3,6 +3,7 @@ package com.kwonminseok.busanpartners.db.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.kwonminseok.busanpartners.data.AuthenticationInformation
+import com.kwonminseok.busanpartners.data.TranslatedText
 import kotlinx.android.parcel.RawValue
 import java.util.*
 
@@ -32,13 +33,13 @@ data class UserEntity(
     val imagePath: String = "",
     val gender: String? = null,
     val college: String? = null,
-    val introduction: String? = null,
-    val name: String? = "",
+    val introduction: TranslatedText? = null,
+    val name: TranslatedText? = null,
     val authentication: AuthenticationInformation = AuthenticationInformation(),
     val universityEmail: String = "",
     // tokenTime이 있어야 관광객들의 경우 7일의 텀을 주고 메시지를 더 이상 못하게 막을 수 있다.
     val tokenTime: String? = "2000-01-01T12:38:11.818609+09:00",
     val chipGroup: List<String>? = null,
-    val major: String? = "", // 변경된 필드
+    val major: TranslatedText? = null, // 변경된 필드
     val wantToMeet: Boolean = false
     )

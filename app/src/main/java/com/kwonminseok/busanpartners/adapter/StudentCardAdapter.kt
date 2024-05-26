@@ -18,7 +18,7 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
         fun bind(user: User) {
             binding.apply {
                 Glide.with(itemView).load(user.imagePath).into(binding.imageViewPhoto)
-                textViewName.text = user.name
+                textViewName.text = user.name?.ko
                 textViewUniversity.text = "${user.college} ${user.major}"
                 // ChipGroup 초기화
                 chipGroupTags.removeAllViews()
@@ -32,7 +32,7 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
                     }
                     chipGroupTags.addView(chip)
                 }
-                description.text = user.introduction
+                description.text = user.introduction?.ko
 
             }
         }

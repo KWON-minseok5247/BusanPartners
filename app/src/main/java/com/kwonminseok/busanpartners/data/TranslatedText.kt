@@ -9,4 +9,6 @@ data class TranslatedText(
     val en: String? = null,
     val ja: String? = null,
     val zh: String? = null
-) : Parcelable
+) : Parcelable {
+    constructor(): this("", "", "", "")
+}

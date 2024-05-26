@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.databinding.FragmentLoginBinding
@@ -256,7 +257,7 @@ class LoginFragment : Fragment() {
                         usersRef.document(uid).get().addOnSuccessListener { documentSnapshot ->
                             if (!documentSnapshot.exists()) {
                                 // 사용자 데이터가 존재하지 않는 경우, 새로운 사용자 데이터 저장
-                                val userData = User("","", email = user.email!!, uid = user.uid, name = user.displayName, imagePath = user.photoUrl.toString() ?: "")
+                                val userData = User("","", email = user.email!!, uid = user.uid, name = TranslatedText(ko =user.displayName!!) , imagePath = user.photoUrl.toString() ?: "")
 
                                 usersRef.document(uid).set(userData)
                                     .addOnSuccessListener {

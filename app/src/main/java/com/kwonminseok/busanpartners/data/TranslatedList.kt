@@ -9,4 +9,6 @@ data class TranslatedList(
     val en: List<String>? = null,
     val ja: List<String>? = null,
     val zh: List<String>? = null
-) : Parcelable
+) : Parcelable {
+    constructor(): this(listOf())
+}

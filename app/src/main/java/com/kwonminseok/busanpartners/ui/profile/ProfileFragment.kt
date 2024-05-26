@@ -299,8 +299,8 @@ class ProfileFragment : Fragment() {
         binding.apply {
             Glide.with(requireView()).load(user.imagePath).override(200, 200)
                 .into(binding.imageUser)
-            tvUserName.text = user.name
-            tvEditPersonalDetails.text = "${user.college} ${user.major}"
+            tvUserName.text = user.name?.ko
+            tvEditPersonalDetails.text = "${user.college} ${user.major?.ko}"
         }
         when (user.authentication.authenticationStatus) {
             "loading" -> {
