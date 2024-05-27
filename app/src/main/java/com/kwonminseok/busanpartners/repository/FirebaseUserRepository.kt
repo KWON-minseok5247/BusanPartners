@@ -158,125 +158,138 @@ class FirebaseUserRepositoryImpl(
 //            Resource.Error(e.message ?: "Unknown error")
 //        }
 //    }
+//    override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
+//
+//
+//
+//
+//        return try {
+//            val apiKey = BuildConfig.DEEPL_API
+//
+//            // 번역이 필요한 필드만 추출 -> 여기도 조금은 문제 있는 게 아닐까? chipGroup 만들지 않았을때부터 파이어베이스에 null로 저장이 되어버렸다?
+//            val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
+//            val translatedMap = mutableMapOf<String, Any?>()
+//            translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
+//
+//            // TODO 여기서 value가 String이다 이 조건이 아니라 key가 introduction인지 그런 조건으로 하는 게 더
+//            //  좋을 것 같다..
+//            // 번역 작업 수행
+//            translatableMap.forEach { (key, value) ->
+//                Log.e("key and value", "${key} ${value.toString()}")
+//                if (value is String) { // 만약에 변경한 내용이 introduction이나 major, name이라면 여기서 해결된다.
+//                    if (value.isNotEmpty()) {
+//                        Log.e("value is String", "value is String")
+//                        val translations = translateText(value, apiKey)
+//                        translatedMap[key] = TranslatedText(
+//                            ko = translations["KO"] ?: "",
+//                            en = translations["EN"],
+//                            ja = translations["JA"],
+//                            zh = translations["ZH"]
+//                        )
+//                    } else { // 만약 value가 ""일 때
+//                        translatedMap[key] = TranslatedText("", "", "", "")
+//                    }
+//
+//                }
+//                else if (key == "chipGroup") { // 변경한 내용이 chipGroup인 경우
+//                    if (value is List<*> && value.isNotEmpty()) {
+//                        Log.e("key == chipGroup && value is List<*>", "value is chipGroup")
+//
+//                        // 리스트를 String으로 바꾸는 과정
+//                        val listAsString = value.joinToString(separator = ",")
+//
+//                        // 번역을 하고 map으로 저장하는 과정
+//                        val translations = translateText(listAsString, apiKey)
+//
+//                        // String value를 list 형식으로 바꾸는 과정
+//                        val translatedLists = TranslatedList(
+//                            ko = translations["KO"]?.split(",")?.map { it.trim() },
+//                            en = translations["EN"]?.split(",")?.map { it.trim() },
+//                            ja = translations["JA"]?.split(",")?.map { it.trim() },
+//                            zh = translations["ZH"]?.split("、")?.map { it.trim() }
+//                        )
+//
+//                        translatedMap[key] = translatedLists
+//                    } else {
+//                        Log.e("key == chipGroup && value is null or empty", "value is null or empty")
+//                        // 값이 null이거나 빈 리스트이면 데이터베이스에서 빈 문자열로 설정
+//                        translatedMap[key] = TranslatedList(listOf(), listOf(), listOf(), listOf())
+//                    }
+//
+//                } else {
+//                    Log.e("key == else", "else")
+//                    // 값이 null이거나 빈 문자열이면 데이터베이스에서 해당 키 삭제
+////                    translatedMap[key] = FieldValue.delete()
+//                    translatedMap[key] = TranslatedText("", "", "", "")
+//
+//                }
+//            }
+//            Log.e("translatedMap", translatedMap.toString() )
+//
+//
+//            // Firestore에 저장
+//            firestore.collection(USER_COLLECTION).document(auth.uid!!).update(translatedMap).await()
+//
+//            Resource.Success(true)
+//
+//        } catch (e: Exception) {
+//            Resource.Error(e.message ?: "Unknown error")
+//        }
+//
+//    }
+
     override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
         return try {
             val apiKey = BuildConfig.DEEPL_API
 
-            // 번역이 필요한 필드만 추출 -> 여기도 조금은 문제 있는 게 아닐까? chipGroup 만들지 않았을때부터 파이어베이스에 null로 저장이 되어버렸다?
-            val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
             val translatedMap = mutableMapOf<String, Any?>()
-            translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
 
-            // 번역 작업 수행
-            translatableMap.forEach { (key, value) ->
-                Log.e("key and value", "${key} ${value.toString()}")
-                if (value is String) { // 만약에 변경한 내용이 introduction이나 major, name이라면 여기서 해결된다.
-                    Log.e("value is String", "value is String")
-                    val translations = translateText(value, apiKey)
-                    translatedMap[key] = TranslatedText(
-                        ko = translations["KO"] ?: "",
-                        en = translations["EN"],
-                        ja = translations["JA"],
-                        zh = translations["ZH"]
-                    )
-                }
-                else if (key == "chipGroup") { // 변경한 내용이 chipGroup인 경우
-                    if (value is List<*> && value.isNotEmpty()) {
-                        Log.e("key == chipGroup && value is List<*>", "value is chipGroup")
-
-                        // 리스트를 String으로 바꾸는 과정
-                        val listAsString = value.joinToString(separator = ",")
-
-                        // 번역을 하고 map으로 저장하는 과정
-                        val translations = translateText(listAsString, apiKey)
-
-                        // String value를 list 형식으로 바꾸는 과정
-                        val translatedLists = TranslatedList(
-                            ko = translations["KO"]?.split(",")?.map { it.trim() },
-                            en = translations["EN"]?.split(",")?.map { it.trim() },
-                            ja = translations["JA"]?.split(",")?.map { it.trim() },
-                            zh = translations["ZH"]?.split(",")?.map { it.trim() }
-                        )
-
-                        translatedMap[key] = translatedLists
-                    } else {
-                        Log.e("key == chipGroup && value is null or empty", "value is null or empty")
-                        // 값이 null이거나 빈 리스트이면 데이터베이스에서 빈 문자열로 설정
-                        translatedMap[key] = TranslatedList(listOf(), listOf(), listOf(), listOf())
+            map.forEach { (key, value) ->
+                when (key) {
+                    "introduction", "major", "name" -> {
+                        if (value is String) {
+                            if (value.isNotEmpty()) {
+                                val translations = translateText(value, apiKey)
+                                translatedMap[key] = TranslatedText(
+                                    ko = translations["KO"] ?: "",
+                                    en = translations["EN"],
+                                    ja = translations["JA"],
+                                    zh = translations["ZH"]
+                                )
+                            } else {
+                                translatedMap[key] = TranslatedText("", "", "", "")
+                            }
+                        }
                     }
-
-//                    // String value를 list 형식으로 바꾸는 과정
-//                    translations.forEach { (lang, translatedText) ->
-//                        translatedLists[lang] = if (translatedText.isBlank()) emptyList() else translatedText.split(",").map { it.trim() }
-//                    }
-//
-                    //                else if (key == "chipGroup" && value is List<*> && value.isNotEmpty()) { // 변경한 내용이 chipGroup인 경우
-                    //                    Log.e("key == chipGroup && value is List<*>", "value is chipGroup")
-                    //
-                    //                    // 리스트를 String으로 바꾸는 과정
-                    //                    val listAsString = value.joinToString(separator = ",")
-                    //
-                    //                    // 번역을 하고 map으로 저장하는 과정
-                    //                    val translations = translateText(listAsString, apiKey)
-                    //
-                    //
-                    ////                    val translatedLists = mutableMapOf<String, List<String>>()
-                    //
-                    //                    // String value를 list 형식으로 바꾸는 과정
-                    //                    val translatedLists = TranslatedList(
-                    //                        ko = translations["KO"]?.split(",")?.map { it.trim() },
-                    //                        en = translations["EN"]?.split(",")?.map { it.trim() },
-                    //                        ja = translations["JA"]?.split(",")?.map { it.trim() },
-                    //                        zh = translations["ZH"]?.split(",")?.map { it.trim() }
-                    //                    )
-                    //
-                    //                    translatedMap[key] = translatedLists
-                    //
-                    ////                    // String value를 list 형식으로 바꾸는 과정
-                    ////                    translations.forEach { (lang, translatedText) ->
-                    ////                        translatedLists[lang] = if (translatedText.isBlank()) emptyList() else translatedText.split(",").map { it.trim() }
-                    ////                    }
-                    ////
-                    ////                    translatedMap[key] = TranslatedList(
-                    ////                        ko = translatedLists["KO"],
-                    ////                        en = translatedLists["EN"],
-                    ////                        ja = translatedLists["JA"],
-                    ////                        zh = translatedLists["ZH"]
-                    ////                    )
-                    ////
-                    ////
-                    ////                    translatedMap[key] = translatedLists
-                    //                } else {
-//                    translatedMap[key] = TranslatedList(
-//                        ko = translatedLists["KO"],
-//                        en = translatedLists["EN"],
-//                        ja = translatedLists["JA"],
-//                        zh = translatedLists["ZH"]
-//                    )
-//
-//
-//                    translatedMap[key] = translatedLists
-                } else {
-                    Log.e("key == else", "else")
-                    // 값이 null이거나 빈 문자열이면 데이터베이스에서 해당 키 삭제
-//                    translatedMap[key] = FieldValue.delete()
-                    translatedMap[key] = ""
-
+                    "chipGroup" -> {
+                        if (value is List<*> && value.isNotEmpty()) {
+                            val listAsString = value.joinToString(separator = ",")
+                            val translations = translateText(listAsString, apiKey)
+                            translatedMap[key] = TranslatedList(
+                                ko = translations["KO"]?.split(",")?.map { it.trim() },
+                                en = translations["EN"]?.split(",")?.map { it.trim() },
+                                ja = translations["JA"]?.split(",")?.map { it.trim() },
+                                zh = translations["ZH"]?.split("、")?.map { it.trim() }
+                            )
+                        } else {
+                            translatedMap[key] = TranslatedList(listOf(), listOf(), listOf(), listOf())
+                        }
+                    }
+                    else -> {
+                        // 이 경우에 대해서는 특별한 처리 없이 바로 업데이트
+                        translatedMap[key] = value
+                    }
                 }
             }
-            Log.e("translatedMap", translatedMap.toString() )
 
-
-            // Firestore에 저장
             firestore.collection(USER_COLLECTION).document(auth.uid!!).update(translatedMap).await()
 
             Resource.Success(true)
-
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Unknown error")
         }
-
     }
+
 
     //Text를 중국어, 일본어, 영어로 번역하는 함수
     suspend fun translateText(
@@ -321,7 +334,7 @@ class FirebaseUserRepositoryImpl(
 
 
 
-    override suspend fun uploadUserImagesAndUpdateToFirestore(
+    override suspend fun uploadUserImagesAndUpdateToFirestore( // 인증 사진을 파이어스토어에 저장을 하는 과정
         imageUris: List<Uri>,
         status: String
     ): Resource<Boolean> {
@@ -369,8 +382,9 @@ class FirebaseUserRepositoryImpl(
             val imageUrl = result.storage.downloadUrl.await().toString()
 
             val updatedMap = map + ("imagePath" to imageUrl)
+            setCurrentUser(updatedMap)
 
-            firestore.collection(USER_COLLECTION).document(auth.uid!!).update(updatedMap).await()
+//            firestore.collection(USER_COLLECTION).document(auth.uid!!).update(updatedMap).await()
             Resource.Success(true) // 업데이트 성공 시 true 반환
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Unknown error")
