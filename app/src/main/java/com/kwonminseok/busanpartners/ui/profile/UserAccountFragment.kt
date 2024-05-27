@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
 import com.kwonminseok.busanpartners.application.BusanPartners
+import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentUserAccountBinding
@@ -176,7 +177,7 @@ class UserAccountFragment : Fragment() {
                 if (edName != oldUser.name?.ko) changes["name"] = edName
                 if (edMajor != oldUser.major?.ko) changes["major"] = edMajor
                 if (introduction != oldUser.introduction?.ko) changes["introduction"] = introduction
-                if (chipTexts != oldUser.chipGroup) changes["chipGroup"] = chipTexts
+                if (chipTexts != oldUser.chipGroup?.ko) changes["chipGroup"] = chipTexts
                 if (wantToMeet != oldUser.wantToMeet) changes["wantToMeet"] = wantToMeet
 
 
@@ -186,7 +187,7 @@ class UserAccountFragment : Fragment() {
                         name = TranslatedText(ko = edName),
                         major = TranslatedText(ko = edMajor),
                         introduction = TranslatedText(ko = introduction),
-                        chipGroup = chipTexts,
+                        chipGroup = TranslatedList(ko = chipTexts) ,
                         wantToMeet = wantToMeet
                     )
 //                    viewModel.updateUser(oldUser.toEntity())
@@ -200,7 +201,7 @@ class UserAccountFragment : Fragment() {
                         name = TranslatedText(ko = edName),
                         major = TranslatedText(ko = edMajor),
                         introduction = TranslatedText(ko = introduction),
-                        chipGroup = chipTexts,
+                        chipGroup = TranslatedList(ko = chipTexts) ,
                         wantToMeet = wantToMeet
                     )
                     imageData = null
@@ -351,7 +352,7 @@ class UserAccountFragment : Fragment() {
                 oldUser.major?.ko == edMajor &&
                 oldUser.wantToMeet == wantToMeet &&
                 oldUser.introduction?.ko == introduction &&
-                oldUser.chipGroup == chipTexts &&
+                oldUser.chipGroup?.ko == chipTexts &&
                 imageData == null
             ) {   // 변경이 없을 때.
                 findNavController().navigateUp()
@@ -479,8 +480,8 @@ class UserAccountFragment : Fragment() {
             switchShowHideTags.isChecked = user.wantToMeet
         }
         binding.chipGroupHobbies.removeAllViews()
-        chipTexts = user.chipGroup?.toMutableList()
-        user.chipGroup?.let { setupHobbiesChips(it) }
+        chipTexts = user.chipGroup?.ko?.toMutableList()
+        user.chipGroup?.let { it?.ko?.let { it1 -> setupHobbiesChips(it1) } }
     }
 
     override fun onResume() {

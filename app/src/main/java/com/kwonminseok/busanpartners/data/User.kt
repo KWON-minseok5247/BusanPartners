@@ -23,7 +23,7 @@ data class User(
     val universityEmail: String = "",
     // tokenTime이 있어야 관광객들의 경우 7일의 텀을 주고 메시지를 더 이상 못하게 막을 수 있다.
     val tokenTime: String? = "2000-01-01T12:38:11.818609+09:00",
-    val chipGroup: List<String>? = null,
+    val chipGroup: TranslatedList? = TranslatedList(),
 //    val major: String? = "",
     val major: TranslatedText? = TranslatedText(),
     val wantToMeet: Boolean = false

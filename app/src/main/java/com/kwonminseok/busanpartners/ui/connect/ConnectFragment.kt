@@ -81,16 +81,17 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         // ViewModel 함수 호출
         viewModel.getUniversityStudentsWantToMeet()
 
-
-
         lifecycleScope.launchWhenStarted {
             viewModel.students.collectLatest {
                 when (it) {
                     is Resource.Loading -> {
+                        Log.e("Resource.Loading" , "Resource.Loading")
 
                     }
 
                     is Resource.Success -> {
+                        Log.e("Resource.Success" , "Resource.Success")
+
                         binding.labelChange.text = "부산 시에서 연락 가능한 대학생은 총 ${it.data?.size}명입니다. "
                         userList = it.data
                         onDataLoaded()
@@ -98,6 +99,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     is Resource.Error -> {
+                        Log.e("Resource.Error" , it.message.toString())
 
                     }
 

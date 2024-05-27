@@ -24,7 +24,7 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
                 chipGroupTags.removeAllViews()
 
                 // 사용자의 취미 목록을 받아와 Chip으로 변환 후 ChipGroup에 추가
-                user.chipGroup?.forEach { hobby ->
+                user.chipGroup?.ko?.forEach { hobby ->
                     val chip = Chip(itemView.context).apply {
                         text = hobby
                         isClickable = false
