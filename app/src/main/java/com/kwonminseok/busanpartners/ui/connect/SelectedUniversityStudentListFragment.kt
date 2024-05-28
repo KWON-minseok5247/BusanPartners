@@ -1,7 +1,9 @@
 package com.kwonminseok.busanpartners.ui.connect
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.kelineyt.adapter.makeIt.StudentCardAdapter
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.databinding.FragmentSelectedUniversityStudentListBinding
@@ -106,5 +109,17 @@ class SelectedUniversityStudentListFragment : Fragment() {
         super.onPause()
     }
 
+    fun getDeviceLanguage(context: Context): String {
+        return context.resources.configuration.locales.get(0).language
+    }
+    private fun getTranslatedText(translatedText: TranslatedText?): String? {
+        val language = getDeviceLanguage(requireContext())
+        return when (language) {
+            "en" -> translatedText?.en ?: translatedText?.ko
+            "ja" -> translatedText?.ja ?: translatedText?.ko
+            "zh" -> translatedText?.zh ?: translatedText?.ko
+            else -> translatedText?.ko
+        }
+    }
 
 }
