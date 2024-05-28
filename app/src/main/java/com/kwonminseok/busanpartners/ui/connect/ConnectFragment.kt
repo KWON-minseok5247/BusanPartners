@@ -3,7 +3,6 @@ package com.kwonminseok.busanpartners.ui.connect
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -100,6 +99,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
                     is Resource.Error -> {
                         Log.e("Resource.Error" , it.message.toString())
+
 
                     }
 

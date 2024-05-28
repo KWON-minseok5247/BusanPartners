@@ -3,13 +3,11 @@ package com.kwonminseok.busanpartners.repository
 import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.storage.StorageReference
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
-import com.kwonminseok.busanpartners.data.AuthenticationInformation
 import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
@@ -27,11 +25,8 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import okhttp3.FormBody
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
 interface FirebaseUserRepository {
@@ -267,9 +262,9 @@ class FirebaseUserRepositoryImpl(
                             val translations = translateText(listAsString, apiKey)
                             translatedMap[key] = TranslatedList(
                                 ko = translations["KO"]?.split(",")?.map { it.trim() },
-                                en = translations["EN"]?.split(",")?.map { it.trim() },
-                                ja = translations["JA"]?.split(",")?.map { it.trim() },
-                                zh = translations["ZH"]?.split("、")?.map { it.trim() }
+                                en = translations["EN"]?.split("、", ",")?.map { it.trim() },
+                                ja = translations["JA"]?.split("、", ",")?.map { it.trim() },
+                                zh = translations["ZH"]?.split("、", ",")?.map { it.trim() }
                             )
                         } else {
                             translatedMap[key] = TranslatedList(listOf(), listOf(), listOf(), listOf())
@@ -412,9 +407,31 @@ class FirebaseUserRepositoryImpl(
                     .whereEqualTo("authentication.collegeStudent", true)
                     .whereEqualTo("wantToMeet", true)
                     .get().await()
+            Log.e("querySnapshot.documents", querySnapshot.documents.toString())
 
-            // 유저가 사진을 바꾸는 등의 행동을 하기에 addsnap으로 한다.
+
+//            val students = querySnapshot.documents.mapNotNull { document ->
+//                document.toObject(User::class.java)?.let { user ->
+//                    // chipGroup 필드를 TranslatedList 타입으로 변환
+//                    Log.e("students User", user.toString())
+//                    val chipGroupData = document.get("chipGroup") as? Map<String, List<String>>
+//                    user.copy(
+//                        chipGroup = chipGroupData?.let {
+//                            TranslatedList(
+//                                ko = it["ko"],
+//                                en = it["en"],
+//                                ja = it["ja"],
+//                                zh = it["zh"]
+//                            )
+//                        }
+//                    )
+//                }
+//            }
+//
+//            Resource.Success(students.toMutableList())
+
             val students = querySnapshot.toObjects(User::class.java)
+
             Resource.Success(students)
 
         } catch (e: Exception) {

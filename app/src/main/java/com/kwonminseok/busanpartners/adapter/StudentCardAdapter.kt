@@ -19,7 +19,7 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
             binding.apply {
                 Glide.with(itemView).load(user.imagePath).into(binding.imageViewPhoto)
                 textViewName.text = user.name?.ko
-                textViewUniversity.text = "${user.college} ${user.major}"
+                textViewUniversity.text = "${user.college} ${user.major?.ko}"
                 // ChipGroup 초기화
                 chipGroupTags.removeAllViews()
 

@@ -5,10 +5,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TranslatedList(
-    val ko: List<String>? = null,
-    val en: List<String>? = null,
-    val ja: List<String>? = null,
-    val zh: List<String>? = null
+    val ko: List<String>? = emptyList(),
+    val en: List<String>? = emptyList(),
+    val ja: List<String>? = emptyList(),
+    val zh: List<String>? = emptyList()
 ) : Parcelable {
-    constructor(): this(null,null,null,null )
+    constructor(): this(emptyList(),emptyList(),emptyList(),emptyList() )
 }

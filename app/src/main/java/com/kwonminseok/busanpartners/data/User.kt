@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Parcelable
 import com.google.android.gms.auth.api.Auth
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.firestore.PropertyName
 import kotlinx.android.parcel.RawValue
 import kotlinx.parcelize.Parcelize
 
