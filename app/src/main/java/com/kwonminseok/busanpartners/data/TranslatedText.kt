@@ -10,5 +10,5 @@ data class TranslatedText(
     val ja: String? = null,
     val zh: String? = null
 ) : Parcelable {
-    constructor(): this("", null, null, null)
+    constructor(): this("", "", "", "")
 }

@@ -117,7 +117,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
             // TODO 여기서 관광객인증을 못하면 버튼을 누르면 관광객 인증하라고 알리기.
             if (currentUser?.authentication?.authenticationStatus != "complete") {
                 Snackbar.make(it, "인증을 먼저 진행해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show()
-//                findNavController().navigate(R.id.connectto)
+                findNavController().navigate(R.id.action_connectFragment_to_profileFragment)
 
 
             } else {

@@ -304,12 +304,14 @@ class MessageFragment : ChannelListFragment() {
 
         // 일단 원인은 찾아냈다. -> 채널이 이상하게 꼬인 것 같음.
         val studentUid = arguments?.getString("studentUid", null)
+        val name = arguments?.getString("name", "Chatting Room")
         if (studentUid != null) {
             val channelClient = chatClient.channel(channelType = "messaging", channelId = "")
             channelClient?.create(
                 //6
                 memberIds = listOf(studentUid, chatClient.getCurrentUser()!!.id),
-                extraData = emptyMap()
+//                extraData = emptyMap()
+                extraData = mapOf("name" to name.toString())
             )?.enqueue { result ->
                 if (result.isSuccess) {
                     val newChannel = result.getOrThrow()

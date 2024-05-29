@@ -257,13 +257,13 @@ class LoginFragment : Fragment() {
                         usersRef.document(uid).get().addOnSuccessListener { documentSnapshot ->
                             if (!documentSnapshot.exists()) {
                                 // 사용자 데이터가 존재하지 않는 경우, 새로운 사용자 데이터 저장
-                                val userData = User("","", email = user.email!!, uid = user.uid, name = TranslatedText(ko =user.displayName!!) , imagePath = user.photoUrl.toString() ?: "")
+                                val userData = User("","", email = user.email!!, uid = user.uid, name = TranslatedText(ko = user.displayName!!, "", "", "") , imagePath = user.photoUrl.toString() ?: "")
 
                                 usersRef.document(uid).set(userData)
                                     .addOnSuccessListener {
                                         // 사용자 데이터 저장 성공
                                         val intent =
-                                            Intent(context, HomeActivity::class.java).addFlags(
+                                            Intent(context, SplashActivity::class.java).addFlags(
                                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                             )
                                         startActivity(intent)

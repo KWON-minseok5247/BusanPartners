@@ -163,6 +163,8 @@ class ProfileFragment : Fragment() {
         binding.chatSwitchNotification.isChecked = chatNotificationsEnabled
 
 
+
+
         binding.chatSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
             sharedPreferences.edit().putBoolean("chat_notifications_enabled", isChecked).apply()
 
@@ -293,6 +295,7 @@ class ProfileFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 
 
     private fun fetchUserData(user: User) {

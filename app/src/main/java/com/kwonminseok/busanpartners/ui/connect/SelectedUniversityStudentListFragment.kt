@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.kelineyt.adapter.makeIt.StudentCardAdapter
@@ -15,6 +16,7 @@ import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.databinding.FragmentSelectedUniversityStudentListBinding
+import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,9 +50,11 @@ class SelectedUniversityStudentListFragment : Fragment() {
         val usersList = args?.toList()?.mapNotNull { it as? User }
         adapter.submitList(usersList)
 
+
         //TODO // 자기 자신 클릭할 수 없게. 대학생은 대학생끼리 연락할 수 없게. 관광객이 아니면 연락할 수 없게.
         // 무분별하게 연락할 수 없게.
         studentCardRv()
+
 //        lifecycleScope.launchWhenStarted {
 //            viewModel.user.collectLatest {
 //                when (it) {
@@ -70,14 +74,21 @@ class SelectedUniversityStudentListFragment : Fragment() {
 //            }
 //        }
         binding.floatingMessageButton.setOnClickListener {
-            // TODo 메시지 프래그먼트로 가서 해당 데이터를 가지고 채널을 추가하는게 바람직하다?
-            val currentPosition = binding.viewPagerImages.currentItem
-            if (usersList != null) {
-                val b = Bundle().apply {
-                    putString("studentUid",usersList[currentPosition].uid )
+            if (currentUser?.authentication?.collegeStudent == true) {
+                Toast.makeText(requireContext(), "대학생은 먼저 연락을 할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                val currentPosition = binding.viewPagerImages.currentItem
+                if (usersList != null) {
+                    val b = Bundle().apply {
+                        putString("studentUid",usersList[currentPosition].uid )
+                        putString("name", "${usersList[currentPosition].name?.ko}(${getTranslatedText(usersList[currentPosition].name)})")
+                    }
+                    findNavController().navigate(R.id.action_selectedUniversityStudentListFragment_to_messageFragment, b)
                 }
-                findNavController().navigate(R.id.action_selectedUniversityStudentListFragment_to_messageFragment, b)
+
             }
+
+
 
 
 
