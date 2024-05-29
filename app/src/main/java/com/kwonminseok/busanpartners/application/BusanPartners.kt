@@ -9,8 +9,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -21,6 +23,9 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.db.AppDatabase
+import com.kwonminseok.busanpartners.db.entity.UserEntity
+import com.kwonminseok.busanpartners.extensions.toEntity
+import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
@@ -31,6 +36,7 @@ import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.CustomNotificationHandler
 import com.kwonminseok.busanpartners.util.CustomNotificationHandlerFactory
 import com.kwonminseok.busanpartners.util.PreferenceUtil
+import com.kwonminseok.busanpartners.util.Resource
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import io.getstream.android.push.PushDeviceGenerator
@@ -54,6 +60,7 @@ import io.getstream.chat.android.models.User
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
+import kotlinx.coroutines.flow.collectLatest
 
 // Hilt를 사용하기 위해서 여기서 힐트를 추가한다.
 @HiltAndroidApp
@@ -65,7 +72,8 @@ class BusanPartners : Application() {
         lateinit var chatClient: ChatClient
         lateinit var db: AppDatabase
         lateinit var worldTimeApi: WorldTimeApiService
-//        var currentTime: WorldTimeResponse? = null
+
+        //        var currentTime: WorldTimeResponse? = null
 
     }
 
@@ -108,7 +116,6 @@ class BusanPartners : Application() {
         NaverMapSdk.getInstance(this).client =
             NaverMapSdk.NaverCloudPlatformClient(NAVER_CLIENT_ID)
 
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -122,7 +129,7 @@ class BusanPartners : Application() {
             pushNotificationEnabled,
             pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners")),
 
-        )
+            )
 
 
         val notificationChannel: () -> NotificationChannel = {
@@ -190,7 +197,7 @@ class BusanPartners : Application() {
         chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
-            .notifications(notificationConfig,d)
+            .notifications(notificationConfig, d)
 //            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
     }

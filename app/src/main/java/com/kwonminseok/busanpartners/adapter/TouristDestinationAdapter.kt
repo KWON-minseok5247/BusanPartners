@@ -6,9 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kwonminseok.busanpartners.data.FestivalItem
 import com.kwonminseok.busanpartners.data.TouristDestination
-import com.kwonminseok.busanpartners.databinding.ItemFestivalBinding
 import com.kwonminseok.busanpartners.databinding.ItemTouristBinding
 
 class   TouristDestinationAdapter : RecyclerView.Adapter<TouristDestinationAdapter.TouristDestinationViewHolder>() {

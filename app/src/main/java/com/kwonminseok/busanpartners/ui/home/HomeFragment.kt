@@ -29,11 +29,14 @@ import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.data.TourismResponse
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
+import com.kwonminseok.busanpartners.db.entity.UserEntity
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
+import com.kwonminseok.busanpartners.ui.login.SplashActivity
+import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.Resource
@@ -51,6 +54,7 @@ private val TAG = "HomeFragment"
 
 class HomeFragment : Fragment() {
 
+    //여기서 userEntity랑 user랑 같은지?
     private val touristDestinationAdapter by lazy { TouristDestinationAdapter() }
     private val tourismAdapter by lazy { TourismAdapter() }
     private val festivalAdapter by lazy { FestivalAdapter() }
@@ -64,8 +68,11 @@ class HomeFragment : Fragment() {
     private var backPressedTime: Long = 0
     private lateinit var toast: Toast
 
+
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+
     }
 
     override fun onCreateView(
@@ -85,6 +92,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.e("currentUser userEntity", SplashActivity.currentUser.toString())
 
         // 뒤로가기 2번시 종료
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -182,6 +190,52 @@ class HomeFragment : Fragment() {
 
                         }
                     })
+
+
+                    TourismApiService.getInstance().searchFestival1(
+                        10,
+                        1,
+                        "AND",
+                        "BusanPartners",
+                        "json",
+                        "20240529", // 이벤트 시작 날짜 (예시)
+                        "20240829", // 이벤트 종료 날짜 (예시)
+                        BuildConfig.BUSAN_FESTIVAL_KEY,
+                        6, // 부산 지역코드
+                        null // 시군구코드 (null로 설정하여 전체 검색)
+                    ).enqueue(object : Callback<FestivalResponse> {
+                        override fun onResponse(
+                            call: Call<FestivalResponse>,
+                            response: Response<FestivalResponse>
+                        ) {
+                            if (!isAdded) {
+                                return
+                            }
+                            Log.e("response Festival", response.body().toString())
+
+                            // 이제 안전하게 UI 업데이트를 진행합니다.
+                            _binding?.let { binding ->
+                                if (response.isSuccessful) {
+                                    binding.festivalViewPager.adapter = festivalAdapter
+                                    response.body()?.response?.body?.items?.item?.let { itemList ->
+                                        val itemsWithImages =
+                                            itemList.filter { it.firstimage.isNotEmpty() }
+                                        festivalAdapter.differ.submitList(itemsWithImages)
+                                    }
+                                } else {
+                                    Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
+                            Log.e(TAG, t.message.toString())
+                        }
+                    })
+
+
+
+
                 } ?: run {
                     //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
                     //                initializeMap(LatLng(35.1798159, 129.0750222))

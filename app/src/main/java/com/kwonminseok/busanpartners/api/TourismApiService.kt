@@ -2,9 +2,8 @@ package com.kwonminseok.busanpartners.api
 
 import android.content.Context
 import com.google.gson.GsonBuilder
-import com.kwonminseok.busanpartners.data.FestivalResponse
 import com.kwonminseok.busanpartners.data.TourismResponse
-import com.kwonminseok.busanpartners.data.TouristDestinationResponse
+import com.kwonminseok.busanpartners.ui.home.FestivalResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -83,5 +82,35 @@ interface TourismApiService {
         @Query("serviceKey") serviceKey: String,
         ): Call<TourismResponse>
 
+    @GET("KorService1/searchFestival1")
+    fun searchFestival1(
+        @Query("numOfRows") numOfRows: Int,
+        @Query("pageNo") pageNo: Int,
+        @Query("MobileOS") mobileOS: String,
+        @Query("MobileApp") mobileApp: String,
+        @Query("_type") responseType: String = "json",
+        @Query("eventStartDate") eventStartDate: String,
+        @Query("eventEndDate") eventEndDate: String,
+        @Query("serviceKey") serviceKey: String,
+        @Query("areaCode") areaCode: Int,
+        @Query("sigunguCode") sigunguCode: Int? = null
+    ): Call<FestivalResponse>
+
+//    @GET("KorService1/searchFestival1")
+//    fun searchFestival1(
+//        @Query("numOfRows") numOfRows: Int,
+//        @Query("pageNo") pageNo: Int,
+//        @Query("MobileOS") mobileOS: String,
+//        @Query("MobileApp") mobileApp: String,
+//        @Query("serviceKey") serviceKey: String,
+//        @Query("_type") responseType: String = "json",
+//        @Query("listYN") listYN: String = "Y",
+//        @Query("arrange") arrange: String = "A",
+//        @Query("areaCode") areaCode: Int? = null,
+//        @Query("sigunguCode") sigunguCode: Int? = null,
+//        @Query("eventStartDate") eventStartDate: String,
+//        @Query("eventEndDate") eventEndDate: String? = null,
+//        @Query("modifiedtime") modifiedtime: String? = null
+//    ): Call<TourismResponse>
 
 }

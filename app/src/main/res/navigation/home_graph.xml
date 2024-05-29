@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_connectFragment_to_selectedUniversityStudentListFragment"
             app:destination="@id/selectedUniversityStudentListFragment" />
+        <action
+            android:id="@+id/action_connectFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"

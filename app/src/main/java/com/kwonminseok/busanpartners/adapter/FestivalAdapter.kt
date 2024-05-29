@@ -1,26 +1,23 @@
 package com.kwonminseok.busanpartners.adapter
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kwonminseok.busanpartners.data.FestivalItem
 import com.kwonminseok.busanpartners.databinding.ItemFestivalBinding
+import com.kwonminseok.busanpartners.ui.home.Festival
 
 class FestivalAdapter : RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder>() {
 
     inner class FestivalViewHolder(val binding: ItemFestivalBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(festival: FestivalItem){
-            binding.textViewFestivalName.text = festival.MAIN_TITLE
-            binding.textViewFestivalPeriod.text = festival.USAGE_DAY_WEEK_AND_TIME
-            binding.textViewLocation.text = festival.ADDR1
+        fun bind(festival: Festival){
+            binding.textViewFestivalName.text = festival.title
+            binding.textViewFestivalPeriod.text = "${festival.eventstartdate} - ${festival.eventenddate}"
+            binding.textViewLocation.text = festival.addr1
             Glide.with(binding.root.context)
-                .load(festival.MAIN_IMG_THUMB)
+                .load(festival.firstimage)
                 .into(binding.imageViewThumbnail)
 
 
@@ -29,15 +26,15 @@ class FestivalAdapter : RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder>
 
     // RecyclerView의 성능 향상을 위해 사용하는 DiffUtil은 서로 다른 아이템인지를 체크하여 달라진 아이템만 갱신을 도와주는 Util이다. 아래는 자세한 내용
     //https://zion830.tistory.com/86
-    private val diffCallback = object : DiffUtil.ItemCallback<FestivalItem>() {
+    private val diffCallback = object : DiffUtil.ItemCallback<Festival>() {
         // 컨트롤 + I를 누르면 필요한 함수를 자동으로 추가할 수 있다.
         // items는 고유값을 비교하는 것
         // 이게 먼저 실행된다. 이게 true로 반환이 되어야 contents로 넘어간다.
-        override fun areItemsTheSame(oldItem: FestivalItem, newItem: FestivalItem): Boolean {
-            return oldItem.MAIN_TITLE == newItem.MAIN_TITLE
+        override fun areItemsTheSame(oldItem: Festival, newItem: Festival): Boolean {
+            return oldItem.title == newItem.title
         }
         // contents는 아이템을 비교하는 것
-        override fun areContentsTheSame(oldItem: FestivalItem, newItem: FestivalItem): Boolean {
+        override fun areContentsTheSame(oldItem: Festival, newItem: Festival): Boolean {
             return oldItem == newItem
         }
     }
@@ -67,5 +64,5 @@ class FestivalAdapter : RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder>
         return differ.currentList.size
     }
 
-    var onProductClick: ((FestivalItem) -> Unit)? = null
+    var onProductClick: ((Festival) -> Unit)? = null
 }

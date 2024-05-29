@@ -18,12 +18,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.data.UniversityInfo
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.databinding.UniversityCardFrontBinding
+import com.kwonminseok.busanpartners.ui.login.SplashActivity
+import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import com.naver.maps.geometry.LatLng
@@ -76,6 +79,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.e("currentUser userEntity", SplashActivity.currentUser.toString())
 
         // ViewModel 함수 호출
         viewModel.getUniversityStudentsWantToMeet()
@@ -111,14 +115,24 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
         binding.floatingButton.setOnClickListener {
             // TODO 여기서 관광객인증을 못하면 버튼을 누르면 관광객 인증하라고 알리기.
-            val b = Bundle().apply {
-                putParcelableArray("selectedUniversityStudents",
-                    selectedUniversityStudents?.toTypedArray()
-                )
+            if (currentUser?.authentication?.authenticationStatus != "complete") {
+                Snackbar.make(it, "인증을 먼저 진행해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show()
+//                findNavController().navigate(R.id.connectto)
+
+
+            } else {
+                val b = Bundle().apply {
+                    putParcelableArray("selectedUniversityStudents",
+                        selectedUniversityStudents?.toTypedArray()
+                    )
 //                putParcelableArrayList("selectedUniversityStudents", selectedUniversityStudents.toTypedArray())
 
+                }
+                findNavController().navigate(R.id.action_connectFragment_to_selectedUniversityStudentListFragment, b)
+
             }
-            findNavController().navigate(R.id.action_connectFragment_to_selectedUniversityStudentListFragment, b)
+
+
 
         }
 

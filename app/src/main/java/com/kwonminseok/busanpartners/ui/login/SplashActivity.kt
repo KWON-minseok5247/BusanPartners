@@ -10,11 +10,13 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.functions.FirebaseFunctions
@@ -22,6 +24,9 @@ import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
+import com.kwonminseok.busanpartners.db.entity.UserEntity
+import com.kwonminseok.busanpartners.extensions.toEntity
+import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.repository.TimeRepository
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
@@ -65,6 +70,9 @@ class SplashActivity : AppCompatActivity() {
     // getStream 채팅 토큰
     // 토큰 절차 1: 일단 token이 있는지 없는지 확인, 있으면 바로 가져온다.
     private var token: String = BusanPartners.preferences.getString(Constants.TOKEN, "")
+    // 초반에 userEntity를 고정을 시켜서 언제든지 불러올 수있도록 여기서 정한다.
+
+    private val uid = BusanPartners.preferences.getString("uid", "")
 
     init {
         //TODo 언젠가 이것도 수정을 할 필요가 있다.
@@ -87,7 +95,7 @@ class SplashActivity : AppCompatActivity() {
             navigateToLoginRegisterActivity()
             return
         }
-
+        fetchCurrentUserEntity()
         // 구글 자동 로그인 과정
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -386,6 +394,78 @@ private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
 
     }
 
+    private fun fetchCurrentUserEntity() {
+        viewModel.getUserStateFlowData(uid).observe(this) { userEntity ->
+            // userEntity가 null이 아닐 때 UI 업데이트
+
+            if (userEntity == null ) { // 처음 로그인을 했을 때.
+                viewModel.getCurrentUser()
+
+                lifecycleScope.launchWhenStarted {
+                    viewModel.user.collectLatest {
+                        when (it) {
+                            is Resource.Loading -> {
+//                                showProgressBar()
+                            }
+
+                            is Resource.Success -> {
+//                                hideProgressBar()
+
+                                user = it.data!!
+                                viewModel.insertUser(user.toEntity())
+                                currentUser = user.toEntity()
+
+                            }
+
+                            is Resource.Error -> {
+//                                hideProgressBar()
+                                Toast.makeText(
+                                    this@SplashActivity,
+                                    it.message.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else -> Unit
+                        }
+                    }
+                }
+            } else { // 여기는 Room으로부터 먼저 가져오되 서버에서도 가져와서 비교를 하고 업데이트 및 수정을 한다.
+                currentUser = userEntity
+                user = userEntity.toUser()
+                viewModel.getCurrentUser()
+
+                lifecycleScope.launchWhenStarted {
+                    viewModel.user.collectLatest {
+                        when (it) {
+                            is Resource.Success -> {
+                                if (user == it.data) {
+                                    return@collectLatest
+                                } else {
+                                    user = it.data!!
+                                    viewModel.updateUser(user.toEntity())
+
+                                }
+
+                            }
+
+                            is Resource.Error -> {
+
+                            }
+
+                            else -> Unit
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
+
+
 
     companion object {
 
@@ -401,6 +481,8 @@ private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
             putExtra(EXTRA_MESSAGE_ID, messageId)
             putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
         }
+
+        var currentUser: UserEntity? = null
     }
 
 }
