@@ -95,25 +95,34 @@ class SplashActivity : AppCompatActivity() {
             navigateToLoginRegisterActivity()
             return
         }
+
+        // UserEntity를 가져오는 부분
         fetchCurrentUserEntity()
+
+
         // 구글 자동 로그인 과정
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val idToken = task.result.token
+                Log.e("자동 로그인을 할 때", idToken.toString())
 
 //                requestNotificationPermission()
                 setupUserStream()
             } else {
                 // TODO 여기서 로그아웃처럼 각종 데이터 초기화하는 과정이 필요할 수 있겠다.
+                Log.e("자동 로그인을 할 때", "task가 실패")
+
                 navigateToLoginRegisterActivity()
             }
         }?.addOnFailureListener {
-            Log.e(TAG, it.message.toString())
+            Log.e("자동 로그인을 할 때", "토큰 얻는 것 자체를 실패함.")
+
             navigateToLoginRegisterActivity()
         }
     }
 
     private fun navigateToLoginRegisterActivity() {
+
         val intent =
             Intent(this, LoginRegisterActivity::class.java).addFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -135,10 +144,14 @@ class SplashActivity : AppCompatActivity() {
                     continuation.resume(token) // 코루틴을 재개하고 결과를 반환합니다.
                 } else {
                     // 호출 실패. 에러를 처리합니다.
-                    Log.e(TAG, "토큰 호출을 실패했습니다.")
-                    continuation.resumeWithException(
-                        task.exception ?: RuntimeException("Unknown token fetch error")
-                    )
+//                    Log.e(TAG, "토큰 호출을 실패했습니다.")
+//                    continuation.resumeWithException(
+//                        task.exception ?: RuntimeException("Unknown token fetch error")
+//                    )
+                    val exception = task.exception ?: RuntimeException("Unknown token fetch error")
+                    Log.e(TAG, "토큰 호출을 실패했습니다.", exception)
+                    continuation.resumeWithException(exception)
+
                 }
             }
     }
@@ -257,34 +270,45 @@ class SplashActivity : AppCompatActivity() {
             // 서버 시간 먼저 가져오기
             TimeRepository.fetchCurrentTime()
             currentServerTime = TimeRepository.currentTime?.datetime
-            viewModel.getCurrentUser()
 
-            // 유저 정보 스트림 수집 시작
-            viewModel.user.collectLatest { userResource ->
-                when (userResource) {
-                    is Resource.Success -> {
-                        user = userResource.data!!
-                        BusanPartners.preferences.setString("uid", user.uid)
-                        connectUserToStream(user)
-                    }
-
-                    is Resource.Error -> {
-                        Log.e(TAG, "User data fetch error: ${userResource.message}")
-                        val intent =
-                            Intent(this@SplashActivity, LoginRegisterActivity::class.java).apply {
-                                flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            }
-                        startActivity(intent)
-                    }
-
-                    else -> Log.d(TAG, "Loading user data")
-                }
-            }
+            BusanPartners.preferences.setString("uid", user.uid)
+            connectUserToStream(user)
         }
     }
 
-//    private fun fetchServerTime() {
+//    private fun setupUserStream() {
+//        lifecycleScope.launch {
+//            // 서버 시간 먼저 가져오기
+//            TimeRepository.fetchCurrentTime()
+//            currentServerTime = TimeRepository.currentTime?.datetime
+//            viewModel.getCurrentUser()
+//
+//            // 유저 정보 스트림 수집 시작
+//            viewModel.user.collectLatest { userResource ->
+//                when (userResource) {
+//                    is Resource.Success -> {
+//                        user = userResource.data!!
+//                        BusanPartners.preferences.setString("uid", user.uid)
+//                        connectUserToStream(user)
+//                    }
+//
+//                    is Resource.Error -> {
+//                        Log.e(TAG, "User data fetch error: ${userResource.message}")
+//                        val intent =
+//                            Intent(this@SplashActivity, LoginRegisterActivity::class.java).apply {
+//                                flags =
+//                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                            }
+//                        startActivity(intent)
+//                    }
+//
+//                    else -> Log.d(TAG, "Loading user data")
+//                }
+//            }
+//        }
+//    }
+
+    //    private fun fetchServerTime() {
 //        lifecycleScope.launch {
 //            TimeRepository.fetchCurrentTime()
 //            currentServerTime = TimeRepository.currentTime?.datetime
@@ -300,7 +324,7 @@ class SplashActivity : AppCompatActivity() {
 //            }
 //        }
 //    }
-private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
+    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
 
     // 알림 권한 요청 다이얼로그 띄우기
     private fun requestNotificationPermission() {
@@ -350,8 +374,7 @@ private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
                 }
                 Log.e("startSplash", cid)
                 startActivity(intent)
-            }
-            else return
+            } else return
         }
     }
 
@@ -379,89 +402,175 @@ private val NOTIFICATION_PERMISSION_REQUEST_CODE = 123
     private fun showNotificationPermissionExplanationDialog() {
         // 다이얼로그를 통해 알림 권한이 필요한 이유를 설명하고, 사용자에게 권한 요청
         // 사용자가 권한 요청을 수락하면 requestPermissionLauncher를 통해 결과를 처리함
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NOTIFICATION_POLICY),
-            NOTIFICATION_PERMISSION_REQUEST_CODE        )
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_NOTIFICATION_POLICY
+            ),
+            NOTIFICATION_PERMISSION_REQUEST_CODE
+        )
     }
 
     // 사용자에게 알림 권한이 거부된 경우 다시 설명하거나 추가 조치를 취할 수 있는 다이얼로그 표시
     private fun showNotificationPermissionDeniedDialog() {
         // 알림 권한이 거부된 경우, 사용자에게 추가적인 안내를 제공하거나 앱 설정으로 이동할 수 있는 옵션 제공
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NOTIFICATION_POLICY),
-            NOTIFICATION_PERMISSION_REQUEST_CODE        )
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_NOTIFICATION_POLICY
+            ),
+            NOTIFICATION_PERMISSION_REQUEST_CODE
+        )
 
     }
 
     private fun fetchCurrentUserEntity() {
+        // ViewModel에서 유저 데이터를 가져오는 부분을 한 번만 호출
         viewModel.getUserStateFlowData(uid).observe(this) { userEntity ->
             // userEntity가 null이 아닐 때 UI 업데이트
-
-            if (userEntity == null ) { // 처음 로그인을 했을 때.
+            if (userEntity == null) { // 처음 로그인을 했을 때.
+                Log.e("userEntity", "null입니다.")
                 viewModel.getCurrentUser()
 
+                // 한 번만 데이터 수집
                 lifecycleScope.launchWhenStarted {
                     viewModel.user.collectLatest {
                         when (it) {
                             is Resource.Loading -> {
-//                                showProgressBar()
+                                // showProgressBar()
                             }
-
                             is Resource.Success -> {
-//                                hideProgressBar()
-
+                                // hideProgressBar()
+                                Log.e("fetchCurrentUserEntity", "값을 성공적으로 불러왔습니다.")
                                 user = it.data!!
                                 viewModel.insertUser(user.toEntity())
                                 currentUser = user.toEntity()
-
                             }
-
                             is Resource.Error -> {
-//                                hideProgressBar()
+                                // hideProgressBar()
                                 Toast.makeText(
                                     this@SplashActivity,
                                     it.message.toString(),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-
                             else -> Unit
                         }
                     }
                 }
             } else { // 여기는 Room으로부터 먼저 가져오되 서버에서도 가져와서 비교를 하고 업데이트 및 수정을 한다.
+                Log.e("userEntity", "${userEntity.toString()}")
                 currentUser = userEntity
                 user = userEntity.toUser()
+
+                // 실제랑 비교해보기
                 viewModel.getCurrentUser()
 
+                // 한 번만 데이터 수집
                 lifecycleScope.launchWhenStarted {
                     viewModel.user.collectLatest {
                         when (it) {
                             is Resource.Success -> {
                                 if (user == it.data) {
+                                    Log.e("UserEntity가 존재한다면?", "서버와 동일한 데이터")
                                     return@collectLatest
                                 } else {
+                                    Log.e("UserEntity가 존재한다면?", "서버와 다른 데이터")
                                     user = it.data!!
                                     viewModel.updateUser(user.toEntity())
-
                                 }
-
                             }
-
                             is Resource.Error -> {
-
+                                // 에러 처리
                             }
-
                             else -> Unit
                         }
                     }
                 }
             }
-
         }
-
     }
 
 
 
+//    private fun fetchCurrentUserEntity() {
+//        viewModel.getUserStateFlowData(uid).observe(this) { userEntity ->
+//            // userEntity가 null이 아닐 때 UI 업데이트
+//
+//            if (userEntity == null) { // 처음 로그인을 했을 때.
+//                Log.e("userEntity", "null입니다.")
+//                viewModel.getCurrentUser()
+//
+//                lifecycleScope.launchWhenStarted {
+//                    viewModel.user.collectLatest {
+//                        when (it) {
+//                            is Resource.Loading -> {
+////                                showProgressBar()
+//                            }
+//
+//                            is Resource.Success -> {
+////                                hideProgressBar()
+//
+//                                Log.e("fetchCurrentUserEntity", "값을 성공적으로 불러왔습니다.")
+//                                user = it.data!!
+//                                viewModel.insertUser(user.toEntity())
+//                                currentUser = user.toEntity()
+//
+//                            }
+//
+//                            is Resource.Error -> {
+////                                hideProgressBar()
+//                                Toast.makeText(
+//                                    this@SplashActivity,
+//                                    it.message.toString(),
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//
+//                            else -> Unit
+//                        }
+//                    }
+//                }
+//            } else { // 여기는 Room으로부터 먼저 가져오되 서버에서도 가져와서 비교를 하고 업데이트 및 수정을 한다.
+//                Log.e("userEntity", "${userEntity.toString()}")
+//                currentUser = userEntity
+//                user = userEntity.toUser()
+//
+//                // 실제랑 비교해보기
+//                viewModel.getCurrentUser()
+//
+//                lifecycleScope.launchWhenStarted {
+//                    viewModel.user.collectLatest {
+//                        when (it) {
+//                            is Resource.Success -> {
+//                                if (user == it.data) {
+//                                    Log.e("UserEntity가 존재한다면?" ,"서버와 동일한 데이터")
+//                                    return@collectLatest
+//                                } else {
+//                                    Log.e("UserEntity가 존재한다면?" ,"서버와 다른 데이터")
+//
+//                                    user = it.data!!
+//                                    viewModel.updateUser(user.toEntity())
+//
+//                                }
+//
+//                            }
+//
+//                            is Resource.Error -> {
+//
+//                            }
+//
+//                            else -> Unit
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//    }
 
 
     companion object {

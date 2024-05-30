@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -172,14 +174,22 @@ class ProfileFragment : Fragment() {
 
             }
         }
+        val showAuthenticationPrompt = arguments?.getBoolean("showAuthenticationPrompt") ?: false
+        if (showAuthenticationPrompt) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                FancyShowCaseView.Builder(requireActivity())
+                    .focusOn(binding.linearAuthentication)
+                    .focusShape(FocusShape.ROUNDED_RECTANGLE)
+                    .focusAnimationStep(0)  // 기본값은 1
+                    .focusAnimationMaxValue(10)
+                    .title("인증을 먼저 진행해주세요.")
+                    .titleStyle(R.style.CustomShowcaseTitle, Gravity.CENTER)
+                    .build()
+                    .show()
+            }, 300) // 0.3초 지연
 
-        FancyShowCaseView.Builder(requireActivity())
-            .focusOn(binding.linearAuthentication)
-            .focusShape(FocusShape.ROUNDED_RECTANGLE)
-            .title("인증을 먼저 진행해주세요.")
-            .titleStyle(R.style.CustomShowcaseTitle, Gravity.CENTER)
-            .build()
-            .show()
+
+        }
 
 
         binding.eventSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
