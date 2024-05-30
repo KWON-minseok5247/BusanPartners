@@ -1,37 +1,29 @@
 package com.kwonminseok.busanpartners.ui.profile
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.functions.FirebaseFunctions
-import com.google.firebase.functions.FirebaseFunctionsException
-import com.kwonminseok.busanpartners.BuildConfig
+import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
-import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
-import com.kwonminseok.busanpartners.ui.home.HomeFragment
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.Resource
@@ -40,11 +32,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.QueryChannelsRequest
 import io.getstream.chat.android.models.Filters
-import io.getstream.result.call.enqueue
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import me.toptas.fancyshowcase.FancyShowCaseView
+import me.toptas.fancyshowcase.FocusShape
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
+
 
 private val TAG = "ProfileFragment"
 
@@ -180,6 +173,15 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        FancyShowCaseView.Builder(requireActivity())
+            .focusOn(binding.linearAuthentication)
+            .focusShape(FocusShape.ROUNDED_RECTANGLE)
+            .title("인증을 먼저 진행해주세요.")
+            .titleStyle(R.style.CustomShowcaseTitle, Gravity.CENTER)
+            .build()
+            .show()
+
+
         binding.eventSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
             sharedPreferences.edit().putBoolean("all_notifications_enabled", isChecked).apply()
 
@@ -303,7 +305,11 @@ class ProfileFragment : Fragment() {
             Glide.with(requireView()).load(user.imagePath).override(200, 200)
                 .into(binding.imageUser)
             tvUserName.text = user.name?.ko
-            tvEditPersonalDetails.text = "${user.college} ${user.major?.ko}"
+            tvEditPersonalDetails.text = if (user.college == null) {
+                ""
+            } else {
+                "${user.college} ${user.major?.ko}"
+            }
         }
         when (user.authentication.authenticationStatus) {
             "loading" -> {

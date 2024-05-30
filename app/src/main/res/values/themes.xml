@@ -14,6 +14,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="CustomShowcaseTitle">
+        <item name="android:textSize">22sp</item> <!-- 텍스트 크기 설정 -->
+        <item name="android:textColor">@color/white</item> <!-- 텍스트 색상 설정 -->
+        <item name="android:textStyle">normal</item> <!-- 텍스트 굵기 설정 -->
+    </style>
+
+
 
     <declare-styleable name="MessageComposerView">
         <attr name="streamUiMessageComposerDividerBackgroundDrawable" format="reference" />

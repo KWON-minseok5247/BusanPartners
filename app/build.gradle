@@ -309,7 +309,7 @@ dependencies {
 
 
     //showcaseView
-//    implementation 'com.elconfidencial.bubbleshowcase:bubbleshowcase:1.3.2'
+    implementation 'com.github.faruktoptas:FancyShowCaseView:1.3.5'
 
     // jetpack compose
     // Integration with activities
