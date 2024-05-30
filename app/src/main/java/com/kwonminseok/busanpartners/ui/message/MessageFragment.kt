@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui.message
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -118,15 +119,11 @@ class MessageFragment : ChannelListFragment() {
                     ?: false
             // 차단 상태 확인 (임시로 false로 설정, 실제 로직 필요)
 //            val isBlocked = checkIfUserIsBlocked(otherUser?.id, channel.cid)
-            val isBlocked = checkIfUserIsBlocked(channel, chatClient.getCurrentUser()!!.id)
+//            val isBlocked = checkIfUserIsBlocked(channel, chatClient.getCurrentUser()!!.id)
+            val isBlocked = false
             Log.e("channel", channel.toString())
 
             Log.e("isBlocked", isBlocked.toString())
-//            val options = if (isMuted) {
-//                arrayOf("채팅방 알림 켜기", "채팅방 나가기")
-//            } else {
-//                arrayOf("채팅방 알림 끄기", "채팅방 나가기")
-//            }
 
             val options = when {
                 isMuted && isBlocked -> arrayOf("채팅방 알림 켜기", "사용자 차단 해제", "채팅방 나가기")
@@ -196,25 +193,44 @@ class MessageFragment : ChannelListFragment() {
     }
 
 
+    @SuppressLint("CheckResult")
     private fun blockUser(channel: Channel) {
+
+
+        Log.e("blockUser", "blockUser가 실행되었습니다.")
         val currentUserId = ChatClient.instance().getCurrentUser()?.id
         val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
         Log.e("otherUser", otherUser.toString())
 
         if (otherUser != null) {
-            chatClient.banUser(otherUser.id, "messaging", channel.id, "유저의 선택으로 삭제되었습니다.", null)
-                .enqueue {
-                    Toast.makeText(
-                        requireContext(),
-                        "${otherUser.name}님이 차단되었습니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            chatClient.channel("messaging", channel.id).shadowBanUser(otherUser.id,
+                "유저의 선택으로 밴되었습니다", null)
+                .enqueue { result ->
+                    if (result.isSuccess) {
+                        // 차단 성공
+                        Log.e("BanUser", "User $otherUser.id banned successfully")
+                    } else {
+                        // 차단 실패
+                        Log.e("BanUser", "${result.errorOrNull().toString()}")
+                    }
                 }
+
+
+//            chatClient.banUser(otherUser.id, "messaging", channel.id, "유저의 선택으로 밴되었습니다.", null)
+//                .enqueue {
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "${otherUser.name}님이 차단되었습니다.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
         }
 
     }
 
     private fun unBlockUser(channel: Channel) {
+        Log.e("unBlockUser", "unBlockUser 실행되었습니다.")
+
         val currentUserId = ChatClient.instance().getCurrentUser()?.id
         val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
         Log.e("otherUser", otherUser.toString())
@@ -300,7 +316,6 @@ class MessageFragment : ChannelListFragment() {
     }
 
     private fun getStudentChat() {
-
 
         // 일단 원인은 찾아냈다. -> 채널이 이상하게 꼬인 것 같음.
         val studentUid = arguments?.getString("studentUid", null)

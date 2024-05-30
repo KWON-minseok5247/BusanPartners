@@ -172,14 +172,11 @@ class SplashActivity : AppCompatActivity() {
                     Log.e(TAG, "token이 비어있을 때.")
                     lifecycleScope.launch {
                         getNewToken()
-                        if (myUser != null) {
-                            connectClient(myUser)
-                        }
-                    }
-                } else {
-                    if (myUser != null) {
                         connectClient(myUser)
                     }
+                } else {
+                    connectClient(myUser)
+
                 }
 
             } else { // 인증이 되지 않았거나 토큰이 만료가 된 경우 게스트 모드로 로그인 해두기
