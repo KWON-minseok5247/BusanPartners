@@ -67,7 +67,8 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
                 val cid = message.data["cid"] ?: return
 
                 // 현재 활동 상태 확인
-                if (ActivityState.currentActivity == ChannelActivity::class.java.simpleName && ActivityState.currentChannelId == cid) {
+                //                if (ActivityState.currentActivity == ChannelActivity::class.java.simpleName && ActivityState.currentChannelId == cid) {
+                if (ActivityState.currentActivity == ChannelActivity::class.java.simpleName && ActivityState.currentActivity == HomeActivity::class.java.simpleName) {
                     Log.e("FCM", "현재 채팅방에 있음, 알림 생략")
                     return  // 현재 채팅방에 있으면 알림을 생략
                 }
@@ -118,7 +119,8 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
         Log.e("CustomFirebaseMessagingService cid", cid)
 
         // cid의 해시코드를 알림 ID로 사용
-        val notificationId = cid.hashCode()
+//        val notificationId = cid.hashCode()
+        val notificationId = 1
 //        val notificationId = 1 // 알림 ID를 메시지 ID의 해시코드로 설정
 
         // 특정 화면으로 이동하는 Intent 생성

@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -34,7 +35,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.QueryChannelsRequest
 import io.getstream.chat.android.models.Filters
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import me.toptas.fancyshowcase.FancyShowCaseView
 import me.toptas.fancyshowcase.FocusShape
 import org.threeten.bp.OffsetDateTime
@@ -117,6 +121,7 @@ class ProfileFragment : Fragment() {
                 fetchUserData(user)
                 viewModel.getCurrentUser()
 
+
                 lifecycleScope.launchWhenStarted {
                     viewModel.user.collectLatest {
                         when (it) {
@@ -146,7 +151,11 @@ class ProfileFragment : Fragment() {
 
 
         binding.constraintProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
+            if (user.authentication.collegeStudent) {
+                findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
+            } else {
+                findNavController().navigate(R.id.action_profileFragment_to_userAccountForBeginnerFragment)
+            }
         }
         sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
 
@@ -160,6 +169,7 @@ class ProfileFragment : Fragment() {
 
 
 
+        // 채팅 알림 스위치 온 오프
         binding.chatSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
             sharedPreferences.edit().putBoolean("chat_notifications_enabled", isChecked).apply()
 
@@ -174,6 +184,8 @@ class ProfileFragment : Fragment() {
 
             }
         }
+
+        // connect에서 넘어왔을 경우 실행되는 코드
         val showAuthenticationPrompt = arguments?.getBoolean("showAuthenticationPrompt") ?: false
         if (showAuthenticationPrompt) {
             Handler(Looper.getMainLooper()).postDelayed({
@@ -192,6 +204,7 @@ class ProfileFragment : Fragment() {
         }
 
 
+        // 모든 알림 온오프
         binding.eventSwitchNotification.setOnCheckedChangeListener { _, isChecked ->
             sharedPreferences.edit().putBoolean("all_notifications_enabled", isChecked).apply()
 
@@ -234,6 +247,7 @@ class ProfileFragment : Fragment() {
 
         }
 
+        // 로그아웃 버튼
         binding.linearLogOut.setOnClickListener {
             isLogOut = true
             // room 데이터 삭제
@@ -271,34 +285,42 @@ class ProfileFragment : Fragment() {
 
 
         }
-//        binding.chat.setOnClickListener {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//                if (ContextCompat.checkSelfPermission(
-//                        requireContext(),
-//                        Manifest.permission.POST_NOTIFICATIONS
-//                    ) == PackageManager.PERMISSION_GRANTED
-//                ) {
-//                    // 알림 권한이 이미 허용된 경우
-//                    Log.e("알림이 ", "허용된 상태")
-//                } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-//                    // 알림 권한이 거부되었지만 다시 요청 가능한 경우
-//                    Log.e("알림이 ", "다시 요청 상태")
-//                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-//                        1
-//                    )
-//                    // 사용자에게 알림이 필요한 이유를 설명하고 권한 요청 다이얼로그 띄우기
-//                } else {
-//                    // 알림 권한을 요청하는 다이얼로그 띄우기
-//                    Log.e("알림이 ", "처음 요청 상태")
-//                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-//                        1
-//                    )
-//
-//
-//                }
-//            }
-//
-//        }
+
+        binding.deleteAccount.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("계정이 탈퇴됩니다.")
+                .setMessage("정말로 계정을 삭제하시겠습니까?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    dialog.dismiss()
+
+                    isLogOut = true
+                    // room 데이터 삭제
+                    BusanPartners.preferences.setString("uid", "")
+                    BusanPartners.preferences.setString(Constants.TOKEN, "")
+                    viewModel.deleteUser(user.toEntity())
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        viewModel.deleteCurrentUser()
+                    }
+
+                    GoogleSignIn.getClient(
+                        requireActivity(),
+                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+                    ).revokeAccess().addOnCompleteListener {
+                        // 로그아웃 성공 후 LoginRegisterActivity로 이동
+                        val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    }
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+
+        }
+
 
 
     }

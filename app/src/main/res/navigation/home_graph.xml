@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_profileFragment_to_onboardingTravelerInformationFragment"
             app:destination="@id/onboardingTravelerInformationFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_userAccountForBeginnerFragment"
+            app:destination="@id/userAccountForBeginnerFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
@@ -144,6 +147,11 @@
             android:id="@+id/action_onboardingTravelerInformationFragment_to_travelerAuthFragment"
             app:destination="@id/travelerAuthFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userAccountForBeginnerFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.UserAccountForBeginnerFragment"
+        android:label="UserAccountForBeginnerFragment"
+        tools:layout="@layout/fragment_user_account_for_beginner"/>
 
 
 </navigation>

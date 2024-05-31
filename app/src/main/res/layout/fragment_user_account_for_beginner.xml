@@ -105,7 +105,6 @@
             android:background="@drawable/white_background"
             android:fontFamily="@font/poppins_light"
             android:gravity="center"
-            android:hint="NickName"
             android:singleLine="true"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideline"

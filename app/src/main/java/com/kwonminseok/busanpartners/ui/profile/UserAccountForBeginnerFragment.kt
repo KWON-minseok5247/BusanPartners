@@ -30,6 +30,7 @@ import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentUserAccountBinding
+import com.kwonminseok.busanpartners.databinding.FragmentUserAccountForBeginnerBinding
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.util.Resource
@@ -43,7 +44,6 @@ import kotlinx.coroutines.flow.collectLatest
 //TODO 여기서도 관광객일 때는 많은 데이터가 필요없으니까 일부 지우는 과정이 필요함.
 @AndroidEntryPoint
 class UserAccountForBeginnerFragment : Fragment() {
-    private var chipTexts: MutableList<String>? = null
 
     private var _binding: FragmentUserAccountForBeginnerBinding? = null
     private val binding get() = _binding!!
@@ -65,7 +65,7 @@ class UserAccountForBeginnerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentUserAccountBinding.inflate(layoutInflater)
+        _binding = FragmentUserAccountForBeginnerBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -154,43 +154,20 @@ class UserAccountForBeginnerFragment : Fragment() {
             binding.apply {
                 // TODO 여기서 변경사항을 찾아서 제공하는 게 더 합리적인 것 같다?
                 val edName = edName.text.toString()
-                val edMajor = edMajor.text.toString()
-                val introduction = introduction.text.toString()
-                val wantToMeet = switchShowHideTags.isChecked
 
-                chipTexts = mutableListOf<String>()
-
-                for (i in 0 until chipGroupHobbies.childCount) {
-                    val chip = chipGroupHobbies.getChildAt(i) as Chip
-                    chipTexts!!.add(chip.text.toString())
-                }
 
                 val newData = mapOf(
                     "name" to edName,
-                    "major" to edMajor,
-                    "introduction" to introduction,
-                    "chipGroup" to chipTexts,
-                    "wantToMeet" to wantToMeet
                 )
 
                 val changes = mutableMapOf<String, Any?>()
-                if (edName != oldUser.name?.ko || oldUser.name?.en.isNullOrEmpty()) changes["name"] = edName
-
-
-                if (edMajor != oldUser.major?.ko) changes["major"] = edMajor
-                if (introduction != oldUser.introduction?.ko) changes["introduction"] = introduction
-                if (chipTexts != oldUser.chipGroup?.ko) changes["chipGroup"] = chipTexts
-                if (wantToMeet != oldUser.wantToMeet) changes["wantToMeet"] = wantToMeet
+                if (edName != oldUser.name?.ko ) changes["name"] = edName
 
 
                 if (imageData == null) { // 사진을 변경하지 않은 경우
                     viewModel.setCurrentUser(changes)
                     oldUser = oldUser.copy(
                         name = TranslatedText(ko = edName),
-                        major = TranslatedText(ko = edMajor),
-                        introduction = TranslatedText(ko = introduction),
-                        chipGroup = TranslatedList(ko = chipTexts) ,
-                        wantToMeet = wantToMeet
                     )
 //                    viewModel.updateUser(oldUser.toEntity())
 
@@ -201,10 +178,6 @@ class UserAccountForBeginnerFragment : Fragment() {
 
                     oldUser = oldUser.copy(
                         name = TranslatedText(ko = edName),
-                        major = TranslatedText(ko = edMajor),
-                        introduction = TranslatedText(ko = introduction),
-                        chipGroup = TranslatedList(ko = chipTexts) ,
-                        wantToMeet = wantToMeet
                     )
                     imageData = null
                 }
@@ -269,66 +242,6 @@ class UserAccountForBeginnerFragment : Fragment() {
             startActivityForResult(intent, GALLERY)
         }
 
-        binding.editTag.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val tagText = binding.editTag.text.toString()
-                if (tagText.isNotEmpty()) {
-                    if (binding.chipGroupHobbies.childCount < 10) {
-                        val chip = Chip(requireContext()).apply {
-                            text = tagText
-                            isCloseIconVisible = true
-                            setOnCloseIconClickListener {
-                                binding.chipGroupHobbies.removeView(this)
-                            }
-                        }
-
-                        chip.alpha = 0f
-                        binding.chipGroupHobbies.addView(chip)
-
-                        chip.animate()
-                            .alpha(1f)
-                            .setDuration(300)
-                            .start()
-
-                        binding.editTag.text.clear()
-                    } else {
-                        Toast.makeText(requireContext(), "최대 10개의 태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                true
-            } else false
-        }
-
-//        binding.editTag.setOnEditorActionListener { v, actionId, event ->
-//            if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                // 사용자가 완료 버튼을 눌렀을 때의 처리를 작성합니다.
-//                // 예: 입력한 텍스트 값을 사용하거나, 다른 화면으로 넘어가는 등의 처리
-//                val tagText = binding.editTag.text.toString()
-//                if (tagText.isNotEmpty()) {
-//                    val chip = Chip(requireContext()).apply {
-//                        text = tagText
-//                        isCloseIconVisible = true // 닫기 아이콘을 보여줍니다.
-//                        setOnCloseIconClickListener {
-//                            // Chip을 클릭했을 때 ChipGroup에서 제거합니다.
-//                            binding.chipGroupHobbies.removeView(this)
-//                        }
-//                    }
-//
-//                    chip.alpha = 0f // 초기 알파 값을 0으로 설정
-//                    binding.chipGroupHobbies.addView(chip)
-//
-//                    // 애니메이션으로 알파 값을 0에서 1로 변경
-//                    chip.animate()
-//                        .alpha(1f)
-//                        .setDuration(300) // 애니메이션 지속 시간 설정
-//                        .start()
-//
-//                    binding.editTag.text.clear() // EditText의 텍스트를 지웁니다.
-//                }
-//                true
-//            } else false
-//
-//        }
 
     }
 
@@ -341,20 +254,8 @@ class UserAccountForBeginnerFragment : Fragment() {
 
         binding.apply {
             val edName = edName.text.toString()
-            val edMajor = edMajor.text.toString()
-            val introduction = introduction.text.toString()
-            val wantToMeet = switchShowHideTags.isChecked
-            chipTexts = mutableListOf<String>()
-            for (i in 0 until chipGroupHobbies.childCount) {
-                val chip = chipGroupHobbies.getChildAt(i) as Chip
-                chipTexts!!.add(chip.text.toString())
-            }
 
             if (oldUser.name?.ko == edName &&
-                oldUser.major?.ko == edMajor &&
-                oldUser.wantToMeet == wantToMeet &&
-                oldUser.introduction?.ko == introduction &&
-                oldUser.chipGroup?.ko == chipTexts &&
                 imageData == null
             ) {   // 변경이 없을 때.
                 findNavController().navigateUp()
@@ -413,30 +314,6 @@ class UserAccountForBeginnerFragment : Fragment() {
         }
     }
 
-    private fun hideUserLoading() {
-        binding.apply {
-            progressbarAccount.visibility = View.GONE
-            imageUser.visibility = View.VISIBLE
-            imageEdit.visibility = View.VISIBLE
-            edName.visibility = View.VISIBLE
-            tvUniversity.visibility = View.VISIBLE
-            edEmail.visibility = View.VISIBLE
-            buttonSave.visibility = View.VISIBLE
-        }
-    }
-
-    private fun showUserLoading() {
-        binding.apply {
-            progressbarAccount.visibility = View.VISIBLE
-            imageUser.visibility = View.INVISIBLE
-            imageEdit.visibility = View.INVISIBLE
-            edName.visibility = View.INVISIBLE
-            tvUniversity.visibility = View.INVISIBLE
-            edEmail.visibility = View.INVISIBLE
-            buttonSave.visibility = View.INVISIBLE
-        }
-    }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -454,36 +331,14 @@ class UserAccountForBeginnerFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
-    private fun setupHobbiesChips(hobbies: List<String>) {
-        hobbies.forEach { hobby ->
-            val chip = Chip(requireContext()).apply {
-                text = hobby
-                isCheckedIconVisible = false
-                isCloseIconVisible = true // 닫기 아이콘을 보여줍니다.
-                setOnCloseIconClickListener {
-                    // Chip을 클릭했을 때 ChipGroup에서 제거합니다.
-                    binding.chipGroupHobbies.removeView(this)
-                }
-            }
-            binding.chipGroupHobbies.addView(chip)
-        }
-
-    }
 
 
     private fun enterData(user: User) {
         Glide.with(this).load(user.imagePath).into(binding.imageUser)
         binding.apply {
             edName.setText(user.name?.ko)
-            tvUniversity.text = user.college
-            edMajor.setText(user.major?.ko)
             edEmail.text = user.email
-            introduction.setText(user.introduction?.ko)
-            switchShowHideTags.isChecked = user.wantToMeet
         }
-        binding.chipGroupHobbies.removeAllViews()
-        chipTexts = user.chipGroup?.ko?.toMutableList()
-        user.chipGroup?.let { it?.ko?.let { it1 -> setupHobbiesChips(it1) } }
     }
 
     override fun onResume() {

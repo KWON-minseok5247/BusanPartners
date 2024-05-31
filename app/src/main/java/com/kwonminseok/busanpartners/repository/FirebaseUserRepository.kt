@@ -8,12 +8,14 @@ import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.storage.StorageReference
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.util.Constants.STUDENT
 import com.kwonminseok.busanpartners.util.Constants.USER_COLLECTION
 import com.kwonminseok.busanpartners.util.Resource
+import io.getstream.chat.android.client.ChatClient
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -49,6 +51,9 @@ interface FirebaseUserRepository {
     ): Resource<Boolean>
 
     suspend fun logOutCurrentUser(): Resource<Boolean>
+
+    suspend fun deleteCurrentUser(): Resource<Boolean>
+
 
     suspend fun getUniversityStudentsWantToMeet(): Resource<MutableList<User>>
 
@@ -90,148 +95,6 @@ class FirebaseUserRepositoryImpl(
 
 
     }
-//    override suspend fun getCurrentUser(): Resource<User> {
-//        return try {
-//            val docSnapshot =
-//                firestore.collection(USER_COLLECTION).document(auth.uid!!).get().await()
-//            // 유저가 사진을 바꾸는 등의 행동을 하기에 addsnap으로 한다.
-//            val user = docSnapshot.toObject(User::class.java)
-//            if (user != null) {
-//                Resource.Success(user)
-//            } else {
-//                Resource.Error("User not found")
-//            }
-//        } catch (e: Exception) {
-//            Resource.Error(e.message ?: "Unknown error")
-//        }
-//    }
-
-    // 데이터를 수정하도록 한다.
-//    override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
-//        return try {
-//            //TODO 이제 여기서 각종 데이터를 전부 번역해서 넣어야 한다.
-//            val apiKey = BuildConfig.DEEPL_API
-//
-//            val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
-//            val translatedMap = mutableMapOf<String, Any?>()
-//            translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
-//
-//            Log.e("initialTranslatedMap", translatedMap.toString())
-//
-//            translatableMap.forEach { (key, value) ->
-//                if (value is String) {
-//                    val translations = translateText(value, apiKey)
-//                    Log.e("translations for $key", translations.toString())
-//                    translatedMap[key] = translations
-//                } else if (key == "chipGroup" && value is List<*>) {
-//                    // 리스트를 하나의 문자열로 변환
-//                    val listAsString = value.joinToString(separator = ",")
-//                    // 문자열 번역
-//                    val translations = translateText(listAsString, apiKey)
-//                    Log.e("chipGroup translations", translations.toString())
-//
-//                    // 번역된 문자열을 다시 리스트로 변환
-//                    val translatedLists = mutableMapOf<String, List<String>>()
-//                    translations.forEach { (lang, translatedText) ->
-//                        translatedLists[lang] = if (translatedText.isBlank()) emptyList() else translatedText.split(",").map { it.trim() }
-//                    }
-//                    translatedMap[key] = translatedLists
-//                }
-//            }
-//            // 내가 수동으로 추가하는 방법으로 해야겠다.
-//            Log.e("finalTranslatedMap", translatedMap.toString())
-//
-//
-//
-//
-//
-//            firestore.collection(USER_COLLECTION).document(auth.uid!!).update(map).await()
-//
-//            Resource.Success(true) // 업데이트 성공 시 true 반환
-//
-//        } catch (e: Exception) {
-//            Resource.Error(e.message ?: "Unknown error")
-//        }
-//    }
-//    override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
-//
-//
-//
-//
-//        return try {
-//            val apiKey = BuildConfig.DEEPL_API
-//
-//            // 번역이 필요한 필드만 추출 -> 여기도 조금은 문제 있는 게 아닐까? chipGroup 만들지 않았을때부터 파이어베이스에 null로 저장이 되어버렸다?
-//            val translatableMap = map.filterKeys { it in listOf("introduction", "major", "chipGroup", "name") }
-//            val translatedMap = mutableMapOf<String, Any?>()
-//            translatedMap.putAll(map.filterKeys { it !in translatableMap.keys })
-//
-//            // TODO 여기서 value가 String이다 이 조건이 아니라 key가 introduction인지 그런 조건으로 하는 게 더
-//            //  좋을 것 같다..
-//            // 번역 작업 수행
-//            translatableMap.forEach { (key, value) ->
-//                Log.e("key and value", "${key} ${value.toString()}")
-//                if (value is String) { // 만약에 변경한 내용이 introduction이나 major, name이라면 여기서 해결된다.
-//                    if (value.isNotEmpty()) {
-//                        Log.e("value is String", "value is String")
-//                        val translations = translateText(value, apiKey)
-//                        translatedMap[key] = TranslatedText(
-//                            ko = translations["KO"] ?: "",
-//                            en = translations["EN"],
-//                            ja = translations["JA"],
-//                            zh = translations["ZH"]
-//                        )
-//                    } else { // 만약 value가 ""일 때
-//                        translatedMap[key] = TranslatedText("", "", "", "")
-//                    }
-//
-//                }
-//                else if (key == "chipGroup") { // 변경한 내용이 chipGroup인 경우
-//                    if (value is List<*> && value.isNotEmpty()) {
-//                        Log.e("key == chipGroup && value is List<*>", "value is chipGroup")
-//
-//                        // 리스트를 String으로 바꾸는 과정
-//                        val listAsString = value.joinToString(separator = ",")
-//
-//                        // 번역을 하고 map으로 저장하는 과정
-//                        val translations = translateText(listAsString, apiKey)
-//
-//                        // String value를 list 형식으로 바꾸는 과정
-//                        val translatedLists = TranslatedList(
-//                            ko = translations["KO"]?.split(",")?.map { it.trim() },
-//                            en = translations["EN"]?.split(",")?.map { it.trim() },
-//                            ja = translations["JA"]?.split(",")?.map { it.trim() },
-//                            zh = translations["ZH"]?.split("、")?.map { it.trim() }
-//                        )
-//
-//                        translatedMap[key] = translatedLists
-//                    } else {
-//                        Log.e("key == chipGroup && value is null or empty", "value is null or empty")
-//                        // 값이 null이거나 빈 리스트이면 데이터베이스에서 빈 문자열로 설정
-//                        translatedMap[key] = TranslatedList(listOf(), listOf(), listOf(), listOf())
-//                    }
-//
-//                } else {
-//                    Log.e("key == else", "else")
-//                    // 값이 null이거나 빈 문자열이면 데이터베이스에서 해당 키 삭제
-////                    translatedMap[key] = FieldValue.delete()
-//                    translatedMap[key] = TranslatedText("", "", "", "")
-//
-//                }
-//            }
-//            Log.e("translatedMap", translatedMap.toString() )
-//
-//
-//            // Firestore에 저장
-//            firestore.collection(USER_COLLECTION).document(auth.uid!!).update(translatedMap).await()
-//
-//            Resource.Success(true)
-//
-//        } catch (e: Exception) {
-//            Resource.Error(e.message ?: "Unknown error")
-//        }
-//
-//    }
 
     override suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean> {
         return try {
@@ -399,6 +262,25 @@ class FirebaseUserRepositoryImpl(
 
     }
 
+    override suspend fun deleteCurrentUser(): Resource<Boolean> {
+        return try {
+            firestore.collection(USER_COLLECTION).document(auth.uid!!).delete().addOnCompleteListener {
+                auth.currentUser?.delete()
+            }
+
+
+
+
+            Resource.Success(true)
+
+            // 로그아웃 성공
+            } catch (e: Exception) {
+                // 에러 처리
+                Resource.Error(e.message ?: "An error occurred while logging out")
+            }
+        }
+
+
     override suspend fun getUniversityStudentsWantToMeet(): Resource<MutableList<User>> {
 
         return try {
@@ -409,26 +291,6 @@ class FirebaseUserRepositoryImpl(
                     .get().await()
             Log.e("querySnapshot.documents", querySnapshot.documents.toString())
 
-
-//            val students = querySnapshot.documents.mapNotNull { document ->
-//                document.toObject(User::class.java)?.let { user ->
-//                    // chipGroup 필드를 TranslatedList 타입으로 변환
-//                    Log.e("students User", user.toString())
-//                    val chipGroupData = document.get("chipGroup") as? Map<String, List<String>>
-//                    user.copy(
-//                        chipGroup = chipGroupData?.let {
-//                            TranslatedList(
-//                                ko = it["ko"],
-//                                en = it["en"],
-//                                ja = it["ja"],
-//                                zh = it["zh"]
-//                            )
-//                        }
-//                    )
-//                }
-//            }
-//
-//            Resource.Success(students.toMutableList())
 
             val students = querySnapshot.toObjects(User::class.java)
 

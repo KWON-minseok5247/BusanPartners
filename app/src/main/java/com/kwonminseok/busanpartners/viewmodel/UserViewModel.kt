@@ -72,6 +72,14 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun deleteCurrentUser() {
+        viewModelScope.launch {
+            _updateStatus.value = Resource.Loading()
+            _updateStatus.value = userRepository.deleteCurrentUser()
+        }
+    }
+
+
     fun getUniversityStudentsWantToMeet() {
         viewModelScope.launch {
             _students.value = Resource.Loading()
