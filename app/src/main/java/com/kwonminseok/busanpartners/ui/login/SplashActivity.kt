@@ -173,6 +173,8 @@ class SplashActivity : AppCompatActivity() {
 
                 val myUser = User.Builder()
                     .withId(user.uid)
+                    .withName(user.name?.ko ?: "ㅁㄴㅇ")
+                    .withImage(user.imagePath)
                     .build()
                 Log.e("myUser", myUser.toString())
 
@@ -390,9 +392,9 @@ class SplashActivity : AppCompatActivity() {
 
     private fun fetchCurrentUserEntity() {
         viewModel.getUserStateFlowData(uid).observe(this) { userEntity ->
-            Log.e("userEntity 1차", userEntity.toString())
+//            Log.e("userEntity 1차", userEntity.toString())
             if (userEntity == null) {
-                Log.e("userEntity 2차", "null")
+//                Log.e("userEntity 2차", "null")
                 viewModel.getCurrentUser()
 
                 lifecycleScope.launchWhenStarted {

@@ -137,7 +137,7 @@ class TravelerAuthFragment : Fragment() {
 
         // 프로필 프래그먼트로 돌아가는 함수
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_collegeAuthImageFragment_to_profileFragment)
+            findNavController().navigate(R.id.action_travelerAuthFragment_to_profileFragment)
         }
 
 
