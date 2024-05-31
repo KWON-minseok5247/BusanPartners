@@ -174,7 +174,9 @@ class UserAccountFragment : Fragment() {
                 )
 
                 val changes = mutableMapOf<String, Any?>()
-                if (edName != oldUser.name?.ko) changes["name"] = edName
+                if (edName != oldUser.name?.ko || oldUser.name?.en.isNullOrEmpty()) changes["name"] = edName
+
+
                 if (edMajor != oldUser.major?.ko) changes["major"] = edMajor
                 if (introduction != oldUser.introduction?.ko) changes["introduction"] = introduction
                 if (chipTexts != oldUser.chipGroup?.ko) changes["chipGroup"] = chipTexts

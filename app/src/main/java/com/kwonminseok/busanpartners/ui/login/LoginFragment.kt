@@ -257,6 +257,7 @@ class LoginFragment : Fragment() {
                         usersRef.document(uid).get().addOnSuccessListener { documentSnapshot ->
                             if (!documentSnapshot.exists()) {
                                 // 사용자 데이터가 존재하지 않는 경우, 새로운 사용자 데이터 저장
+
                                 val userData = User("","", email = user.email!!, uid = user.uid, name = TranslatedText(ko = user.displayName!!, "", "", "") , imagePath = user.photoUrl.toString() ?: "")
 
                                 usersRef.document(uid).set(userData)
