@@ -264,21 +264,14 @@ class FirebaseUserRepositoryImpl(
 
     override suspend fun deleteCurrentUser(): Resource<Boolean> {
         return try {
-            firestore.collection(USER_COLLECTION).document(auth.uid!!).delete().addOnCompleteListener {
-                auth.currentUser?.delete()
-            }
-
-
-
+            firestore.collection(USER_COLLECTION).document(auth.uid!!).delete().await()
+            auth.currentUser?.delete()?.await()
 
             Resource.Success(true)
-
-            // 로그아웃 성공
-            } catch (e: Exception) {
-                // 에러 처리
-                Resource.Error(e.message ?: "An error occurred while logging out")
-            }
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "An error occurred while deleting the user")
         }
+    }
 
 
     override suspend fun getUniversityStudentsWantToMeet(): Resource<MutableList<User>> {

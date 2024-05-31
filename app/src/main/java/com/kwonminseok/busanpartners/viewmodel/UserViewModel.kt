@@ -11,10 +11,12 @@ import com.kwonminseok.busanpartners.repository.FirebaseUserRepository
 import com.kwonminseok.busanpartners.repository.RoomUserRepository
 import com.kwonminseok.busanpartners.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 private val TAG = "UserAccountViewModel"
@@ -22,7 +24,8 @@ private val TAG = "UserAccountViewModel"
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val userRepository: FirebaseUserRepository,
-    private val roomUserRepository: RoomUserRepository) :
+    private val roomUserRepository: RoomUserRepository
+) :
     ViewModel() {
 
     private val _user = MutableStateFlow<Resource<User>>(Resource.Unspecified())
@@ -72,10 +75,17 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun deleteCurrentUser() {
-        viewModelScope.launch {
-            _updateStatus.value = Resource.Loading()
-            _updateStatus.value = userRepository.deleteCurrentUser()
+    //    fun deleteCurrentUser() {
+//        viewModelScope.launch {
+//            _updateStatus.value = Resource.Loading()
+//            _updateStatus.value = userRepository.deleteCurrentUser()
+//        }
+//    }
+    suspend fun deleteCurrentUser(): Resource<Boolean> {
+        return withContext(Dispatchers.IO) {
+            val resource = userRepository.deleteCurrentUser()
+            _updateStatus.value = resource
+            resource
         }
     }
 
@@ -97,7 +107,8 @@ class UserViewModel @Inject constructor(
     fun uploadUserImagesAndUpdateToFirestore(selectedImageUris: List<Uri>, status: String) {
         viewModelScope.launch {
             _updateStatus.value = Resource.Loading()
-            _updateStatus.value = userRepository.uploadUserImagesAndUpdateToFirestore(selectedImageUris, status)
+            _updateStatus.value =
+                userRepository.uploadUserImagesAndUpdateToFirestore(selectedImageUris, status)
         }
     }
 
@@ -146,8 +157,6 @@ class UserViewModel @Inject constructor(
             roomUserRepository.deleteUser(user)
         }
     }
-
-
 
 
 }

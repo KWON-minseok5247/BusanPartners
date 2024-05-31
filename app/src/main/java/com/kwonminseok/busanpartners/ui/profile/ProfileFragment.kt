@@ -39,6 +39,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.toptas.fancyshowcase.FancyShowCaseView
 import me.toptas.fancyshowcase.FocusShape
 import org.threeten.bp.OffsetDateTime
@@ -292,25 +293,45 @@ class ProfileFragment : Fragment() {
                 .setMessage("정말로 계정을 삭제하시겠습니까?")
                 .setPositiveButton("Yes") { dialog, _ ->
                     dialog.dismiss()
-
                     isLogOut = true
-                    // room 데이터 삭제
                     BusanPartners.preferences.setString("uid", "")
                     BusanPartners.preferences.setString(Constants.TOKEN, "")
-                    viewModel.deleteUser(user.toEntity())
 
-                    CoroutineScope(Dispatchers.Main).launch {
-                        viewModel.deleteCurrentUser()
-                    }
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            // Delete user from Room database
+                            viewModel.deleteUser(user.toEntity())
 
-                    GoogleSignIn.getClient(
-                        requireActivity(),
-                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-                    ).revokeAccess().addOnCompleteListener {
-                        // 로그아웃 성공 후 LoginRegisterActivity로 이동
-                        val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                            // Delete user from Firebase
+                            val result = viewModel.deleteCurrentUser()
+                            withContext(Dispatchers.Main) {
+                                if (result is Resource.Success) {
+                                    // Revoke Google Sign-In access
+                                    GoogleSignIn.getClient(
+                                        requireActivity(),
+                                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+                                    ).revokeAccess().addOnCompleteListener {
+                                        if (it.isSuccessful) {
+                                            Toast.makeText(requireContext(), "계정이 정상적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                                            val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
+                                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            startActivity(intent)
+                                        } else {
+                                            Log.e("Google Sign-In access revoke", "Failed")
+                                            Toast.makeText(requireContext(), "Google Sign-In access revoke failed.", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                } else {
+                                    Log.e("계정 삭제에 실패했습니다", "Failure: ${result.message}")
+                                    Toast.makeText(requireContext(), "계정 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        } catch (e: Exception) {
+                            Log.e("Delete Account", "Exception: ${e.message}")
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(requireContext(), "계정 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
                 }
                 .setNegativeButton("No") { dialog, _ ->
@@ -318,8 +339,83 @@ class ProfileFragment : Fragment() {
                 }
                 .create()
                 .show()
-
         }
+
+//        binding.deleteAccount.setOnClickListener {
+//            AlertDialog.Builder(requireContext())
+//                .setTitle("계정이 탈퇴됩니다.")
+//                .setMessage("정말로 계정을 삭제하시겠습니까?")
+//                .setPositiveButton("Yes") { dialog, _ ->
+//                    dialog.dismiss()
+//
+////                    isLogOut = true
+////                    // room 데이터 삭제
+////                    BusanPartners.preferences.setString("uid", "")
+////                    BusanPartners.preferences.setString(Constants.TOKEN, "")
+////                    viewModel.deleteUser(user.toEntity())
+////
+////                    CoroutineScope(Dispatchers.Main).launch {
+////                        viewModel.deleteCurrentUser()
+////                    }
+////
+////                    GoogleSignIn.getClient(
+////                        requireActivity(),
+////                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+////                    ).revokeAccess().addOnCompleteListener {
+////                        // 로그아웃 성공 후 LoginRegisterActivity로 이동
+////                        val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
+////                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+////                        startActivity(intent)
+////                    }
+//                    isLogOut = true
+//                    // Clear local preferences
+//                    BusanPartners.preferences.setString("uid", "")
+//                    BusanPartners.preferences.setString(Constants.TOKEN, "")
+//
+//                    CoroutineScope(Dispatchers.IO).launch {
+//                        // Delete user from Room database
+//                        viewModel.deleteUser(user.toEntity())
+//
+//                        // Delete user from Firebase
+//                        val result = viewModel.deleteCurrentUser()
+//                        withContext(Dispatchers.Main) {
+//                            if (result is Resource.Success) {
+//                                // Revoke Google Sign-In access
+//                                GoogleSignIn.getClient(
+//                                    requireActivity(),
+//                                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+//                                ).revokeAccess().addOnCompleteListener {
+//                                    if (it.isSuccessful) {
+//                                        // Redirect to LoginRegisterActivity
+//                                        Log.e("Google Sign-In access revoke", "")
+//
+//                                        val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
+//                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                                        startActivity(intent)
+//                                    } else {
+//                                        // Handle failure
+//                                        Log.e("Google Sign-In access revoke", "")
+//
+//                                        Toast.makeText(requireContext(), "Google Sign-In access revoke failed.", Toast.LENGTH_SHORT).show()
+//                                    }
+//                                }
+//                            } else {
+//                                // Handle failure
+//                                Log.e("계정 삭제에 실패했습니다", "")
+//                                Toast.makeText(requireContext(), "계정 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                    }
+//
+//
+//                }
+//                .setNegativeButton("No") { dialog, _ ->
+//                    dialog.dismiss()
+//                }
+//                .create()
+//                .show()
+//
+//        }
 
 
 
