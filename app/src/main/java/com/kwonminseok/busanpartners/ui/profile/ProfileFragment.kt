@@ -345,9 +345,6 @@ class ProfileFragment : Fragment() {
                 .create()
                 .show()
         }
-        binding.customerService.setOnClickListener {
-
-        }
 
 
 

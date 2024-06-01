@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.FAQAdapter
+import com.kwonminseok.busanpartners.adapter.TabViewPagerAdapter
 import com.kwonminseok.busanpartners.data.FAQItem
 import com.kwonminseok.busanpartners.databinding.FragmentFaqBinding
 
@@ -83,20 +86,28 @@ class FAQFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val faqList = listOf(
-            FAQItem("트림마켓에서 코치로 활동하는 방법이 궁금해요!", "코치로 활동하려면..."),
-            FAQItem("일정표는 코치만 만들 수 있나요?", "네, 일정표는 코치만..."),
-            FAQItem("일정표 수정이 안돼요!", "일정표 수정은..."),
-            FAQItem("탈퇴는 어떻게 하나요?", "마이페이지 > 설정 > 회원 탈퇴..."),
+            FAQItem("트림마켓에서 코치로 활동하는 방법이 궁금해요!", "코치로 활동하려면...", "대학생 관련"),
+            FAQItem("일정표는 코치만 만들 수 있나요?", "네, 일정표는 코치만...", "관광객 관련"),
+            FAQItem("일정표 수정이 안돼요!", "일정표 수정은...", "그 외"),
+            FAQItem("탈퇴는 어떻게 하나요?", "마이페이지 > 설정 > 회원 탈퇴...", "그 외"),
             // 더 많은 FAQ 아이템 추가
         )
 
-        faqAdapter = FAQAdapter(faqList)
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = faqAdapter
+        val categories = listOf("전체", "대학생 관련", "관광객 관련", "그 외")
+        val fragments = categories.map { category ->
+            FAQListFragment.newInstance(category, faqList)
+        }
+
+        val viewPagerAdapter = TabViewPagerAdapter(this, fragments)
+        binding.viewPager.adapter = viewPagerAdapter
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = categories[position]
+        }.attach()
 
         binding.backImageView.setOnClickListener {
             // 뒤로 가기 버튼 클릭 시 동작
-            fragmentManager?.popBackStack()
+            findNavController().popBackStack()
         }
     }
 
