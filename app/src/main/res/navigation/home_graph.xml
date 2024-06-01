@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_profileFragment_to_userAccountForBeginnerFragment"
             app:destination="@id/userAccountForBeginnerFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_FAQFragment"
+            app:destination="@id/FAQFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
@@ -152,6 +155,11 @@
         android:name="com.kwonminseok.busanpartners.ui.profile.UserAccountForBeginnerFragment"
         android:label="UserAccountForBeginnerFragment"
         tools:layout="@layout/fragment_user_account_for_beginner"/>
+    <fragment
+        android:id="@+id/FAQFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.FAQFragment"
+        tools:layout="@layout/fragment_faq"
+        android:label="FAQFragment" />
 
 
 </navigation>

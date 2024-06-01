@@ -48,6 +48,9 @@ import io.getstream.result.call.Call
 
 @AndroidEntryPoint
 class MessageFragment : ChannelListFragment() {
+    // TODO 20240531 일단 제대로 작동이 된 줄 알았는데 connectUser가 적용되지 않았던 문제 발생..
+    // 일단 지켜보자
+
 
 //    private val viewModel: ChatInfoViewModel by viewModels()
 //    private var _binding: StreamUiFragmentChannelListBinding? = null

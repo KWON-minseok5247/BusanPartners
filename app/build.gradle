@@ -85,6 +85,8 @@ android {
 
 
 
+
+
 //    configurations.all {
 //        resolutionStrategy {
 //            force 'org.hamcrest:hamcrest-junit:2.0.0.0'
@@ -334,6 +336,9 @@ dependencies {
 //    implementation('com.google.cloud:google-cloud-translate:2.43.0') {
 //        exclude group: 'org.threeten', module: 'threetenbp'
 //    }
+
+    // Expandable RecyclerView
+    implementation 'com.github.florent37:expansionpanel:1.2.4'
 
 
 }
