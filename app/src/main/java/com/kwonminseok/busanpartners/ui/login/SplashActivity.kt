@@ -87,9 +87,10 @@ class SplashActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.activity_splash)
         // Create a Handler
-        Log.e("Splash 화면이", "지나갔습니다.")
+        Log.e("Splash 화면이", "시작되었습니다.")
 
 
+        // 일단 먼저
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         if (firebaseUser == null) {
             Log.e("firebaseUser가", "null이다.")
@@ -105,7 +106,6 @@ class SplashActivity : AppCompatActivity() {
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val idToken = task.result.token
-                Log.e("자동 로그인을 할 때", idToken.toString())
 
 //                requestNotificationPermission()
                 setupUserStream()
@@ -123,7 +123,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun navigateToLoginRegisterActivity() {
-
         val intent =
             Intent(this, LoginRegisterActivity::class.java).addFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK or

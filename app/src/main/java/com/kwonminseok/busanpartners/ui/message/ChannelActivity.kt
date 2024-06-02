@@ -398,7 +398,7 @@ class ChannelActivity : BaseConnectedActivity() {
             } else { // 일반적인 채팅일 때
             setContent {
 
-                ChatTheme(
+                        ChatTheme(
                     attachmentFactories = customFactories + defaultFactories,
                 ) {
                     MessagesScreen(viewModelFactory = factory)

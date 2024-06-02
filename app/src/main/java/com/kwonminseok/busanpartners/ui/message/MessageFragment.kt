@@ -88,6 +88,9 @@ class MessageFragment : ChannelListFragment() {
         }
 
         binding.channelListView.setChannelItemClickListener { channel ->
+            if (channel.members.size == 1) {
+                Toast.makeText(requireContext(),"상대방이 채팅방을 떠났습니다.", Toast.LENGTH_SHORT).show()
+            }
             startActivity(ChannelActivity.newIntent(requireContext(), channel))
 
         }
@@ -164,21 +167,58 @@ class MessageFragment : ChannelListFragment() {
 //    }
     private fun deleteChattingRoom(channel: Channel) {
         val userId = chatClient.getCurrentUser()?.id
-        AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext())// 여기서 눈물흘리는 벡터 하나 만들어주고
             .setTitle("채팅방 나가기")
-            .setMessage("정말로 채팅방을 나가시겠습니까?")
+            .setMessage("정말로 채팅방을 나가시겠습니까? 상대방과 다시는 대화할 수 없습니다.")
             .setPositiveButton("예") { dialog, which ->
                 if (userId != null) {
-                    chatClient.channel("${channel.type}:${channel.id}")
-                        .removeMembers(listOf(userId)).enqueue { result ->
-                        if (result.isSuccess) {
-                            Log.e("사용자가 채널을 성공적으로 나갔습니다.", "확인")
-                        } else {
-                            Log.e("사용자가 채널.", "실패")
 
+                    chatClient.channel("${channel.type}:${channel.id}").hide(true).enqueue { hideResult ->
+                        if (hideResult.isSuccess) {
+                            // 채널 숨기기에 성공한 후 멤버를 제거합니다.
+                            chatClient.channel("${channel.type}:${channel.id}").removeMembers(listOf(userId)).enqueue { result ->
+                                if (result.isSuccess) {
+                                    if (channel.members.size == 1) {
+                                        chatClient.channel("${channel.type}:${channel.id}").delete().enqueue() {result ->
+                                            if (result.isSuccess) {
+                                                Log.e("사용자가 채널을 성공적으로 삭제시켰습니다..", "확인")
+                                            } else {
+                                                Log.e("사용자가 채널을 삭제시키는데 실패했습니다.", result.errorOrNull().toString())
+
+                                            }
+                                        }
+                                    }
+                                    Log.e("사용자가 채널을 성공적으로 나갔습니다.", "확인")
+                                } else {
+                                    Log.e("사용자가 채널을 떠나지 못했습니다.", result.errorOrNull()?.message ?: "알 수 없는 오류")
+                                }
+                            }
+                        } else {
+                            Log.e("채널 숨기기 실패", hideResult.errorOrNull()?.message ?: "알 수 없는 오류")
                         }
                     }
+//                    chatClient.channel("${channel.type}:${channel.id}")
+//                        .removeMembers(listOf(userId)).enqueue { result ->
+//                        if (result.isSuccess) {
+//                            Log.e("사용자가 채널을 성공적으로 나갔습니다.", "확인")
+//
+//                            chatClient.channel("${channel.type}:${channel.id}")
+//                                .hide(true).enqueue { hideResult ->
+//                                    if (hideResult.isSuccess) {
+//                                        Log.e("채널이 성공적으로 숨겨졌습니다.", "확인")
+//                                    } else {
+//                                        Log.e("채널 숨기기 실패", hideResult.errorOrNull()?.message ?: "알 수 없는 오류")
+//                                    }
+//                                }
+//
+//                        } else {
+//                            Log.e("사용자가 채널.", "실패")
+//
+//                        }
+//                    }
                 }
+
+                chatClient.channel("${channel.type}:${channel.id}").hide(true)
 
             }
             .setNegativeButton("아니오") { dialog, which ->

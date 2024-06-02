@@ -86,14 +86,14 @@ class FAQFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val faqList = listOf(
-            FAQItem("트림마켓에서 코치로 활동하는 방법이 궁금해요!", "코치로 활동하려면...", "대학생 관련"),
-            FAQItem("일정표는 코치만 만들 수 있나요?", "네, 일정표는 코치만...", "관광객 관련"),
+            FAQItem("트림마켓에서 코치로 활동하는 방법이 궁금해요!", "코치로 활동하려면...", "대학생"),
+            FAQItem("일정표는 코치만 만들 수 있나요?", "네, 일정표는 코치만...", "관광객"),
             FAQItem("일정표 수정이 안돼요!", "일정표 수정은...", "그 외"),
             FAQItem("탈퇴는 어떻게 하나요?", "마이페이지 > 설정 > 회원 탈퇴...", "그 외"),
             // 더 많은 FAQ 아이템 추가
         )
 
-        val categories = listOf("전체", "대학생 관련", "관광객 관련", "그 외")
+        val categories = listOf("전체", "대학생", "관광객", "그 외")
         val fragments = categories.map { category ->
             FAQListFragment.newInstance(category, faqList)
         }
