@@ -458,6 +458,21 @@ class ProfileFragment : Fragment() {
                                     if (reauthTask.isSuccessful) {
                                         CoroutineScope(Dispatchers.IO).launch {
                                             try {
+                                                // GetStream에서 사용자가 참여한 모든 채널 조회
+                                                val filter = Filters.eq("members", user.uid)
+                                                val queryChannelsRequest = QueryChannelsRequest(filter, 0, 10)
+
+                                                val channelResult = chatClient.queryChannels(queryChannelsRequest).execute()
+
+                                                if (channelResult.isSuccess) {
+                                                    val channels = channelResult.getOrNull()
+                                                    if (channels != null) {
+                                                        for (channel in channels) {
+                                                            chatClient.removeMembers("messaging",channel.cid, listOf(uid)).execute()
+                                                        }
+                                                    }
+                                                }
+
                                                 // Delete user from Room database
                                                 viewModel.deleteUser(user.toEntity())
 

@@ -174,6 +174,7 @@ class BusanPartners : Application() {
 
 
 //        val notificationHandler = MyNotificationHandler(this)
+
         val d = NotificationHandlerFactory.createNotificationHandler(
             this,
             newMessageIntent = { message, channel ->
@@ -187,6 +188,7 @@ class BusanPartners : Application() {
             },
             notificationChannel = notificationChannel
         )
+
 
         val offlinePluginFactory = StreamOfflinePluginFactory(appContext = this)
         val statePluginFactory = StreamStatePluginFactory(

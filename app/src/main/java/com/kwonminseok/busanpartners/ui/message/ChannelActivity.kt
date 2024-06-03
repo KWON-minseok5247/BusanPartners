@@ -698,54 +698,6 @@ class ChannelActivity : BaseConnectedActivity() {
         )
     }
 
-//    @Composable
-//    fun CustomMessageComposer(
-//        messageComposerViewModel: MessageComposerViewModel,
-//        listViewModel: MessageListViewModel
-//    ) {
-//        val activity = LocalContext.current as AppCompatActivity
-//
-//        // 채널의 멤버 수 가져오기
-//        val channelState by listViewModel.channel.collectAsState()
-//        val memberCount = channelState?.members?.size ?: 0
-//
-//        if (memberCount > 1) {
-//            MessageComposer(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .wrapContentHeight(),
-//                viewModel = messageComposerViewModel,
-//                onValueChange = { messageComposerViewModel.setMessageInput(it) },
-//                onAttachmentRemoved = { messageComposerViewModel.removeSelectedAttachment(it) },
-//                integrations = { // here
-//                    IconButton(
-//                        modifier = Modifier
-//                            .size(48.dp)
-//                            .padding(12.dp),
-//                        content = {
-//                            Icon(
-//                                painter = painterResource(id = R.drawable.ic_more_dots),
-//                                contentDescription = null,
-//                                tint = ChatTheme.colors.textLowEmphasis
-//                            )
-//                        },
-//                        onClick = {
-//                            attachmentsPickerViewModel.changeAttachmentState(showAttachments = true)
-//                        }
-//                    )
-//                }
-//            )
-//        } else {
-//            Text(
-//                text = "You cannot send messages in this channel as you are the only member.",
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp),
-//                color = Color.Red,
-//                fontSize = 16.sp
-//            )
-//        }
-//    }
 
 
 
@@ -802,6 +754,7 @@ class ChannelActivity : BaseConnectedActivity() {
     private fun cancelChatRoomNotification(cid: String) {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val notificationId = cid.hashCode()
+//        val notificationId = 1
 
         notificationManager.cancel(notificationId)  // 채팅방 ID를 사용하여 해당 채팅방 알림 취소
     }
