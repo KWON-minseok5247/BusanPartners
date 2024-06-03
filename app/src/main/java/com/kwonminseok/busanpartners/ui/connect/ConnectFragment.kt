@@ -47,6 +47,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 private val TAG = "ConnectFragment"
 
+//TODO 연락하기를 바로 눌러버리면 nullpoint 에러가 발생한다.
 @AndroidEntryPoint
 class ConnectFragment : Fragment(), OnMapReadyCallback {
     private var _binding: FragmentConnectBinding? = null
