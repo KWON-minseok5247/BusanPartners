@@ -228,8 +228,21 @@ class ChannelActivity : BaseConnectedActivity() {
                             },
                             modifier = Modifier.fillMaxSize(),
                             bottomBar = {
-                                CustomMessageComposer(composerViewModel,
-                                )
+                                if (listViewModel.channel.memberCount == 1) {
+                                    Text(
+                                        text = "You cannot send messages in this channel as you are the only member.",
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(16.dp),
+                                        color = Color.Red,
+                                        fontSize = 16.sp
+                                    )
+
+                                } else {
+                                    CustomMessageComposer(composerViewModel,
+                                    )
+                                }
+
 //                            CustomMessageComposer(
 ////                                onDateSelected = { date ->
 ////                                    // 2
@@ -260,6 +273,7 @@ class ChannelActivity : BaseConnectedActivity() {
                             },
                         ) {
                             val currentState = listViewModel.currentMessagesState
+                            Log.e("listViewModel.channel.memberCount!", listViewModel.channel.memberCount.toString())
 
                             MessageList(
                                 modifier = Modifier
@@ -684,6 +698,54 @@ class ChannelActivity : BaseConnectedActivity() {
         )
     }
 
+//    @Composable
+//    fun CustomMessageComposer(
+//        messageComposerViewModel: MessageComposerViewModel,
+//        listViewModel: MessageListViewModel
+//    ) {
+//        val activity = LocalContext.current as AppCompatActivity
+//
+//        // 채널의 멤버 수 가져오기
+//        val channelState by listViewModel.channel.collectAsState()
+//        val memberCount = channelState?.members?.size ?: 0
+//
+//        if (memberCount > 1) {
+//            MessageComposer(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .wrapContentHeight(),
+//                viewModel = messageComposerViewModel,
+//                onValueChange = { messageComposerViewModel.setMessageInput(it) },
+//                onAttachmentRemoved = { messageComposerViewModel.removeSelectedAttachment(it) },
+//                integrations = { // here
+//                    IconButton(
+//                        modifier = Modifier
+//                            .size(48.dp)
+//                            .padding(12.dp),
+//                        content = {
+//                            Icon(
+//                                painter = painterResource(id = R.drawable.ic_more_dots),
+//                                contentDescription = null,
+//                                tint = ChatTheme.colors.textLowEmphasis
+//                            )
+//                        },
+//                        onClick = {
+//                            attachmentsPickerViewModel.changeAttachmentState(showAttachments = true)
+//                        }
+//                    )
+//                }
+//            )
+//        } else {
+//            Text(
+//                text = "You cannot send messages in this channel as you are the only member.",
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(16.dp),
+//                color = Color.Red,
+//                fontSize = 16.sp
+//            )
+//        }
+//    }
 
 
 

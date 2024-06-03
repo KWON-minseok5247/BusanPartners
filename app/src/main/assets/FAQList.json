@@ -1,0 +1,32 @@
+[
+  {
+    "category": "대학생",
+    "questions": {
+      "ko": "트림마켓에서 코치로 활동하는 방법이 궁금해요!",
+      "ja": "トリムマーケットでコーチとして活動する方法が知りたいです！",
+      "zh": "我想知道如何在TrimMarket上作为教练活动！",
+      "en": "I want to know how to work as a coach on TrimMarket!"
+    },
+    "answers": {
+      "ko": "코치로 활동하려면...",
+      "ja": "コーチとして活動するには...",
+      "zh": "作为教练活动...",
+      "en": "To work as a coach..."
+    }
+  },
+  {
+    "category": "관광객",
+    "questions": {
+      "ko": "일정표는 코치만 만들 수 있나요?",
+      "ja": "スケジュールはコーチだけが作成できますか？",
+      "zh": "只有教练可以制作时间表吗？",
+      "en": "Can only coaches create schedules?"
+    },
+    "answers": {
+      "ko": "네, 일정표는 코치만...",
+      "ja": "はい、スケジュールはコーチだけが...",
+      "zh": "是的，只有教练...",
+      "en": "Yes, only coaches can..."
+    }
+  }
+]

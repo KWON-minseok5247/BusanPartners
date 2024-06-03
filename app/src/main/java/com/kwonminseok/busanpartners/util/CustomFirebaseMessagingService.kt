@@ -68,11 +68,19 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
 
                 // 현재 활동 상태 확인
                 //                if (ActivityState.currentActivity == ChannelActivity::class.java.simpleName && ActivityState.currentChannelId == cid) {
-                if (ActivityState.currentActivity == ChannelActivity::class.java.simpleName && ActivityState.currentActivity == HomeActivity::class.java.simpleName) {
+//                if (ActivityState.currentActivity == ChannelActivity::class.java.simpleName && ActivityState.currentActivity == HomeActivity::class.java.simpleName) {
+//                    Log.e("FCM", "현재 채팅방에 있음, 알림 생략")
+//                    return  // 현재 채팅방에 있으면 알림을 생략
+//                }
+                if (ActivityState.currentActivity == ChannelActivity::class.java.simpleName) {
                     Log.e("FCM", "현재 채팅방에 있음, 알림 생략")
                     return  // 현재 채팅방에 있으면 알림을 생략
                 }
 
+                if (ActivityState.currentActivity == HomeActivity::class.java.simpleName) {
+                    Log.e("FCM", "홈 화면에 있음, 알림 생략")
+                    return  // 홈 화면에 있으면 알림을 생략
+                }
                 val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
                 val notificationsEnabled = sharedPreferences.getBoolean("all_notifications_enabled", true)
 
