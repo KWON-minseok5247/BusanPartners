@@ -18,7 +18,8 @@ fun User.toEntity(): UserEntity = UserEntity(
     tokenTime = this.tokenTime,
     chipGroup = this.chipGroup,
     major = this.major,
-    wantToMeet = this.wantToMeet
+    wantToMeet = this.wantToMeet,
+    blockList = this.blockList
 )
 
 // UserEntityExtensions.kt
@@ -37,7 +38,8 @@ fun UserEntity.toUser(): User = User(
     tokenTime = this.tokenTime,
     chipGroup = this.chipGroup,
     major = this.major,
-    wantToMeet = this.wantToMeet
+    wantToMeet = this.wantToMeet,
+    blockList = this.blockList
 )
 
 

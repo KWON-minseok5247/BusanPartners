@@ -42,5 +42,6 @@ data class UserEntity(
     val tokenTime: String? = "2000-01-01T12:38:11.818609+09:00",
     val chipGroup: TranslatedList? = null,
     val major: TranslatedText? = null, // 변경된 필드
-    val wantToMeet: Boolean = false
-    )
+    val wantToMeet: Boolean = false,
+    val blockList: MutableList<String>? = mutableListOf()
+)

@@ -95,9 +95,19 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
                     is Resource.Success -> {
                         Log.e("Resource.Success" , "Resource.Success")
+                        // blockList에 포함되지 않은 사용자만 userList에 추가
+                        val blockList = currentUser?.blockList
+                        Log.e("blockList",blockList.toString())
+                        Log.e("currentUser",currentUser.toString())
+                        if (blockList != null) {
+                            userList = it.data?.filter { user ->
+                                !blockList.contains(user.uid)
+                            }?.toMutableList()
+                        }
 
-                        binding.labelChange.text = "부산 시에서 연락 가능한 대학생은 총 ${it.data?.size}명입니다. "
-                        userList = it.data
+
+                        binding.labelChange.text = "부산 시에서 연락 가능한 대학생은 총 ${userList?.size}명입니다. "
+//                        userList = it.data
                         onDataLoaded()
 
                     }

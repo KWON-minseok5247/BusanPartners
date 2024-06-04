@@ -27,7 +27,8 @@ data class User(
     val chipGroup: TranslatedList? = TranslatedList(),
 //    val major: String? = "",
     val major: TranslatedText? = TranslatedText(),
-    val wantToMeet: Boolean = false
+    val wantToMeet: Boolean = false,
+    val blockList: MutableList<String>? = mutableListOf()
 
 ) : Parcelable {
     constructor(): this("","","","", "")

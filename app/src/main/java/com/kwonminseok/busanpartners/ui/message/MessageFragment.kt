@@ -19,13 +19,18 @@ import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
+import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.repository.TimeRepository
 //import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
 import com.kwonminseok.busanpartners.ui.HomeActivity
+import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.util.Constants
+import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.ChatInfoViewModel
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.api.models.QueryChannelRequest
 import io.getstream.chat.android.client.events.MarkAllReadEvent
 import io.getstream.chat.android.client.events.NewMessageEvent
 import io.getstream.chat.android.client.events.NotificationChannelMutesUpdatedEvent
@@ -34,6 +39,7 @@ import io.getstream.chat.android.client.events.NotificationMessageNewEvent
 import io.getstream.chat.android.client.subscribeFor
 import io.getstream.chat.android.client.token.TokenProvider
 import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.models.ChannelCapabilities
 import io.getstream.chat.android.models.ChannelMute
 import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.Message
@@ -51,6 +57,7 @@ import io.getstream.chat.android.ui.viewmodel.channels.ChannelListViewModelFacto
 import io.getstream.chat.android.ui.viewmodel.channels.bindView
 import io.getstream.chat.android.ui.viewmodel.search.SearchViewModel
 import io.getstream.result.call.Call
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import kotlin.coroutines.resume
@@ -448,13 +455,16 @@ class MessageFragment : ChannelListFragment() {
             sort = QuerySortByField.descByName("last_message_at")
         )
     }
+    private val userViewModel: UserViewModel by viewModels()
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         if (chatClient.getCurrentUser() == null) {
-            Log.e(TAG, "setupUserStream이 실행되었습니다.")
+
+            Log.e(TAG, chatClient.toString())
             Toast.makeText(requireContext(), "setupUserStream이 실행되었습니다.", Toast.LENGTH_SHORT).show()
             setupUserStream()
 
@@ -498,19 +508,18 @@ class MessageFragment : ChannelListFragment() {
             } else {
                 val isMuted = chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }
                     ?: false
-                val isBlocked = false
                 val options = when {
-                    isMuted && isBlocked -> arrayOf("채팅방 알림 켜기", "사용자 차단 해제", "채팅방 나가기")
-                    !isMuted && isBlocked -> arrayOf("채팅방 알림 끄기", "사용자 차단 해제", "채팅방 나가기")
-                    isMuted && !isBlocked -> arrayOf("채팅방 알림 켜기", "사용자 차단", "채팅방 나가기")
-                    else -> arrayOf("채팅방 알림 끄기", "사용자 차단", "채팅방 나가기")
+                    isMuted  -> arrayOf("채팅방 알림 켜기", "채팅방 나가기")
+                    !isMuted -> arrayOf("채팅방 알림 끄기", "채팅방 나가기")
+                    else -> arrayOf("채팅방 알림 끄기", "채팅방 나가기")
                 }
                 AlertDialog.Builder(requireContext())
                     .setItems(options) { dialog, which ->
                         when (which) {
                             0 -> if (isMuted) unmuteChat(channel.id) else muteChat(channel.id)
-                            1 -> if (isBlocked) unBlockUser(channel) else blockUser(channel)
-                            2 -> deleteChattingRoom(channel)
+                            1 -> deleteChattingRoom(channel)
+//                            1 -> if (isBlocked) unBlockUser(channel) else blockUser(channel)
+
                         }
                     }
                     .show()
@@ -593,10 +602,50 @@ class MessageFragment : ChannelListFragment() {
             channelClient.create(
                 memberIds = listOf(studentUid, chatClient.getCurrentUser()!!.id),
                 extraData = mapOf("name" to name.toString())
-            )?.enqueue { result ->
+            ).enqueue { result ->
                 if (result.isSuccess) {
-                    val newChannel = result.getOrThrow()
-                    startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
+                    // 보통은 한 번에 여러명 추가하기도 하니까..
+
+                    userViewModel.getCurrentUser()
+
+                    lifecycleScope.launchWhenStarted {
+                        userViewModel.user.collectLatest {
+                            when (it) {
+                                is Resource.Success -> {
+                                    val blockList =
+                                        it.data?.blockList?.toMutableList() ?: mutableListOf()
+                                    if (!blockList.contains(studentUid)) {
+                                        blockList.add(studentUid)
+                                    }
+                                    val user = it.data?.copy(blockList = blockList)
+
+                                    if (user != null) {
+                                        userViewModel.updateUser(user.toEntity())
+                                    }
+
+                                    userViewModel.setCurrentUser(mapOf("blockList" to blockList))
+                                }
+
+                                is Resource.Error -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        it.message.toString(),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                                else -> Unit
+                            }
+                        }
+                    }
+//                    val blockList = currentUser?.blockList?.toMutableList() ?: mutableListOf()
+//                    if (!blockList.contains(studentUid)) {
+//                        blockList.add(studentUid)
+//                    }
+
+
+//                    val newChannel = result.getOrThrow()
+//                    startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
                 } else {
                     Log.e("Channel Creation Failed", result.toString() ?: "Error creating channel")
                 }
@@ -620,30 +669,30 @@ class MessageFragment : ChannelListFragment() {
         }
     }
 
-    @SuppressLint("CheckResult")
-    private fun blockUser(channel: Channel) {
-        val currentUserId = chatClient.getCurrentUser()?.id
-        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
-
-        if (otherUser != null) {
-            chatClient.channel("messaging", channel.id).shadowBanUser(otherUser.id,
-                "유저의 선택으로 밴되었습니다", null).enqueue { result ->
-                if (!result.isSuccess) {
-                    Log.e("BanUser", "${result.errorOrNull().toString()}")
-                }
-            }
-        }
-    }
-
-    private fun unBlockUser(channel: Channel) {
-        val currentUserId = chatClient.getCurrentUser()?.id
-        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
-        if (otherUser != null) {
-            chatClient.unbanUser(otherUser.id, "messaging", channel.id).enqueue {
-                Toast.makeText(requireContext(), "${otherUser.name}님이 차단 해제되었습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+//    @SuppressLint("CheckResult")
+//    private fun blockUser(channel: Channel) {
+//        val currentUserId = chatClient.getCurrentUser()?.id
+//        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
+//
+//        if (otherUser != null) {
+//            chatClient.channel("messaging", channel.id).shadowBanUser(otherUser.id,
+//                "유저의 선택으로 밴되었습니다", null).enqueue { result ->
+//                if (!result.isSuccess) {
+//                    Log.e("BanUser", "${result.errorOrNull().toString()}")
+//                }
+//            }
+//        }
+//    }
+//
+//    private fun unBlockUser(channel: Channel) {
+//        val currentUserId = chatClient.getCurrentUser()?.id
+//        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
+//        if (otherUser != null) {
+//            chatClient.unbanUser(otherUser.id, "messaging", channel.id).enqueue {
+//                Toast.makeText(requireContext(), "${otherUser.name}님이 차단 해제되었습니다.", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 
     private fun deleteChattingRoom(channel: Channel) {
         val userId = chatClient.getCurrentUser()?.id
@@ -654,20 +703,28 @@ class MessageFragment : ChannelListFragment() {
                 if (userId != null) {
                     chatClient.channel("${channel.type}:${channel.id}").hide(true).enqueue { hideResult ->
                         if (hideResult.isSuccess) {
+                            Log.e("Chat", "채널 숨기기 성공")
+
                             chatClient.channel("${channel.type}:${channel.id}").removeMembers(
                                 listOf(userId),
                                 Message(text = "The other person left the chat room.")
                             ).enqueue { result ->
                                 if (result.isSuccess) {
+                                    Log.e("Chat", "멤버 제거 성공")
+                                    Log.e("삭제 후 channel", channel.toString())
+
                                     if (channel.members.size == 1) {
-                                        chatClient.channel("${channel.type}:${channel.id}").delete().enqueue() { result ->
-                                            if (!result.isSuccess) {
-                                                Log.e("사용자가 채널을 삭제시키는데 실패했습니다.", result.errorOrNull().toString())
+                                        chatClient.channel("${channel.type}:${channel.id}").delete().enqueue() { deleteResult  ->
+                                            if (!deleteResult.isSuccess) {
+                                                Log.e("사용자가 채널을 삭제시키는데 실패했습니다.", deleteResult.errorOrNull().toString())
+                                            } else {
+                                                Log.e("Chat", "채널 삭제 성공")
+
                                             }
                                         }
                                     }
                                 } else {
-                                    Log.e("사용자가 채널을 떠나지 못했습니다.", result.errorOrNull()?.message ?: "알 수 없는 오류")
+                                    Log.e("멤버 제거 실패", result.errorOrNull()?.message ?: "알 수 없는 오류")
                                 }
                             }
                         } else {
