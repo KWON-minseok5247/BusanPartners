@@ -96,14 +96,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                     is Resource.Success -> {
                         Log.e("Resource.Success" , "Resource.Success")
                         // blockList에 포함되지 않은 사용자만 userList에 추가
-                        val blockList = currentUser?.blockList
-                        Log.e("blockList",blockList.toString())
-                        Log.e("currentUser",currentUser.toString())
-                        if (blockList != null) {
-                            userList = it.data?.filter { user ->
-                                !blockList.contains(user.uid)
-                            }?.toMutableList()
-                        }
+                        userList = it.data
 
 
                         //TODO 만약 대학생이라면 환영합니다 뭐 이런 느낌으로.
@@ -284,8 +277,11 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
 
         // 지도 좌표 고정하는 단계
-        val BUSAN_SW = LatLng(34.8799083, 128.7384361) // 부산시 남서쪽 좌표를 조정
-        val BUSAN_NE = LatLng(35.3959361, 129.3728194) // 부산시 북동쪽 좌표를 조정
+//        val BUSAN_SW = LatLng(35.0400, 128.9700) // 부산시 남서쪽 좌표를 조정
+//        val BUSAN_NE = LatLng(35.2400, 129.1500) // 부산시 북동쪽 좌표를 조정
+        val BUSAN_SW = LatLng(35.0500, 128.9400) // 부산시 남서쪽 좌표를 조정
+        val BUSAN_NE = LatLng(35.2700, 129.2100) // 부산시 북동쪽 좌표를 조정
+
         val busanBounds = LatLngBounds(BUSAN_SW, BUSAN_NE)
         naverMap.extent = busanBounds
 
@@ -333,6 +329,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                     true
                 }
             }
+
             naverMap.setOnMapClickListener { pointF, latLng ->
                 // 지도의 어느 부분이든 클릭되면, 활성화된 모든 인포 윈도우를 닫습니다.
                 infoWindow.close()

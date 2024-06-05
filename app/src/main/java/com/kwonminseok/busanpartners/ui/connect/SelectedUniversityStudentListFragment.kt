@@ -23,13 +23,14 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 private val TAG = "SelectedUniversityStudentListFragment"
+
 @AndroidEntryPoint
 class SelectedUniversityStudentListFragment : Fragment() {
     private var chipTexts: MutableList<String>? = null
     private var _binding: FragmentSelectedUniversityStudentListBinding? = null
     private val binding get() = _binding!!
 
-//    private val viewModel by viewModels<ConnectViewModel>()
+    //    private val viewModel by viewModels<ConnectViewModel>()
     private val adapter by lazy { StudentCardAdapter() }
 
 
@@ -46,55 +47,65 @@ class SelectedUniversityStudentListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val args: Array<out Parcelable>? = arguments?.getParcelableArray("selectedUniversityStudents")
+        val args: Array<out Parcelable>? =
+            arguments?.getParcelableArray("selectedUniversityStudents")
         val usersList = args?.toList()?.mapNotNull { it as? User }
         adapter.submitList(usersList)
-
 
         //TODO // 자기 자신 클릭할 수 없게. 대학생은 대학생끼리 연락할 수 없게. 관광객이 아니면 연락할 수 없게.
         // 무분별하게 연락할 수 없게.
         studentCardRv()
 
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.user.collectLatest {
-//                when (it) {
-//                    is Resource.Loading -> {
-//
-//                    }
-//                    is Resource.Success -> {
-//                        Log.e(TAG, it.data.toString())
-//                        adapter.differ.submitList(it.data)
-//
-//                    }
-//                    is Resource.Error -> {
-//                        Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT).show()
-//                    }
-//                    else -> Unit
-//                }
-//            }
-//        }
         binding.floatingMessageButton.setOnClickListener {
-            if (currentUser?.authentication?.collegeStudent == true) {
-                Toast.makeText(requireContext(), "대학생은 먼저 연락을 할 수 없습니다.", Toast.LENGTH_SHORT).show()
-            } else {
+            if (usersList != null) {
+
                 val currentPosition = binding.viewPagerImages.currentItem
-                if (usersList != null) {
+
+                if (currentUser?.authentication?.collegeStudent == true) {
+                    Toast.makeText(
+                        requireContext(),
+                        "대학생은 다른 대학생에게 연락을 할 수 없습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+
+                if (currentUser!!.blockList?.contains(usersList[currentPosition].uid) == true) {
+                    Toast.makeText(
+                        requireContext(),
+                        "현재 채팅 중이거나 이미 채팅을 끝낸 상대방과 다시 연락할 수 없습니다. ",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+
+                if (currentUser!!.chatChannelCount >= 3) {
+                    Toast.makeText(
+                        requireContext(),
+                        "최대 활성화할 수 있는 채팅방은 3개입니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+
+                else {
                     val b = Bundle().apply {
-                        putString("studentUid",usersList[currentPosition].uid )
-                        putString("name", "${usersList[currentPosition].name?.ko}(${getTranslatedText(usersList[currentPosition].name)})")
+                        putString("studentUid", usersList[currentPosition].uid)
+                        putString(
+                            "name",
+                            "${usersList[currentPosition].name?.ko}(${getTranslatedText(usersList[currentPosition].name)})"
+                        )
                     }
-                    findNavController().navigate(R.id.action_selectedUniversityStudentListFragment_to_messageFragment, b)
+                    findNavController().navigate(
+                        R.id.action_selectedUniversityStudentListFragment_to_messageFragment,
+                        b
+                    )
                 }
 
             }
 
 
-
-
-
         }
-
-
 
 
     }
@@ -123,6 +134,7 @@ class SelectedUniversityStudentListFragment : Fragment() {
     fun getDeviceLanguage(context: Context): String {
         return context.resources.configuration.locales.get(0).language
     }
+
     private fun getTranslatedText(translatedText: TranslatedText?): String? {
         val language = getDeviceLanguage(requireContext())
         return when (language) {

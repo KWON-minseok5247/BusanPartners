@@ -700,35 +700,14 @@ class MessageFragment : ChannelListFragment() {
                                         .enqueue { hideResult ->
                                             if (hideResult.isSuccess) {
                                                 Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
-                                                userViewModel.getCurrentUser()
-                                                lifecycleScope.launchWhenStarted {
-                                                    userViewModel.user.collectLatest {
-                                                        when (it) {
-                                                            is Resource.Success -> {
-                                                                val count =
-                                                                    it.data?.chatChannelCount!!.minus(
-                                                                        1
-                                                                    )
-                                                                currentUser =
-                                                                    it.data.copy(chatChannelCount = count)
-                                                                        .toEntity()
-                                                                userViewModel.updateUser(currentUser!!)
+                                                val count = currentUser?.chatChannelCount?.minus(1) ?: 0
 
-                                                                userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
-                                                            }
+                                                currentUser = currentUser?.copy(chatChannelCount = count)
 
-                                                            is Resource.Error -> {
-                                                                Toast.makeText(
-                                                                    requireContext(),
-                                                                    it.message.toString(),
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                            }
+                                                userViewModel.updateUser(currentUser!!)
 
-                                                            else -> Unit
-                                                        }
-                                                    }
-                                                }
+
+                                                userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
 
                                             }
 
