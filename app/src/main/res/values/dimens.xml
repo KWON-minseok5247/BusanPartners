@@ -26,4 +26,7 @@
     <!--  각 페이지의 양 옆 margin  -->
     <dimen name="pageMargin">30dp</dimen>
 
+    <dimen name="stream_ui_channel_list_item_height">88dp</dimen>
+    <dimen name="stream_ui_avatar_size_medium">50dp</dimen>
+
 </resources>

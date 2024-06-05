@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) 2014-2022 Stream.io Inc. All rights reserved.
+
+    Licensed under the Stream License;
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+      https://github.com/GetStream/stream-chat-android/blob/main/LICENSE
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/stream_ui_white_snow"
+    >
+
+    <io.getstream.chat.android.ui.feature.channels.header.ChannelListHeaderView
+        android:id="@+id/channelListHeaderView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:streamUiShowUserAvatar="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_height="56dp"
+        />
+
+    <io.getstream.chat.android.ui.feature.search.SearchInputView
+        android:id="@+id/searchInputView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/stream_ui_channel_list_search_margin_start"
+        android:layout_marginTop="@dimen/stream_ui_channel_list_search_margin_top"
+        android:layout_marginEnd="@dimen/stream_ui_channel_list_search_margin_end"
+        android:layout_marginBottom="@dimen/stream_ui_channel_list_search_margin_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/channelListHeaderView"
+        />
+
+    <io.getstream.chat.android.ui.feature.channels.list.ChannelListView
+        android:id="@+id/channelListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchInputView"
+        app:streamUiChannelOptionsEnabled="true"
+        />
+
+    <io.getstream.chat.android.ui.feature.search.list.SearchResultListView
+        android:id="@+id/searchResultListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchInputView"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

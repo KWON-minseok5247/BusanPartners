@@ -683,34 +683,6 @@ class MessageFragment : ChannelListFragment() {
             .setMessage("정말로 채팅방을 나가시겠습니까? 상대방과 다시는 대화할 수 없습니다.")
             .setPositiveButton("예") { dialog, which ->
 
-//                if (userId != null) {
-//                    chatClient.channel("${channel.type}:${channel.id}").removeMembers(
-//                        listOf(userId),
-//                        Message(text = "The other person left the chat room.")
-//                    )
-//                        .enqueue { hideResult ->
-//                            if (hideResult.isSuccess) {
-//                                if (channel.members.size <= 1) {
-//                                    chatClient.channel("${channel.type}:${channel.id}")
-//                                        .delete().enqueue() { deleteResult ->
-//                                            if (!deleteResult.isSuccess) {
-//                                                Log.e(
-//                                                    "사용자가 채널을 삭제시키는데 실패했습니다.",
-//                                                    deleteResult.errorOrNull().toString()
-//                                                )
-//                                            } else {
-//                                                Log.e("Chat", "채널 삭제 성공")
-//
-//                                            }
-//                                        }
-//                                }
-//
-//
-//                            } else {
-//                                Log.e("채널 숨기기 실패", hideResult.errorOrNull()?.message ?: "알 수 없는 오류")
-//                            }
-//                        }
-//                }
                 if (channel.members.size <= 1) { // 멤버가 1명일 때
                     chatClient.channel("${channel.type}:${channel.id}")
                         .delete().enqueue() { deleteResult ->
@@ -779,32 +751,14 @@ class MessageFragment : ChannelListFragment() {
                             .enqueue { hideResult ->
                                 if (hideResult.isSuccess) {
                                     Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
-                                    userViewModel.getCurrentUser()
-                                    lifecycleScope.launchWhenStarted {
-                                        userViewModel.user.collectLatest {
-                                            when (it) {
-                                                is Resource.Success -> {
-                                                    val count = it.data?.chatChannelCount!!.minus(1)
-                                                    currentUser =
-                                                        it.data.copy(chatChannelCount = count)
-                                                            .toEntity()
-                                                    userViewModel.updateUser(currentUser!!)
+                                    val count = currentUser?.chatChannelCount?.minus(1) ?: 0
 
-                                                    userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
-                                                }
+                                    currentUser = currentUser?.copy(chatChannelCount = count)
 
-                                                is Resource.Error -> {
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        it.message.toString(),
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
+                                    userViewModel.updateUser(currentUser!!)
 
-                                                else -> Unit
-                                            }
-                                        }
-                                    }
+
+                                    userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
                                 }
 
                             }
