@@ -39,6 +39,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddLocation
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,6 +53,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -141,7 +143,6 @@ class ChannelActivity : BaseConnectedActivity() {
         cid = intent.getStringExtra("key:cid") ?: ""
         Log.e("ChatClient!", chatClient.getCurrentUser().toString())
 
-
         // 지도 기능을 추가하기 위한 코드
         val customFactories = listOf(locationAttachmentFactory)
 //        val customFactories = listOf(dateAttachmentFactory)
@@ -184,6 +185,7 @@ class ChannelActivity : BaseConnectedActivity() {
                         }
 
                     }
+
 
 
 
@@ -481,8 +483,13 @@ class ChannelActivity : BaseConnectedActivity() {
                             },
                             modifier = Modifier.fillMaxSize(),
                             bottomBar = {
-                                CustomMessageComposer(composerViewModel,
-                                )
+                                if (listViewModel.channel.memberCount <= 1) {
+                                    MyCustomComposer()
+                                }else {
+                                    CustomMessageComposer(composerViewModel,
+                                    )
+                                }
+
 //                            CustomMessageComposer(
 ////                                onDateSelected = { date ->
 ////                                    // 2
@@ -799,5 +806,78 @@ class ChannelActivity : BaseConnectedActivity() {
 //    data class LocationResult(val location: LatLng, val snapshotUri: String?)
 
 
+    @Composable
+    fun MyCustomComposer() {
+        MessageComposer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            viewModel = composerViewModel,
+            integrations = {},
 
+            input = { inputState ->
+                MessageInput(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(7f)
+                        .padding(start = 8.dp)
+//                        .clickable {  }
+                        .clickable(
+                            interactionSource = remember{ MutableInteractionSource() },
+                            indication = null,
+                            false,
+                            "",
+                            Role.Button
+                        ) {},
+                    messageComposerState = inputState,
+                    onValueChange = { composerViewModel.setMessageInput(it) },
+                    onAttachmentRemoved = { composerViewModel.removeSelectedAttachment(it) },
+                    label = { // create a custom label with an icon
+                        Row(
+                            Modifier.wrapContentWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+//                            Icon(
+//                                imageVector = Icons.Default.Email,
+//                                contentDescription = null
+//                            )
+
+                            Text(
+                                modifier = Modifier.padding(start = 4.dp),
+                                text = "You can't send a message to other people.",
+                                color = ChatTheme.colors.textLowEmphasis
+                            )
+                        }
+                    },
+
+//                    innerTrailingContent = { // add a send button inside the input
+//                        Icon(
+//                            modifier = Modifier
+//                                .size(24.dp)
+//                                .clickable(
+//                                    interactionSource = remember { MutableInteractionSource() },
+//                                    indication = rememberRipple()
+//                                ) {
+//                                    val state = composerViewModel.messageComposerState.value
+//
+//                                    composerViewModel.sendMessage(
+//                                        composerViewModel.buildNewMessage(
+//                                            state.inputValue,
+//                                            state.attachments
+//                                        )
+//                                    )
+//                                },
+//                            painter = painterResource(id = R.drawable.stream_ui_ic_pen),
+//                            tint = ChatTheme.colors.primaryAccent,
+//                            contentDescription = null
+//                        )
+//                    },
+                )
+            },
+            trailingContent = { Spacer(modifier = Modifier.size(8.dp)) } // remove the outer send button
+            , onSendMessage = {},
+            onCommandsClick = {}
+
+        )
+    }
 }

@@ -28,7 +28,9 @@ data class User(
 //    val major: String? = "",
     val major: TranslatedText? = TranslatedText(),
     val wantToMeet: Boolean = false,
-    val blockList: MutableList<String>? = mutableListOf()
+    val blockList: MutableList<String>? = mutableListOf(),
+    val chatChannelCount: Int = 0,
+
 
 ) : Parcelable {
     constructor(): this("","","","", "")

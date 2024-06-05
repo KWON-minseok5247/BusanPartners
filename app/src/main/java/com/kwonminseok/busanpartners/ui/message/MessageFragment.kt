@@ -452,11 +452,10 @@ class MessageFragment : ChannelListFragment() {
                 Filters.eq("type", "messaging"),
                 Filters.`in`("members", listOf(uid))
             ),
-            sort = QuerySortByField.descByName("last_message_at")
+            sort = QuerySortByField.descByName("last_message_at"),
         )
     }
     private val userViewModel: UserViewModel by viewModels()
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -484,12 +483,13 @@ class MessageFragment : ChannelListFragment() {
             false
         }
 
+
         binding.channelListHeaderView.setOnActionButtonClickListener {
             // 클릭 이벤트를 비어 있는 블록으로 처리하여 아무 작업도 수행하지 않음
         }
 
         binding.channelListView.setChannelItemClickListener { channel ->
-            if (channel.members.size == 1) {
+            if (channel.members.size <= 1) {
                 Toast.makeText(requireContext(), "상대방이 채팅방을 떠났습니다.", Toast.LENGTH_SHORT).show()
             }
             startActivity(ChannelActivity.newIntent(requireContext(), channel))
@@ -506,10 +506,12 @@ class MessageFragment : ChannelListFragment() {
             if (channel.id == "ExampleChat") {
                 true
             } else {
-                val isMuted = chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }
-                    ?: false
+                Log.e("channel", channel.members.toString())
+                val isMuted =
+                    chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }
+                        ?: false
                 val options = when {
-                    isMuted  -> arrayOf("채팅방 알림 켜기", "채팅방 나가기")
+                    isMuted -> arrayOf("채팅방 알림 켜기", "채팅방 나가기")
                     !isMuted -> arrayOf("채팅방 알림 끄기", "채팅방 나가기")
                     else -> arrayOf("채팅방 알림 끄기", "채팅방 나가기")
                 }
@@ -559,7 +561,8 @@ class MessageFragment : ChannelListFragment() {
 
     private fun connectClient(myUser: User) {
         val tokenProvider = object : TokenProvider {
-            override fun loadToken(): String = BusanPartners.preferences.getString(Constants.TOKEN, "")
+            override fun loadToken(): String =
+                BusanPartners.preferences.getString(Constants.TOKEN, "")
         }
 
         chatClient.connectUser(myUser, tokenProvider).enqueue { result ->
@@ -605,47 +608,26 @@ class MessageFragment : ChannelListFragment() {
             ).enqueue { result ->
                 if (result.isSuccess) {
                     // 보통은 한 번에 여러명 추가하기도 하니까..
+                    //TODO 채팅방은 동시에 3개까지 활성화할 수 있습니다.
 
-                    userViewModel.getCurrentUser()
-
-                    lifecycleScope.launchWhenStarted {
-                        userViewModel.user.collectLatest {
-                            when (it) {
-                                is Resource.Success -> {
-                                    val blockList =
-                                        it.data?.blockList?.toMutableList() ?: mutableListOf()
-                                    if (!blockList.contains(studentUid)) {
-                                        blockList.add(studentUid)
-                                    }
-                                    val user = it.data?.copy(blockList = blockList)
-
-                                    if (user != null) {
-                                        userViewModel.updateUser(user.toEntity())
-                                    }
-
-                                    userViewModel.setCurrentUser(mapOf("blockList" to blockList))
-                                }
-
-                                is Resource.Error -> {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        it.message.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                                else -> Unit
-                            }
-                        }
+                    val blockList = currentUser?.blockList?.toMutableList() ?: mutableListOf()
+                    if (!blockList.contains(studentUid)) {
+                        blockList.add(studentUid)
                     }
-//                    val blockList = currentUser?.blockList?.toMutableList() ?: mutableListOf()
-//                    if (!blockList.contains(studentUid)) {
-//                        blockList.add(studentUid)
-//                    }
+                    val count = currentUser?.chatChannelCount?.plus(1) ?: 1
+
+                    currentUser = currentUser?.copy(blockList = blockList, chatChannelCount = count)
+
+                    userViewModel.updateUser(currentUser!!)
 
 
-//                    val newChannel = result.getOrThrow()
-//                    startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
+                    userViewModel.setCurrentUser(
+                        mapOf(
+                            "blockList" to blockList,
+                            "chatChannelCount" to count
+                        )
+                    )
+
                 } else {
                     Log.e("Channel Creation Failed", result.toString() ?: "Error creating channel")
                 }
@@ -700,38 +682,141 @@ class MessageFragment : ChannelListFragment() {
             .setTitle("채팅방 나가기")
             .setMessage("정말로 채팅방을 나가시겠습니까? 상대방과 다시는 대화할 수 없습니다.")
             .setPositiveButton("예") { dialog, which ->
-                if (userId != null) {
-                    chatClient.channel("${channel.type}:${channel.id}").hide(true).enqueue { hideResult ->
-                        if (hideResult.isSuccess) {
-                            Log.e("Chat", "채널 숨기기 성공")
 
-                            chatClient.channel("${channel.type}:${channel.id}").removeMembers(
-                                listOf(userId),
-                                Message(text = "The other person left the chat room.")
-                            ).enqueue { result ->
-                                if (result.isSuccess) {
-                                    Log.e("Chat", "멤버 제거 성공")
-                                    Log.e("삭제 후 channel", channel.toString())
+//                if (userId != null) {
+//                    chatClient.channel("${channel.type}:${channel.id}").removeMembers(
+//                        listOf(userId),
+//                        Message(text = "The other person left the chat room.")
+//                    )
+//                        .enqueue { hideResult ->
+//                            if (hideResult.isSuccess) {
+//                                if (channel.members.size <= 1) {
+//                                    chatClient.channel("${channel.type}:${channel.id}")
+//                                        .delete().enqueue() { deleteResult ->
+//                                            if (!deleteResult.isSuccess) {
+//                                                Log.e(
+//                                                    "사용자가 채널을 삭제시키는데 실패했습니다.",
+//                                                    deleteResult.errorOrNull().toString()
+//                                                )
+//                                            } else {
+//                                                Log.e("Chat", "채널 삭제 성공")
+//
+//                                            }
+//                                        }
+//                                }
+//
+//
+//                            } else {
+//                                Log.e("채널 숨기기 실패", hideResult.errorOrNull()?.message ?: "알 수 없는 오류")
+//                            }
+//                        }
+//                }
+                if (channel.members.size <= 1) { // 멤버가 1명일 때
+                    chatClient.channel("${channel.type}:${channel.id}")
+                        .delete().enqueue() { deleteResult ->
+                            if (!deleteResult.isSuccess) {
+                                Log.e(
+                                    "사용자가 채널을 삭제시키는데 실패했습니다.",
+                                    deleteResult.errorOrNull().toString()
+                                )
+                                if (userId != null) {
+                                    chatClient.channel("${channel.type}:${channel.id}")
+                                        .removeMembers(
+                                            listOf(userId),
+//                                        Message(text = "The other person left the chat room.")
+                                        )
+                                        .enqueue { hideResult ->
+                                            if (hideResult.isSuccess) {
+                                                Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
+                                                userViewModel.getCurrentUser()
+                                                lifecycleScope.launchWhenStarted {
+                                                    userViewModel.user.collectLatest {
+                                                        when (it) {
+                                                            is Resource.Success -> {
+                                                                val count =
+                                                                    it.data?.chatChannelCount!!.minus(
+                                                                        1
+                                                                    )
+                                                                currentUser =
+                                                                    it.data.copy(chatChannelCount = count)
+                                                                        .toEntity()
+                                                                userViewModel.updateUser(currentUser!!)
 
-                                    if (channel.members.size == 1) {
-                                        chatClient.channel("${channel.type}:${channel.id}").delete().enqueue() { deleteResult  ->
-                                            if (!deleteResult.isSuccess) {
-                                                Log.e("사용자가 채널을 삭제시키는데 실패했습니다.", deleteResult.errorOrNull().toString())
-                                            } else {
-                                                Log.e("Chat", "채널 삭제 성공")
+                                                                userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
+                                                            }
 
+                                                            is Resource.Error -> {
+                                                                Toast.makeText(
+                                                                    requireContext(),
+                                                                    it.message.toString(),
+                                                                    Toast.LENGTH_SHORT
+                                                                ).show()
+                                                            }
+
+                                                            else -> Unit
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+
+                                        }
+
+
+                                }
+                            } else {
+                                Log.e("Chat", "채널 삭제에 성공했습니다.")
+
+                            }
+
+                        }
+                } else { // 멤버가 2명인 경우
+                    if (userId != null) { //TODO 여기도 번역이 되어 있어야 함.
+                        chatClient.channel("${channel.type}:${channel.id}").removeMembers(
+                            listOf(userId),
+                            Message(text = "The other person left the chat room.")
+                        )
+                            .enqueue { hideResult ->
+                                if (hideResult.isSuccess) {
+                                    Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
+                                    userViewModel.getCurrentUser()
+                                    lifecycleScope.launchWhenStarted {
+                                        userViewModel.user.collectLatest {
+                                            when (it) {
+                                                is Resource.Success -> {
+                                                    val count = it.data?.chatChannelCount!!.minus(1)
+                                                    currentUser =
+                                                        it.data.copy(chatChannelCount = count)
+                                                            .toEntity()
+                                                    userViewModel.updateUser(currentUser!!)
+
+                                                    userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
+                                                }
+
+                                                is Resource.Error -> {
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        it.message.toString(),
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+
+                                                else -> Unit
                                             }
                                         }
                                     }
-                                } else {
-                                    Log.e("멤버 제거 실패", result.errorOrNull()?.message ?: "알 수 없는 오류")
                                 }
+
                             }
-                        } else {
-                            Log.e("채널 숨기기 실패", hideResult.errorOrNull()?.message ?: "알 수 없는 오류")
-                        }
+
+
                     }
                 }
+
+
+                // 그러면 채팅을 시작할 때 +1 하고 만약 int가 3이 되면 더이상 추가할 수 없도록 설정
+                // 그리고 삭제하는 과정에서는 -1 처리를 통해서 최대 채팅방 개수 조정 그리고 대화를 시작하자마자 blockLIst 추가
+                // 대신 연락하기에서 선택할 수 없도록 하기? 분명히 대화하다가 연락하기 다시 누를 수 있다고 생각
             }
             .setNegativeButton("아니오") { dialog, which ->
                 Log.e("정상적으로", "아니오.")

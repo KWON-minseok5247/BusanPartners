@@ -43,5 +43,6 @@ data class UserEntity(
     val chipGroup: TranslatedList? = null,
     val major: TranslatedText? = null, // 변경된 필드
     val wantToMeet: Boolean = false,
-    val blockList: MutableList<String>? = mutableListOf()
-)
+    val blockList: MutableList<String>? = mutableListOf(),
+    val chatChannelCount: Int = 0,
+    )

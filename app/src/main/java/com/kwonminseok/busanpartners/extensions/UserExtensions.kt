@@ -19,7 +19,8 @@ fun User.toEntity(): UserEntity = UserEntity(
     chipGroup = this.chipGroup,
     major = this.major,
     wantToMeet = this.wantToMeet,
-    blockList = this.blockList
+    blockList = this.blockList,
+    chatChannelCount = this.chatChannelCount
 )
 
 // UserEntityExtensions.kt
@@ -39,7 +40,8 @@ fun UserEntity.toUser(): User = User(
     chipGroup = this.chipGroup,
     major = this.major,
     wantToMeet = this.wantToMeet,
-    blockList = this.blockList
+    blockList = this.blockList,
+    chatChannelCount = this.chatChannelCount
 )
 
 

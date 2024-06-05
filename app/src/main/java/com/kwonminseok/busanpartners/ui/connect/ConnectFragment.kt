@@ -106,6 +106,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                         }
 
 
+                        //TODO 만약 대학생이라면 환영합니다 뭐 이런 느낌으로.
                         binding.labelChange.text = "부산 시에서 연락 가능한 대학생은 총 ${userList?.size}명입니다. "
 //                        userList = it.data
                         onDataLoaded()
