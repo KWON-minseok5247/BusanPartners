@@ -1,8 +1,9 @@
-//package com.kwonminseok.busanpartners.ui.home
+//package com.kwonminseok.busanpartners.api
 //
 //import android.content.Context
 //import com.google.gson.GsonBuilder
 //import com.kwonminseok.busanpartners.data.TouristDestinationResponse
+//import com.kwonminseok.busanpartners.ui.home.FestivalResponse
 //import okhttp3.OkHttpClient
 //import okhttp3.logging.HttpLoggingInterceptor
 //import retrofit2.Call

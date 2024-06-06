@@ -1,5 +1,5 @@
 package com.kwonminseok.busanpartners.ui.home
-//
+
 //data class FestivalResponse(
 //    val getFestivalKr: FestivalContent
 //)
@@ -19,6 +19,7 @@ package com.kwonminseok.busanpartners.ui.home
 //    val HOMEPAGE_URL: String,
 //    val TRFC_INFO: String,
 //    val USAGE_DAY_WEEK_AND_TIME: String,
+//    val USAGE_DAY: String,
 //    val MAIN_IMG_NORMAL: String,
 //    val MAIN_PLACE: String,
 //    val MAIN_IMG_THUMB: String,

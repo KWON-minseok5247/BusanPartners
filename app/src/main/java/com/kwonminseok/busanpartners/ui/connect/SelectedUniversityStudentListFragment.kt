@@ -93,7 +93,9 @@ class SelectedUniversityStudentListFragment : Fragment() {
                         putString("studentUid", usersList[currentPosition].uid)
                         putString(
                             "name",
+//                            "${usersList[currentPosition].name?.ko}\n (${getTranslatedText(usersList[currentPosition].name)})"
                             "${usersList[currentPosition].name?.ko}(${getTranslatedText(usersList[currentPosition].name)})"
+
                         )
                     }
                     findNavController().navigate(

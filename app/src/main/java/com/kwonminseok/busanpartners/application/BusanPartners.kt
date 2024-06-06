@@ -1,66 +1,30 @@
 package com.kwonminseok.busanpartners.application
 
 import android.app.Application
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.os.Build
-import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
-import androidx.lifecycle.lifecycleScope
 import com.google.firebase.FirebaseApp
-import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
-import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.db.AppDatabase
-import com.kwonminseok.busanpartners.db.entity.UserEntity
-import com.kwonminseok.busanpartners.extensions.toEntity
-import com.kwonminseok.busanpartners.extensions.toUser
-import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
-import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
-import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
-import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
-import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
-import com.kwonminseok.busanpartners.ui.message.ChannelActivity
-import com.kwonminseok.busanpartners.util.CustomNotificationHandler
-import com.kwonminseok.busanpartners.util.CustomNotificationHandlerFactory
 import com.kwonminseok.busanpartners.util.PreferenceUtil
-import com.kwonminseok.busanpartners.util.Resource
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import io.getstream.android.push.PushDeviceGenerator
-import io.getstream.android.push.firebase.FirebaseMessagingDelegate
 import io.getstream.android.push.firebase.FirebasePushDeviceGenerator
-import io.getstream.android.push.permissions.NotificationPermissionHandler
 import io.getstream.chat.android.client.ChatClient
-import io.getstream.chat.android.client.events.NewMessageEvent
 import io.getstream.chat.android.client.logger.ChatLogLevel
-import io.getstream.chat.android.client.notifications.PushNotificationReceivedListener
 import io.getstream.chat.android.client.notifications.handler.NotificationConfig
-import io.getstream.chat.android.client.notifications.handler.NotificationHandler
 import io.getstream.chat.android.client.notifications.handler.NotificationHandlerFactory
-import io.getstream.chat.android.models.Channel
-import io.getstream.chat.android.models.Device
-import io.getstream.chat.android.models.Message
-import io.getstream.chat.android.models.PushMessage
-import io.getstream.chat.android.models.PushProvider
-import io.getstream.chat.android.models.UploadAttachmentsNetworkType
-import io.getstream.chat.android.models.User
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
-import kotlinx.coroutines.flow.collectLatest
 
 // Hilt를 사용하기 위해서 여기서 힐트를 추가한다.
 @HiltAndroidApp
@@ -93,19 +57,6 @@ class BusanPartners : Application() {
         initializeChatClient()
 //        setupNotificationChannels(this)
 
-//        val pushNotificationEnabled = true
-//        val ignorePushMessagesWhenUserOnline = true
-//        val pushDeviceGeneratorList: List<PushDeviceGenerator> = ArrayList()
-//
-//        val notificationConfig = NotificationConfig(
-//            pushNotificationEnabled,
-//            pushDeviceGenerators = listOf(FirebasePushDeviceGenerator(providerName = "BusanPartners"))
-//
-//        )
-
-//        customizeNotificationStyle(this, notificationConfig)
-//        customizeNotificationStyle(this,notificationConfig )
-//        chatInitializer.init(BuildConfig.API_KEY)
 
         // 24버전 서버 시간
         AndroidThreeTen.init(this)

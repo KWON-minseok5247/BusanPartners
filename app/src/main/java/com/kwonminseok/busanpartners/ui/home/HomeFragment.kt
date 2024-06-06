@@ -136,6 +136,7 @@ class HomeFragment : Fragment() {
             }
         } else {
             // 퍼미션이 이미 허용된 경우
+            Log.e("else", "일 것")
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
             // 초기 위치 설정 과정
@@ -147,7 +148,7 @@ class HomeFragment : Fragment() {
                     Log.e("currentLatitude", currentLatitude.toString())
                     Log.e("currentLongitude", currentLongitude.toString())
 
-                    TourismApiService.getInstance().locationBasedList1(
+                    TourismApiService.getInstance().korLocationBasedList1(
                         10,
                         1,
                         "AND",
@@ -156,7 +157,7 @@ class HomeFragment : Fragment() {
                         currentLongitude,
                         currentLatitude,
                         10000,
-                        12,
+                        76,
                         null,
                         BuildConfig.BUSAN_FESTIVAL_KEY
                     ).enqueue(object :
@@ -166,8 +167,10 @@ class HomeFragment : Fragment() {
                             response: Response<TourismResponse>
                         ) {
                             if (!isAdded) {
+                                Log.e("call and response", "${call.toString()} /////${response}")
                                 return
                             }
+                            Log.e("call and response", "${call.toString()} /////${response}")
 
                             // 이제 안전하게 UI 업데이트를 진행합니다.
                             _binding?.let { binding ->
@@ -186,52 +189,15 @@ class HomeFragment : Fragment() {
                         }
 
                         override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
+
                             Log.e(TAG, t.message.toString())
 
                         }
                     })
 
 
-                    TourismApiService.getInstance().searchFestival1(
-                        10,
-                        1,
-                        "AND",
-                        "BusanPartners",
-                        "json",
-                        "20240529", // 이벤트 시작 날짜 (예시)
-                        "20240829", // 이벤트 종료 날짜 (예시)
-                        BuildConfig.BUSAN_FESTIVAL_KEY,
-                        6, // 부산 지역코드
-                        null // 시군구코드 (null로 설정하여 전체 검색)
-                    ).enqueue(object : Callback<FestivalResponse> {
-                        override fun onResponse(
-                            call: Call<FestivalResponse>,
-                            response: Response<FestivalResponse>
-                        ) {
-                            if (!isAdded) {
-                                return
-                            }
-                            Log.e("response Festival", response.body().toString())
 
-                            // 이제 안전하게 UI 업데이트를 진행합니다.
-                            _binding?.let { binding ->
-                                if (response.isSuccessful) {
-                                    binding.festivalViewPager.adapter = festivalAdapter
-                                    response.body()?.response?.body?.items?.item?.let { itemList ->
-                                        val itemsWithImages =
-                                            itemList.filter { it.firstimage.isNotEmpty() }
-                                        festivalAdapter.differ.submitList(itemsWithImages)
-                                    }
-                                } else {
-                                    Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
-                                }
-                            }
-                        }
 
-                        override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
-                            Log.e(TAG, t.message.toString())
-                        }
-                    })
 
 
 
@@ -241,6 +207,48 @@ class HomeFragment : Fragment() {
                     //                initializeMap(LatLng(35.1798159, 129.0750222))
                 }
             }
+
+            TourismApiService.getInstance().searchFestival1(
+                10,
+                1,
+                "AND",
+                "BusanPartners",
+                "json",
+                "20240529", // 이벤트 시작 날짜 (예시)
+                "20240829", // 이벤트 종료 날짜 (예시)
+                BuildConfig.BUSAN_FESTIVAL_KEY,
+                6, // 부산 지역코드
+                null // 시군구코드 (null로 설정하여 전체 검색)
+            ).enqueue(object : Callback<FestivalResponse> {
+                override fun onResponse(
+                    call: Call<FestivalResponse>,
+                    response: Response<FestivalResponse>
+                ) {
+                    if (!isAdded) {
+                        return
+                    }
+                    Log.e("response Festival", response.body().toString())
+
+                    // 이제 안전하게 UI 업데이트를 진행합니다.
+                    _binding?.let { binding ->
+                        if (response.isSuccessful) {
+                            binding.festivalViewPager.adapter = festivalAdapter
+                            response.body()?.response?.body?.items?.item?.let { itemList ->
+                                val itemsWithImages =
+                                    itemList.filter { it.firstimage.isNotEmpty() }
+                                festivalAdapter.differ.submitList(itemsWithImages)
+                            }
+                        } else {
+                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
+                    Log.e(TAG, t.message.toString())
+                }
+            })
+
         }
 
 
@@ -260,7 +268,7 @@ class HomeFragment : Fragment() {
                 Log.e("currentLatitude", currentLatitude.toString())
                 Log.e("currentLongitude", currentLongitude.toString())
 
-                TourismApiService.getInstance().locationBasedList1(
+                TourismApiService.getInstance().korLocationBasedList1(
                     10,
                     1,
                     "AND",
