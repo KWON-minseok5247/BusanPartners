@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,12 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kelineyt.adapter.makeIt.StudentCardAdapter
 import com.kwonminseok.busanpartners.adapter.FestivalImageAdapter
+import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.data.CommonResponse
 import com.kwonminseok.busanpartners.data.ImageResponse
 import com.kwonminseok.busanpartners.data.IntroResponse
 import com.kwonminseok.busanpartners.databinding.FragmentFestivalDetailBinding
 import com.kwonminseok.busanpartners.databinding.FragmentTourismPlaceDetailBinding
+import com.kwonminseok.busanpartners.ui.message.AttachmentMapActivity
+import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +30,7 @@ import retrofit2.Response
 class TourismPlaceDetailFragment : Fragment() {
     private var _binding: FragmentTourismPlaceDetailBinding? = null
     private val binding get() = _binding!!
+    private lateinit var tourismApiService: TourismAllInOneApiService
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +44,8 @@ class TourismPlaceDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        tourismApiService = TourismAllInOneApiService.getInstance()
 
         val contentId = arguments?.getString("contentId") ?: return
         fetchIntroData(contentId.toInt())
@@ -69,17 +76,17 @@ class TourismPlaceDetailFragment : Fragment() {
     }
 
     private fun fetchIntroData(contentId: Int) {
-        TourismApiService.getInstance().korDetailIntro1(
+        tourismApiService.detailIntro1(
             numOfRows = 1,
             pageNo = 1,
-            contentTypeId = 12, // 적절한 contentTypeId 입력
+            contentTypeId = LanguageUtils.getContentIdForTourPlace(requireContext()), // 적절한 contentTypeId 입력
             contentId = contentId
         ).enqueue(object : Callback<IntroResponse> {
             override fun onResponse(call: Call<IntroResponse>, response: Response<IntroResponse>) {
                 if (response.isSuccessful) {
                     val introItem = response.body()?.response?.body?.items?.item?.firstOrNull()
                     introItem?.let {
-                        binding.textViewUserTime.text = "play Time: ${it.playtime}"
+//                        binding.textViewUserTime.text = "play Time: ${it.playtime}"
                         binding.textViewRestDate.text = "Duration: ${it.restdate}"
                     }
                 } else {
@@ -94,10 +101,10 @@ class TourismPlaceDetailFragment : Fragment() {
     }
 
     private fun fetchCommonData(contentId: Int) {
-        TourismApiService.getInstance().korDetailCommon1(
+        tourismApiService.detailCommon1(
             numOfRows = 1,
             pageNo = 1,
-            contentTypeId = 12, // 적절한 contentTypeId 입력
+            contentTypeId = LanguageUtils.getContentIdForTourPlace(requireContext()), // 적절한 contentTypeId 입력
             contentId = contentId
         ).enqueue(object : Callback<CommonResponse> {
             override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
@@ -105,9 +112,20 @@ class TourismPlaceDetailFragment : Fragment() {
                     val commonItem = response.body()?.response?.body?.items?.item?.firstOrNull()
                     commonItem?.let {
                         binding.textViewEventPlace.text = "Location: ${it.addr1}"
-                        binding.textViewTitle.text = "${it.title} ${it.mapx} ${it.mapy}"
+                        binding.textViewTitle.text = "${it.title}"
                         binding.textViewOverview.text = it.overview
+
+                        binding.textviewMapButton.setOnClickListener {
+                            Log.e("commonItem.mapx", "${commonItem.mapx} ${commonItem.mapy}")
+                            val intent = Intent(context, AttachmentMapActivity::class.java).apply {
+                                putExtra("longitude", commonItem.mapx.toDouble())
+                                putExtra("latitude", commonItem.mapy.toDouble())
+                            }
+                            context?.startActivity(intent)
+                        }
+
                     }
+
                 } else {
                     Log.e("FestivalDetail", "Common Response failed: ${response.errorBody()?.string()}")
                 }
@@ -120,7 +138,7 @@ class TourismPlaceDetailFragment : Fragment() {
     }
 
     private fun fetchImageData(contentId: Int) {
-        TourismApiService.getInstance().korDetailImage1(
+        tourismApiService.detailImage1(
             numOfRows = 10,
             pageNo = 1,
             contentId = contentId

@@ -9,6 +9,7 @@ import com.google.firebase.FirebaseApp
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
+import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.db.AppDatabase
@@ -47,7 +48,8 @@ class BusanPartners : Application() {
         super.onCreate()
         FirebaseApp.initializeApp(this)
 
-        TourismApiService.init(this)
+//        TourismApiService.init(this)
+        TourismAllInOneApiService.init(this)
 
         WorldTimeApiService.init(this)
 

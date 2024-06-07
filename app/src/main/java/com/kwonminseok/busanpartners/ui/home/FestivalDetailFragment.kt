@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kelineyt.adapter.makeIt.StudentCardAdapter
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.FestivalImageAdapter
+import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.data.CommonResponse
 import com.kwonminseok.busanpartners.data.ImageResponse
@@ -26,6 +27,7 @@ import com.kwonminseok.busanpartners.databinding.FragmentFestivalDetailBinding
 import com.kwonminseok.busanpartners.databinding.FragmentSelectedUniversityStudentListBinding
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.message.AttachmentMapActivity
+import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +39,7 @@ import retrofit2.Response
 class FestivalDetailFragment : Fragment() {
     private var _binding: FragmentFestivalDetailBinding? = null
     private val binding get() = _binding!!
+    private lateinit var tourismApiService: TourismAllInOneApiService
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +55,7 @@ class FestivalDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val contentId = arguments?.getString("contentId") ?: return
+        tourismApiService = TourismAllInOneApiService.getInstance()
 
 
         fetchIntroData(contentId.toInt())
@@ -83,10 +87,10 @@ class FestivalDetailFragment : Fragment() {
     }
 
     private fun fetchIntroData(contentId: Int) {
-        TourismApiService.getInstance().korDetailIntro1(
+        tourismApiService.detailIntro1(
             numOfRows = 1,
             pageNo = 1,
-            contentTypeId = 15, // 적절한 contentTypeId 입력
+            contentTypeId = LanguageUtils.getContentIdForFestival(requireContext()), // 적절한 contentTypeId 입력
             contentId = contentId
         ).enqueue(object : Callback<IntroResponse> {
             override fun onResponse(call: Call<IntroResponse>, response: Response<IntroResponse>) {
@@ -110,10 +114,10 @@ class FestivalDetailFragment : Fragment() {
     }
 
     private fun fetchCommonData(contentId: Int) {
-        TourismApiService.getInstance().korDetailCommon1(
+        tourismApiService.detailCommon1(
             numOfRows = 1,
             pageNo = 1,
-            contentTypeId = 15, // 적절한 contentTypeId 입력
+            contentTypeId = LanguageUtils.getContentIdForFestival(requireContext()), // 적절한 contentTypeId 입력
             contentId = contentId
         ).enqueue(object : Callback<CommonResponse> {
             override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
@@ -134,7 +138,6 @@ class FestivalDetailFragment : Fragment() {
                                 putExtra("latitude", commonItem.mapy.toDouble())
                             }
                             context?.startActivity(intent)
-
                         }
 //                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 //                            textView.text =
@@ -156,7 +159,7 @@ class FestivalDetailFragment : Fragment() {
     }
 
     private fun fetchImageData(contentId: Int) {
-        TourismApiService.getInstance().korDetailImage1(
+        tourismApiService.detailImage1(
             numOfRows = 10,
             pageNo = 1,
             contentId = contentId
