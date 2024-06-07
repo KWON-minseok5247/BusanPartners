@@ -102,5 +102,6 @@ data class TourismItem(
     val mapy: String,
     val modifiedtime: String,
     val tel: String,
-    val title: String
+    val title: String,
+    val contentid: String
 )

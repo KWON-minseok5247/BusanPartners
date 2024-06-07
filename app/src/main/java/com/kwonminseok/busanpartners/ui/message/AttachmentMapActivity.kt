@@ -1,6 +1,7 @@
 package com.kwonminseok.busanpartners.ui.message
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
 import com.kwonminseok.busanpartners.R
@@ -39,6 +40,7 @@ class AttachmentMapActivity : FragmentActivity(), OnMapReadyCallback {
         // 인텐트에서 위도와 경도 가져오기
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)
+        Log.e("asd", "${latitude} $longitude")
 
         val location = LatLng(latitude, longitude)
         naverMap.moveCamera(CameraUpdate.scrollTo(location))

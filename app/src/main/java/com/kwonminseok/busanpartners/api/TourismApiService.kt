@@ -3,6 +3,9 @@ package com.kwonminseok.busanpartners.api
 import android.content.Context
 import com.google.gson.GsonBuilder
 import com.kwonminseok.busanpartners.BuildConfig
+import com.kwonminseok.busanpartners.data.CommonResponse
+import com.kwonminseok.busanpartners.data.ImageResponse
+import com.kwonminseok.busanpartners.data.IntroResponse
 import com.kwonminseok.busanpartners.data.TourismResponse
 import com.kwonminseok.busanpartners.ui.home.FestivalResponse
 import okhttp3.OkHttpClient
@@ -77,12 +80,12 @@ interface TourismApiService {
     fun korLocationBasedList1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("mapX") mapX: Double,
         @Query("mapY") mapY: Double,
         @Query("radius") radius: Int,
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
         @Query("contentTypeId") contentTypeId: Int = 12,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
     ): Call<TourismResponse>
@@ -93,13 +96,14 @@ interface TourismApiService {
     fun korDetailIntro1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("contentTypeId") contentTypeId: Int,
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<IntroResponse>
 
 
     // 한국어 공통 정보 조회
@@ -107,44 +111,52 @@ interface TourismApiService {
     fun korDetailCommon1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
 //        @Query("firstImageYN") firstImageYN: String = "N",
         @Query("contentTypeId") contentTypeId: Int,
+
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("defaultYN") defaultYN: String = "Y",
-        @Query("overviewYN") overviewYN: String = "Y"
-    ): Call<TourismResponse>
+        @Query("addrinfoYN") addrinfoYN: String = "Y",
+        @Query("mapinfoYN") mapinfoYN: String = "Y",
+
+        @Query("overviewYN") overviewYN: String = "Y",
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<CommonResponse>
 
     // 한국어 이미지 정보 조회
     @GET("KorService1/detailImage1")
     fun korDetailImage1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
+        @Query("contentId") contentId: Int,
+        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("MobileOS") mobileOS: String = "AND",
         @Query("MobileApp") mobileApp: String = "BusanPartners",
         @Query("_type") responseType: String = "json",
-        @Query("imageYN") imageYN: String ="Y",
-        @Query("contentId") contentId: Int,
-        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("imageYN") imageYN: String = "Y",
+        @Query("subImageYN") subImageYN: String = "Y",
+
+
+        ): Call<ImageResponse>
 
     //한국어 행사 정보 조회
     @GET("KorService1/searchFestival1")
     fun korSearchFestival1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("eventStartDate") eventStartDate: String,
         @Query("eventEndDate") eventEndDate: String,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("areaCode") areaCode: Int = 6,
-    ): Call<FestivalResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
 
+        ): Call<FestivalResponse>
 
 
     // 영어
@@ -152,28 +164,30 @@ interface TourismApiService {
     fun engLocationBasedList1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("mapX") mapX: Double,
         @Query("mapY") mapY: Double,
         @Query("radius") radius: Int,
         @Query("contentTypeId") contentTypeId: Int = 76,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<TourismResponse>
 
     // 영어 소개 정보 조회
     @GET("EngService1/detailIntro1")
     fun engDetailIntro1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("contentTypeId") contentTypeId: Int,
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<TourismResponse>
 
 
     // 영어 공통 정보 조회
@@ -181,29 +195,36 @@ interface TourismApiService {
     fun engDetailCommon1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
 //        @Query("firstImageYN") firstImageYN: String = "N",
         @Query("contentTypeId") contentTypeId: Int,
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("defaultYN") defaultYN: String = "Y",
-        @Query("overviewYN") overviewYN: String = "Y"
-    ): Call<TourismResponse>
+        @Query("overviewYN") overviewYN: String = "Y",
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+        @Query("addrinfoYN") addrinfoYN: String = "Y",
+        @Query("mapinfoYN") mapinfoYN: String = "Y",
+
+
+
+        ): Call<TourismResponse>
 
     // 영어 이미지 정보 조회
     @GET("EngService1/detailImage1")
     fun engDetailImage1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
+        @Query("contentId") contentId: Int,
+        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("MobileOS") mobileOS: String = "AND",
         @Query("MobileApp") mobileApp: String = "BusanPartners",
         @Query("_type") responseType: String = "json",
-        @Query("imageYN") imageYN: String ="Y",
-        @Query("contentId") contentId: Int,
-        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("imageYN") imageYN: String = "Y",
+        @Query("subImageYN") subImageYN: String = "Y",
+
+        ): Call<TourismResponse>
 
 
     // 영어 축제 정보 조회
@@ -211,18 +232,15 @@ interface TourismApiService {
     fun engSearchFestival1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("eventStartDate") eventStartDate: String,
         @Query("eventEndDate") eventEndDate: String,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("areaCode") areaCode: Int = 6,
-    ): Call<FestivalResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
 
-
-
-
+        ): Call<FestivalResponse>
 
 
     // 중국어 번체
@@ -230,28 +248,30 @@ interface TourismApiService {
     fun chtLocationBasedList1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("mapX") mapX: Double,
         @Query("mapY") mapY: Double,
         @Query("radius") radius: Int,
         @Query("contentTypeId") contentTypeId: Int = 76,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<TourismResponse>
 
     // 중국어 번체 소개 정보 조회
     @GET("ChtService1/detailIntro1")
     fun chtDetailIntro1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("contentTypeId") contentTypeId: Int,
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<TourismResponse>
 
 
     // 중국어 번체 공통 정보 조회
@@ -259,29 +279,35 @@ interface TourismApiService {
     fun chtDetailCommon1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
 //        @Query("firstImageYN") firstImageYN: String = "N",
         @Query("contentTypeId") contentTypeId: Int,
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("defaultYN") defaultYN: String = "Y",
-        @Query("overviewYN") overviewYN: String = "Y"
-    ): Call<TourismResponse>
+        @Query("overviewYN") overviewYN: String = "Y",
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+        @Query("addrinfoYN") addrinfoYN: String = "Y",
+        @Query("mapinfoYN") mapinfoYN: String = "Y",
+
+
+        ): Call<TourismResponse>
 
     // 중국어 번체 이미지 정보 조회
     @GET("ChtService1/detailImage1")
     fun chtDetailImage1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
+        @Query("contentId") contentId: Int,
+        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("MobileOS") mobileOS: String = "AND",
         @Query("MobileApp") mobileApp: String = "BusanPartners",
         @Query("_type") responseType: String = "json",
-        @Query("imageYN") imageYN: String ="Y",
-        @Query("contentId") contentId: Int,
-        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("imageYN") imageYN: String = "Y",
+        @Query("subImageYN") subImageYN: String = "Y",
+
+        ): Call<TourismResponse>
 
 
     // 중국어 번체 축제 정보 조회
@@ -289,42 +315,45 @@ interface TourismApiService {
     fun chtSearchFestival1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("eventStartDate") eventStartDate: String,
         @Query("eventEndDate") eventEndDate: String,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("areaCode") areaCode: Int = 6,
-    ): Call<FestivalResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<FestivalResponse>
 
     //중국어 간체
     @GET("ChsService1/locationBasedList1")
     fun chsLocationBasedList1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("mapX") mapX: Double,
         @Query("mapY") mapY: Double,
         @Query("radius") radius: Int,
         @Query("contentTypeId") contentTypeId: Int = 76,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<TourismResponse>
 
     // 중국어 간체 소개 정보 조회
     @GET("ChsService1/detailIntro1")
     fun chsDetailIntro1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("contentTypeId") contentTypeId: Int,
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<TourismResponse>
 
 
     // 중국어 간체 공통 정보 조회
@@ -332,29 +361,35 @@ interface TourismApiService {
     fun chsDetailCommon1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
 //        @Query("firstImageYN") firstImageYN: String = "N",
         @Query("contentTypeId") contentTypeId: Int,
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("defaultYN") defaultYN: String = "Y",
-        @Query("overviewYN") overviewYN: String = "Y"
-    ): Call<TourismResponse>
+        @Query("overviewYN") overviewYN: String = "Y",
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+        @Query("addrinfoYN") addrinfoYN: String = "Y",
+        @Query("mapinfoYN") mapinfoYN: String = "Y",
+
+
+        ): Call<TourismResponse>
 
     // 중국어 간체 이미지 정보 조회
     @GET("ChsService1/detailImage1")
     fun chsDetailImage1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
+        @Query("contentId") contentId: Int,
+        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("MobileOS") mobileOS: String = "AND",
         @Query("MobileApp") mobileApp: String = "BusanPartners",
         @Query("_type") responseType: String = "json",
-        @Query("imageYN") imageYN: String ="Y",
-        @Query("contentId") contentId: Int,
-        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("imageYN") imageYN: String = "Y",
+        @Query("subImageYN") subImageYN: String = "Y",
+
+        ): Call<TourismResponse>
 
 
     // 중국어 간체 축제 정보 조회
@@ -362,42 +397,45 @@ interface TourismApiService {
     fun chsSearchFestival1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("eventStartDate") eventStartDate: String,
         @Query("eventEndDate") eventEndDate: String,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("areaCode") areaCode: Int = 6,
-    ): Call<FestivalResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<FestivalResponse>
 
     //일본어
     @GET("JpnService1/locationBasedList1")
     fun jpnLocationBasedList1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("mapX") mapX: Double,
         @Query("mapY") mapY: Double,
         @Query("radius") radius: Int,
         @Query("contentTypeId") contentTypeId: Int = 76,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<TourismResponse>
 
     // 일본어 소개 정보 조회
     @GET("JpnService1/detailIntro1")
     fun jpnDetailIntro1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("contentTypeId") contentTypeId: Int,
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+
+        ): Call<TourismResponse>
 
 
     // 일본어 공통 정보 조회
@@ -405,45 +443,50 @@ interface TourismApiService {
     fun jpnDetailCommon1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
 //        @Query("firstImageYN") firstImageYN: String = "N",
         @Query("contentTypeId") contentTypeId: Int,
         @Query("contentId") contentId: Int,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("defaultYN") defaultYN: String = "Y",
-        @Query("overviewYN") overviewYN: String = "Y"
-    ): Call<TourismResponse>
+        @Query("overviewYN") overviewYN: String = "Y",
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
+        @Query("addrinfoYN") addrinfoYN: String = "Y",
+        @Query("mapinfoYN") mapinfoYN: String = "Y",
+
+
+        ): Call<TourismResponse>
 
     // 일본어 이미지 정보 조회
     @GET("JpnService1/detailImage1")
     fun jpnDetailImage1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
+        @Query("contentId") contentId: Int,
+        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("MobileOS") mobileOS: String = "AND",
         @Query("MobileApp") mobileApp: String = "BusanPartners",
         @Query("_type") responseType: String = "json",
-        @Query("imageYN") imageYN: String ="Y",
-        @Query("contentId") contentId: Int,
-        @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
-    ): Call<TourismResponse>
+        @Query("imageYN") imageYN: String = "Y",
+        @Query("subImageYN") subImageYN: String = "Y",
+
+        ): Call<TourismResponse>
 
     // 일본어 축제 정보 조회
     @GET("JpnService1/searchFestival1")
     fun jpnSearchFestival1(
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("MobileOS") mobileOS: String = "AND",
-        @Query("MobileApp") mobileApp: String = "BusanPartners",
-        @Query("_type") responseType: String = "json",
         @Query("eventStartDate") eventStartDate: String,
         @Query("eventEndDate") eventEndDate: String,
         @Query("serviceKey") serviceKey: String = BuildConfig.BUSAN_FESTIVAL_KEY,
         @Query("areaCode") areaCode: Int = 6,
-    ): Call<FestivalResponse>
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("MobileApp") mobileApp: String = "BusanPartners",
+        @Query("_type") responseType: String = "json",
 
-
+        ): Call<FestivalResponse>
 
 
 }

@@ -18,9 +18,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.kwonminseok.busanpartners.BuildConfig
+import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.FestivalAdapter
 import com.kwonminseok.busanpartners.adapter.TourismAdapter
 import com.kwonminseok.busanpartners.adapter.TouristDestinationAdapter
@@ -151,15 +153,9 @@ class HomeFragment : Fragment() {
                     TourismApiService.getInstance().korLocationBasedList1(
                         10,
                         1,
-                        "AND",
-                        "BusanPartners",
-                        "json",
                         currentLongitude,
                         currentLatitude,
                         10000,
-                        76,
-                        null,
-                        BuildConfig.BUSAN_FESTIVAL_KEY
                     ).enqueue(object :
                         Callback<TourismResponse> {
                         override fun onResponse(
@@ -208,17 +204,12 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            TourismApiService.getInstance().searchFestival1(
+            TourismApiService.getInstance().korSearchFestival1(
                 10,
                 1,
-                "AND",
-                "BusanPartners",
-                "json",
                 "20240529", // 이벤트 시작 날짜 (예시)
                 "20240829", // 이벤트 종료 날짜 (예시)
                 BuildConfig.BUSAN_FESTIVAL_KEY,
-                6, // 부산 지역코드
-                null // 시군구코드 (null로 설정하여 전체 검색)
             ).enqueue(object : Callback<FestivalResponse> {
                 override fun onResponse(
                     call: Call<FestivalResponse>,
@@ -252,6 +243,25 @@ class HomeFragment : Fragment() {
         }
 
 
+        festivalAdapter.onFestivaltClick = { festival ->
+            val bundle = Bundle()
+            bundle.apply {
+                putString("contentId", festival.contentid)
+                putString("eventstartdate", festival.eventstartdate)
+                putString("eventenddate", festival.eventenddate)
+            }
+
+            findNavController().navigate(R.id.action_homeFragment_to_festivalDetailFragment, bundle)
+        }
+
+        tourismAdapter.onTourismPlaceClick = {tourismItem ->
+            val bundle = Bundle()
+            bundle.putString("contentId", tourismItem.contentid)
+            findNavController().navigate(R.id.action_homeFragment_to_tourismPlaceDetailFragment, bundle)
+
+        }
+
+
 
     }
 
@@ -271,15 +281,9 @@ class HomeFragment : Fragment() {
                 TourismApiService.getInstance().korLocationBasedList1(
                     10,
                     1,
-                    "AND",
-                    "BusanPartners",
-                    "json",
                     currentLongitude,
                     currentLatitude,
                     10000,
-                    12,
-                    null,
-                    BuildConfig.BUSAN_FESTIVAL_KEY
                 ).enqueue(object :
                     Callback<TourismResponse> {
                     override fun onResponse(

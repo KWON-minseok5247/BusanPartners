@@ -21,7 +21,14 @@
         android:id="@+id/homeFragment"
         android:name="com.kwonminseok.busanpartners.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_festivalDetailFragment"
+            app:destination="@id/festivalDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_tourismPlaceDetailFragment"
+            app:destination="@id/tourismPlaceDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/messageFragment"
@@ -160,6 +167,16 @@
         android:name="com.kwonminseok.busanpartners.ui.profile.FAQFragment"
         tools:layout="@layout/fragment_faq"
         android:label="FAQFragment" />
+    <fragment
+        android:id="@+id/festivalDetailFragment"
+        android:name="com.kwonminseok.busanpartners.ui.home.FestivalDetailFragment"
+        android:label="FestivalDetailFragment"
+        tools:layout="@layout/fragment_festival_detail"/>
+    <fragment
+        android:id="@+id/tourismPlaceDetailFragment"
+        android:name="com.kwonminseok.busanpartners.ui.home.TourismPlaceDetailFragment"
+        android:label="TourismPlaceDetailFragment"
+        tools:layout="@layout/fragment_tourism_place_detail"/>
 
 
 </navigation>

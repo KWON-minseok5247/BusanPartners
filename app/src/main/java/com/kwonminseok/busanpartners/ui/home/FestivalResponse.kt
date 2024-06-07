@@ -61,5 +61,7 @@ data class Festival(
     val mapy: Double,
     val tel: String,
     val eventstartdate: String,
-    val eventenddate: String
+    val eventenddate: String,
+    val contentid: String,
+
 )

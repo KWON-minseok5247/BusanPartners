@@ -67,7 +67,7 @@ class   TourismAdapter : RecyclerView.Adapter<TourismAdapter.TouristDestinationV
         }
 
         holder.itemView.setOnClickListener {
-            onProductClick?.invoke(touristItem)
+            onTourismPlaceClick?.invoke(touristItem)
         }
     }
 
@@ -75,5 +75,5 @@ class   TourismAdapter : RecyclerView.Adapter<TourismAdapter.TouristDestinationV
         return differ.currentList.size
     }
 
-    var onProductClick: ((TourismItem) -> Unit)? = null
+    var onTourismPlaceClick: ((TourismItem) -> Unit)? = null
 }

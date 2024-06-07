@@ -56,7 +56,7 @@ class FestivalAdapter : RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder>
         holder.bind(festival)
 
         holder.itemView.setOnClickListener {
-            onProductClick?.invoke(festival)
+            onFestivaltClick?.invoke(festival)
         }
     }
 
@@ -64,7 +64,7 @@ class FestivalAdapter : RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder>
         return differ.currentList.size
     }
 
-    var onProductClick: ((Festival) -> Unit)? = null
+    var onFestivaltClick: ((Festival) -> Unit)? = null
 }
 
 //class FestivalAdapter : RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder>() {
