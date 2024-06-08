@@ -223,7 +223,22 @@ dependencies {
     implementation "androidx.room:room-ktx:2.6.1"
 
     // optional - Paging 3 Integration
-    implementation "androidx.room:room-paging:$room_version"
+    def paging_version = "3.2.1"
+
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
+    // alternatively - without Android dependencies for tests
+    testImplementation "androidx.paging:paging-common:$paging_version"
+
+    // optional - RxJava2 support
+    implementation "androidx.paging:paging-rxjava2:$paging_version"
+
+    // optional - RxJava3 support
+    implementation "androidx.paging:paging-rxjava3:$paging_version"
+
+    // optional - Guava ListenableFuture support
+    implementation "androidx.paging:paging-guava:$paging_version"
+
 
 //    // 기존의 io.getstream 의존성 제거
     implementation("io.getstream:stream-chat-android-ui-components:6.0.1") {

@@ -1,10 +1,12 @@
 package com.kwonminseok.busanpartners.ui.home
 
+import TourismViewModelFactory
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.os.StrictMode
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -71,15 +74,11 @@ class HomeFragment : Fragment() {
 
     private lateinit var locationSource: FusedLocationSource
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var viewModel: TourismViewModel
 
     private var backPressedTime: Long = 0
     private lateinit var toast: Toast
     private lateinit var tourismApiService: TourismAllInOneApiService
-
-    private val tourismViewModel: TourismViewModel by viewModels {
-        TourismViewModelFactory(TourismAllInOneApiService.getInstance(), longitude, latitude)
-    }
-
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
@@ -90,6 +89,9 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         parseNotificationData()
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+
 
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
@@ -100,6 +102,16 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        // Repository 초기화
+        val repository = TourismRepository(TourismAllInOneApiService.getInstance())
+
+        // ViewModel 초기화
+        viewModel = ViewModelProvider(this, TourismViewModelFactory(repository)).get(TourismViewModel::class.java)
+
+
+
 
         Log.e("currentUser userEntity", SplashActivity.currentUser.toString())
         tourismApiService = TourismAllInOneApiService.getInstance()
@@ -124,20 +136,6 @@ class HomeFragment : Fragment() {
                 }
             })
 
-//
-        // 위치 기반 퍼미션 허가 절차
-//        if (ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            // TODO: 권한 요청 처리
-//            return
-//        }
-
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -155,7 +153,7 @@ class HomeFragment : Fragment() {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
-                fetchTourApi()
+//                fetchTourApi()
             } else {
                 // 처음 퍼미션을 요청하거나, '다시 묻지 않기'를 선택했을 경우
                 ActivityCompat.requestPermissions(
@@ -163,12 +161,12 @@ class HomeFragment : Fragment() {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
-                fetchTourApi()
+//                fetchTourApi()
 
             }
         } else {
             // 퍼미션이 이미 허용된 경우
-            Log.e("else", "${LanguageUtils.getDeviceLanguage(requireContext())}")
+            Log.e("else", LanguageUtils.getDeviceLanguage(requireContext()))
 
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -182,49 +180,14 @@ class HomeFragment : Fragment() {
                     val currentLongitude = it.longitude
                     Log.e("currentLatitude", currentLatitude.toString())
                     Log.e("currentLongitude", currentLongitude.toString())
-
-                    fetchLocationBasedList(currentLongitude,currentLatitude)
-//                    TourismApiService.getInstance().korLocationBasedList1(
-//                        10,
-//                        1,
-//                        currentLongitude,
-//                        currentLatitude,
-//                        10000,
-//                    ).enqueue(object :
-//                        Callback<TourismResponse> {
-//                        override fun onResponse(
-//                            call: Call<TourismResponse>,
-//                            response: Response<TourismResponse>
-//                        ) {
-//                            if (!isAdded) {
-//                                Log.e("call and response", "${call.toString()} /////${response}")
-//                                return
-//                            }
-//                            Log.e("call and response", "${call.toString()} /////${response}")
-//
-//                            // 이제 안전하게 UI 업데이트를 진행합니다.
-//                            _binding?.let { binding ->
-//                                if (response.isSuccessful) {
-//                                    binding.touristRecyclerView.adapter = tourismAdapter
-//                                    response.body()?.response?.body?.items?.item?.let { itemList ->
-//                                        val itemsWithImages =
-//                                            itemList.filter { it.firstimage.isNotEmpty() }
-//                                        tourismAdapter.differ.submitList(itemsWithImages)
-//                                    }
-//                                } else {
-//                                    Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
-//                                }
-//                            }
-//
-//                        }
-//
-//                        override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
-//
-//                            Log.e(TAG, t.message.toString())
-//
-//                        }
-//                    })
-
+                    binding.touristRecyclerView.adapter = tourismAdapter
+//                    fetchLocationBasedList(currentLongitude,currentLatitude)
+                    lifecycleScope.launch {
+                        viewModel.fetchTourismPagingData(currentLongitude, currentLatitude, LanguageUtils.getContentIdForTourPlace(requireContext())).collectLatest { pagingData ->
+                            Log.e("pagingData", pagingData.toString())
+                            tourismAdapter.submitData(pagingData)
+                        }
+                    }
 
                 } ?: run {
                     //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
@@ -232,41 +195,6 @@ class HomeFragment : Fragment() {
                 }
             }
 
-//            TourismApiService.getInstance().korSearchFestival1(
-//                10,
-//                1,
-//                "20240529", // 이벤트 시작 날짜 (예시)
-//                "20240829", // 이벤트 종료 날짜 (예시)
-//                BuildConfig.BUSAN_FESTIVAL_KEY,
-//            ).enqueue(object : Callback<FestivalResponse> {
-//                override fun onResponse(
-//                    call: Call<FestivalResponse>,
-//                    response: Response<FestivalResponse>
-//                ) {
-//                    if (!isAdded) {
-//                        return
-//                    }
-//                    Log.e("response Festival", response.body().toString())
-//
-//                    // 이제 안전하게 UI 업데이트를 진행합니다.
-//                    _binding?.let { binding ->
-//                        if (response.isSuccessful) {
-//                            binding.festivalViewPager.adapter = festivalAdapter
-//                            response.body()?.response?.body?.items?.item?.let { itemList ->
-//                                val itemsWithImages =
-//                                    itemList.filter { it.firstimage.isNotEmpty() }
-//                                festivalAdapter.differ.submitList(itemsWithImages)
-//                            }
-//                        } else {
-//                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
-//                        }
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
-//                    Log.e(TAG, t.message.toString())
-//                }
-//            })
 
         }
 
@@ -295,97 +223,97 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun fetchTourApi() { //TODO 얘도 전면수정이 필요해.
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+//    private fun fetchTourApi() { //TODO 얘도 전면수정이 필요해.
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+//
+//        // 초기 위치 설정 과정
+//        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+//            // 사용자의 현재 위치를 받았습니다. 지도 로딩을 시작합니다.
+//            location?.let {
+//
+//                val currentLatitude = it.latitude
+//                val currentLongitude = it.longitude
+//                Log.e("currentLatitude", currentLatitude.toString())
+//                Log.e("currentLongitude", currentLongitude.toString())
+//
+//                TourismApiService.getInstance().korLocationBasedList1(
+//                    10,
+//                    1,
+//                    currentLongitude,
+//                    currentLatitude,
+//                    10000,
+//                ).enqueue(object :
+//                    Callback<TourismResponse> {
+//                    override fun onResponse(
+//                        call: Call<TourismResponse>,
+//                        response: Response<TourismResponse>
+//                    ) {
+//                        if (!isAdded) {
+//                            return
+//                        }
+//
+//                        // 이제 안전하게 UI 업데이트를 진행합니다.
+//                        _binding?.let { binding ->
+//                            if (response.isSuccessful) {
+//                                binding.touristRecyclerView.adapter = tourismAdapter
+//                                response.body()?.response?.body?.items?.item?.let { itemList ->
+//                                    val itemsWithImages =
+//                                        itemList.filter { it.firstimage.isNotEmpty() }
+//                                    tourismAdapter.differ.submitList(itemsWithImages)
+//                                }
+//                            } else {
+//                                Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+//                            }
+//                        }
+//
+//                    }
+//
+//                    override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
+//                        Log.e(TAG, t.message.toString())
+//
+//                    }
+//                })
+//            } ?: run {
+//                //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
+//                //                initializeMap(LatLng(35.1798159, 129.0750222))
+//            }
+//        }
+//    }
 
-        // 초기 위치 설정 과정
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            // 사용자의 현재 위치를 받았습니다. 지도 로딩을 시작합니다.
-            location?.let {
-
-                val currentLatitude = it.latitude
-                val currentLongitude = it.longitude
-                Log.e("currentLatitude", currentLatitude.toString())
-                Log.e("currentLongitude", currentLongitude.toString())
-
-                TourismApiService.getInstance().korLocationBasedList1(
-                    10,
-                    1,
-                    currentLongitude,
-                    currentLatitude,
-                    10000,
-                ).enqueue(object :
-                    Callback<TourismResponse> {
-                    override fun onResponse(
-                        call: Call<TourismResponse>,
-                        response: Response<TourismResponse>
-                    ) {
-                        if (!isAdded) {
-                            return
-                        }
-
-                        // 이제 안전하게 UI 업데이트를 진행합니다.
-                        _binding?.let { binding ->
-                            if (response.isSuccessful) {
-                                binding.touristRecyclerView.adapter = tourismAdapter
-                                response.body()?.response?.body?.items?.item?.let { itemList ->
-                                    val itemsWithImages =
-                                        itemList.filter { it.firstimage.isNotEmpty() }
-                                    tourismAdapter.differ.submitList(itemsWithImages)
-                                }
-                            } else {
-                                Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
-                            }
-                        }
-
-                    }
-
-                    override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
-                        Log.e(TAG, t.message.toString())
-
-                    }
-                })
-            } ?: run {
-                //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
-                //                initializeMap(LatLng(35.1798159, 129.0750222))
-            }
-        }
-    }
-
-    private fun fetchLocationBasedList(longitude: Double, latitude: Double) {
-        tourismApiService.locationBasedList1(
-            numOfRows = 10,
-            pageNo = 1,
-            mapX = longitude,
-            mapY = latitude,
-            radius = 20000,
-            contentTypeId = LanguageUtils.getContentIdForTourPlace(requireContext())
-        ).enqueue(object : Callback<TourismResponse> {
-            override fun onResponse(call: Call<TourismResponse>, response: Response<TourismResponse>) {
-                if (response.isSuccessful) {
-
-                    _binding?.let { binding ->
-                        if (response.isSuccessful) {
-                            binding.touristRecyclerView.adapter = tourismAdapter
-                            response.body()?.response?.body?.items?.item?.let { itemList ->
-                                val itemsWithImages =
-                                    itemList.filter { it.firstimage.isNotEmpty() }
-                                tourismAdapter.differ.submitList(itemsWithImages)
-                            }
-                        } else {
-                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
-                        }
-                    }
-                } else {
-                    Toast.makeText(context, "Failed to get tourism data", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
-                Log.e(TAG, "Error: ${t.message}")
-            }
-        })
-    }
+//    private fun fetchLocationBasedList(longitude: Double, latitude: Double) {
+//        tourismApiService.locationBasedList1(
+//            numOfRows = 10,
+//            pageNo = 1,
+//            mapX = longitude,
+//            mapY = latitude,
+//            radius = 20000,
+//            contentTypeId = LanguageUtils.getContentIdForTourPlace(requireContext())
+//        ).enqueue(object : Callback<TourismResponse> {
+//            override fun onResponse(call: Call<TourismResponse>, response: Response<TourismResponse>) {
+//                if (response.isSuccessful) {
+//
+//                    _binding?.let { binding ->
+//                        if (response.isSuccessful) {
+//                            binding.touristRecyclerView.adapter = tourismAdapter
+//                            response.body()?.response?.body?.items?.item?.let { itemList ->
+//                                val itemsWithImages =
+//                                    itemList.filter { it.firstimage.isNotEmpty() }
+//                                tourismAdapter.differ.submitList(itemsWithImages)
+//                            }
+//                        } else {
+//                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+//                        }
+//                    }
+//                } else {
+//                    Toast.makeText(context, "Failed to get tourism data", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
+//                Log.e(TAG, "Error: ${t.message}")
+//            }
+//        })
+//    }
 
     private fun fetchFestivalList() {
         tourismApiService.searchFestival1(
@@ -426,33 +354,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupRecyclerView() {
-        binding.touristRecyclerView.adapter = tourismAdapter.withLoadStateFooter(
-            footer = LoadStateAdapter { tourismAdapter.retry() }
-        )
-    }
 
-    private fun observeTourismData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            tourismViewModel.tourismPagingData.collectLatest { pagingData ->
-                tourismAdapter.submitData(pagingData)
-            }
-        }
-
-        tourismAdapter.addLoadStateListener { loadState ->
-            binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
-            binding.touristRecyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
-
-            val errorState = loadState.source.append as? LoadState.Error
-                ?: loadState.source.prepend as? LoadState.Error
-                ?: loadState.append as? LoadState.Error
-                ?: loadState.prepend as? LoadState.Error
-            errorState?.let {
-                Toast.makeText(requireContext(), it.error.localizedMessage, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
 
     //

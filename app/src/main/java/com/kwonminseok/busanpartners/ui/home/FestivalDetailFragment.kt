@@ -58,7 +58,7 @@ class FestivalDetailFragment : Fragment() {
         tourismApiService = TourismAllInOneApiService.getInstance()
 
 
-        fetchIntroData(contentId.toInt())
+//        fetchIntroData(contentId.toInt())
         fetchCommonData(contentId.toInt())
         fetchImageData(contentId.toInt())
 
@@ -86,7 +86,7 @@ class FestivalDetailFragment : Fragment() {
         super.onPause()
     }
 
-    private fun fetchIntroData(contentId: Int) {
+    private suspend fun fetchIntroData(contentId: Int) {
         tourismApiService.detailIntro1(
             numOfRows = 1,
             pageNo = 1,

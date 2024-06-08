@@ -1,43 +1,55 @@
 package com.kwonminseok.busanpartners.ui.home
 
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.data.TourismItem
 import com.kwonminseok.busanpartners.util.LanguageUtils
+import kotlinx.coroutines.suspendCancellableCoroutine
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class TourismPagingSource(
-    private val apiService: TourismAllInOneApiService,
+    private val tourismApiService: TourismAllInOneApiService,
     private val longitude: Double,
-    private val latitude: Double
+    private val latitude: Double,
+    private val contentTypeId: Int
 ) : PagingSource<Int, TourismItem>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TourismItem> {
         val page = params.key ?: 1
+        val call = tourismApiService.locationBasedList1(
+            numOfRows = params.loadSize,
+            pageNo = page,
+            mapX = longitude,
+            mapY = latitude,
+            radius = 20000,
+            contentTypeId = contentTypeId
+        )
 
         return try {
-            val response = apiService.locationBasedList1(
-                numOfRows = 10,
-                pageNo = page,
-                mapX = longitude,
-                mapY = latitude,
-                radius = 20000,
-                contentTypeId = 12 // or another valid content type ID
-            ).execute()
-
+            val response = call.execute()
             if (response.isSuccessful) {
-                val tourismItems = response.body()?.response?.body?.items?.item ?: emptyList()
+                val items = response.body()?.response?.body?.items?.item ?: emptyList()
+                val filteredItems = items.filter { it.firstimage.isNotEmpty() }
+                Log.e("filteredItems", filteredItems.toString())
                 LoadResult.Page(
-                    data = tourismItems,
+                    data = filteredItems,
                     prevKey = if (page == 1) null else page - 1,
-                    nextKey = if (tourismItems.isEmpty()) null else page + 1
+                    nextKey = if (filteredItems.isEmpty()) null else page + 1
                 )
+
             } else {
-                LoadResult.Error(Exception("Failed to load data"))
+                LoadResult.Error(Exception("API call failed with response code ${response.code()}"))
             }
-        } catch (exception: Exception) {
-            LoadResult.Error(exception)
+        } catch (e: Exception) {
+            Log.e("TourismPagingSource", "Error loading data", e)
+            LoadResult.Error(e)
         }
     }
 

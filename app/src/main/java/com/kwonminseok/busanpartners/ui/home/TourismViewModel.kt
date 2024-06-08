@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,15 +10,19 @@ import androidx.paging.cachedIn
 import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.data.TourismItem
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class TourismViewModel(
-    private val apiService: TourismAllInOneApiService,
-    private val longitude: Double,
-    private val latitude: Double
-) : ViewModel() {
+class TourismViewModel(private val repository: TourismRepository) : ViewModel() {
 
-    val tourismPagingData: Flow<PagingData<TourismItem>> = Pager(
-        config = PagingConfig(pageSize = 10),
-        pagingSourceFactory = { TourismPagingSource(apiService, longitude, latitude) }
-    ).flow.cachedIn(viewModelScope)
+    fun fetchTourismPagingData(longitude: Double, latitude: Double, contentTypeId: Int): Flow<PagingData<TourismItem>> {
+        return repository.getTourismPagingData(longitude, latitude, contentTypeId)
+            .cachedIn(viewModelScope)
+    }
+
+
 }
+
+
+
+

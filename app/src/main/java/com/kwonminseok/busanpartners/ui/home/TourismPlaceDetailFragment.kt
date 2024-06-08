@@ -48,7 +48,7 @@ class TourismPlaceDetailFragment : Fragment() {
         tourismApiService = TourismAllInOneApiService.getInstance()
 
         val contentId = arguments?.getString("contentId") ?: return
-        fetchIntroData(contentId.toInt())
+//        fetchIntroData(contentId.toInt())
         fetchCommonData(contentId.toInt())
         fetchImageData(contentId.toInt())
 
@@ -75,7 +75,7 @@ class TourismPlaceDetailFragment : Fragment() {
         super.onPause()
     }
 
-    private fun fetchIntroData(contentId: Int) {
+    private suspend fun fetchIntroData(contentId: Int) {
         tourismApiService.detailIntro1(
             numOfRows = 1,
             pageNo = 1,

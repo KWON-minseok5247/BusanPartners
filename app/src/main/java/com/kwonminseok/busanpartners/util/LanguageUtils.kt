@@ -32,12 +32,6 @@ object LanguageUtils {
 
     fun getBaseUrl(context: Context): String {
         return when (context.resources.configuration.locales.get(0).language) {
-//            "kor" -> "http://apis.data.go.kr/B551011/KorService1/"
-//            "eng" -> "http://apis.data.go.kr/B551011/EngService1/"
-//            "cht" -> "http://apis.data.go.kr/B551011/ChtService1/"
-//            "chs" -> "http://apis.data.go.kr/B551011/ChsService1/"
-//            "jpn" -> "http://apis.data.go.kr/B551011/JpnService1/"
-//            else -> "http://apis.data.go.kr/B551011/EngService1/"
             "ko" -> "http://apis.data.go.kr/B551011/KorService1/"
             "en" -> "http://apis.data.go.kr/B551011/EngService1/"
             "zh" -> {
