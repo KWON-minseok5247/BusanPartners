@@ -772,7 +772,6 @@ class SplashActivity : AppCompatActivity() {
     private var client: ChatClient? = BusanPartners.chatClient
     lateinit var user: com.kwonminseok.busanpartners.data.User
     private val viewModel: UserViewModel by viewModels()
-    private var currentServerTime: String? = "2021-04-09T12:38:11.818609+09:00"
     private var token: String = BusanPartners.preferences.getString(Constants.TOKEN, "")
     private val uid = BusanPartners.preferences.getString("uid", "")
     private var retryCount = 0
@@ -799,14 +798,14 @@ class SplashActivity : AppCompatActivity() {
         }
 
         fetchCurrentUserEntity()
-        firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
+        firebaseUser.getIdToken(true).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 setupUserStream()
             } else {
                 Log.e("자동 로그인을 할 때", "task가 실패")
                 handleRetryOrNavigate("토큰을 가져오는 중 오류가 발생했습니다.")
             }
-        }?.addOnFailureListener {
+        }.addOnFailureListener {
             Log.e("자동 로그인을 할 때", "토큰 얻는 것 자체를 실패함.")
             handleRetryOrNavigate("토큰을 가져오는 중 오류가 발생했습니다.")
         }
@@ -929,6 +928,7 @@ class SplashActivity : AppCompatActivity() {
             try {
                 TimeRepository.fetchCurrentTime()
                 currentServerTime = TimeRepository.currentTime?.datetime
+                Log.e("currentServerTime", currentServerTime ?: "2021-04-09T12:38:11.818609+09:00")
                 BusanPartners.preferences.setString("uid", user.uid)
                 connectUserToStream(user)
             } catch (e: Exception) {
@@ -1002,6 +1002,7 @@ class SplashActivity : AppCompatActivity() {
 
     companion object {
         var currentUser: UserEntity? = null
+        var currentServerTime: String? = "2021-04-09T12:38:11.818609+09:00"
 
         fun createLaunchIntent(
             context: Context,

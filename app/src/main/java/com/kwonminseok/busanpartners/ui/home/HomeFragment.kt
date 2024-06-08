@@ -5,6 +5,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
@@ -15,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -44,6 +46,7 @@ import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
+import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentServerTime
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.Constants
@@ -58,7 +61,13 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.Calendar
 import java.util.Locale
+import java.util.TimeZone
 
 private val TAG = "HomeFragment"
 
@@ -78,6 +87,9 @@ class HomeFragment : Fragment() {
 
     private var backPressedTime: Long = 0
     private lateinit var toast: Toast
+    private lateinit var firstDate: String
+    private lateinit var secondDate: String
+
     private lateinit var tourismApiService: TourismAllInOneApiService
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
@@ -109,7 +121,7 @@ class HomeFragment : Fragment() {
 
         // ViewModel 초기화
         viewModel = ViewModelProvider(this, TourismViewModelFactory(repository)).get(TourismViewModel::class.java)
-
+        currentServerTime?.let { fetchFestivalList(it) }
 
 
 
@@ -315,12 +327,14 @@ class HomeFragment : Fragment() {
 //        })
 //    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchFestivalList() {
+
         tourismApiService.searchFestival1(
             numOfRows = 10,
             pageNo = 1,
-            eventStartDate = "20240501",
-            eventEndDate = "20241231",
+            eventStartDate = firstDate,
+            eventEndDate = secondDate,
         ).enqueue(object : Callback<FestivalResponse> {
             override fun onResponse(call: Call<FestivalResponse>, response: Response<FestivalResponse>) {
                 if (response.isSuccessful) {
@@ -472,5 +486,39 @@ class HomeFragment : Fragment() {
 //    }
 
 
+    }
+
+
+
+    private fun fetchFestivalList(currentServerTime: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // API 버전 26 이상일 때
+            val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+            val dateTime = LocalDateTime.parse(currentServerTime, formatter)
+
+            // 첫 번째 날짜: 원래 날짜
+            firstDate = dateTime.toLocalDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+
+            // 두 번째 날짜: 3개월 후
+            val dateAfterThreeMonths = dateTime.plus(3, ChronoUnit.MONTHS)
+            secondDate = dateAfterThreeMonths.toLocalDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+
+            Log.e("firstDate secondDate", "$firstDate $secondDate")
+        } else {
+            // API 버전 26 미만일 때
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val date = inputFormat.parse(currentServerTime)
+
+            val outputFormat = SimpleDateFormat("yyyyMMdd")
+            firstDate = outputFormat.format(date)
+
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            calendar.add(Calendar.MONTH, 3)
+            secondDate = outputFormat.format(calendar.time)
+
+            Log.e("firstDate secondDate", "$firstDate $secondDate")
+        }
     }
 }
