@@ -5,9 +5,11 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
+import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -74,7 +76,7 @@ private val TAG = "HomeFragment"
 class HomeFragment : Fragment() {
 
     //여기서 userEntity랑 user랑 같은지?
-    private val touristDestinationAdapter by lazy { TouristDestinationAdapter() }
+//    private val touristDestinationAdapter by lazy { TouristDestinationAdapter() }
     private val tourismAdapter by lazy { TourismAdapter() }
     private val festivalAdapter by lazy { FestivalAdapter() }
     private var _binding: FragmentHomeBinding? = null
@@ -165,6 +167,7 @@ class HomeFragment : Fragment() {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
+                Log.e("homeFragment 1", "거절했을 때")
 //                fetchTourApi()
             } else {
                 // 처음 퍼미션을 요청하거나, '다시 묻지 않기'를 선택했을 경우
@@ -173,6 +176,12 @@ class HomeFragment : Fragment() {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
+                Toast.makeText(requireContext(), "위치 알림을 허용해주세요.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", requireContext().packageName, null)
+                }
+                startActivity(intent)
+
 //                fetchTourApi()
 
             }
@@ -327,7 +336,6 @@ class HomeFragment : Fragment() {
 //        })
 //    }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchFestivalList() {
 
         tourismApiService.searchFestival1(

@@ -10,7 +10,7 @@
         android:layout_width="300dp"
         android:layout_height="200dp"
         android:background="@color/g_card_background"
-        app:cardElevation="4dp"
+        app:cardElevation="6dp"
         android:clickable="true"
         android:focusable="true"
         app:cardCornerRadius="8dp"

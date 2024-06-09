@@ -4,15 +4,20 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,6 +30,7 @@ import com.kwonminseok.busanpartners.data.UniversityInfo
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.databinding.UniversityCardFrontBinding
+import com.kwonminseok.busanpartners.ui.home.HomeFragment
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.util.Resource
@@ -64,6 +70,8 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
     private var selectedUniversityStudents: List<User>? = null
     private val viewModel: UserViewModel by viewModels()
 
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1000
+
 //    private val viewModel by viewModels<ConnectViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,7 +89,42 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         Log.e("currentUser userEntity", SplashActivity.currentUser.toString())
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // 이전에 퍼미션 요청을 거부당한 적이 있는 경우
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
+                // 사용자에게 왜 퍼미션이 필요한지 설명을 제공하고, 요청을 다시 시도할 수 있습니다.
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+                Log.e("homeFragment 1", "거절했을 때")
+//                fetchTourApi()
+            } else {
+                // 처음 퍼미션을 요청하거나, '다시 묻지 않기'를 선택했을 경우
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+                Toast.makeText(requireContext(), "위치 알림을 허용해주세요.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", requireContext().packageName, null)
+                }
+                startActivity(intent)
 
+//                fetchTourApi()
+
+            }
+        }
         // ViewModel 함수 호출
         viewModel.getUniversityStudentsWantToMeet()
 
