@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui.profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.FAQAdapter
 import com.kwonminseok.busanpartners.adapter.TabViewPagerAdapter
 import com.kwonminseok.busanpartners.data.FAQItem
 import com.kwonminseok.busanpartners.databinding.FragmentFaqBinding
+import java.io.InputStreamReader
 
 
 //@AndroidEntryPoint
@@ -114,5 +118,12 @@ class FAQFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun loadFAQItems(context: Context): List<FAQItem> {
+        val inputStream = context.assets.open("json/faq_data.json")
+        val reader = InputStreamReader(inputStream)
+        val type = object : TypeToken<List<FAQItem>>() {}.type
+        return Gson().fromJson(reader, type)
     }
 }

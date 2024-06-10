@@ -406,11 +406,13 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                 this.binding = it
             }
 
+//            binding.root.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
             // 대학교 정보를 사용하여 로고와 텍스트 설정
             binding.imageViewPhoto.setImageResource(university.logoResourceId)
             binding.tvUniversity.text = university.name
             // 학생 수를 동적으로 설정
-            binding.tvStudents.text = "현재 연락할 수 있는 ${university.name} 학생은 ${studentCount}명입니다."
+            binding.tvStudents.text = "현재 연락할 수 있는 학생 수: ${studentCount}명"
 
             return binding.root
         }

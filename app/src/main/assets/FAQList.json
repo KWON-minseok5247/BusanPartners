@@ -2,31 +2,290 @@
   {
     "category": "대학생",
     "questions": {
-      "ko": "트림마켓에서 코치로 활동하는 방법이 궁금해요!",
-      "ja": "トリムマーケットでコーチとして活動する方法が知りたいです！",
-      "zh": "我想知道如何在TrimMarket上作为教练活动！",
-      "en": "I want to know how to work as a coach on TrimMarket!"
+      "ko": "대학생 인증을 하면 무엇이 달라지나요?",
+      "ja": "学生証認証を行うと何が変わりますか。",
+      "zh": "进行学生认证后会有什么变化？",
+      "zh-TW": "進行學生認證後會有什麼變化？",
+      "en": "What changes after student verification?"
     },
     "answers": {
-      "ko": "코치로 활동하려면...",
-      "ja": "コーチとして活動するには...",
-      "zh": "作为教练活动...",
-      "en": "To work as a coach..."
+      "ko": "대학생 인증을 완료하면, 정해진 기간 없이 메시지 기능을 사용할 수 있으며 관광객과 매칭할 수 있습니다.",
+      "ja": "学生証認証が完了すると、定められた期間なしにメッセージ機能を使用でき、観光客とマッチングすることができます。",
+      "zh": "完成学生认证后，可以在没有特定时间限制的情况下使用消息功能，并可以与游客匹配。",
+      "zh-TW": "完成學生認證後，可以在沒有特定時間限制的情況下使用消息功能，並可以與遊客匹配。",
+      "en": "After completing student verification, you can use the messaging feature without a specified period and match with tourists."
+    }
+  },
+  {
+    "category": "대학생",
+    "questions": {
+      "ko": "자기소개를 영어로 해야 하나요?",
+      "ja": "自己紹介を英語で書く必要がありますか。",
+      "zh": "自我介绍需要用英语吗？",
+      "zh-TW": "自我介紹需要用英語嗎？",
+      "en": "Do I need to write my self-introduction in English?"
+    },
+    "answers": {
+      "ko": "한국어로 작성해도 됩니다. 저장하면 DeepL 번역 기능을 통해 영어, 중국어, 일본어로 번역되어 상대방은 번역된 내용을 읽을 수 있습니다.",
+      "ja": "韓国語で書いても構いません。保存するとDeepLの翻訳機能を通じて英語、中国語、日本語に翻訳され、相手は翻訳された内容を読むことができます。",
+      "zh": "可以用韩语写。保存后，通过DeepL翻译功能，可以翻译成英语、中文、日语，对方可以阅读翻译后的内容。",
+      "zh-TW": "可以用韓語寫。保存後，通過DeepL翻譯功能，可以翻譯成英語、中文、日語，對方可以閱讀翻譯後的內容。",
+      "en": "You can write it in Korean. When saved, it will be translated into English, Chinese, and Japanese through the DeepL translation feature, and the other person can read the translated content."
+    }
+  },
+  {
+    "category": "대학생",
+    "questions": {
+      "ko": "대학생 인증 절차는 어떻게 되나요?",
+      "ja": "学生証認証の手続きはどのように行われますか。",
+      "zh": "学生认证的程序是怎样的？",
+      "zh-TW": "學生認證的程序是怎樣的？",
+      "en": "What is the student verification process?"
+    },
+    "answers": {
+      "ko": "1. 대학교 이메일을 통해 인증번호를 전송받고 인증번호를 입력합니다.\n2. 학생증 사진을 첨부합니다.",
+      "ja": "1. 大学のメールを通じて認証番号を受け取り、認証番号を入力します。\n2. 学生証の写真を添付します。",
+      "zh": "1. 通过大学电子邮件接收验证码并输入验证码。\n2. 附上学生证照片。",
+      "zh-TW": "1. 通過大學電子郵件接收驗證碼並輸入驗證碼。\n2. 附上學生證照片。",
+      "en": "1. Receive the verification code via university email and enter the verification code.\n2. Attach a photo of your student ID."
+    }
+  },
+  {
+    "category": "대학생",
+    "questions": {
+      "ko": "대학생 인증은 얼마나 걸리나요?",
+      "ja": "学生証認証はどのくらいかかりますか。",
+      "zh": "学生认证需要多长时间？",
+      "zh-TW": "學生認證需要多長時間？",
+      "en": "How long does student verification take?"
+    },
+    "answers": {
+      "ko": "학생증 사진을 첨부한 후 최대 24시간 이내에 인증이 완료됩니다.",
+      "ja": "学生証の写真を添付した後、最大24時間以内に認証が完了します。",
+      "zh": "附上学生证照片后，认证将在24小时内完成。",
+      "zh-TW": "附上學生證照片後，認證將在24小時內完成。",
+      "en": "After attaching the student ID photo, verification will be completed within 24 hours."
+    }
+  },
+  {
+    "category": "대학생",
+    "questions": {
+      "ko": "대학생 인증이 실패했을 때는 어떻게 하나요?",
+      "ja": "学生証認証に失敗した場合はどうすればいいですか。",
+      "zh": "如果学生认证失败怎么办？",
+      "zh-TW": "如果學生認證失敗怎麼辦？",
+      "en": "What should I do if student verification fails?"
+    },
+    "answers": {
+      "ko": "학생증을 캡처하거나 촬영하여 식별이 가능한 상태로 다시 업로드해 주세요.",
+      "ja": "学生証をキャプチャまたは撮影し、識別可能な状態で再アップロードしてください。",
+      "zh": "请截取或拍摄学生证，并在可识别的状态下重新上传。",
+      "zh-TW": "請截取或拍攝學生證，並在可識別的狀態下重新上傳。",
+      "en": "Please capture or photograph the student ID and re-upload it in an identifiable state."
+    }
+  },
+  {
+    "category": "대학생",
+    "questions": {
+      "ko": "이메일이 안왔습니다.",
+      "ja": "メールが届きませんでした。",
+      "zh": "没有收到电子邮件。",
+      "zh-TW": "沒有收到電子郵件。",
+      "en": "I didn't receive the email."
+    },
+    "answers": {
+      "ko": "이메일을 받는 데 최대 1분 이상 소요될 수 있습니다. 그 이후에도 받지 못했다면 이메일 주소를 확인하고 다시 인증해 주세요.",
+      "ja": "メールの受信に最大1分以上かかる場合があります。それでも届かない場合は、メールアドレスを確認して再度認証してください。",
+      "zh": "接收电子邮件可能需要最多一分钟。如果仍未收到，请检查电子邮件地址并重新验证。",
+      "zh-TW": "接收電子郵件可能需要最多一分鐘。如果仍未收到，請檢查電子郵件地址並重新驗證。",
+      "en": "It may take up to a minute to receive the email. If you still haven't received it, please check your email address and try verification again."
     }
   },
   {
     "category": "관광객",
     "questions": {
-      "ko": "일정표는 코치만 만들 수 있나요?",
-      "ja": "スケジュールはコーチだけが作成できますか？",
-      "zh": "只有教练可以制作时间表吗？",
-      "en": "Can only coaches create schedules?"
+      "ko": "관광객 인증을 해도 왜 7일 동안밖에 이용할 수 없나요?",
+      "ja": "観光客認証を行ってもなぜ7日間しか利用できないのですか。",
+      "zh": "即使进行了游客认证，为什么只能使用7天？",
+      "zh-TW": "即使進行了遊客認證，為什麼只能使用7天？",
+      "en": "Why can I only use it for 7 days even after tourist verification?"
     },
     "answers": {
-      "ko": "네, 일정표는 코치만...",
-      "ja": "はい、スケジュールはコーチだけが...",
-      "zh": "是的，只有教练...",
-      "en": "Yes, only coaches can..."
+      "ko": "이 앱은 부산을 여행하는 관광객들이 대학생들과 매칭할 수 있도록 설계되었습니다. 따라서 서비스 이용 기간을 7일로 제한하고 있습니다.",
+      "ja": "このアプリは、釜山を旅行する観光客が大学生とマッチングできるように設計されています。そのため、サービス利用期間を7日に制限しています。",
+      "zh": "此应用程序旨在让访问釜山的游客能够与大学生匹配。因此，服务使用期限制为7天。",
+      "zh-TW": "此應用程序旨在讓訪問釜山的遊客能夠與大學生匹配。因此，服務使用期限制為7天。",
+      "en": "This app is designed for tourists visiting Busan to match with college students. Therefore, the service usage period is limited to 7 days."
+    }
+  },
+  {
+    "category": "관광객",
+    "questions": {
+      "ko": "관광객 인증 절차는 어떻게 되나요?",
+      "ja": "観光客認証の手続きはどのように行われますか。",
+      "zh": "游客认证的程序是怎样的？",
+      "zh-TW": "遊客認證的程序是怎樣的？",
+      "en": "What is the tourist verification process?"
+    },
+    "answers": {
+      "ko": "부산에 여행을 왔음을 증명하기 위해 이름이 확인 가능한 비행기 티켓, 배 티켓, 또는 숙박증명서 캡쳐본을 제출해야 합니다.",
+      "ja": "釜山への旅行を証明するために、名前が確認できる飛行機チケット、船チケット、または宿泊証明書のキャプチャを提出する必要があります。",
+      "zh": "为了证明你来过釜山，需要提交能确认姓名的飞机票、船票或住宿证明的截图。",
+      "zh-TW": "為了證明你來過釜山，需要提交能確認姓名的飛機票、船票或住宿證明的截圖。",
+      "en": "To prove you have visited Busan, you need to submit a screenshot of your plane ticket, boat ticket, or accommodation proof showing your name."
+    }
+  },
+  {
+    "category": "관광객",
+    "questions": {
+      "ko": "왜 인증 절차에 사진이 요구되나요?",
+      "ja": "なぜ認証手続きに写真が必要なのですか。",
+      "zh": "为什么认证程序需要照片？",
+      "zh-TW": "為什麼認證程序需要照片？",
+      "en": "Why are photos required in the verification process?"
+    },
+    "answers": {
+      "ko": "대학생들이 무분별한 채팅을 받지 않도록 최소한의 인증 절차로 사진을 요구합니다.",
+      "ja": "大学生が無分別なチャットを受けないようにするため、最低限の認証手続きとして写真を要求しています。",
+      "zh": "为了防止大学生收到随意的聊天信息，要求最低限度的认证程序并提交照片。",
+      "zh-TW": "為了防止大學生收到隨意的聊天信息，要求最低限度的認證程序並提交照片。",
+      "en": "To prevent college students from receiving indiscriminate chats, we require photos as a minimum verification procedure."
+    }
+  },
+  {
+    "category": "관광객",
+    "questions": {
+      "ko": "관광객 인증이 실패했을 때는 어떻게 하나요?",
+      "ja": "観光客認証に失敗した場合はどうすればいいですか。",
+      "zh": "如果游客认证失败怎么办？",
+      "zh-TW": "如果遊客認證失敗怎麼辦？",
+      "en": "What should I do if tourist verification fails?"
+    },
+    "answers": {
+      "ko": "이름이 확인되지 않거나 일치하지 않는 경우, 또는 요구한 내용이 아닐 때 인증이 거절될 수 있습니다. 이럴 때는 정확한 증명서를 다시 제출해 주세요.",
+      "ja": "名前が確認できない、または一致しない場合、または要求された内容でない場合、認証が拒否されることがあります。このような場合は、正確な証明書を再提出してください。",
+      "zh": "如果姓名无法确认或不一致，或者不是要求的内容，认证可能会被拒绝。这时请重新提交准确的证明文件。",
+      "zh-TW": "如果姓名無法確認或不一致，或者不是要求的內容，認證可能會被拒絕。這時請重新提交準確的證明文件。",
+      "en": "If the name cannot be confirmed or does not match, or if it is not the required content, the verification may be rejected. In this case, please resubmit the correct documentation."
+    }
+  },
+  {
+    "category": "관광객",
+    "questions": {
+      "ko": "관광객 인증은 얼마나 걸리나요?",
+      "ja": "観光客認証はどのくらいかかりますか。",
+      "zh": "游客认证需要多长时间？",
+      "zh-TW": "遊客認證需要多長時間？",
+      "en": "How long does tourist verification take?"
+    },
+    "answers": {
+      "ko": "증명할 수 있는 사진을 첨부한 후, 인증 절차는 짧게는 1시간, 길게는 최대 24시간 이내에 완료됩니다.",
+      "ja": "証明できる写真を添付した後、認証手続きは早ければ1時間、遅くとも24時間以内に完了します。",
+      "zh": "附上能证明的照片后，认证程序最短1小时，最长24小时内完成。",
+      "zh-TW": "附上能證明的照片後，認證程序最短1小時，最長24小時內完成。",
+      "en": "After attaching a verifiable photo, the verification process can be completed in as little as 1 hour or up to 24 hours."
+    }
+  },
+  {
+    "category": "관광객",
+    "questions": {
+      "ko": "채팅방은 최대 몇 개까지 이용 가능한가요?",
+      "ja": "チャットルームは最大何個まで利用できますか。",
+      "zh": "聊天室最多可以使用几个？",
+      "zh-TW": "聊天室最多可以使用幾個？",
+      "en": "How many chat rooms can be used at the same time?"
+    },
+    "answers": {
+      "ko": "최대 3개의 채팅방을 동시에 활성화할 수 있습니다. 기존 채팅방을 나가면 새로운 상대방과 매칭할 수 있지만, 나간 채팅방의 상대방과는 다시 연락할 수 없습니다.",
+      "ja": "最大3つのチャットルームを同時にアクティブにできます。既存のチャットルームを退出すると新しい相手とマッチングできますが、退出したチャットルームの相手とは再び連絡を取ることはできません。",
+      "zh": "最多可以同时激活3个聊天室。退出现有聊天室后，可以匹配新对象，但无法与已退出聊天室的对象再次联系。",
+      "zh-TW": "最多可以同時激活3個聊天室。退出現有聊天室後，可以匹配新對象，但無法與已退出聊天室的對象再次聯繫。",
+      "en": "You can activate up to 3 chat rooms at the same time. When you leave an existing chat room, you can match with a new partner, but you cannot contact the partner in the chat room you left."
+    }
+  },
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "채팅이 갑자기 안돼요",
+      "ja": "チャットが突然できなくなりました",
+      "zh": "聊天突然无法进行了",
+      "zh-TW": "聊天突然無法進行了",
+      "en": "The chat suddenly stopped working"
+    },
+    "answers": {
+      "ko": "현재 서비스는 무료로 제공되고 있습니다. 하지만 동시 접속자가 많아지면 채팅이 일시적으로 중단될 수 있습니다. 이용자가 많아지면 유료화를 검토할 예정입니다.",
+      "ja": "現在サービスは無料で提供されています。ただし、同時接続者が多くなると、チャットが一時的に中断されることがあります。利用者が増えると、有料化を検討する予定です。",
+      "zh": "目前服务是免费的。但是，如果同时连接的用户增多，聊天可能会暂时中断。用户增加后，我们会考虑收费。",
+      "zh-TW": "目前服務是免費的。但是，如果同時連接的用戶增多，聊天可能會暫時中斷。用戶增加後，我們會考慮收費。",
+      "en": "The service is currently provided for free. However, if there are many simultaneous users, the chat may be temporarily interrupted. If the number of users increases, we plan to consider charging."
+    }
+  },
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "서비스 이용료는 얼마인가요?",
+      "ja": "サービス利用料はいくらですか。",
+      "zh": "服务费用是多少？",
+      "zh-TW": "服務費用是多少？",
+      "en": "What is the service fee?"
+    },
+    "answers": {
+      "ko": "현재 서비스는 무료입니다. 추후 유료화가 결정되면 미리 안내드리겠습니다.",
+      "ja": "現在サービスは無料です。今後、有料化が決定された場合は事前にお知らせいたします。",
+      "zh": "目前服务是免费的。以后如果决定收费，会提前通知。",
+      "zh-TW": "目前服務是免費的。以後如果決定收費，會提前通知。",
+      "en": "The service is currently free. If it is decided to charge in the future, we will notify you in advance."
+    }
+  },
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "상대방이 채팅을 나갔어요",
+      "ja": "相手がチャットを退出しました",
+      "zh": "对方退出了聊天",
+      "zh-TW": "對方退出了聊天",
+      "en": "The other person left the chat"
+    },
+    "answers": {
+      "ko": "한 번 나간 상대방과는 다시 연락할 수 없습니다. 채팅방을 나갈 때 이에 대해 다시 한번 알립니다.",
+      "ja": "一度退出した相手とは再度連絡を取ることはできません。チャットルームを退出する際に、再度お知らせします。",
+      "zh": "一旦对方退出，就无法再次联系。在对方退出聊天室时会再次通知。",
+      "zh-TW": "一旦對方退出，就無法再次聯繫。在對方退出聊天室時會再次通知。",
+      "en": "You cannot contact the other person again once they leave. You will be reminded of this when leaving the chat room."
+    }
+  },
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "상대방을 신고하고 싶어요",
+      "ja": "相手を通報したいです",
+      "zh": "我想举报对方",
+      "zh-TW": "我想舉報對方",
+      "en": "I want to report the other person"
+    },
+    "answers": {
+      "ko": "불편한 메시지가 있다면 '신고하기' 버튼을 클릭하세요. 해당 메시지가 서버로 전송되어 확인 후 제재 조치를 취하겠습니다.",
+      "ja": "不快なメッセージがあった場合、「通報する」ボタンをクリックしてください。該当メッセージがサーバーに送信され、確認後、制裁措置を取ります。",
+      "zh": "如果有不舒服的消息，请点击“举报”按钮。相关消息会发送到服务器，确认后会采取制裁措施。",
+      "zh-TW": "如果有不舒服的消息，請點擊“舉報”按鈕。相關消息會發送到伺服器，確認後會採取制裁措施。",
+      "en": "If there are uncomfortable messages, please click the 'Report' button. The relevant message will be sent to the server, and after verification, sanctions will be taken."
+    }
+  },
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "축제나 관광지의 정보가 달라요.",
+      "ja": "祭りや観光地の情報が異なります。",
+      "zh": "节日或景点的信息不同。",
+      "zh-TW": "節日或景點的資訊不同。",
+      "en": "The information about the festival or tourist spot is different."
+    },
+    "answers": {
+      "ko": "대한민국 정부에서 제공하는 공공데이터 포털의 API를 사용하여 정보를 제공합니다. 문제가 있는 내용을 알려주시면 해당 포털에 문의하겠습니다.",
+      "ja": "大韓民国政府が提供する公共データポータルのAPIを使用して情報を提供しています。問題がある内容をお知らせいただければ、該当ポータルに問い合わせます。",
+      "zh": "我们使用大韩民国政府提供的公共数据门户网站的API提供信息。如果您发现问题，请告诉我们，我们会联系相关门户网站。",
+      "zh-TW": "我們使用大韓民國政府提供的公共數據門戶網站的API提供信息。如果您發現問題，請告訴我們，我們會聯繫相關門戶網站。",
+      "en": "We use the API of the public data portal provided by the South Korean government to provide information. If there is a problem with the information, please let us know and we will contact the relevant portal."
     }
   }
 ]
