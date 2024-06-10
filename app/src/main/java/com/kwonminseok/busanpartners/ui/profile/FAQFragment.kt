@@ -17,6 +17,9 @@ import com.kwonminseok.busanpartners.adapter.FAQAdapter
 import com.kwonminseok.busanpartners.adapter.TabViewPagerAdapter
 import com.kwonminseok.busanpartners.data.FAQItem
 import com.kwonminseok.busanpartners.databinding.FragmentFaqBinding
+import com.kwonminseok.busanpartners.util.LanguageUtils
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.InputStreamReader
 
 
@@ -72,11 +75,70 @@ import java.io.InputStreamReader
 //
 //
 //}
+//class FAQFragment : Fragment() {
+//
+//    private var _binding: FragmentFaqBinding? = null
+//    private val binding get() = _binding!!
+//    private lateinit var faqAdapter: FAQAdapter
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        _binding = FragmentFaqBinding.inflate(inflater, container, false)
+//        return binding.root
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        val faqList = listOf(
+//            FAQItem("트림마켓에서 코치로 활동하는 방법이 궁금해요!", "코치로 활동하려면...", "대학생"),
+//            FAQItem("일정표는 코치만 만들 수 있나요?", "네, 일정표는 코치만...", "관광객"),
+//            FAQItem("일정표 수정이 안돼요!", "일정표 수정은...", "그 외"),
+//            FAQItem("탈퇴는 어떻게 하나요?", "마이페이지 > 설정 > 회원 탈퇴...", "그 외"),
+//            // 더 많은 FAQ 아이템 추가
+//        )
+//
+//        val categories = listOf("전체", "대학생", "관광객", "그 외")
+//        val fragments = categories.map { category ->
+//            FAQListFragment.newInstance(category, faqList)
+//        }
+//
+//        val viewPagerAdapter = TabViewPagerAdapter(this, fragments)
+//        binding.viewPager.adapter = viewPagerAdapter
+//
+//        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+//            tab.text = categories[position]
+//        }.attach()
+//
+//        binding.backImageView.setOnClickListener {
+//            // 뒤로 가기 버튼 클릭 시 동작
+//            findNavController().popBackStack()
+//        }
+//    }
+//
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
+//
+//    fun loadFAQItems(context: Context): List<FAQItem> {
+//        val inputStream = context.assets.open("json/faq_data.json")
+//        val reader = InputStreamReader(inputStream)
+//        val type = object : TypeToken<List<FAQItem>>() {}.type
+//        return Gson().fromJson(reader, type)
+//    }
+//}
+
+
 class FAQFragment : Fragment() {
 
     private var _binding: FragmentFaqBinding? = null
     private val binding get() = _binding!!
     private lateinit var faqAdapter: FAQAdapter
+    private val faqList = mutableListOf<FAQItem>()
+    private lateinit var selectedLanguage: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,17 +151,13 @@ class FAQFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val faqList = listOf(
-            FAQItem("트림마켓에서 코치로 활동하는 방법이 궁금해요!", "코치로 활동하려면...", "대학생"),
-            FAQItem("일정표는 코치만 만들 수 있나요?", "네, 일정표는 코치만...", "관광객"),
-            FAQItem("일정표 수정이 안돼요!", "일정표 수정은...", "그 외"),
-            FAQItem("탈퇴는 어떻게 하나요?", "마이페이지 > 설정 > 회원 탈퇴...", "그 외"),
-            // 더 많은 FAQ 아이템 추가
-        )
+        selectedLanguage = LanguageUtils.getDeviceLanguage(requireContext())
+
+        loadFaqsFromJson()
 
         val categories = listOf("전체", "대학생", "관광객", "그 외")
         val fragments = categories.map { category ->
-            FAQListFragment.newInstance(category, faqList)
+            FAQListFragment.newInstance(category, faqList, selectedLanguage)
         }
 
         val viewPagerAdapter = TabViewPagerAdapter(this, fragments)
@@ -110,20 +168,31 @@ class FAQFragment : Fragment() {
         }.attach()
 
         binding.backImageView.setOnClickListener {
-            // 뒤로 가기 버튼 클릭 시 동작
             findNavController().popBackStack()
         }
     }
 
+    private fun loadFaqsFromJson() {
+        val inputStream = requireContext().assets.open("FAQList.json")
+        val json = inputStream.bufferedReader().use { it.readText() }
+        val jsonArray = JSONArray(json)
+
+        for (i in 0 until jsonArray.length()) {
+            val faqJson = jsonArray.getJSONObject(i)
+            val category = faqJson.getString("category")
+            val questions = faqJson.getJSONObject("questions")
+            val answers = faqJson.getJSONObject("answers")
+
+            val question = questions.getString(selectedLanguage)
+            val answer = answers.getString(selectedLanguage)
+
+            faqList.add(FAQItem(question, answer, category))
+        }
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    fun loadFAQItems(context: Context): List<FAQItem> {
-        val inputStream = context.assets.open("json/faq_data.json")
-        val reader = InputStreamReader(inputStream)
-        val type = object : TypeToken<List<FAQItem>>() {}.type
-        return Gson().fromJson(reader, type)
     }
 }
