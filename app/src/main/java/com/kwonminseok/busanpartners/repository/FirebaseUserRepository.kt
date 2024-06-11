@@ -264,8 +264,32 @@ class FirebaseUserRepositoryImpl(
 
     override suspend fun deleteCurrentUser(): Resource<Boolean> {
         return try {
-            firestore.collection(USER_COLLECTION).document(auth.uid!!).delete().await()
+            val uid =auth.uid!!
+            val storageRef = storage.child("user/${uid}")
+//            storageRef.delete().await()
+            // 사용자의 스토리지 참조 하위의 모든 파일과 디렉토리 목록 가져오기
+            val allFiles = storageRef.listAll().await()
+            Log.e("allFiles", allFiles.toString())
+
+            // 모든 파일 삭제
+            allFiles.items.forEach { fileRef ->
+                fileRef.delete().await()
+            }
+
+
+            // 선택사항: 모든 디렉토리 삭제
+            allFiles.prefixes.forEach { dirRef ->
+                dirRef.listAll().await().items.forEach { fileRef ->
+                    fileRef.delete().await()
+                }
+            }
+            firestore.collection(USER_COLLECTION).document(uid).delete().await()
+
             auth.currentUser?.delete()?.await()
+
+
+
+
 
             Resource.Success(true)
         } catch (e: Exception) {

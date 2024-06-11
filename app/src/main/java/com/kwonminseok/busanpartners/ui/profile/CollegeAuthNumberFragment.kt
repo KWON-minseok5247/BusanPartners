@@ -129,14 +129,13 @@ class CollegeAuthNumberFragment : Fragment() {
             val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
                 .setTitle("로딩중...")
                 .setDescription("인증번호를 확인하고 있습니다.")
-                .setDrawable(R.drawable.loading)
                 .setProgressBarColor(R.color.black)
                 .show()
 
 // Dismiss the loading dialog after 5 seconds
             Handler(Looper.getMainLooper()).postDelayed({
                 dialog.dismiss();
-            }, 2000)
+            }, 500)
 
 
 

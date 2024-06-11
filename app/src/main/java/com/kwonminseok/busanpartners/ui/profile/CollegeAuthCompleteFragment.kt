@@ -73,7 +73,7 @@ class CollegeAuthCompleteFragment : Fragment() {
                 findNavController().navigate(
                     R.id.action_collegeAuthCompleteFragment_to_collegeAuthImageFragment,
                     null,
-                    NavOptions.Builder().setPopUpTo(R.id.profileFragment, false).build()
+                    NavOptions.Builder().setPopUpTo(R.id.profileFragment, true).build()
                 )
             }
 

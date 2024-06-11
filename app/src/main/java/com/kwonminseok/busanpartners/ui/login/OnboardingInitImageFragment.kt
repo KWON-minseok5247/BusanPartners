@@ -78,6 +78,7 @@ class OnboardingInitImageFragment : Fragment() {
     private var _binding: FragmentOnboardingInitImageBinding? = null
     private val binding get() = _binding!!
     private val mViewPager get() = binding.viewPager
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
         private const val POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE = 2000
@@ -94,6 +95,7 @@ class OnboardingInitImageFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        askNotificationPermission()
 
         val onboardingPages = listOf(
             OnboardingPage(
@@ -116,61 +118,29 @@ class OnboardingInitImageFragment : Fragment() {
         val adapter = activity?.let { OnboardingViewPagerAdapter(it, onboardingPages) }
         mViewPager.adapter = adapter
 
-
-
-//        mViewPager.adapter = OnboardingViewPagerAdapter(requireActivity(), requireContext())
-
         // TabLayoutMediator를 사용하여 탭 레이아웃과 뷰페이저 연동
         TabLayoutMediator(binding.pageIndicator, mViewPager) { _, _ -> }.attach()
 
         // "건너뛰기" 버튼 클릭 시 이벤트 처리
         binding.textSkip.setOnClickListener {
-            //여기서 위치 정보 얻어야 한다.
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NOTIFICATION_POLICY),
-                    LOCATION_PERMISSION_REQUEST_CODE
-                )
-
+            requestPermissionsIfNeeded {
+                findNavController().navigate(R.id.action_onboardingInitImageFragment_to_loginFragment)
             }
-
-            findNavController().navigate(R.id.action_onboardingInitImageFragment_to_loginFragment)
         }
 
         // "다음 단계" 버튼 클릭 시 이벤트 처리
         binding.btnNextStep.setOnClickListener {
             val nextItem = getItem() + 1
             if (nextItem >= mViewPager.adapter?.itemCount ?: 0) {
-                if (ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NOTIFICATION_POLICY),
-                        LOCATION_PERMISSION_REQUEST_CODE
-                    )
-
+                requestPermissionsIfNeeded {
+                    findNavController().navigate(R.id.action_onboardingInitImageFragment_to_loginFragment)
                 }
-                askNotificationPermission()
-                findNavController().navigate(R.id.action_onboardingInitImageFragment_to_loginFragment)
             } else {
                 mViewPager.setCurrentItem(nextItem, true)
-                askNotificationPermission()
+                askNotificationPermission()  // 이 위치에서 알림 권한을 요청합니다.
             }
         }
+
     }
 
     private fun getItem(): Int {
@@ -181,6 +151,7 @@ class OnboardingInitImageFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
     override fun onResume() {
         super.onResume()
 //        hideBottomNavigationView()
@@ -192,20 +163,60 @@ class OnboardingInitImageFragment : Fragment() {
         super.onPause()
     }
 
+    private fun requestPermissionsIfNeeded(onPermissionsGranted: () -> Unit) {
+        val permissions = mutableListOf<String>()
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+        if (permissions.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                permissions.toTypedArray(),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            onPermissionsGranted()
+        }
+    }
+
     private fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     requireContext(),
                     Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED
+                ) != PackageManager.PERMISSION_GRANTED
             ) {
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                val intent =
-                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:BusanPartners"))
-                startActivity(intent)
-            } else {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                    val intent =
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:BusanPartners"))
+                    startActivity(intent)
+                } else {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                        LOCATION_PERMISSION_REQUEST_CODE
+                    )
+                }
             }
         }
     }
-
 }
