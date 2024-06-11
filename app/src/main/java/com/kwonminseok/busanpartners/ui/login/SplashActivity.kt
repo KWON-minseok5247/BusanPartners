@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,11 +15,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.barnea.dialoger.Dialoger
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.functions.FirebaseFunctions
 import com.kwonminseok.busanpartners.BuildConfig
@@ -779,9 +783,7 @@ class SplashActivity : AppCompatActivity() {
     private val timeoutDuration = 15000L // 15 seconds
 
     init {
-        lifecycleScope.launch {
-            TimeRepository.fetchCurrentTime()
-        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -789,6 +791,21 @@ class SplashActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContentView(R.layout.activity_splash)
         Log.e("Splash 화면이", "시작되었습니다.")
+
+        if (!isNetworkAvailable(this)) {
+            showNetworkErrorAndExit()
+            return
+        }
+
+        lifecycleScope.launch {
+            TimeRepository.fetchCurrentTime()
+        }
+
+
+
+
+
+
 
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         if (firebaseUser == null) {
@@ -1017,4 +1034,39 @@ class SplashActivity : AppCompatActivity() {
             putExtra(EXTRA_PARENT_MESSAGE_ID, parentMessageId)
         }
     }
+
+    private fun showNetworkErrorAndExit() {
+        Dialoger(this, Dialoger.TYPE_MESSAGE)
+            .setTitle("네트워크 오류")
+            .setDescription("인터넷 연결이 없습니다. 앱을 종료합니다.")
+            .setProgressBarColor(R.color.black)
+            .show()
+            .setButtonText("확인")
+            .setButtonOnClickListener {
+                finish()
+            }
+
+//        AlertDialog.Builder(this)
+//            .setTitle("네트워크 오류")
+//            .setMessage("인터넷 연결이 없습니다. 앱을 종료합니다.")
+//            .setPositiveButton("확인") { dialog, _ ->
+//                dialog.dismiss()
+//                finish()
+//            }
+//            .setCancelable(false)
+//            .show()
+    }
+
+    fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo
+            return networkInfo != null && networkInfo.isConnected
+        }
+    }
+
 }

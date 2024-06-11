@@ -61,6 +61,7 @@
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="0dp"
+        android:text="a@pukyong.ac.kr"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/collegeEmail"
         app:layout_constraintStart_toStartOf="parent"

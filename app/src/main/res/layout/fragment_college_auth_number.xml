@@ -29,45 +29,18 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <EditText
-            android:id="@+id/editTextCode1"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:inputType="number"
-            android:maxLength="1"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:layout_margin="4dp" />
+        <in.aabhasjindal.otptextview.OtpTextView
+            android:id="@+id/otp_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:height="40dp"
+            app:width="40dp"
+            app:bar_enabled="true"
+            app:bar_height="2dp"
+            app:length="4"
+            app:otp_text_size="24dp"/>
 
-        <EditText
-            android:id="@+id/editTextCode2"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:inputType="number"
-            android:maxLength="1"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:layout_margin="4dp" />
-
-        <EditText
-            android:id="@+id/editTextCode3"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:inputType="number"
-            android:maxLength="1"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:layout_margin="4dp" />
-
-        <EditText
-            android:id="@+id/editTextCode4"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:inputType="number"
-            android:maxLength="1"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:layout_margin="4dp" /> <!-- 마지막 EditText에는 actionDone을 사용합니다 -->
 
     </LinearLayout>
 
@@ -80,5 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,8 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -21,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.barnea.dialoger.Dialoger
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
@@ -33,6 +36,7 @@ import com.kwonminseok.busanpartners.databinding.UniversityCardFrontBinding
 import com.kwonminseok.busanpartners.ui.home.HomeFragment
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
+import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import com.naver.maps.geometry.LatLng
@@ -69,7 +73,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
     private var selectedUniversityStudents: List<User>? = null
     private val viewModel: UserViewModel by viewModels()
-
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
 //    private val viewModel by viewModels<ConnectViewModel>()
@@ -333,7 +336,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
         // 대학생이 있으면 마커를 등록하는 과정
         Universities.universityInfoList.forEach { university ->
-            val students = studentsByUniversity?.get(university.name)
+            val students = studentsByUniversity?.get(university.nameKo)
             if (!students.isNullOrEmpty()) {
                 val marker = Marker().apply {
                     position = university.location
@@ -342,49 +345,91 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 marker.setOnClickListener {
-                    // InfoWindowAdapter에 현재 마커 정보를 업데이트
-                    infoWindow.adapter = InfoWindowAdapter(requireContext(), university, students.size)
-                    selectedUniversityStudents = students
-                    // InfoWindow가 이미 이 마커에 대해 열려있지 않다면, 열기
-                    if (infoWindow.marker != marker) {
-                        infoWindow.open(marker)
 
-                        binding.floatingButton.apply {
-                            visibility = View.VISIBLE // 뷰를 보이게 설정
-                            alpha = 0f // 투명도를 0으로 설정하여 뷰를 투명하게 만듭니다.
-                            animate()
-                                .alpha(1f) // 투명도를 1로 변경하여 뷰를 점진적으로 나타나게 합니다.
-                                .setDuration(300) // 애니메이션 지속 시간을 300밀리초로 설정
-                                .setListener(null) // 애니메이션 리스너를 설정할 필요가 없을 때는 null을 사용
-                        }
-                    } else {
-                        infoWindow.close()
-                        binding.floatingButton.animate()
-                            .alpha(0f) // 투명도를 0으로 변경하여 뷰를 점진적으로 사라지게 합니다.
-                            .setDuration(300) // 애니메이션 지속 시간을 300밀리초로 설정
-                            .setListener(object : AnimatorListenerAdapter() {
-                                override fun onAnimationEnd(animation: Animator) {
-                                    binding.floatingButton.visibility = View.GONE // 애니메이션이 끝나면 뷰를 숨깁니다.
-                                }
-                            })
-
+                    val universityName = when (LanguageUtils.getDeviceLanguage(requireContext())) {
+                        "ko" -> university.nameKo
+                        "en" -> university.nameEn
+                        "ja" -> university.nameJa
+                        "zh" -> university.nameZh
+                        "zh-TW" -> university.nameZhTw
+                        else -> university.nameEn
                     }
+
+                    Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+                        .setDialogColorTheme(R.color.primaryTextColor)
+                        .setTitle(universityName)
+                        .setDescription("현재 연락할 수 있는 학생 수: ${students.size}명")
+                        .setDrawable(university.logoResourceId)
+                        .setButtonText("연락하기")
+                        .setButtonOnClickListener {
+                            if (currentUser?.authentication?.authenticationStatus != "complete") {
+                                Snackbar.make(requireView(), "인증을 먼저 진행해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show()
+                                val bundle = Bundle().apply {
+                                    putBoolean("showAuthenticationPrompt", true)
+                                }
+
+                                findNavController().navigate(R.id.action_connectFragment_to_profileFragment, bundle)
+
+
+                            } else {
+                                val b = Bundle().apply {
+                                    putParcelableArray("selectedUniversityStudents",
+                                        selectedUniversityStudents?.toTypedArray()
+                                    )
+//                putParcelableArrayList("selectedUniversityStudents", selectedUniversityStudents.toTypedArray())
+
+                                }
+                                findNavController().navigate(R.id.action_connectFragment_to_selectedUniversityStudentListFragment, b)
+
+                            }
+                        }
+                        .show()
+
+
+                    // InfoWindowAdapter에 현재 마커 정보를 업데이트
+//                    infoWindow.adapter = InfoWindowAdapter(requireContext(), university, students.size)
+                    selectedUniversityStudents = students
+
+                    // InfoWindow가 이미 이 마커에 대해 열려있지 않다면, 열기
+//                    if (infoWindow.marker != marker) {
+//                        infoWindow.open(marker)
+//
+//                        binding.floatingButton.apply {
+//                            visibility = View.VISIBLE // 뷰를 보이게 설정
+//                            alpha = 0f // 투명도를 0으로 설정하여 뷰를 투명하게 만듭니다.
+//                            animate()
+//                                .alpha(1f) // 투명도를 1로 변경하여 뷰를 점진적으로 나타나게 합니다.
+//                                .setDuration(300) // 애니메이션 지속 시간을 300밀리초로 설정
+//                                .setListener(null) // 애니메이션 리스너를 설정할 필요가 없을 때는 null을 사용
+//                        }
+//                    } else {
+//                        infoWindow.close()
+//                        binding.floatingButton.animate()
+//                            .alpha(0f) // 투명도를 0으로 변경하여 뷰를 점진적으로 사라지게 합니다.
+//                            .setDuration(300) // 애니메이션 지속 시간을 300밀리초로 설정
+//                            .setListener(object : AnimatorListenerAdapter() {
+//                                override fun onAnimationEnd(animation: Animator) {
+//                                    binding.floatingButton.visibility = View.GONE // 애니메이션이 끝나면 뷰를 숨깁니다.
+//                                }
+//                            })
+//
+//                    }
                     true
                 }
             }
 
-            naverMap.setOnMapClickListener { pointF, latLng ->
-                // 지도의 어느 부분이든 클릭되면, 활성화된 모든 인포 윈도우를 닫습니다.
-                infoWindow.close()
-                binding.floatingButton.animate()
-                    .alpha(0f) // 투명도를 0으로 변경하여 뷰를 점진적으로 사라지게 합니다.
-                    .setDuration(300) // 애니메이션 지속 시간을 300밀리초로 설정
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            binding.floatingButton.visibility = View.GONE // 애니메이션이 끝나면 뷰를 숨깁니다.
-                        }
-                    })
-            }
+//            naverMap.setOnMapClickListener { pointF, latLng ->
+//                // 지도의 어느 부분이든 클릭되면, 활성화된 모든 인포 윈도우를 닫습니다.
+//                infoWindow.close()
+//                binding.floatingButton.animate()
+//                    .alpha(0f) // 투명도를 0으로 변경하여 뷰를 점진적으로 사라지게 합니다.
+//                    .setDuration(300) // 애니메이션 지속 시간을 300밀리초로 설정
+//                    .setListener(object : AnimatorListenerAdapter() {
+//                        override fun onAnimationEnd(animation: Animator) {
+//                            binding.floatingButton.visibility = View.GONE // 애니메이션이 끝나면 뷰를 숨깁니다.
+//                        }
+//                    })
+//            }
 
         }
 
@@ -410,7 +455,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
             // 대학교 정보를 사용하여 로고와 텍스트 설정
             binding.imageViewPhoto.setImageResource(university.logoResourceId)
-            binding.tvUniversity.text = university.name
+            binding.tvUniversity.text = university.nameKo
             // 학생 수를 동적으로 설정
             binding.tvStudents.text = "현재 연락할 수 있는 학생 수: ${studentCount}명"
 

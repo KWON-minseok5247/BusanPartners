@@ -8,6 +8,8 @@ import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.StrictMode
 import android.provider.Settings
 import android.util.Log
@@ -28,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.barnea.dialoger.Dialoger
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.kwonminseok.busanpartners.BuildConfig
@@ -125,6 +128,27 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this, TourismViewModelFactory(repository)).get(TourismViewModel::class.java)
         currentServerTime?.let { fetchFestivalList(it) }
 
+//        val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
+//            .setTitle("Loading...")
+//            .setDescription("This might take a while...")
+//            .setDrawable(R.drawable.loading)
+//            .setProgressBarColor(R.color.purple_200)
+//            .show()
+//
+//// Dismiss the loading dialog after 5 seconds
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            dialog.dismiss();
+//
+//            Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+//                .setDialogColorTheme(R.color.purple_200)
+//                .setTitle("Beautiful Dialogue Title")
+//                .setDescription("An incredible dialogue message.")
+//                .setDrawable(R.drawable.pusan_logo)
+//                .setButtonText("Okay")
+//                .setButtonOnClickListener {
+//                }
+//                .show()
+//        }, 3000);
 
 
         Log.e("currentUser userEntity", SplashActivity.currentUser.toString())

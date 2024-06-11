@@ -1,6 +1,8 @@
 package com.kwonminseok.busanpartners.ui.profile
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +11,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.barnea.dialoger.Dialoger
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthBinding
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
+import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,25 +67,49 @@ class CollegeAuthFragment : Fragment() {
                 } else {
                     // 이메일 형식이 유효하면, 특정 작업을 수행합니다. 예를 들어, 에러 메시지를 지웁니다.
                     binding.editTextEmail.error = null
-                    GlobalScope.launch(Dispatchers.IO) {
-                        try {
-                            //todo 여기서 잠깐의 로딩이 있는게 더 자연스럽겠다.
-//                            UnivCert.certify(BuildConfig.COLLEGE_KEY, myEmail, selectedUniversity, false)
-                            val b = Bundle().apply {
-                                putParcelable(
-                                    "collegeData",
-                                    CollegeData(myEmail, selectedUniversity)
-                                )
-                            }
-                            findNavController().navigate(
-                                R.id.action_collegeAuthFragment_to_collegeAuthNumberFragment,
-                                b
-                            )
 
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
+                    val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
+                        .setTitle("로딩중...")
+                        .setDescription("인증번호를 보내고 있습니다.")
+                        .setDrawable(R.drawable.loading)
+                        .setProgressBarColor(R.color.black)
+                        .show()
+
+// Dismiss the loading dialog after 5 seconds
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        dialog.dismiss();
+
+                        Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+                            .setDialogColorTheme(R.color.black)
+                            .setTitle("인증번호를 전송하였습니다.")
+                            .setDescription("인증번호를 입력해주세요.")
+                            .setDrawable(R.drawable.ic_send_mail)
+                            .setButtonText("확인")
+                            .setButtonOnClickListener {
+                                //todo 여기서 잠깐의 로딩이 있는게 더 자연스럽겠다.
+//                            UnivCert.certify(BuildConfig.COLLEGE_KEY, myEmail, selectedUniversity, false)
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    try {
+                                        val b = Bundle().apply {
+                                            putParcelable(
+                                                "collegeData",
+                                                CollegeData(myEmail, selectedUniversity)
+                                            )
+                                        }
+                                        findNavController().navigate(
+                                            R.id.action_collegeAuthFragment_to_collegeAuthNumberFragment,
+                                            b
+                                        )
+
+
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                }
+                            }
+                            .show()
+                    }, 2000)
+
                 }
             }
         }
@@ -90,14 +118,18 @@ class CollegeAuthFragment : Fragment() {
         // 프로필 프래그먼트로 돌아가는 함수
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_collegeAuthFragment_to_profileFragment)
+
         }
     }
 
     private fun getUniversitySpinner() {
         val universityArray = mutableListOf<String>()
 
+//        val language = LanguageUtils.getDeviceLanguage(requireContext())
+
+
         Universities.universityInfoList.forEach {
-            universityArray.add(it.name)
+            universityArray.add(it.nameKo)
         }
 
         val adapter: ArrayAdapter<String> = ArrayAdapter(
@@ -115,7 +147,7 @@ class CollegeAuthFragment : Fragment() {
                 selectedUniversity = parent.getItemAtPosition(position).toString()
 
                 // 선택된 대학교 이름으로 대학교 정보를 가져옵니다.
-                val universityInfo = Universities.getInfoByName(selectedUniversity)
+                val universityInfo = Universities.getInfoByName(selectedUniversity, "ko")
 
                 // 가져온 대학교 정보를 바탕으로 이메일 도메인을 설정합니다.
                 emailDomain = universityInfo?.email ?: ""
@@ -125,7 +157,7 @@ class CollegeAuthFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // 선택이 해제되었을 때의 기본 동작을 정의합니다.
                 // 예시로 국립부경대학교의 정보를 기본값으로 설정합니다.
-                val defaultUniversityInfo = Universities.getInfoByName("국립부경대학교")
+                val defaultUniversityInfo = Universities.getInfoByName("국립부경대학교", "ko")
                 binding.collegeEmail.text = defaultUniversityInfo?.email ?: ""
             }
         }

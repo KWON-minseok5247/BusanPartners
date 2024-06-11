@@ -356,6 +356,13 @@ dependencies {
     implementation 'com.github.florent37:expansionpanel:1.2.4'
 
 
+    // 처음 다이얼로그
+    implementation 'com.github.Ido-Barnea:Dialoger:1.1.6'
+
+    // 번호 입력
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx' // kotlin
+
+
 }
 // Allow references to generated code
 kapt {

@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
+import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.StudentCardFrontBinding
 import kotlin.coroutines.coroutineContext
@@ -130,7 +131,7 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
                 "en" -> translatedText?.en ?: translatedText?.ko
                 "ja" -> translatedText?.ja ?: translatedText?.ko
                 "zh" -> translatedText?.zh ?: translatedText?.ko
-                else -> translatedText?.ko
+                else -> translatedText?.en
             }
         }
 
@@ -138,10 +139,12 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
             val language = getDeviceLanguage()
             Log.e("language",language)
             return when (language) {
-                "en" -> translatedList?.en ?: translatedList?.ko
-                "ja" -> translatedList?.ja ?: translatedList?.ko
-                "zh" -> translatedList?.zh ?: translatedList?.ko
-                else -> translatedList?.ko
+                "ko" -> translatedList?.ko
+                "en" -> translatedList?.en
+                "ja" -> translatedList?.ja
+                "zh" -> translatedList?.zh
+                "zh-TW" -> translatedList?.zh
+                else -> translatedList?.en
             }
         }
     }

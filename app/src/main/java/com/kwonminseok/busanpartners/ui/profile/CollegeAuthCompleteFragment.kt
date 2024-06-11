@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.databinding.FragmentColleteAuthCompleteBinding
@@ -65,8 +66,15 @@ class CollegeAuthCompleteFragment : Fragment() {
             binding.authenticationAnswer.text = "이메일 인증이 완료되었습니다."
             binding.authCompleteButton.text = "학생증 인증으로 넘어가기"
             // 유저정보 업데이트 함수 필요
+//            binding.authCompleteButton.setOnClickListener {
+//                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthImageFragment)
+//            }
             binding.authCompleteButton.setOnClickListener {
-                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthImageFragment)
+                findNavController().navigate(
+                    R.id.action_collegeAuthCompleteFragment_to_collegeAuthImageFragment,
+                    null,
+                    NavOptions.Builder().setPopUpTo(R.id.profileFragment, false).build()
+                )
             }
 
 
