@@ -51,13 +51,15 @@
             android:id="@+id/btn_next_step"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="?android:attr/selectableItemBackground"
             android:drawableTint="@color/md_grey_900"
             android:text="@string/next"
-            android:textSize="16sp"
-            android:layout_margin="10dp"
             android:textColor="@color/colorPrimary"
-            android:layout_alignParentEnd="true"/>
+            android:textSize="16sp" />
 
     </RelativeLayout>
 

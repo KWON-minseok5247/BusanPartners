@@ -226,13 +226,13 @@ class HomeFragment : Fragment() {
                     Log.e("currentLatitude", currentLatitude.toString())
                     Log.e("currentLongitude", currentLongitude.toString())
                     binding.touristRecyclerView.adapter = tourismAdapter
-//                    fetchLocationBasedList(currentLongitude,currentLatitude)
-                    lifecycleScope.launch {
-                        viewModel.fetchTourismPagingData(currentLongitude, currentLatitude, LanguageUtils.getContentIdForTourPlace(requireContext())).collectLatest { pagingData ->
-                            Log.e("pagingData", pagingData.toString())
-                            tourismAdapter.submitData(pagingData)
-                        }
-                    }
+                    fetchLocationBasedList(currentLongitude,currentLatitude)
+//                    lifecycleScope.launch {
+//                        viewModel.fetchTourismPagingData(currentLongitude, currentLatitude, LanguageUtils.getContentIdForTourPlace(requireContext())).collectLatest { pagingData ->
+//                            Log.e("pagingData", pagingData.toString())
+//                            tourismAdapter.submitData(pagingData)
+//                        }
+//                    }
 
                 } ?: run {
                     //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
@@ -325,40 +325,40 @@ class HomeFragment : Fragment() {
 //        }
 //    }
 
-//    private fun fetchLocationBasedList(longitude: Double, latitude: Double) {
-//        tourismApiService.locationBasedList1(
-//            numOfRows = 10,
-//            pageNo = 1,
-//            mapX = longitude,
-//            mapY = latitude,
-//            radius = 20000,
-//            contentTypeId = LanguageUtils.getContentIdForTourPlace(requireContext())
-//        ).enqueue(object : Callback<TourismResponse> {
-//            override fun onResponse(call: Call<TourismResponse>, response: Response<TourismResponse>) {
-//                if (response.isSuccessful) {
-//
-//                    _binding?.let { binding ->
-//                        if (response.isSuccessful) {
-//                            binding.touristRecyclerView.adapter = tourismAdapter
-//                            response.body()?.response?.body?.items?.item?.let { itemList ->
-//                                val itemsWithImages =
-//                                    itemList.filter { it.firstimage.isNotEmpty() }
-//                                tourismAdapter.differ.submitList(itemsWithImages)
-//                            }
-//                        } else {
-//                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
-//                        }
-//                    }
-//                } else {
-//                    Toast.makeText(context, "Failed to get tourism data", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
-//                Log.e(TAG, "Error: ${t.message}")
-//            }
-//        })
-//    }
+    private fun fetchLocationBasedList(longitude: Double, latitude: Double) {
+        tourismApiService.locationBasedList1(
+            numOfRows = 10,
+            pageNo = 1,
+            mapX = longitude,
+            mapY = latitude,
+            radius = 20000,
+            contentTypeId = LanguageUtils.getContentIdForTourPlace(requireContext())
+        ).enqueue(object : Callback<TourismResponse> {
+            override fun onResponse(call: Call<TourismResponse>, response: Response<TourismResponse>) {
+                if (response.isSuccessful) {
+
+                    _binding?.let { binding ->
+                        if (response.isSuccessful) {
+                            binding.touristRecyclerView.adapter = tourismAdapter
+                            response.body()?.response?.body?.items?.item?.let { itemList ->
+                                val itemsWithImages =
+                                    itemList.filter { it.firstimage.isNotEmpty() }
+                                tourismAdapter.differ.submitList(itemsWithImages)
+                            }
+                        } else {
+                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+                        }
+                    }
+                } else {
+                    Toast.makeText(context, "Failed to get tourism data", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
+                Log.e(TAG, "Error: ${t.message}")
+            }
+        })
+    }
 
     private fun fetchFestivalList() {
 

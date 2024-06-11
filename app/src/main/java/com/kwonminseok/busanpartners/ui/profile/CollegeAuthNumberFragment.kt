@@ -1,6 +1,8 @@
 package com.kwonminseok.busanpartners.ui.profile
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.barnea.dialoger.Dialoger
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthNumberBinding
@@ -20,6 +23,9 @@ import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import `in`.aabhasjindal.otptextview.OTPListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 //import com.univcert.api.UnivCert
@@ -119,7 +125,20 @@ class CollegeAuthNumberFragment : Fragment() {
         val collegeData = arguments?.getParcelable<CollegeData>(COLLEGE_DATA)
 
         binding.buttonSendVerificationCode.setOnClickListener {
-            //TODO  실제에서는 코드 4자리를 모두 채워야 한다.
+
+            val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
+                .setTitle("로딩중...")
+                .setDescription("인증번호를 확인하고 있습니다.")
+                .setDrawable(R.drawable.loading)
+                .setProgressBarColor(R.color.black)
+                .show()
+
+// Dismiss the loading dialog after 5 seconds
+            Handler(Looper.getMainLooper()).postDelayed({
+                dialog.dismiss();
+            }, 2000)
+
+
 
             // String을 Int로 변환, 입력값이 빈 문자열이 아닐 경우에만 변환
             val codeAsInt = binding.otpView.otp?.toIntOrNull() ?: 0

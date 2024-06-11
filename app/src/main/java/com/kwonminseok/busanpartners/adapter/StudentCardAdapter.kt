@@ -16,6 +16,7 @@ import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.StudentCardFrontBinding
+import com.kwonminseok.busanpartners.util.LanguageUtils
 import kotlin.coroutines.coroutineContext
 
 //class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardViewHolder>() {
@@ -121,22 +122,23 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
             }
         }
 
-        private fun getDeviceLanguage(): String {
-            return itemView.context.resources.configuration.locales.get(0).language
-        }
+//        private fun getDeviceLanguage(): String {
+//            return itemView.context.resources.configuration.locales.get(0).language
+//        }
 
         private fun getTranslatedText(translatedText: TranslatedText?): String? {
-            val language = getDeviceLanguage()
+            val language = LanguageUtils.getDeviceLanguage(itemView.context)
             return when (language) {
-                "en" -> translatedText?.en ?: translatedText?.ko
-                "ja" -> translatedText?.ja ?: translatedText?.ko
-                "zh" -> translatedText?.zh ?: translatedText?.ko
+                "ko" -> translatedText?.ko
+                "en" -> translatedText?.en
+                "ja" -> translatedText?.ja ?: translatedText?.en
+                "zh" -> translatedText?.zh ?: translatedText?.en
                 else -> translatedText?.en
             }
         }
 
         private fun getTranslatedList(translatedList: TranslatedList?): List<String>? {
-            val language = getDeviceLanguage()
+            val language = LanguageUtils.getDeviceLanguage(itemView.context)
             Log.e("language",language)
             return when (language) {
                 "ko" -> translatedList?.ko

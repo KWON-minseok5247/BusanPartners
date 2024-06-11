@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_profileFragment_to_FAQFragment"
             app:destination="@id/FAQFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_unregisterFragment"
+            app:destination="@id/unregisterFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
@@ -177,6 +180,11 @@
         android:name="com.kwonminseok.busanpartners.ui.home.TourismPlaceDetailFragment"
         android:label="TourismPlaceDetailFragment"
         tools:layout="@layout/fragment_tourism_place_detail"/>
+    <fragment
+        android:id="@+id/unregisterFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.UnregisterFragment"
+        android:label="UnregisterFragment"
+        tools:layout="@layout/fragment_unregister"/>
 
 
 </navigation>

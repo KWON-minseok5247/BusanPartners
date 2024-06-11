@@ -8,7 +8,11 @@ import com.kwonminseok.busanpartners.data.TranslatedText
 object LanguageUtils {
 
     fun getDeviceLanguage(context: Context): String {
-        return context.resources.configuration.locales.get(0).language
+        val language = context.resources.configuration.locales.get(0).language
+        return when (language) {
+            "ko", "ja", "zh", "zh-TW", "en" -> language
+            else -> "en"
+        }
     }
 
     fun getContentIdForTourPlace(context: Context): Int {

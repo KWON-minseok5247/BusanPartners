@@ -17,6 +17,7 @@ import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.databinding.FragmentSelectedUniversityStudentListBinding
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
+import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -133,17 +134,18 @@ class SelectedUniversityStudentListFragment : Fragment() {
         super.onPause()
     }
 
-    fun getDeviceLanguage(context: Context): String {
-        return context.resources.configuration.locales.get(0).language
-    }
+//    fun getDeviceLanguage(context: Context): String {
+//        return context.resources.configuration.locales.get(0).language
+//    }
 
     private fun getTranslatedText(translatedText: TranslatedText?): String? {
-        val language = getDeviceLanguage(requireContext())
+        val language = LanguageUtils.getDeviceLanguage(requireContext())
         return when (language) {
+            "ko" -> translatedText?.ko
             "en" -> translatedText?.en ?: translatedText?.ko
             "ja" -> translatedText?.ja ?: translatedText?.ko
             "zh" -> translatedText?.zh ?: translatedText?.ko
-            else -> translatedText?.ko
+            else -> translatedText?.en
         }
     }
 
