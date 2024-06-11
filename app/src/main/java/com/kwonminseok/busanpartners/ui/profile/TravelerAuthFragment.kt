@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.ImagesAdapter
@@ -77,9 +78,14 @@ class TravelerAuthFragment : Fragment() {
                         // 로딩 인디케이터 숨기기
                         binding.btnSendAllData.revertAnimation()
                         // 성공 메시지 표시 또는 성공 후 작업
-                        findNavController().navigate(R.id.action_travelerAuthFragment_to_profileFragment)
+                        findNavController().navigate(
+                            R.id.action_travelerAuthFragment_to_profileFragment,
+                            null,
+                            NavOptions.Builder().setPopUpTo(R.id.homeFragment, false).build()
+                        )
                         Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
                             .show()
+
 
                     }
 

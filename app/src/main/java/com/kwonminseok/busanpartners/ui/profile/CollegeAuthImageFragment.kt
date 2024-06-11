@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.ImagesAdapter
@@ -77,7 +78,12 @@ class CollegeAuthImageFragment : Fragment() {
                     is Resource.Success -> {
                         // 로딩 인디케이터 숨기기
                         binding.btnSendAllData.revertAnimation()
-                        findNavController().navigate(R.id.action_collegeAuthImageFragment_to_profileFragment)
+                        findNavController().navigate(
+                            R.id.action_collegeAuthImageFragment_to_profileFragment,
+                            null,
+                            NavOptions.Builder().setPopUpTo(R.id.homeFragment, false).build()
+                        )
+
                         // 성공 메시지 표시 또는 성공 후 작업
                         Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
                             .show()
@@ -279,19 +285,7 @@ class CollegeAuthImageFragment : Fragment() {
         }
     }
 
-    private fun convertResizeImage(imageUri: Uri): Uri {
-//        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
-//        val resizedBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width / 2, bitmap.height / 2, true)
-//
-//        val byteArrayOutputStream = ByteArrayOutputStream()
-//        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream)
-//
-//        val tempFile = File.createTempFile("resized_image", ".jpg", requireContext().cacheDir)
-//        val fileOutputStream = FileOutputStream(tempFile)
-//        fileOutputStream.write(byteArrayOutputStream.toByteArray())
-//        fileOutputStream.close()
-//
-//        return Uri.fromFile(tempFile)
+    private fun convertResizeImage(imageUri: Uri): Uri { // 사진 용량 줄이기
         val inputStream = requireContext().contentResolver.openInputStream(imageUri)
         val bitmap = BitmapFactory.decodeStream(inputStream)
 
