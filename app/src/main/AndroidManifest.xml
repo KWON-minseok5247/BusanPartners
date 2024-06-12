@@ -53,6 +53,13 @@
 
             android:exported="true" />
 
+        <activity
+            android:name=".ui.message.ChannelActivityForCompose"
+            android:windowSoftInputMode="adjustResize"
+
+            android:exported="true" />
+
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
 

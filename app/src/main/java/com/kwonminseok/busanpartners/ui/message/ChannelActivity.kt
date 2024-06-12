@@ -29,20 +29,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddLocation
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -70,10 +61,6 @@ import com.naver.maps.geometry.LatLng
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.utils.message.isDeleted
 import io.getstream.chat.android.compose.state.mediagallerypreview.MediaGalleryPreviewResultType
-import io.getstream.chat.android.compose.state.messages.attachments.AttachmentPickerItemState
-import io.getstream.chat.android.compose.state.messages.attachments.AttachmentsPickerMode
-import io.getstream.chat.android.compose.state.messages.attachments.CustomPickerMode
-import io.getstream.chat.android.compose.state.messages.attachments.StatefulStreamMediaRecorder
 import io.getstream.chat.android.compose.ui.attachments.StreamAttachmentFactories
 import io.getstream.chat.android.compose.ui.components.avatar.ChannelAvatar
 import io.getstream.chat.android.compose.ui.components.composer.MessageInput
@@ -108,10 +95,6 @@ import io.getstream.chat.android.ui.common.state.messages.list.DeletedMessageVis
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageOptionsState
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageReactionsPickerState
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageReactionsState
-import io.getstream.sdk.chat.audio.recording.DefaultStreamMediaRecorder
-import io.getstream.sdk.chat.audio.recording.StreamMediaRecorder
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class ChannelActivity : BaseConnectedActivity() {
     private var cid: String = ""  // 채팅방 ID를 저장하는 변수
@@ -141,7 +124,6 @@ class ChannelActivity : BaseConnectedActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cid = intent.getStringExtra("key:cid") ?: ""
-        Log.e("ChatClient!", chatClient.getCurrentUser().toString())
 
         // 지도 기능을 추가하기 위한 코드
         val customFactories = listOf(locationAttachmentFactory)
@@ -158,7 +140,8 @@ class ChannelActivity : BaseConnectedActivity() {
                     MessagesScreen(viewModelFactory = factory)
 //                MyCustomUi()
                     val isShowingAttachments = attachmentsPickerViewModel.isShowingAttachments
-                    val selectedMessageState = listViewModel.currentMessagesState.selectedMessageState
+                    val selectedMessageState =
+                        listViewModel.currentMessagesState.selectedMessageState
 //                val user by listViewModel.user.collectAsState()
                     val lazyListState = rememberMessageListState()
 
@@ -197,14 +180,15 @@ class ChannelActivity : BaseConnectedActivity() {
                                 MessageListHeader(
                                     trailingContent = {
                                         Image(
-                                        painter = painterResource(id = R.drawable.ic_location), // 고정된 이미지 리소스 ID
-                                        contentDescription = "",
-                                        modifier = Modifier
-                                            .size(40.dp) // onChannelAvatar와 동일한 크기
-                                            .clickable {
-                                                locationLauncher.launch(null)
-                                            }
-                                    )},
+                                            painter = painterResource(id = R.drawable.ic_location), // 고정된 이미지 리소스 ID
+                                            contentDescription = "",
+                                            modifier = Modifier
+                                                .size(40.dp) // onChannelAvatar와 동일한 크기
+                                                .clickable {
+                                                    locationLauncher.launch(null)
+                                                }
+                                        )
+                                    },
 //                                    leadingContent = {
 //
 //
@@ -241,7 +225,8 @@ class ChannelActivity : BaseConnectedActivity() {
                                     )
 
                                 } else {
-                                    CustomMessageComposer(composerViewModel,
+                                    CustomMessageComposer(
+                                        composerViewModel,
                                     )
                                 }
 
@@ -275,7 +260,10 @@ class ChannelActivity : BaseConnectedActivity() {
                             },
                         ) {
                             val currentState = listViewModel.currentMessagesState
-                            Log.e("listViewModel.channel.memberCount!", listViewModel.channel.memberCount.toString())
+                            Log.e(
+                                "listViewModel.channel.memberCount!",
+                                listViewModel.channel.memberCount.toString()
+                            )
 
                             MessageList(
                                 modifier = Modifier
@@ -283,15 +271,22 @@ class ChannelActivity : BaseConnectedActivity() {
                                     .background(ChatTheme.colors.appBackground)
                                     .fillMaxSize(),
                                 viewModel = listViewModel,
-                                messagesLazyListState = if (listViewModel.isInThread) rememberMessageListState(parentMessageId = currentState.parentMessageId) else lazyListState,
+                                messagesLazyListState = if (listViewModel.isInThread) rememberMessageListState(
+                                    parentMessageId = currentState.parentMessageId
+                                ) else lazyListState,
                                 onThreadClick = { message ->
-                                    composerViewModel.setMessageMode(MessageMode.MessageThread(message))
+                                    composerViewModel.setMessageMode(
+                                        MessageMode.MessageThread(
+                                            message
+                                        )
+                                    )
                                     listViewModel.openMessageThread(message)
                                 },
                                 onMediaGalleryPreviewResult = { result ->
                                     when (result?.resultType) {
                                         MediaGalleryPreviewResultType.QUOTE -> {
-                                            val message = listViewModel.getMessageById(result.messageId)
+                                            val message =
+                                                listViewModel.getMessageById(result.messageId)
 
                                             if (message != null) {
                                                 composerViewModel.performMessageAction(Reply(message))
@@ -310,7 +305,12 @@ class ChannelActivity : BaseConnectedActivity() {
 
 
                         if (isShowingAttachments) {
-                            val defaultTabFactories = AttachmentsPickerTabFactories.defaultFactories(takeImageEnabled = true, recordVideoEnabled = false, filesTabEnabled = false)
+                            val defaultTabFactories =
+                                AttachmentsPickerTabFactories.defaultFactories(
+                                    takeImageEnabled = true,
+                                    recordVideoEnabled = false,
+                                    filesTabEnabled = false
+                                )
                             val tabFactories = defaultTabFactories
 //                        val tabFactories = defaultTabFactories
 
@@ -411,16 +411,16 @@ class ChannelActivity : BaseConnectedActivity() {
                 }
             }
 
-            } else { // 일반적인 채팅일 때
+        } else { // 일반적인 채팅일 때
             setContent {
-
-                        ChatTheme(
+                ChatTheme(
                     attachmentFactories = customFactories + defaultFactories,
                 ) {
                     MessagesScreen(viewModelFactory = factory)
 //                MyCustomUi()
                     val isShowingAttachments = attachmentsPickerViewModel.isShowingAttachments
-                    val selectedMessageState = listViewModel.currentMessagesState.selectedMessageState
+                    val selectedMessageState =
+                        listViewModel.currentMessagesState.selectedMessageState
 //                val user by listViewModel.user.collectAsState()
                     val lazyListState = rememberMessageListState()
 
@@ -463,7 +463,8 @@ class ChannelActivity : BaseConnectedActivity() {
                                                 .clickable {
                                                     locationLauncher.launch(null)
                                                 }
-                                        )},
+                                        )
+                                    },
 
                                     channel = listViewModel.channel,
                                     currentUser = user,
@@ -482,11 +483,12 @@ class ChannelActivity : BaseConnectedActivity() {
 
                             },
                             modifier = Modifier.fillMaxSize(),
-                            bottomBar = {
+                            bottomBar = { // 실시간으로 바꾸면 좋겠는데 아쉽네 이건..
                                 if (listViewModel.channel.memberCount <= 1) {
                                     MyCustomComposer()
-                                }else {
-                                    CustomMessageComposer(composerViewModel,
+                                } else {
+                                    CustomMessageComposer(
+                                        composerViewModel,
                                     )
                                 }
 
@@ -527,15 +529,22 @@ class ChannelActivity : BaseConnectedActivity() {
                                     .background(ChatTheme.colors.appBackground)
                                     .fillMaxSize(),
                                 viewModel = listViewModel,
-                                messagesLazyListState = if (listViewModel.isInThread) rememberMessageListState(parentMessageId = currentState.parentMessageId) else lazyListState,
+                                messagesLazyListState = if (listViewModel.isInThread) rememberMessageListState(
+                                    parentMessageId = currentState.parentMessageId
+                                ) else lazyListState,
                                 onThreadClick = { message ->
-                                    composerViewModel.setMessageMode(MessageMode.MessageThread(message))
+                                    composerViewModel.setMessageMode(
+                                        MessageMode.MessageThread(
+                                            message
+                                        )
+                                    )
                                     listViewModel.openMessageThread(message)
                                 },
                                 onMediaGalleryPreviewResult = { result ->
                                     when (result?.resultType) {
                                         MediaGalleryPreviewResultType.QUOTE -> {
-                                            val message = listViewModel.getMessageById(result.messageId)
+                                            val message =
+                                                listViewModel.getMessageById(result.messageId)
 
                                             if (message != null) {
                                                 composerViewModel.performMessageAction(Reply(message))
@@ -554,7 +563,12 @@ class ChannelActivity : BaseConnectedActivity() {
 
 
                         if (isShowingAttachments) {
-                            val defaultTabFactories = AttachmentsPickerTabFactories.defaultFactories(takeImageEnabled = true, recordVideoEnabled = false, filesTabEnabled = false)
+                            val defaultTabFactories =
+                                AttachmentsPickerTabFactories.defaultFactories(
+                                    takeImageEnabled = true,
+                                    recordVideoEnabled = false,
+                                    filesTabEnabled = false
+                                )
                             val tabFactories = defaultTabFactories
 //                        val tabFactories = defaultTabFactories
 
@@ -659,12 +673,12 @@ class ChannelActivity : BaseConnectedActivity() {
 
     }
 
-        @Composable
+    @Composable
     fun CustomMessageComposer(
         messageComposerViewModel: MessageComposerViewModel,
 //        onDateSelected: (Long) -> Unit,
 
-        ) {
+    ) {
         val activity = LocalContext.current as AppCompatActivity
 
         MessageComposer(
@@ -704,8 +718,6 @@ class ChannelActivity : BaseConnectedActivity() {
             }
         )
     }
-
-
 
 
     override fun onBackPressed() {
@@ -823,7 +835,7 @@ class ChannelActivity : BaseConnectedActivity() {
                         .padding(start = 8.dp)
 //                        .clickable {  }
                         .clickable(
-                            interactionSource = remember{ MutableInteractionSource() },
+                            interactionSource = remember { MutableInteractionSource() },
                             indication = null,
                             false,
                             "",
@@ -880,4 +892,5 @@ class ChannelActivity : BaseConnectedActivity() {
 
         )
     }
+
 }

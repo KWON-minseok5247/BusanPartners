@@ -493,6 +493,7 @@ class MessageFragment : ChannelListFragment() {
                 Toast.makeText(requireContext(), "상대방이 채팅방을 떠났습니다.", Toast.LENGTH_SHORT).show()
             }
             startActivity(ChannelActivity.newIntent(requireContext(), channel))
+//            startActivity(ChannelActivityForCompose.newIntent(requireContext(), channel))
         }
 
         binding.channelListView.setIsDeleteOptionVisible { channel ->

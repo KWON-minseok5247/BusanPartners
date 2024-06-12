@@ -18,7 +18,6 @@ import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.naver.maps.geometry.LatLng
-import io.getstream.chat.android.core.internal.exhaustive
 import io.getstream.chat.android.models.Attachment
 import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.Message
@@ -37,7 +36,7 @@ import io.getstream.chat.android.ui.viewmodel.messages.MessageListViewModelFacto
 import io.getstream.chat.android.ui.viewmodel.messages.bindView
 
 private val TAG = "ChannelActivity_for_compose"
-class ChannelActivity_for_compose : AppCompatActivity() {
+class ChannelActivityForCompose : AppCompatActivity() {
     private var cid: String = ""  // 채팅방 ID를 저장하는 변수
     private lateinit var binding: ActivityChannelBinding
 
@@ -380,7 +379,7 @@ class ChannelActivity_for_compose : AppCompatActivity() {
         private const val CID_KEY = "key:cid"
 
         fun newIntent(context: Context, channel: Channel): Intent =
-            Intent(context, ChannelActivity_for_compose::class.java).putExtra(CID_KEY, channel.cid)
+            Intent(context, ChannelActivityForCompose::class.java).putExtra(CID_KEY, channel.cid)
 
         fun createLaunchIntent(
             context: Context,
@@ -388,7 +387,7 @@ class ChannelActivity_for_compose : AppCompatActivity() {
             parentMessageId: String?,
             channelType: String,
             channelId: String,
-        ) = Intent(context, ChannelActivity_for_compose::class.java).apply {
+        ) = Intent(context, ChannelActivityForCompose::class.java).apply {
             putExtra(EXTRA_CHANNEL_ID, channelId)
             putExtra(EXTRA_CHANNEL_TYPE, channelType)
             putExtra(EXTRA_MESSAGE_ID, messageId)

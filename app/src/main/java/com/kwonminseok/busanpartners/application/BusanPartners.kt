@@ -3,6 +3,7 @@ package com.kwonminseok.busanpartners.application
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.firebase.FirebaseApp
@@ -23,6 +24,7 @@ import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.client.notifications.handler.NotificationConfig
 import io.getstream.chat.android.client.notifications.handler.NotificationHandlerFactory
+import io.getstream.chat.android.models.UploadAttachmentsNetworkType
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
@@ -56,6 +58,7 @@ class BusanPartners : Application() {
         preferences = PreferenceUtil(applicationContext)
 
         // ChatClient 초기화
+        initializeNotificationChannel()
         initializeChatClient()
 //        setupNotificationChannels(this)
 
@@ -69,6 +72,19 @@ class BusanPartners : Application() {
         NaverMapSdk.getInstance(this).client =
             NaverMapSdk.NaverCloudPlatformClient(NAVER_CLIENT_ID)
 
+    }
+
+    private fun initializeNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "chat_channel"
+            val channelName = "채팅 메세지"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
+                description = "메시지가 오면 알림을 받습니다. 중요도를 변경할 경우 부산파트너스에서 설정한 알림을 정상적으로 받아보지 못할 수도 있습니다."
+            }
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -88,14 +104,10 @@ class BusanPartners : Application() {
         val notificationChannel: () -> NotificationChannel = {
             val channelId = "chat_channel"
 //            val channelId = this.getString(R.string.stream_chat_other_notifications_channel_id)
-            val channelName = "Chat Messages"
-            val importance = if (channelId == "stream_GetStreamClientOther") {
-                NotificationManager.IMPORTANCE_NONE // 특정 채널 ID에 대해 중요도를 NONE으로 설정
-            } else {
-                NotificationManager.IMPORTANCE_HIGH // 다른 채널에 대해선 HIGH로 설정
-            }
+            val channelName = "채팅 메세지"
+            val importance = NotificationManager.IMPORTANCE_HIGH
             NotificationChannel(channelId, channelName, importance).apply {
-                description = "Notifications for other messages with importance set to NONE"
+                description = "메시지가 오면 알림을 받습니다. 중요도를 변경할 경우 부산파트너스에서 설정한 알림을 정상적으로 받아보지 못할 수도 있습니다."
             }
 
 //            val importance = NotificationManager.IMPORTANCE_HIGH
@@ -153,7 +165,7 @@ class BusanPartners : Application() {
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
             .notifications(notificationConfig, d)
-//            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
+            .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
     }
 //    fun setupNotificationChannels(context: Context) {

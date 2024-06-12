@@ -96,7 +96,7 @@ class CustomFirebaseMessagingService : FirebaseMessagingService() {
 
                     Log.e("NotificationChannelCheck", "ID: ${channel.id}, Name: ${channel.name}, Importance: ${channel.importance}")
                     // 채널의 이름이 "Chat Messages"이고 중요도가 4 이상인 경우에만 처리
-                    if (channel.name == "Chat Messages" && channel.importance >= 4) {
+                    if (channel.name == "채팅 메세지" && channel.importance >= 4) {
                         Log.e("넘었다", "ID: ${channel.id}, Name: ${channel.name}, Importance: ${channel.importance}")
                         showNotification(channel, message)  // "Chat Messages" 채널에 대한 메시지 처리
 //                        handleRemoteMessage(message)
