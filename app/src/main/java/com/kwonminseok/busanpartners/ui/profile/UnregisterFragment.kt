@@ -210,6 +210,15 @@ class UnregisterFragment : Fragment() {
                     BusanPartners.preferences.setString("uid", "")
                     BusanPartners.preferences.setString(Constants.TOKEN, "")
 
+                    val editor = sharedPreferences.edit()
+                    editor.remove("traveler_finish")
+                    editor.remove("is_first_visitor")
+                    editor.remove("is_first_student")
+                    editor.remove("is_first_visit")
+
+                    editor.apply()
+
+
                     val firebaseUser = FirebaseAuth.getInstance().currentUser
                     val googleSignInClient = GoogleSignIn.getClient(
                         requireActivity(),

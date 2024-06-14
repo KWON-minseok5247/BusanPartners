@@ -128,7 +128,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                 startActivity(intent)
 
 //                fetchTourApi()
-
             }
         }
         // ViewModel 함수 호출

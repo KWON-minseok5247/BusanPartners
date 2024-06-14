@@ -306,7 +306,6 @@ class FirebaseUserRepositoryImpl(
                     .whereEqualTo("authentication.collegeStudent", true)
                     .whereEqualTo("wantToMeet", true)
                     .get().await()
-            Log.e("querySnapshot.documents", querySnapshot.documents.toString())
 
 
             val students = querySnapshot.toObjects(User::class.java)

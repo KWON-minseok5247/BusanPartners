@@ -2,7 +2,9 @@ package com.kwonminseok.busanpartners.ui.home
 
 import TourismViewModelFactory
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
@@ -33,6 +35,7 @@ import androidx.paging.LoadState
 import com.barnea.dialoger.Dialoger
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.FestivalAdapter
@@ -95,6 +98,8 @@ class HomeFragment : Fragment() {
     private lateinit var firstDate: String
     private lateinit var secondDate: String
 
+    private lateinit var sharedPreferences: SharedPreferences
+
     private lateinit var tourismApiService: TourismAllInOneApiService
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
@@ -128,6 +133,61 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this, TourismViewModelFactory(repository)).get(TourismViewModel::class.java)
         currentServerTime?.let { fetchFestivalList(it) }
 
+
+        sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val travelerFinish = sharedPreferences.getBoolean("traveler_finish",false)
+        val isFirstVisitor = sharedPreferences.getBoolean("is_first_visitor",false)
+        val isFirstStudent = sharedPreferences.getBoolean("is_first_student",false)
+
+
+        Log.e("travelerFinish", travelerFinish.toString())
+        Log.e("isFirstVisitor", isFirstVisitor.toString())
+        Log.e("isFirstStudent", isFirstStudent.toString())
+
+        if (travelerFinish) {
+            sharedPreferences.edit().putBoolean("traveler_finish",false).apply()
+
+            Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+                .setDialogColorTheme(R.color.primaryTextColor)
+                .setTitle("부산파트너스를 이용해주셔서 감사합니다.")
+                .setDescription("다음에도 부산을 꼭 찾아주세요.")
+                .setDrawable(R.drawable.splash_logo)
+                .setButtonText("확인")
+                .setButtonOnClickListener {
+                }
+                .show()
+
+        }
+
+        if (isFirstVisitor) {
+            sharedPreferences.edit().putBoolean("is_first_visitor",false).apply()
+
+            Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+                .setDialogColorTheme(R.color.primaryTextColor)
+                .setTitle("인증이 완료되었습니다.")
+                .setDescription("대학생들에게 먼저 연락해보세요.")
+                .setDrawable(R.drawable.splash_logo)
+                .setButtonText("확인")
+                .setButtonOnClickListener {
+                }
+                .show()
+
+        }
+
+        if (isFirstStudent) {
+            sharedPreferences.edit().putBoolean("is_first_student",false).apply()
+
+            Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+                .setDialogColorTheme(R.color.primaryTextColor)
+                .setTitle("인증이 완료되었습니다.")
+                .setDescription("마음껏 관광객들과 어울려보세요.")
+                .setDrawable(R.drawable.splash_logo)
+                .setButtonText("확인")
+                .setButtonOnClickListener {
+                }
+                .show()
+
+        }
 //        val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
 //            .setTitle("Loading...")
 //            .setDescription("This might take a while...")

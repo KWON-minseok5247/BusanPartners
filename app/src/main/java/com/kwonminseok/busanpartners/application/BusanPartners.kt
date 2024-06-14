@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.FirebaseApp
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig
@@ -48,6 +49,8 @@ class BusanPartners : Application() {
     override fun onCreate() {
 //        BusanFestivalApiService.init(this)
         super.onCreate()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         FirebaseApp.initializeApp(this)
 
 //        TourismApiService.init(this)
