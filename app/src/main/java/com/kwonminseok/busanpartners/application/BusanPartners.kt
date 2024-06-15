@@ -104,6 +104,7 @@ class BusanPartners : Application() {
             )
 
 
+
         val notificationChannel: () -> NotificationChannel = {
             val channelId = "chat_channel"
 //            val channelId = this.getString(R.string.stream_chat_other_notifications_channel_id)

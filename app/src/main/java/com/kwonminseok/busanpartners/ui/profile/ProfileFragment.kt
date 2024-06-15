@@ -20,8 +20,12 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.messaging.Constants.MessagePayloadKeys.SENDER_ID
+import com.google.firebase.messaging.messaging
+import com.google.firebase.messaging.remoteMessage
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
@@ -248,6 +252,19 @@ class ProfileFragment : Fragment() {
 
         binding.linearCustomerService.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_FAQFragment)
+        }
+        binding.linearPersonalInformation.setOnClickListener {
+
+            val fm = Firebase.messaging
+            fm.send(
+                remoteMessage("${SENDER_ID}@fcm.googleapis.com") {
+                    setMessageId(messageId.toString())
+                    addData("my_message", "Hello World")
+                    addData("my_action", "SAY_HELLO")
+                },
+            )
+
+
         }
 
         // 로그아웃 버튼

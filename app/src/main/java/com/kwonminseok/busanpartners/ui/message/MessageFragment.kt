@@ -446,6 +446,7 @@ class MessageFragment : ChannelListFragment() {
     private val uid = BusanPartners.preferences.getString("uid", "")
     private var token: String = BusanPartners.preferences.getString(Constants.TOKEN, "")
     lateinit var user: com.kwonminseok.busanpartners.data.User
+
     private val viewModel: ChannelListViewModel by viewModels {
         ChannelListViewModelFactory(
             filter = Filters.and(
@@ -455,6 +456,7 @@ class MessageFragment : ChannelListFragment() {
             sort = QuerySortByField.descByName("last_message_at"),
         )
     }
+
     private val userViewModel: UserViewModel by viewModels()
 
 

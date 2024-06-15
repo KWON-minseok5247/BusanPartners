@@ -23,9 +23,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.barnea.dialoger.Dialoger
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
@@ -403,6 +405,7 @@ class SplashActivity : AppCompatActivity() {
     init {
 
     }
+    // TODO 매번 인증하는 것은 문제가 있으니까 그냥 false true로 만들어서 빠르게 넘길 수 있도록 하기.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -410,6 +413,18 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         Log.e("Splash 화면이", "시작되었습니다.")
         sharedPreferences = this.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("MyToken", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            // Get new FCM registration token
+            val token = task.result
+            // Log and toast
+            Log.e("MyToken", token.toString())
+        })
+
 
         if (!isNetworkAvailable(this)) {
             showNetworkErrorAndExit()
@@ -528,7 +543,9 @@ class SplashActivity : AppCompatActivity() {
                     val newData = mapOf(
                         "authentication.traveler" to false,
                         "authentication.authenticationStatus" to "expire",
-                        "authentication.travelerAuthenticationImage" to FieldValue.delete()
+                        "authentication.travelerAuthenticationImage" to FieldValue.delete(),
+                        "blockList" to mutableListOf<String>(),
+                        "chatChannelCount" to 0
                     )
                     viewModel.setCurrentUser(newData)
 
@@ -539,7 +556,9 @@ class SplashActivity : AppCompatActivity() {
                     )
 
                     val updatedUser = user.copy(
-                        authentication = updatedAuthentication
+                        blockList = mutableListOf(),
+                        authentication = updatedAuthentication,
+                        chatChannelCount = 0
                     )
                     viewModel.updateUser(updatedUser.toEntity())
                     sharedPreferences.edit().putBoolean("traveler_finish", true).apply()
