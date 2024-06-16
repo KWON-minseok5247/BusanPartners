@@ -30,6 +30,7 @@ data class User(
     val wantToMeet: Boolean = false,
     val blockList: MutableList<String>? = mutableListOf(),
     val chatChannelCount: Int = 0,
+    val deviceToken: String = ""
 
 
 ) : Parcelable {

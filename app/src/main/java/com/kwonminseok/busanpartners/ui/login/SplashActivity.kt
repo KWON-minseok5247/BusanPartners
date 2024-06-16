@@ -401,6 +401,7 @@ class SplashActivity : AppCompatActivity() {
     private val maxRetries = 3
     private val timeoutDuration = 15000L // 15 seconds
     private lateinit var sharedPreferences: SharedPreferences
+    lateinit var deviceToken: String
 
     init {
 
@@ -420,13 +421,13 @@ class SplashActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             // Get new FCM registration token
-            val token = task.result
+            deviceToken = task.result
             // Log and toast
-            Log.e("MyToken", token.toString())
+            Log.e("MyToken", deviceToken.toString())
         })
 
 
-        if (!isNetworkAvailable(this)) {
+        if (!isNetworkAvailable(this)) { // 네트워크가 끊겨있을 경우
             showNetworkErrorAndExit()
             return
         }
@@ -629,7 +630,12 @@ class SplashActivity : AppCompatActivity() {
 
     private fun fetchCurrentUserEntity() {
         viewModel.getUserStateFlowData(uid).observe(this) { userEntity ->
-            if (userEntity == null) {
+            if (userEntity == null) { //ToDO 임시 조치
+                val newData = mapOf(
+                    "deviceToken" to deviceToken
+                )
+                viewModel.setCurrentUser(newData)
+
                 viewModel.getCurrentUser()
                 lifecycleScope.launchWhenStarted {
                     viewModel.user.collectLatest { resource ->
@@ -654,8 +660,14 @@ class SplashActivity : AppCompatActivity() {
             } else {
                 currentUser = userEntity
                 Log.e("currentUser?", currentUser.toString())
-
                 user = currentUser!!.toUser()
+                if (user.deviceToken != deviceToken) {
+                    val newData = mapOf(
+                        "deviceToken" to deviceToken
+                    )
+                    viewModel.setCurrentUser(newData)
+                }
+
                 viewModel.getCurrentUser()
                 lifecycleScope.launchWhenStarted {
                     viewModel.user.collectLatest { resource ->
@@ -687,6 +699,7 @@ class SplashActivity : AppCompatActivity() {
             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         )
         startActivity(intent)
+
     }
 
     companion object {
@@ -730,6 +743,7 @@ class SplashActivity : AppCompatActivity() {
             return networkInfo != null && networkInfo.isConnected
         }
     }
+
 
 }
 

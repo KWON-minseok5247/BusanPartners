@@ -45,4 +45,6 @@ data class UserEntity(
     val wantToMeet: Boolean = false,
     val blockList: MutableList<String>? = mutableListOf(),
     val chatChannelCount: Int = 0,
-    )
+    val deviceToken: String = ""
+
+)
