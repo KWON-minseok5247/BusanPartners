@@ -423,7 +423,6 @@ class SplashActivity : AppCompatActivity() {
             // Get new FCM registration token
             deviceToken = task.result
             // Log and toast
-            Log.e("MyToken", deviceToken.toString())
         })
 
 

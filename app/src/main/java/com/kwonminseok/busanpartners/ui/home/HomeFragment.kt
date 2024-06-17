@@ -271,8 +271,6 @@ class HomeFragment : Fragment() {
             }
         } else {
             // 퍼미션이 이미 허용된 경우
-            Log.e("else", LanguageUtils.getDeviceLanguage(requireContext()))
-
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
 
@@ -285,7 +283,8 @@ class HomeFragment : Fragment() {
                     val currentLongitude = it.longitude
                     Log.e("currentLatitude", currentLatitude.toString())
                     Log.e("currentLongitude", currentLongitude.toString())
-                    binding.touristRecyclerView.adapter = tourismAdapter
+                    binding.vpPlaces.adapter = tourismAdapter
+
                     fetchLocationBasedList(currentLongitude,currentLatitude)
 //                    lifecycleScope.launch {
 //                        viewModel.fetchTourismPagingData(currentLongitude, currentLatitude, LanguageUtils.getContentIdForTourPlace(requireContext())).collectLatest { pagingData ->
@@ -399,7 +398,7 @@ class HomeFragment : Fragment() {
 
                     _binding?.let { binding ->
                         if (response.isSuccessful) {
-                            binding.touristRecyclerView.adapter = tourismAdapter
+                            binding.vpPlaces.adapter = tourismAdapter
                             response.body()?.response?.body?.items?.item?.let { itemList ->
                                 val itemsWithImages =
                                     itemList.filter { it.firstimage.isNotEmpty() }
@@ -433,7 +432,7 @@ class HomeFragment : Fragment() {
 
                     _binding?.let { binding ->
                         if (response.isSuccessful) {
-                            binding.festivalViewPager.adapter = festivalAdapter
+                            binding.vpFestivals.adapter = festivalAdapter
                             response.body()?.response?.body?.items?.item?.let { itemList ->
                                 val itemsWithImages =
                                     itemList.filter { it.firstimage.isNotEmpty() }

@@ -21,7 +21,8 @@ fun User.toEntity(): UserEntity = UserEntity(
     wantToMeet = this.wantToMeet,
     blockList = this.blockList,
     chatChannelCount = this.chatChannelCount,
-    deviceToken = this.deviceToken
+    deviceToken = this.deviceToken,
+    language = this.language
 )
 
 // UserEntityExtensions.kt
@@ -43,7 +44,9 @@ fun UserEntity.toUser(): User = User(
     wantToMeet = this.wantToMeet,
     blockList = this.blockList,
     chatChannelCount = this.chatChannelCount,
-    deviceToken = this.deviceToken
+    deviceToken = this.deviceToken,
+    language = this.language
+
 )
 
 

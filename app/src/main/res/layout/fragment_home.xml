@@ -1,94 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFFFF"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <!-- 부산시 축제 현황을 위한 가로 스크롤 RecyclerView -->
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/festivalViewPager"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tl_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginEnd="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/festivalViewPager"
-            app:tabBackground="@drawable/tab_layout_indicator"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp"
-            app:tabMode="scrollable" />
+            <LinearLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFFFF"
+                android:paddingVertical="25dp"
+                android:paddingHorizontal="19dp"
+                android:orientation="vertical">
 
-        <!-- 관광지를 위한 세로 스크롤 RecyclerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/touristRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_header"
+                    android:textColor="#161411"
+                    android:textSize="28sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="BusanPartners" />
+            </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
-    <!--<?xml version="1.0" encoding="utf-8"?>-->
-    <!--<androidx.core.widget.NestedScrollView-->
-    <!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="match_parent"-->
-    <!--    android:fillViewport="true">-->
+            <TextView
+                android:id="@+id/tv_festival_title"
+                android:textColor="#161411"
+                android:textSize="18sp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginStart="17dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="축제 현황" />
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="vertical">-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/vp_festivals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
+                android:layout_marginHorizontal="16dp"
+                android:orientation="horizontal" />
 
-    <!--        &lt;!&ndash; 부산시 축제 현황을 위한 가로 스크롤 RecyclerView &ndash;&gt;-->
-    <!--        <androidx.viewpager2.widget.ViewPager2-->
-    <!--            android:id="@+id/festivalViewPager"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:nestedScrollingEnabled="true"-->
-    <!--            android:layout_marginTop="8dp"-->
-    <!--            android:orientation="horizontal"-->
-    <!--            app:layout_scrollFlags="scroll|enterAlways" />-->
+            <TextView
+                android:id="@+id/tv_places_title"
+                android:textColor="#161411"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="17dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="가까운 관광지" />
 
-    <!--        <com.google.android.material.tabs.TabLayout-->
-    <!--            android:id="@+id/tl_main"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginStart="100dp"-->
-    <!--            android:layout_marginEnd="100dp"-->
-    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@id/festivalViewPager"-->
-    <!--            app:tabBackground="@drawable/tab_layout_indicator"-->
-    <!--            app:tabGravity="center"-->
-    <!--            app:tabIndicatorHeight="0dp"-->
-    <!--            app:tabMode="scrollable" />-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/vp_places"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
-    <!--        &lt;!&ndash; 관광지를 위한 세로 스크롤 RecyclerView &ndash;&gt;-->
-    <!--        <androidx.recyclerview.widget.RecyclerView-->
-    <!--            android:id="@+id/touristRecyclerView"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="900dp"-->
-    <!--            android:nestedScrollingEnabled="true"-->
-    <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
-    <!--    </LinearLayout>-->
-
-    <!--</androidx.core.widget.NestedScrollView>-->
-
-
-
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

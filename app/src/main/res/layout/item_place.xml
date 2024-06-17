@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="16dp"
+    android:background="#FFFFFF"
+    android:gravity="center_vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_place_image"
+        app:shapeAppearanceOverlay="@style/cr8"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_place_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Place Title"
+            android:textSize="16sp"
+            android:textColor="#161411"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tv_place_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textSize="14sp"
+            android:textColor="#897560" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_place_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3:30PM"
+        android:textSize="14sp"
+        android:textColor="#897560" />
+</LinearLayout>

@@ -25,8 +25,10 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
+import com.kwonminseok.busanpartners.databinding.FragmentHomeFigmaBinding
 import com.kwonminseok.busanpartners.databinding.FragmentLoginBinding
 import com.kwonminseok.busanpartners.ui.HomeActivity
+import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.setupBottomSheetDialog
 import com.kwonminseok.busanpartners.viewmodel.LoginsViewModel
@@ -38,9 +40,8 @@ private val TAG = "LoginFragment"
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-    private val viewModel by viewModels<LoginsViewModel>()
 
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentHomeFigmaBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -50,7 +51,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater)
+        _binding = FragmentHomeFigmaBinding.inflate(inflater)
 
         // Google SignIn Options, 로그인하는 인스턴스를 생성하는 과정
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -68,122 +69,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
-        // 자동 로그인 과정 -> 실제로는 splash 스크린에서 사용해야 할 것!
-//        val user = FirebaseAuth.getInstance().currentUser
-//        user?.getIdToken(true)?.addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                val idToken = task.result.token
-//                Log.d(TAG, "아이디 토큰 = $idToken")
-//                val intent =
-//                    Intent(requireContext(), HomeActivity::class.java).addFlags(
-//                        Intent.FLAG_ACTIVITY_NEW_TASK or
-//                                Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                    )
-//                startActivity(intent)
-//            }
-//        }
-
-
-        binding.apply {
-            cirLoginButton.setOnClickListener {
-                val email = editTextEmail.text.toString().trim()
-                val password = editTextPassword.text.toString()
-                viewModel.login(email, password)
-            }
-        }
-
-        binding.forgotPassword.setOnClickListener {
-            setupBottomSheetDialog { email ->
-                if (!email.isNullOrEmpty()) {
-                    viewModel.resetPasswordFun(email)
-                } else {
-                    Snackbar.make(requireView(), "email is empty", Snackbar.LENGTH_SHORT).show()
-                }
-            }
-        }
-        binding.signUp.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-        }
-
-//        val signInRequest = BeginSignInRequest.builder()
-//            .setGoogleIdTokenRequestOptions(
-//                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-//                    .setSupported(true)
-//                    // Your server's client ID, not your Android client ID.
-//                    .setServerClientId(getString(R.string.your_web_client_id))
-//                    // Only show accounts previously used to sign in.
-//                    .setFilterByAuthorizedAccounts(true)
-//                    .build())
-//            .build()
-//
-
-
-
-
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.resetPassword.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-
-                    }
-
-                    is Resource.Success -> {
-
-                    }
-
-                    is Resource.Error -> {
-
-                    }
-
-                    else -> Unit
-                }
-            }
-        }
-// 12-05 임시 삭제
-//        binding.tvForgotPasswordLogin.setOnClickListener {
-//            setupBottomSheetDialog {email ->
-//                // email이 입력하는 부분임
-//                viewModel.resetPassword(email)
-//
-//            }
-//        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.login.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-                        binding.cirLoginButton.startAnimation()
-                    }
-
-                    is Resource.Success -> {
-                        binding.cirLoginButton.revertAnimation()
-
-                        val intent =
-                            Intent(context, HomeActivity::class.java).addFlags(
-                                Intent.FLAG_ACTIVITY_NEW_TASK or
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            )
-                        startActivity(intent)
-                    }
-
-                    is Resource.Error -> {
-                        binding.cirLoginButton.revertAnimation()
-                        Toast.makeText(context, it.message.toString(), Toast.LENGTH_SHORT)
-                            .show()
-
-                    }
-
-                    else -> {
-
-                    }
-                }
-            }
-        }
-
 
         binding.googleLoginButton.setOnClickListener {
             signInWithGoogle()
@@ -257,8 +142,9 @@ class LoginFragment : Fragment() {
                         usersRef.document(uid).get().addOnSuccessListener { documentSnapshot ->
                             if (!documentSnapshot.exists()) {
                                 // 사용자 데이터가 존재하지 않는 경우, 새로운 사용자 데이터 저장
+                                val language = LanguageUtils.getDeviceLanguage(requireActivity())
 
-                                val userData = User("","", email = user.email!!, uid = user.uid, name = TranslatedText(ko = user.displayName!!, "", "", "") , imagePath = user.photoUrl.toString() ?: "")
+                                val userData = User("","", email = user.email!!, uid = user.uid, name = TranslatedText(ko = user.displayName!!, "", "", "") , imagePath = user.photoUrl.toString(), language = language ?: "")
 
                                 usersRef.document(uid).set(userData)
                                     .addOnSuccessListener {
