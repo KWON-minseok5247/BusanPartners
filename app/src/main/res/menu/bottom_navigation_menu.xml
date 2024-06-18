@@ -2,19 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="Home"
-        android:icon="@drawable/ic_home"
-        
+        android:icon="@drawable/sd"
         android:id="@+id/homeFragment"/>
 
     <item android:title="Connect"
-        android:icon="@drawable/ic_people"
+        android:icon="@drawable/match_figma"
         android:id="@+id/connectFragment"/>
 
     <item android:title="Message"
-        android:icon="@drawable/ic_message"
+        android:icon="@drawable/new_message_figma"
         android:id="@+id/messageFragment"/>
 
     <item android:title="Profile"
-        android:icon="@drawable/ic_profile"
+        android:icon="@drawable/profile_figma"
         android:id="@+id/profileFragment"/>
 </menu>

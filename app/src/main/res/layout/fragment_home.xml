@@ -30,6 +30,7 @@
                     android:id="@+id/tv_header"
                     android:textColor="#161411"
                     android:textSize="28sp"
+                    android:fontFamily="@font/stream_roboto_bold"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="BusanPartners" />
@@ -39,10 +40,11 @@
                 android:id="@+id/tv_festival_title"
                 android:textColor="#161411"
                 android:textSize="18sp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginStart="17dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/stream_roboto_bold"
                 android:text="축제 현황" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -51,7 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
                 android:layout_marginHorizontal="16dp"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                app:layout_scrollFlags="scroll|enterAlways"  />
 
             <TextView
                 android:id="@+id/tv_places_title"
@@ -59,6 +62,8 @@
                 android:textSize="18sp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="17dp"
+                android:fontFamily="@font/stream_roboto_bold"
+
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="가까운 관광지" />
@@ -67,7 +72,8 @@
                 android:id="@+id/vp_places"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

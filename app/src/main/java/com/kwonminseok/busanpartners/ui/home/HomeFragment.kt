@@ -32,6 +32,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.barnea.dialoger.Dialoger
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -398,11 +399,11 @@ class HomeFragment : Fragment() {
 
                     _binding?.let { binding ->
                         if (response.isSuccessful) {
-                            binding.vpPlaces.adapter = tourismAdapter
                             response.body()?.response?.body?.items?.item?.let { itemList ->
                                 val itemsWithImages =
                                     itemList.filter { it.firstimage.isNotEmpty() }
                                 tourismAdapter.differ.submitList(itemsWithImages)
+                                Log.e("d", response.body().toString())
                             }
                         } else {
                             Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
@@ -433,6 +434,7 @@ class HomeFragment : Fragment() {
                     _binding?.let { binding ->
                         if (response.isSuccessful) {
                             binding.vpFestivals.adapter = festivalAdapter
+                            binding.vpFestivals.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                             response.body()?.response?.body?.items?.item?.let { itemList ->
                                 val itemsWithImages =
                                     itemList.filter { it.firstimage.isNotEmpty() }

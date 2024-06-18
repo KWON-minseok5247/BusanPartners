@@ -34,18 +34,27 @@
 <!--        app:layout_constraintVertical_bias="0.0"-->
 <!--        app:navGraph="@navigation/home_graph"-->
 <!--        />-->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        android:background="#F5F0E5" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/bottom_navigation_background"
         android:elevation="0dp"
         app:itemIconTint="@drawable/bottom_nav_item_background"
         app:itemPaddingBottom="10dp"
-        app:itemPaddingTop="10dp"
-        app:itemRippleColor="@color/g_white"
-        app:labelVisibilityMode="unlabeled"
+        app:itemTextColor="@drawable/bottom_nav_item_background"
+        app:itemPaddingTop="8dp"
+        app:itemRippleColor="@color/my_white"
+        app:labelVisibilityMode="selected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
