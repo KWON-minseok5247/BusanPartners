@@ -8,36 +8,47 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.kelineyt.adapter.makeIt.StudentCardAdapter
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kwonminseok.busanpartners.adapter.FestivalImageAdapter
+import com.kwonminseok.busanpartners.adapter.ImagePlaceAdapter
 import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.data.CommonResponse
 import com.kwonminseok.busanpartners.data.ImageResponse
 import com.kwonminseok.busanpartners.data.IntroResponse
 import com.kwonminseok.busanpartners.databinding.FragmentFestivalDetailBinding
+import com.kwonminseok.busanpartners.databinding.FragmentPlaceBinding
 import com.kwonminseok.busanpartners.databinding.FragmentTourismPlaceDetailBinding
 import com.kwonminseok.busanpartners.ui.message.AttachmentMapActivity
 import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import me.relex.circleindicator.CircleIndicator3
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @AndroidEntryPoint
 class TourismPlaceDetailFragment : Fragment() {
-    private var _binding: FragmentTourismPlaceDetailBinding? = null
+    private var _binding: FragmentPlaceBinding? = null
     private val binding get() = _binding!!
     private lateinit var tourismApiService: TourismAllInOneApiService
+
+
+    private lateinit var viewPager: ViewPager2
+    private lateinit var imagePlaceAdapter: ImagePlaceAdapter
+    private lateinit var indicator: CircleIndicator3
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentTourismPlaceDetailBinding.inflate(layoutInflater)
+        _binding = FragmentPlaceBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -46,6 +57,9 @@ class TourismPlaceDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         tourismApiService = TourismAllInOneApiService.getInstance()
+
+        viewPager = binding.placeViewPager // viewPager 초기화
+        indicator = binding.indicator // indicator 초기화
 
         val contentId = arguments?.getString("contentId") ?: return
 //        fetchIntroData(contentId.toInt())
@@ -87,7 +101,7 @@ class TourismPlaceDetailFragment : Fragment() {
                     val introItem = response.body()?.response?.body?.items?.item?.firstOrNull()
                     introItem?.let {
 //                        binding.textViewUserTime.text = "play Time: ${it.playtime}"
-                        binding.textViewRestDate.text = "Duration: ${it.restdate}"
+//                        binding.textViewRestDate.text = "Duration: ${it.restdate}"
                     }
                 } else {
                     Log.e("FestivalDetail", "Intro Response failed: ${response.errorBody()?.string()}")
@@ -111,7 +125,7 @@ class TourismPlaceDetailFragment : Fragment() {
                 if (response.isSuccessful) {
                     val commonItem = response.body()?.response?.body?.items?.item?.firstOrNull()
                     commonItem?.let {
-                        binding.textViewEventPlace.text = "Location: ${it.addr1}"
+                        binding.textViewEventPlace.text = "${it.addr1}"
                         binding.textViewTitle.text = "${it.title}"
                         binding.textViewOverview.text = it.overview
 
@@ -150,10 +164,14 @@ class TourismPlaceDetailFragment : Fragment() {
                     val images = imageItems.mapNotNull { it.originimgurl } // null 값을 제외
                     Log.e("images", images.toString())
                     // 이미지 목록을 RecyclerView에 표시하는 코드
-                    val adapter = FestivalImageAdapter()
-                    binding.recyclerViewImages.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) // LayoutManager 설정
-                    binding.recyclerViewImages.adapter = adapter
-                    adapter.submitList(images)
+//                    val adapter = FestivalImageAdapter()
+                    imagePlaceAdapter = ImagePlaceAdapter()
+                    viewPager.adapter = imagePlaceAdapter
+
+//                    binding.viewPager.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) // LayoutManager 설정
+                    imagePlaceAdapter.submitList(images)
+                    indicator.setViewPager(viewPager) // ViewPager와 Indicator 연결
+
                 } else {
                     Log.e("FestivalDetail", "Image Response failed: ${response.errorBody()?.string()}")
                 }

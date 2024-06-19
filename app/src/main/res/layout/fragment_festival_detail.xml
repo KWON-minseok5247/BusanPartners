@@ -1,111 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:padding="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewImages"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/textViewTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="horizontal" />
-
-        <!-- 위치 정보 -->
-        <TextView
-            android:id="@+id/textViewEventPlace"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/recyclerViewImages"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- 시작 시간 -->
-        <TextView
-            android:id="@+id/textViewPlayTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/textViewEventPlace"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- 소요 시간 -->
-        <TextView
-            android:id="@+id/textViewSpendTimeFestival"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/textViewPlayTime"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- 이용 요금 -->
-        <TextView
-            android:id="@+id/textViewUseTimeFestival"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/textViewSpendTimeFestival"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- 홈페이지 -->
-        <TextView
-            android:id="@+id/textViewHomepage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:autoLink="web"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/textViewUseTimeFestival"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- 세부 정보 -->
-        <TextView
-            android:id="@+id/textViewOverview"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:textSize="18sp"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/textViewHomepage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-        <Button
+        <ScrollView
+            android:id="@+id/rdda9bgcy3ba"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-                android:id="@+id/textviewMapButton">
+            android:layout_height="match_parent"
+            android:background="#FFFFFFFF"
+            android:paddingBottom="35dp"
+            android:fillViewport="true">
 
-        </Button>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
+                        <LinearLayout
+                            android:id="@+id/rj7m4it3pwp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:background="#FFFFFFFF"
+                            android:paddingVertical="28dp"
+                            android:paddingHorizontal="16dp"
+                            android:orientation="horizontal">
 
+                                <ImageView
+                                    android:id="@+id/backButton"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginEnd="0dp"
+                                    android:src="@drawable/back_figma"
+                                    android:scaleType="fitXY" />
 
+                                <TextView
+                                    android:id="@+id/rk3nhpswmkf"
+                                    android:textColor="#1C160C"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/stream_roboto_bold"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="세부 정보" />
 
+                                <View
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginStart="0dp"
+                                    android:visibility="invisible" />
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlqonm7jwhcq_rl"
+                            android:layout_width="match_parent"
+                            android:layout_height="278dp"
+                            android:gravity="center_horizontal"
+                            android:layout_marginBottom="26dp">
+
+                                <androidx.viewpager2.widget.ViewPager2
+                                    android:id="@+id/eventViewPager"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+
+                                <me.relex.circleindicator.CircleIndicator3
+                                    android:id="@+id/indicator"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="15dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    app:ci_drawable="@drawable/white_radius"
+                                    app:ci_drawable_unselected="@drawable/white_radius"
+                                    app:ci_height="8dp"
+                                    app:ci_width="8dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/textViewTitle"
+                            android:textColor="#1C160C"
+                            android:textSize="22sp"
+                            android:layout_marginBottom="22dp"
+                            android:layout_marginStart="17dp"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="Haedong Yonggung Temple" />
+
+                        <TextView
+                            android:id="@+id/textViewOverview"
+                            android:textColor="#1C160C"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="35dp"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:text="The Haedong Yonggung Temple is a Buddhist temple in Busan, South Korea. The temple was built in 1376 by the teacher Naong during the Goryeo Dynasty. It is situated on the coast of the north-eastern portion of Busan. This is a rare find in Korea as temples are usually located in mountains." />
+
+                        <LinearLayout
+                            android:id="@+id/rdfafrxk0m6a"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFFFF"
+                            android:paddingVertical="20dp"
+                            android:paddingHorizontal="16dp"
+                            android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/tvAddress"
+                                    android:textColor="#1C160C"
+                                    android:textSize="16sp"
+                                    android:layout_marginBottom="6dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="Address" />
+                                <TextView
+                                    android:id="@+id/textViewEventPlace"
+                                    android:textColor="#A08249"
+                                    android:textSize="14sp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="Busan, South Korea" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linearDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFFFF"
+                            android:paddingVertical="20dp"
+                            android:paddingHorizontal="16dp"
+                            android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/tvDate"
+                                    android:textColor="#1C160C"
+                                    android:textSize="16sp"
+                                    android:layout_marginBottom="6dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="Date" />
+                                <TextView
+                                    android:id="@+id/textViewSpendTimeFestival"
+                                    android:textColor="#A08249"
+                                    android:textSize="14sp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="Busan, South Korea" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linearHomepage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFFFF"
+                            android:paddingVertical="20dp"
+                            android:paddingHorizontal="16dp"
+                            android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/tvHomepage"
+                                    android:textColor="#1C160C"
+                                    android:textSize="16sp"
+                                    android:layout_marginBottom="6dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="Hompage" />
+                                <TextView
+                                    android:id="@+id/textViewHomepage"
+                                    android:textColor="#A08249"
+                                    android:textSize="14sp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="Busan, South Korea" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ripvjnl5gjdj"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFFFF"
+                            android:paddingVertical="20dp"
+                            android:paddingHorizontal="16dp"
+                            android:layout_marginBottom="12dp"
+                            android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/rzrbttzvq5es"
+                                    android:textColor="#1C160C"
+                                    android:textSize="16sp"
+                                    android:layout_marginBottom="6dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="Coordinates" />
+                                <TextView
+                                    android:id="@+id/rbvrcwltpu6w"
+                                    android:textColor="#A08249"
+                                    android:textSize="14sp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:text="35.1136° N, 129.0554° E" />
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/textviewMapButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/cr24bff009963"
+                            android:gravity="center"
+                            android:paddingVertical="10dp"
+                            android:textStyle="bold"
+                            android:text="Get location details"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/stream_roboto_regular" />
+
+                        <LinearLayout
+                            android:id="@+id/rtiviak7kk4"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:background="#FFFFFFFF"
+                            android:orientation="vertical">
+                        </LinearLayout>
+                </LinearLayout>
+        </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFFFFFFF"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFFFF"
+    android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -22,51 +21,62 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFFFF"
-                android:paddingVertical="25dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingHorizontal="19dp"
-                android:orientation="vertical">
+                android:paddingVertical="25dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_festival_image"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_launcher"
+                    app:shapeAppearanceOverlay="@style/cr12" />
 
                 <TextView
                     android:id="@+id/tv_header"
-                    android:textColor="#161411"
-                    android:textSize="28sp"
-                    android:fontFamily="@font/stream_roboto_bold"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="BusanPartners" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/stream_roboto_bold"
+                    android:text="BusanPartners"
+                    android:textColor="#161411"
+                    android:textSize="27sp" />
+
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_festival_title"
-                android:textColor="#161411"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="17dp"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/stream_roboto_bold"
-                android:text="축제 현황" />
+                android:text="축제 현황"
+                android:textColor="#161411"
+                android:textSize="18sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/vp_festivals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="18dp"
                 android:orientation="horizontal"
-                app:layout_scrollFlags="scroll|enterAlways"  />
+                app:layout_scrollFlags="scroll|enterAlways" />
 
             <TextView
                 android:id="@+id/tv_places_title"
-                android:textColor="#161411"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/stream_roboto_bold"
 
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="가까운 관광지" />
+                android:text="가까운 관광지"
+                android:textColor="#161411"
+                android:textSize="18sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/vp_places"

@@ -23,7 +23,13 @@ class TourismAdapter : RecyclerView.Adapter<TourismAdapter.TouristDestinationVie
                 return
             } else {
                 binding.tvPlaceTitle.text = tourismItem.title
-                binding.tvPlaceTime.text = "${tourismItem.dist.toDouble().roundToInt().toString()}m"
+                val distanceInMeters = tourismItem.dist.toDouble()
+                val distanceText = if (distanceInMeters >= 1000) {
+                    String.format("%.2fkm", distanceInMeters / 1000)
+                } else {
+                    "${distanceInMeters.roundToInt()}m"
+                }
+                binding.tvPlaceTime.text = distanceText
                 binding.tvPlaceCategory.text = "${tourismItem.addr1} ${tourismItem.addr2}"
                 Glide.with(binding.root.context)
                     .load(tourismItem.firstimage)

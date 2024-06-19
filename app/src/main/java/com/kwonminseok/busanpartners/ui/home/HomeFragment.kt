@@ -387,7 +387,7 @@ class HomeFragment : Fragment() {
 
     private fun fetchLocationBasedList(longitude: Double, latitude: Double) {
         tourismApiService.locationBasedList1(
-            numOfRows = 10,
+            numOfRows = 18,
             pageNo = 1,
             mapX = longitude,
             mapY = latitude,

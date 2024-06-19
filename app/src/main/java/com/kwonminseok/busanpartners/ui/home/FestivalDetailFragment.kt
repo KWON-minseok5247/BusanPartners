@@ -13,9 +13,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.kelineyt.adapter.makeIt.StudentCardAdapter
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.FestivalImageAdapter
+import com.kwonminseok.busanpartners.adapter.ImagePlaceAdapter
 import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.data.CommonResponse
@@ -31,6 +33,7 @@ import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import me.relex.circleindicator.CircleIndicator3
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,6 +43,9 @@ class FestivalDetailFragment : Fragment() {
     private var _binding: FragmentFestivalDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var tourismApiService: TourismAllInOneApiService
+    private lateinit var indicator: CircleIndicator3
+    private lateinit var viewPager: ViewPager2
+    private lateinit var imageEventAdapter: ImagePlaceAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +63,8 @@ class FestivalDetailFragment : Fragment() {
         val contentId = arguments?.getString("contentId") ?: return
         tourismApiService = TourismAllInOneApiService.getInstance()
 
+        viewPager = binding.eventViewPager // viewPager 초기화
+        indicator = binding.indicator // indicator 초기화
 
 //        fetchIntroData(contentId.toInt())
         fetchCommonData(contentId.toInt())
@@ -97,10 +105,10 @@ class FestivalDetailFragment : Fragment() {
                 if (response.isSuccessful) {
                     val introItem = response.body()?.response?.body?.items?.item?.firstOrNull()
                     introItem?.let {
-                        binding.textViewEventPlace.text = "Location: ${it.eventplace}"
-                        binding.textViewPlayTime.text = "Start Time: ${Html.fromHtml(it.playtime, Html.FROM_HTML_MODE_LEGACY)}"
-//                        binding.textViewSpendTimeFestival.text = "Duration: ${it.spendtimefestival} minutes"
-                        binding.textViewUseTimeFestival.text = "Usage Fee: ${Html.fromHtml(it.usetimefestival, Html.FROM_HTML_MODE_LEGACY)}"
+//                        binding.textViewEventPlace.text = "Location: ${it.eventplace}"
+//                        binding.textViewPlayTime.text = "Start Time: ${Html.fromHtml(it.playtime, Html.FROM_HTML_MODE_LEGACY)}"
+////                        binding.textViewSpendTimeFestival.text = "Duration: ${it.spendtimefestival} minutes"
+//                        binding.textViewUseTimeFestival.text = "Usage Fee: ${Html.fromHtml(it.usetimefestival, Html.FROM_HTML_MODE_LEGACY)}"
                     }
                 } else {
                     Log.e("FestivalDetail", "Intro Response failed: ${response.errorBody()?.string()}")
@@ -171,10 +179,15 @@ class FestivalDetailFragment : Fragment() {
                     val images = imageItems.mapNotNull { it.originimgurl } // null 값을 제외
                     Log.e("images", images.toString())
                     // 이미지 목록을 RecyclerView에 표시하는 코드
-                    val adapter = FestivalImageAdapter()
-                    binding.recyclerViewImages.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) // LayoutManager 설정
-                    binding.recyclerViewImages.adapter = adapter
-                    adapter.submitList(images)
+//                    val adapter = FestivalImageAdapter()
+//                    binding.eventViewPager.adapter = adapter
+                    imageEventAdapter = ImagePlaceAdapter()
+                    viewPager.adapter = imageEventAdapter
+
+
+                    imageEventAdapter.submitList(images)
+                    indicator.setViewPager(viewPager) // ViewPager와 Indicator 연결
+
                 } else {
                     Log.e("FestivalDetail", "Image Response failed: ${response.errorBody()?.string()}")
                 }

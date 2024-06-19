@@ -363,7 +363,9 @@ dependencies {
     implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx' // kotlin
 
 
-    //토스트
+    // 인디케이터
+    implementation 'me.relex:circleindicator:2.1.6'
+
 
 
 }
