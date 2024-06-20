@@ -22,6 +22,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.databinding.ActivityHomeBinding
+import com.kwonminseok.busanpartners.ui.login.SplashActivity
+import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.api.models.QueryChannelsRequest
 import io.getstream.chat.android.client.events.ChatEvent
@@ -129,6 +131,16 @@ class HomeActivity : AppCompatActivity() {
         getUnreadMessageCountLiveData()
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (currentUser == null) {
+            val intent = Intent(this, SplashActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun updateBadge(unreadCount: Int) {

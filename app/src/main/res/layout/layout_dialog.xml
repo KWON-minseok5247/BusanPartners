@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/md_grey_900"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/md_grey_900"
         android:textSize="16sp" />
 
     <ProgressBar
@@ -55,7 +55,7 @@
         android:gravity="center"
         android:padding="12dp"
         android:background="@drawable/rounded_background"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/jakarta"
         android:text="@string/default_button_text"
         android:textColor="@color/white" />
 

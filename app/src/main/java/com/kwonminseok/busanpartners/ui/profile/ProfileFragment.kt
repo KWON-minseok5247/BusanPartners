@@ -13,10 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.barnea.dialoger.Dialoger
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -136,6 +138,24 @@ class ProfileFragment : Fragment() {
                                 if (user == it.data) {
                                     return@collectLatest
                                 } else {
+                                    if (it.data?.reset == true) {
+                                        Log.e("reset", "true일 때")
+//                                        fetchUserData(it.data!!)
+//                                        user = it.data
+//                                        viewModel.updateUser(user.toEntity())
+
+                                        Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+                                            .setTitle("서버로부터 데이터가 변경되었습니다.")
+                                            .setDescription("앱을 다시 실행시켜주세요.")
+//                                            .setProgressBarColor(R.color.black)
+                                            .show()
+                                            .setButtonText("확인")
+                                            .setButtonOnClickListener {
+                                                requireActivity().finishAffinity()
+                                                System.exit(0)
+                                            }
+
+                                    }
                                     fetchUserData(it.data!!)
                                     user = it.data
                                     viewModel.updateUser(user.toEntity())

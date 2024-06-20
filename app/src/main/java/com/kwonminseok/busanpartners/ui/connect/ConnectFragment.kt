@@ -358,7 +358,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                        .setDialogColorTheme(R.color.primaryTextColor)
                         .setTitle(universityName)
                         .setDescription("현재 연락할 수 있는 학생 수: ${students.size}명")
                         .setDrawable(university.logoResourceId)

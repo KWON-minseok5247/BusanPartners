@@ -43,7 +43,6 @@ import com.kwonminseok.busanpartners.adapter.FestivalAdapter
 import com.kwonminseok.busanpartners.adapter.TourismAdapter
 import com.kwonminseok.busanpartners.adapter.TouristDestinationAdapter
 import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
-import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.data.TourismResponse

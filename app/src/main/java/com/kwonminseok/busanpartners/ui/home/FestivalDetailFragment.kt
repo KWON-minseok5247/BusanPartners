@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -137,8 +138,12 @@ class FestivalDetailFragment : Fragment() {
 
                         binding.textViewSpendTimeFestival.text = "${eventStartDate} - ${eventEndDate}"
 
-                        binding.textViewTitle.text = "${commonItem.title} ${commonItem.addr1}"
-                        binding.textViewHomepage.text = Html.fromHtml(commonItem.homepage, Html.FROM_HTML_MODE_LEGACY)
+                        binding.textViewTitle.text = "${commonItem.title}"
+                        binding.textViewEventPlace.text = "${commonItem.addr1}"
+                        binding.textViewHomepage.apply {
+                            text = Html.fromHtml(commonItem.homepage, Html.FROM_HTML_MODE_LEGACY)
+                            movementMethod = LinkMovementMethod.getInstance()
+                        }
                         binding.textviewMapButton.setOnClickListener {
                             Log.e("commonItem.mapx", "${commonItem.mapx} ${commonItem.mapy}")
                             val intent = Intent(context, AttachmentMapActivity::class.java).apply {

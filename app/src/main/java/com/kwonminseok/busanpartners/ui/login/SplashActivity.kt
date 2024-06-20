@@ -603,7 +603,7 @@ class SplashActivity : AppCompatActivity() {
         if (retryCount < maxRetries) {
             retryCount++
             Log.e("Retry", "Retrying to connect... attempt $retryCount")
-            Toast.makeText(this, errorMessage + " 재시도 중...", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, errorMessage + " 재시도 중...", Toast.LENGTH_SHORT).show()
             setupUserStream()
         } else {
             Log.e("Retry", "Max retries reached, navigating to login")
@@ -618,6 +618,7 @@ class SplashActivity : AppCompatActivity() {
                 TimeRepository.fetchCurrentTime()
                 currentServerTime = TimeRepository.currentTime?.datetime
                 Log.e("currentServerTime", currentServerTime ?: "2021-04-09T12:38:11.818609+09:00")
+                //TODO currentUser로 해도 되지 않을까?
                 BusanPartners.preferences.setString("uid", user.uid)
                 connectUserToStream(user)
             } catch (e: Exception) {
@@ -629,9 +630,9 @@ class SplashActivity : AppCompatActivity() {
 
     private fun fetchCurrentUserEntity() {
         viewModel.getUserStateFlowData(uid).observe(this) { userEntity ->
-            if (userEntity == null) { //ToDO 임시 조치
+            if (userEntity == null) { //
                 val newData = mapOf(
-                    "deviceToken" to deviceToken
+                    "deviceToken" to deviceToken,
                 )
                 viewModel.setCurrentUser(newData)
 
@@ -660,6 +661,13 @@ class SplashActivity : AppCompatActivity() {
                 currentUser = userEntity
                 Log.e("currentUser?", currentUser.toString())
                 user = currentUser!!.toUser()
+                if (user.reset) { // 시작하자마자 reset을 false로 만들기
+                    val newData = mapOf(
+                        "reset" to false
+                    )
+                    viewModel.setCurrentUser(newData)
+
+                }
                 if (user.deviceToken != deviceToken) {
                     val newData = mapOf(
                         "deviceToken" to deviceToken

@@ -46,7 +46,9 @@ data class UserEntity(
     val blockList: MutableList<String>? = mutableListOf(),
     val chatChannelCount: Int = 0,
     val deviceToken: String = "",
-    val language: String = "en"
+    val language: String = "en",
+    val reset: Boolean = false
+
 
 
 )

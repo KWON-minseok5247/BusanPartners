@@ -41,7 +41,7 @@
                     android:layout_marginStart="12dp"
                     android:fontFamily="@font/stream_roboto_bold"
                     android:text="BusanPartners"
-                    android:textColor="#161411"
+                    android:textColor="#1C160C"
                     android:textSize="27sp" />
 
             </LinearLayout>
@@ -54,7 +54,7 @@
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/stream_roboto_bold"
                 android:text="축제 현황"
-                android:textColor="#161411"
+                android:textColor="#1C160C"
                 android:textSize="18sp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -75,7 +75,7 @@
                 android:fontFamily="@font/stream_roboto_bold"
 
                 android:text="가까운 관광지"
-                android:textColor="#161411"
+                android:textColor="#1C160C"
                 android:textSize="18sp" />
 
             <androidx.recyclerview.widget.RecyclerView

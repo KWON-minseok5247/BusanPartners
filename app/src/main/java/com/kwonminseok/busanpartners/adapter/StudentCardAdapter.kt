@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.Universities
@@ -114,6 +115,7 @@ class StudentCardAdapter : RecyclerView.Adapter<StudentCardAdapter.StudentCardVi
                         text = hobby
                         isClickable = false
                         isCheckable = false
+                        setChipBackgroundColorResource(R.color.chipgroup_color)
                     }
                     chipGroupTags.addView(chip)
                 }

@@ -9,6 +9,8 @@ import com.kwonminseok.busanpartners.data.IntroResponse
 import com.kwonminseok.busanpartners.data.TourismResponse
 import com.kwonminseok.busanpartners.ui.home.FestivalResponse
 import com.kwonminseok.busanpartners.util.LanguageUtils
+import okhttp3.CacheControl
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -28,10 +30,21 @@ interface TourismAllInOneApiService {
 
         fun create(context: Context): TourismAllInOneApiService {
 
+
+            // 캐시 비활성화 인터셉터
+            val cacheInterceptor = Interceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .cacheControl(CacheControl.FORCE_NETWORK) // 캐시 사용하지 않음
+                    .build()
+                chain.proceed(request)
+            }
+
             val httpLoggingInterceptor = HttpLoggingInterceptor()
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
             val client = OkHttpClient.Builder()
+                .cache(null)
+                .addInterceptor(cacheInterceptor)
                 .addInterceptor(httpLoggingInterceptor)
                 .build()
 

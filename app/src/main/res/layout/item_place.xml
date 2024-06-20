@@ -34,7 +34,9 @@
             android:text="Place Title"
             android:textSize="16sp"
             android:textColor="#161411"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/tv_place_category"
@@ -42,7 +44,9 @@
             android:layout_height="wrap_content"
             android:text="Category"
             android:textSize="14sp"
-            android:textColor="#897560" />
+            android:textColor="#897560"
+            android:ellipsize="end"
+            android:maxLines="2" />
     </LinearLayout>
 
     <TextView

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/border"
+    android:paddingHorizontal="16dp">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="228dp"
+        android:layout_height="20dp"
+        android:gravity="top"
+        android:lineSpacingExtra="0sp"
+        android:text="Kai"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/tv_major"
+        android:layout_width="228dp"
+        android:layout_height="21dp"
+        android:gravity="top"
+        android:lineSpacingExtra="4sp"
+        android:text="Computer Science"
+        android:translationY="-1.75sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/rdjy9i9x9g37"
+        android:layout_width="115dp"
+        android:layout_height="32dp"
+        android:background="@drawable/cr16bfff4efe5"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingVertical="6dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_major"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:id="@+id/r8qx0hf0nwaq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Profile"
+            android:textColor="#1C160C"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_profile_image"
+        android:layout_width="130dp"
+        android:layout_height="93dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:shapeAppearanceOverlay="@style/cr12" />
+</androidx.constraintlayout.widget.ConstraintLayout>
