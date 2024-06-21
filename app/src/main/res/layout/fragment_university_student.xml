@@ -1,0 +1,137 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+    <LinearLayout
+        android:id="@+id/rj7m4it3pwp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="#FFFFFFFF"
+        android:paddingVertical="28dp"
+        android:paddingHorizontal="16dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="0dp"
+            android:src="@drawable/back_figma"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/rk3nhpswmkf"
+            android:textColor="#1C160C"
+            android:textSize="18sp"
+            android:fontFamily="@font/stream_roboto_bold"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="세부 정보" />
+
+        <View
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="0dp"
+            android:visibility="invisible" />
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- 프로필 이미지 -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_user"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerCrop" />
+
+            <!-- 이름 -->
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="Kaitlyn Norman"
+                android:textColor="#1C160C"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <!-- 전공 및 학번 -->
+            <TextView
+                android:id="@+id/tv_major"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="Computer Science, Class of 2023"
+                android:textColor="#A08249"
+                android:textSize="16sp" />
+
+
+            <!-- 취미 태그들 -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp">
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- 자기소개 -->
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/depth_3_fra"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="220dp"
+                android:clipToOutline="true"
+                android:background="@drawable/rounded_corner">
+
+                <TextView
+                    android:padding="10dp"
+                    android:id="@+id/tv_introduction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hey! I'm Kaitlyn, a senior studying Computer Science. I love being outdoors, whether it's hiking in the mountains or cycling on campus. I also enjoy skiing and longboarding."
+                    android:textSize="16sp"
+                    android:textColor="#1C160C" />
+
+
+            </RelativeLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/connect_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/cr24bff009963"
+                android:gravity="center"
+                android:fontFamily="@font/stream_roboto_regular"
+
+                android:paddingVertical="1dp"
+                android:text="연락하기"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

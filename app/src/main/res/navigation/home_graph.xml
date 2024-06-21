@@ -129,9 +129,8 @@
             android:name="selectedUniversityStudents"
             app:argType="com.kwonminseok.busanpartners.data.User[]" />
         <action
-            android:id="@+id/action_selectedUniversityStudentListFragment_to_messageFragment"
-            app:destination="@id/messageFragment"
-            app:popUpToInclusive="true"/>
+            android:id="@+id/action_selectedUniversityStudentListFragment_to_universityStudentFragment"
+            app:destination="@id/universityStudentFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthImageFragment"
@@ -185,6 +184,19 @@
         android:name="com.kwonminseok.busanpartners.ui.profile.UnregisterFragment"
         android:label="UnregisterFragment"
         tools:layout="@layout/fragment_unregister"/>
+    <fragment
+        android:id="@+id/universityStudentFragment"
+        android:name="com.kwonminseok.busanpartners.ui.connect.UniversityStudentFragment"
+        android:label="UniversityStudentFragment"
+        tools:layout="@layout/fragment_university_student">
+        <argument
+            android:name="selectedUniversityStudent"
+            app:argType="com.kwonminseok.busanpartners.data.User" />
+
+        <action
+            android:id="@+id/action_universityStudentFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
+    </fragment>
 
 
 </navigation>

@@ -26,6 +26,11 @@ class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentCardViewHolder
                 tvName.text = getTranslatedText(user.name)
                 tvMajor.text = "${getTranslatedText(user.major)}"
             }
+
+            itemView.setOnClickListener {
+                onClick?.invoke(user)
+            }
+
         }
 
 //        private fun getDeviceLanguage(): String {
