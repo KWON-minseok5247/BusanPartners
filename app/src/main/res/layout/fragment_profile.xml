@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#F4F4F4">
+    android:background="#FFFFFFFF"
+    >
 
 
 
@@ -176,12 +177,14 @@
 
             <TextView
                 android:id="@+id/tvNotifications"
-                android:textColor="@color/g_gray700"
                 android:textStyle="normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="Notifications"
+                android:textSize="18sp"
+                android:textColor="#1C160C"
+
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintTop_toBottomOf="@id/linearAuthentication" />
 
@@ -193,31 +196,45 @@
                 app:layout_constraintEnd_toEndOf="@id/guideline2"
                 app:layout_constraintTop_toBottomOf="@id/tvNotifications"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/search_box_background">
+                android:layout_marginTop="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="#FFFFFFFF"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp"
                     android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/settings_items_background"
-                        app:tint="@color/white"
-                        android:backgroundTint="#4cd964"/>
-
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/depth_4_fra"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="27dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/all_notification"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
                     <TextView
-                        android:layout_width="0dp"
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:text="모든 알림"
-                        android:textColor="@color/g_gray700"
-                        android:textStyle="bold"
-                        android:layout_marginStart="15dp"
-                        android:layout_gravity="center_vertical"/>
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout>
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/eventSwitchNotification"
@@ -226,33 +243,54 @@
                         android:layout_gravity="center_vertical"
                         android:buttonTint="#4cd964"
                         android:checked="true"
+                        android:thumb="@drawable/switch_track_thumb"
+                        app:track="@drawable/switch_track_selector"
+                        app:thumbTextPadding="24dp"
+                        app:switchMinWidth="0dp"
+                        android:textOff=""
+                        android:textOn=""
                         />
+
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="#FFFFFFFF"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp"
                     android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/settings_items_background"
-                        app:tint="@color/white"
-                        android:backgroundTint="#4cd964"/>
-
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/depth_4_fra"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/chat_notification"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
                     <TextView
-                        android:layout_width="0dp"
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:text="채팅 알림"
-                        android:textColor="@color/g_gray700"
-                        android:textStyle="bold"
-                        android:layout_marginStart="15dp"
-                        android:layout_gravity="center_vertical"/>
+                        />
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout>
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/chatSwitchNotification"
                         android:layout_width="wrap_content"
@@ -260,21 +298,26 @@
                         android:layout_gravity="center_vertical"
                         android:buttonTint="#4cd964"
                         android:checked="true"
+                        android:thumb="@drawable/switch_track_thumb"
+                        app:track="@drawable/switch_track_selector"
+                        app:thumbTextPadding="24dp"
+                        app:switchMinWidth="0dp"
+                        android:textOff=""
+                        android:textOn=""
                         />
-
                 </LinearLayout>
-            </LinearLayout>
 
+            </LinearLayout>
 
 
             <TextView
                 android:id="@+id/tvRegional"
-                android:textColor="@color/g_gray700"
-                android:textStyle="normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Regional"
+                android:textSize="18sp"
+                android:textColor="#1C160C"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintTop_toBottomOf="@id/linearNotifications" />
 
@@ -289,187 +332,242 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp">
 
-                <LinearLayout
-                    android:id="@+id/linearLogOut"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/settings_items_background"
-                        android:backgroundTint="#ff5823"
-                        app:tint="@color/white"
-                        />
-
-                    <TextView
-                        android:id="@+id/logout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="15dp"
-                        android:layout_weight="1"
-                        android:text="로그아웃"
-                        android:textColor="@color/g_gray700"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_arrow"
-                        android:layout_gravity="center_vertical"/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/linearCustomerService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/common_full_open_on_phone"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/settings_items_background"
-                        android:backgroundTint="#ff5823"
-                        app:tint="@color/white"
-                        />
-
+                    android:gravity="center_vertical"
+                    android:background="#FFFFFFFF"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/rn0u8gk6b8h"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/depth_4_fra"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/profile_customer_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/customer_figma"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
                     <TextView
                         android:id="@+id/customerService"
-                        android:layout_width="0dp"
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="15dp"
+                        android:layout_width="wrap_content"
+                        android:text="고객 센터"
+                        />
+                    <LinearLayout
+                        android:id="@+id/rvru8mgippo"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="고객센터"
-                        android:textColor="@color/g_gray700"
-                        android:textStyle="bold" />
-
+                        android:orientation="vertical">
+                    </LinearLayout>
                     <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_arrow"
-                        android:layout_gravity="center_vertical"/>
+                        android:id="@+id/profile_click"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/back_figma"
+                        android:scaleType="fitXY"
+                        />
                 </LinearLayout>
-
-
-
-
                 <LinearLayout
-                    android:id="@+id/linearPersonalInformation"
+                    android:id="@+id/linearLogOut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/stream_ui_shape_video_information_background"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/settings_items_background"
-                        android:backgroundTint="#ff5823"
-                        app:tint="@color/white"
+                    android:gravity="center_vertical"
+                    android:background="#FFFFFFFF"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/depth_4_fra"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/logout_figma"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="로그아웃"
                         />
 
-                    <TextView
-                        android:id="@+id/personalInformation"
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="15dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="개인정보처리방침"
-                        android:textColor="@color/g_gray700"
-                        android:textStyle="bold" />
-
+                        android:orientation="vertical">
+                    </LinearLayout>
                     <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_arrow"
-                        android:layout_gravity="center_vertical"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearUseTerms"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/custom_info_window_background"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/settings_items_background"
-                        android:backgroundTint="#ff5823"
-                        app:tint="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/back_figma"
+                        android:scaleType="fitXY"
                         />
-
-                    <TextView
-                        android:id="@+id/userTerms"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="15dp"
-                        android:layout_weight="1"
-                        android:text="이용 약관"
-                        android:textColor="@color/g_gray700"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_arrow"
-                        android:layout_gravity="center_vertical"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/linearDeleteAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/stream_ui_ic_delete"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/settings_items_background"
-                        android:backgroundTint="#ff5823"
-                        app:tint="@color/white"
-                        />
-
+                    android:gravity="center_vertical"
+                    android:background="#FFFFFFFF"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/depth_4_fra"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/delete_figma"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
                     <TextView
-                        android:id="@+id/deleteAccount"
-                        android:layout_width="0dp"
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="15dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:text="회원 탈퇴"
-                        android:textColor="@color/g_gray700"
-                        android:textStyle="bold" />
-
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout>
                     <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_arrow"
-                        android:layout_gravity="center_vertical"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/back_figma"
+                        android:scaleType="fitXY"
+                        />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearUseTerms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="#FFFFFFFF"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/depth_4_fra"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/infomation_fig"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="이용 약관"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/back_figma"
+                        android:scaleType="fitXY"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearPersonalInformation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="#FFFFFFFF"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/depth_4_fra"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/personal_info"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/personalInformation"
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="개인정보처리방침"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/back_figma"
+                        android:scaleType="fitXY"
+                        />
+                </LinearLayout>
+
+
+
+
 
             </LinearLayout>
 

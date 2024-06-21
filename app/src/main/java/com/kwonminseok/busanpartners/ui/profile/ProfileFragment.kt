@@ -465,7 +465,7 @@ class ProfileFragment : Fragment() {
 //                .create()
 //                .show()
 //        }
-        binding.deleteAccount.setOnClickListener {
+        binding.linearDeleteAccount.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_unregisterFragment)
 //            AlertDialog.Builder(requireContext())
 //                .setTitle("계정이 탈퇴됩니다.")
