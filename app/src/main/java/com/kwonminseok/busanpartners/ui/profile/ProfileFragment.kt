@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionManager
 import com.barnea.dialoger.Dialoger
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -177,7 +178,8 @@ class ProfileFragment : Fragment() {
         }
 
 
-        binding.constraintProfile.setOnClickListener {
+
+        binding.linearProfileUser.setOnClickListener {
             if (user.authentication.collegeStudent) {
                 findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
             } else {
@@ -275,16 +277,6 @@ class ProfileFragment : Fragment() {
         }
         binding.linearPersonalInformation.setOnClickListener {
 
-            val fm = Firebase.messaging
-            fm.send(
-                remoteMessage("${SENDER_ID}@fcm.googleapis.com") {
-                    setMessageId(messageId.toString())
-                    addData("my_message", "Hello World")
-                    addData("my_action", "SAY_HELLO")
-                },
-            )
-
-
         }
 
         // 로그아웃 버튼
@@ -326,242 +318,8 @@ class ProfileFragment : Fragment() {
 
         }
 
-        // 계정 삭제 코드
-//        binding.deleteAccount.setOnClickListener {
-//            // TODo 실제로 계정삭제할 때에는 프래그먼트를 따로 만들어서 정말 삭제하시겠습니까? 그런 것들을 만든다.
-//            //괜찮다면 왜 삭제하는 지에 대한 여부도 물으면 훨씬 더 좋겠다.
-//
-//            //
-//            AlertDialog.Builder(requireContext())
-//                .setTitle("계정이 탈퇴됩니다.")
-//                .setMessage("정말로 계정을 삭제하시겠습니까?")
-//                .setPositiveButton("Yes") { dialog, _ ->
-//                    dialog.dismiss()
-//                    isLogOut = true
-//                    BusanPartners.preferences.setString("uid", "")
-//                    BusanPartners.preferences.setString(Constants.TOKEN, "")
-//
-//                    CoroutineScope(Dispatchers.IO).launch {
-//                        try {
-//                            // Delete user from Room database
-//                            viewModel.deleteUser(user.toEntity())
-//
-//                            // Delete user from Firebase
-//                            val result = viewModel.deleteCurrentUser()
-//                            withContext(Dispatchers.Main) {
-//                                if (result is Resource.Success) {
-//                                    // Revoke Google Sign-In access
-//                                    GoogleSignIn.getClient(
-//                                        requireActivity(),
-//                                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-//                                    ).revokeAccess().addOnCompleteListener {
-//                                        if (it.isSuccessful) {
-//                                            Toast.makeText(requireContext(), "계정이 정상적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-//                                            val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
-//                                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                                            startActivity(intent)
-//                                        } else {
-//                                            Log.e("Google Sign-In access revoke", "Failed")
-//                                            Toast.makeText(requireContext(), "Google Sign-In access revoke failed.", Toast.LENGTH_SHORT).show()
-//                                        }
-//                                    }
-//                                } else {
-//                                    Log.e("계정 삭제에 실패했습니다", "Failure: ${result.message}")
-//                                    Toast.makeText(requireContext(), "계정 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
-//                                }
-//                            }
-//                        } catch (e: Exception) {
-//                            Log.e("Delete Account", "Exception: ${e.message}")
-//                            withContext(Dispatchers.Main) {
-//                                Toast.makeText(requireContext(), "계정 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-//                    }
-//                }
-//                .setNegativeButton("No") { dialog, _ ->
-//                    dialog.dismiss()
-//                }
-//                .create()
-//                .show()
-//        }
-
-//        binding.deleteAccount.setOnClickListener {
-//            AlertDialog.Builder(requireContext())
-//                .setTitle("계정이 탈퇴됩니다.")
-//                .setMessage("정말로 계정을 삭제하시겠습니까?")
-//                .setPositiveButton("Yes") { dialog, _ ->
-//                    dialog.dismiss()
-//                    isLogOut = true
-//                    BusanPartners.preferences.setString("uid", "")
-//                    BusanPartners.preferences.setString(Constants.TOKEN, "")
-//
-//                    val firebaseUser = FirebaseAuth.getInstance().currentUser
-//                    val googleSignInClient = GoogleSignIn.getClient(
-//                        requireActivity(),
-//                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-//                    )
-//
-//                    googleSignInClient.silentSignIn().addOnCompleteListener { task ->
-//                        if (task.isSuccessful) {
-//                            val googleSignInAccount = task.result
-//                            val idToken = googleSignInAccount?.idToken
-//
-//                            if (idToken != null) {
-//                                val credential = GoogleAuthProvider.getCredential(idToken, null)
-//
-//                                firebaseUser?.reauthenticate(credential)?.addOnCompleteListener { reauthTask ->
-//                                    if (reauthTask.isSuccessful) {
-//                                        CoroutineScope(Dispatchers.IO).launch {
-//                                            try {
-//                                                // Delete user from Room database
-//                                                viewModel.deleteUser(user.toEntity())
-//
-//                                                // Delete user from Firebase
-//                                                val result = viewModel.deleteCurrentUser()
-//                                                withContext(Dispatchers.Main) {
-//                                                    if (result is Resource.Success) {
-//                                                        // Revoke Google Sign-In access
-//                                                        googleSignInClient.revokeAccess().addOnCompleteListener {
-//                                                            if (it.isSuccessful) {
-//                                                                Toast.makeText(requireContext(), "계정이 정상적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-//                                                                val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
-//                                                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                                                                startActivity(intent)
-//                                                            } else {
-//                                                                Log.e("Google Sign-In access revoke", "Failed")
-//                                                                Toast.makeText(requireContext(), "Google Sign-In access revoke failed.", Toast.LENGTH_SHORT).show()
-//                                                            }
-//                                                        }
-//                                                    } else {
-//                                                        Log.e("계정 삭제에 실패했습니다", "Failure: ${result.message}")
-//                                                        Toast.makeText(requireContext(), "계정 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
-//                                                    }
-//                                                }
-//                                            } catch (e: Exception) {
-//                                                Log.e("Delete Account", "Exception: ${e.message}")
-//                                                withContext(Dispatchers.Main) {
-//                                                    Toast.makeText(requireContext(), "계정 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
-//                                                }
-//                                            }
-//                                        }
-//                                    } else {
-//                                        Log.e("Reauthentication", "Failed: ${reauthTask.exception?.message}")
-//                                        Toast.makeText(requireContext(), "재인증에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-//                                    }
-//                                }
-//                            } else {
-//                                Log.e("Google Sign-In", "ID Token is null")
-//                                Toast.makeText(requireContext(), "구글 로그인에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-//                            }
-//                        } else {
-//                            Log.e("Google Sign-In", "Silent sign-in failed: ${task.exception?.message}")
-//                            Toast.makeText(requireContext(), "구글 로그인에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                }
-//                .setNegativeButton("No") { dialog, _ ->
-//                    dialog.dismiss()
-//                }
-//                .create()
-//                .show()
-//        }
         binding.linearDeleteAccount.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_unregisterFragment)
-//            AlertDialog.Builder(requireContext())
-//                .setTitle("계정이 탈퇴됩니다.")
-//                .setMessage("정말로 계정을 삭제하시겠습니까?")
-//                .setPositiveButton("Yes") { dialog, _ ->
-//                    dialog.dismiss()
-//                    isLogOut = true
-//                    BusanPartners.preferences.setString("uid", "")
-//                    BusanPartners.preferences.setString(Constants.TOKEN, "")
-//
-//                    val firebaseUser = FirebaseAuth.getInstance().currentUser
-//                    val googleSignInClient = GoogleSignIn.getClient(
-//                        requireActivity(),
-//                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                            .requestIdToken(getString(R.string.default_web_client_id))
-//                            .build()
-//                    )
-//
-//                    googleSignInClient.silentSignIn().addOnCompleteListener { task ->
-//                        if (task.isSuccessful) {
-//                            val googleSignInAccount = task.result
-//                            val idToken = googleSignInAccount?.idToken
-//
-//                            if (idToken != null) {
-//                                val credential = GoogleAuthProvider.getCredential(idToken, null)
-//
-//                                firebaseUser?.reauthenticate(credential)?.addOnCompleteListener { reauthTask ->
-//                                    if (reauthTask.isSuccessful) {
-//                                        CoroutineScope(Dispatchers.IO).launch {
-//                                            try {
-//                                                // GetStream에서 사용자가 참여한 모든 채널 조회
-//                                                val filter = Filters.eq("members", user.uid)
-//                                                val queryChannelsRequest = QueryChannelsRequest(filter, 0, 10)
-//
-//                                                val channelResult = chatClient.queryChannels(queryChannelsRequest).execute()
-//
-//                                                if (channelResult.isSuccess) {
-//                                                    val channels = channelResult.getOrNull()
-//                                                    if (channels != null) {
-//                                                        for (channel in channels) {
-//                                                            chatClient.removeMembers("messaging",channel.cid, listOf(uid)).execute()
-//                                                        }
-//                                                    }
-//                                                }
-//
-//                                                // Delete user from Room database
-//                                                viewModel.deleteUser(user.toEntity())
-//
-//                                                // Delete user from Firebase
-//                                                val result = viewModel.deleteCurrentUser()
-//                                                withContext(Dispatchers.Main) {
-//                                                    if (result is Resource.Success) {
-//                                                        // Revoke Google Sign-In access
-//                                                        googleSignInClient.revokeAccess().addOnCompleteListener {
-//                                                            if (it.isSuccessful) {
-//                                                                Toast.makeText(requireContext(), "계정이 정상적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-//                                                                val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
-//                                                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                                                                startActivity(intent)
-//                                                            } else {
-//                                                                Log.e("Google Sign-In access revoke", "Failed")
-//                                                                Toast.makeText(requireContext(), "Google Sign-In access revoke failed.", Toast.LENGTH_SHORT).show()
-//                                                            }
-//                                                        }
-//                                                    } else {
-//                                                        Log.e("계정 삭제에 실패했습니다", "Failure: ${result.message}")
-//                                                        Toast.makeText(requireContext(), "계정 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
-//                                                    }
-//                                                }
-//                                            } catch (e: Exception) {
-//                                                Log.e("Delete Account", "Exception: ${e.message}")
-//                                                withContext(Dispatchers.Main) {
-//                                                    Toast.makeText(requireContext(), "계정 삭제에 실패했습니다.", Toast.LENGTH_SHORT).show()
-//                                                }
-//                                            }
-//                                        }
-//                                    } else {
-//                                        Log.e("Reauthentication", "Failed: ${reauthTask.exception?.message}")
-//                                        Toast.makeText(requireContext(), "재인증에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-//                                    }
-//                                }
-//                            } else {
-//                                Log.e("Google Sign-In", "ID Token is null")
-//                                Toast.makeText(requireContext(), "구글 로그인에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-//                            }
-//                        } else {
-//                            Log.e("Google Sign-In", "Silent sign-in failed: ${task.exception?.message}")
-//                            Toast.makeText(requireContext(), "구글 로그인에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                }
-//                .setNegativeButton("No") { dialog, _ ->
-//                    dialog.dismiss()
-//                }
-//                .create()
-//                .show()
         }
 
 
@@ -574,16 +332,74 @@ class ProfileFragment : Fragment() {
     }
 
 
-
+//    private fun fetchUserData(user: User) {
+//        binding.apply {
+//            Glide.with(requireView()).load(user.imagePath).override(200, 200)
+//                .into(binding.imageUser)
+//            tvUserName.text = user.name?.ko
+//            if (user.college == null) {
+//                tvUniversityName.visibility = View.GONE
+//            } else {
+//                tvUniversityName.visibility = View.VISIBLE
+//                tvUniversityName.text = "${user.college} ${user.major?.ko}"
+//            }
+//        }
+//        when (user.authentication.authenticationStatus) {
+//            "loading" -> {
+//                Log.e("fetchUserData", "load")
+//                binding.apply {
+//                    TransitionManager.beginDelayedTransition(binding.root)
+//                    authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+//                    travelerAuthentication.visibility = View.INVISIBLE
+//                    collegeAuthentication.visibility = View.INVISIBLE
+//                    authenticationLoadOrCompleteText.text = "인증 중입니다. 잠시만 기다려주세요."
+//                }
+//            }
+//
+//            "complete" -> {
+//                if (user.authentication.collegeStudent) {
+//                    binding.apply {
+//                        TransitionManager.beginDelayedTransition(binding.root)
+//                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+//                        travelerAuthentication.visibility = View.INVISIBLE
+//                        collegeAuthentication.visibility = View.INVISIBLE
+//                        authenticationLoadOrCompleteText.text =
+//                            "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
+//                    }
+//                } else if (user.authentication.traveler) {
+//                    val tokenTime = formatDateTime(user.tokenTime.toString())
+//                    binding.apply {
+//                        TransitionManager.beginDelayedTransition(binding.root)
+//                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+//                        travelerAuthentication.visibility = View.INVISIBLE
+//                        collegeAuthentication.visibility = View.INVISIBLE
+//                        authenticationLoadOrCompleteText.text =
+//                            "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
+//                    }
+//                }
+//
+//            }
+//
+//            else -> {
+//                binding.apply {
+//                    TransitionManager.beginDelayedTransition(binding.root)
+//                    authenticationLoadOrCompleteCard.visibility = View.GONE
+//                    travelerAuthentication.visibility = View.VISIBLE
+//                    collegeAuthentication.visibility = View.VISIBLE
+//                }
+//            }
+//        }
+//    }
     private fun fetchUserData(user: User) {
         binding.apply {
             Glide.with(requireView()).load(user.imagePath).override(200, 200)
                 .into(binding.imageUser)
             tvUserName.text = user.name?.ko
-            tvEditPersonalDetails.text = if (user.college == null) {
-                ""
+            if (user.college == null) {
+                tvUniversityName.visibility = View.GONE
             } else {
-                "${user.college} ${user.major?.ko}"
+                tvUniversityName.visibility = View.VISIBLE
+                tvUniversityName.text = "${user.college} ${user.major?.ko}"
             }
         }
         when (user.authentication.authenticationStatus) {
