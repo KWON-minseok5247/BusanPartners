@@ -85,33 +85,7 @@
                 app:layout_constraintTop_toBottomOf="@id/linear_profile_user" />
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/authentication_load_or_complete_card"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                app:cardBackgroundColor="@color/chipgroup_color"
-                app:layout_constraintStart_toStartOf="@id/guideline1"
-                app:layout_constraintEnd_toEndOf="@id/guideline2"
-                android:clickable="false"
-                app:cardCornerRadius="10dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="10dp"
 
-                app:layout_constraintTop_toBottomOf="@+id/tvAuthentication"
-                app:layout_constraintBottom_toBottomOf="@+id/linearAuthentication"
-                android:visibility="gone">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/authentication_load_or_complete_text"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textColor="#1C160C"
-                    android:text="인증 중입니다. 잠시만 기다려주세요."/>
-
-
-            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:id="@+id/linearAuthentication"
@@ -123,40 +97,50 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/collegeAuthentication"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="8dp"
-                    android:clickable="false"
-                    app:cardBackgroundColor="@color/chipgroup_color"
-                    app:cardCornerRadius="10dp"
-                    android:layout_weight="1">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="대학생"
-                        android:gravity="center"
+                <LinearLayout
+                    android:id="@+id/linearAuthenticationClick"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="#FFFFFFFF"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/depth_4_fra"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/authentication_figma"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+                    <TextView
                         android:textColor="#1C160C"
-                        android:layout_gravity="center"/>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/travelerAuthentication"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardBackgroundColor="@color/chipgroup_color"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
+                        android:textSize="16sp"
                         android:layout_height="wrap_content"
-                        android:textColor="#1C160C"
-                        android:text="관광객"
-                        android:gravity="center"
-                        android:layout_gravity="center"/>
-                </com.google.android.material.card.MaterialCardView>
+                        android:layout_width="wrap_content"
+                        android:text="인증하기"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/click_figma"
+                        android:scaleType="fitXY"
+                        />
+                </LinearLayout>
 
 
             </LinearLayout>

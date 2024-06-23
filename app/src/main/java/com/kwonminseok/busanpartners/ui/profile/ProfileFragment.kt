@@ -254,22 +254,25 @@ class ProfileFragment : Fragment() {
 
         // 여기서 만약 이메일인증까지 진행했다면 바로 학생증 인증으로 넘어가기
         // 클릭하면 information 창으로 넘어가기
-        binding.collegeAuthentication.setOnClickListener {
-            if (user.authentication.studentEmailAuthenticationComplete) {
-                findNavController().navigate(R.id.action_profileFragment_to_collegeAuthImageFragment)
-            } else {
-                findNavController().navigate(R.id.action_profileFragment_to_onboardingStudentInformationFragment)
-
-//                val intent =
-//                    Intent(requireContext(), OnboardingStudentInformationActivity::class.java)
-//                startActivity(intent)
-
-            }
-        }
+//        binding.collegeAuthentication.setOnClickListener {
+//            if (user.authentication.studentEmailAuthenticationComplete) {
+//                findNavController().navigate(R.id.action_profileFragment_to_collegeAuthImageFragment)
+//            } else {
+//                findNavController().navigate(R.id.action_profileFragment_to_onboardingStudentInformationFragment)
+//
+////                val intent =
+////                    Intent(requireContext(), OnboardingStudentInformationActivity::class.java)
+////                startActivity(intent)
+//
+//            }
+//        }
 
         // 클릭하면 information 창으로 넘어가기
-        binding.travelerAuthentication.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_onboardingTravelerInformationFragment)
+//        binding.travelerAuthentication.setOnClickListener {
+//            findNavController().navigate(R.id.action_profileFragment_to_onboardingTravelerInformationFragment)
+//        }
+        binding.linearAuthentication.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_authenticationSelectFragment)
         }
 
         binding.linearCustomerService.setOnClickListener {
@@ -402,47 +405,47 @@ class ProfileFragment : Fragment() {
                 tvUniversityName.text = "${user.college} ${user.major?.ko}"
             }
         }
-        when (user.authentication.authenticationStatus) {
-            "loading" -> {
-                Log.e("fetchUserData", "load")
-                binding.apply {
-                    authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-                    travelerAuthentication.visibility = View.INVISIBLE
-                    collegeAuthentication.visibility = View.INVISIBLE
-                    authenticationLoadOrCompleteText.text = "인증 중입니다. 잠시만 기다려주세요."
-                }
-            }
-
-            "complete" -> {
-                if (user.authentication.collegeStudent) {
-                    binding.apply {
-                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-                        travelerAuthentication.visibility = View.INVISIBLE
-                        collegeAuthentication.visibility = View.INVISIBLE
-                        authenticationLoadOrCompleteText.text =
-                            "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
-                    }
-                } else if (user.authentication.traveler) {
-                    val tokenTime = formatDateTime(user.tokenTime.toString())
-                    binding.apply {
-                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-                        travelerAuthentication.visibility = View.INVISIBLE
-                        collegeAuthentication.visibility = View.INVISIBLE
-                        authenticationLoadOrCompleteText.text =
-                            "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
-                    }
-                }
-
-            }
-
-            else -> {
-                binding.apply {
-                    authenticationLoadOrCompleteCard.visibility = View.GONE
-                    travelerAuthentication.visibility = View.VISIBLE
-                    collegeAuthentication.visibility = View.VISIBLE
-                }
-            }
-        }
+//        when (user.authentication.authenticationStatus) {
+//            "loading" -> {
+//                Log.e("fetchUserData", "load")
+//                binding.apply {
+//                    authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+//                    travelerAuthentication.visibility = View.INVISIBLE
+//                    collegeAuthentication.visibility = View.INVISIBLE
+//                    authenticationLoadOrCompleteText.text = "인증 중입니다. 잠시만 기다려주세요."
+//                }
+//            }
+//
+//            "complete" -> {
+//                if (user.authentication.collegeStudent) {
+//                    binding.apply {
+//                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+//                        travelerAuthentication.visibility = View.INVISIBLE
+//                        collegeAuthentication.visibility = View.INVISIBLE
+//                        authenticationLoadOrCompleteText.text =
+//                            "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
+//                    }
+//                } else if (user.authentication.traveler) {
+//                    val tokenTime = formatDateTime(user.tokenTime.toString())
+//                    binding.apply {
+//                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
+//                        travelerAuthentication.visibility = View.INVISIBLE
+//                        collegeAuthentication.visibility = View.INVISIBLE
+//                        authenticationLoadOrCompleteText.text =
+//                            "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
+//                    }
+//                }
+//
+//            }
+//
+//            else -> {
+//                binding.apply {
+//                    authenticationLoadOrCompleteCard.visibility = View.GONE
+//                    travelerAuthentication.visibility = View.VISIBLE
+//                    collegeAuthentication.visibility = View.VISIBLE
+//                }
+//            }
+//        }
     }
 
 //    private fun showProgressBar() {

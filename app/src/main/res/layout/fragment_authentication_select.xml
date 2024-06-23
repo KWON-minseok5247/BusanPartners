@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFFFF"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/rtr1hnt0r0um"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FFFFFFFF"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/rj7m4it3pwp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:background="#FFFFFFFF"
+                android:paddingVertical="28dp"
+                android:paddingHorizontal="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/backButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="0dp"
+                    android:src="@drawable/back_figma"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:id="@+id/rk3nhpswmkf"
+                    android:textColor="#1C160C"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/stream_roboto_bold"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="세부 정보" />
+
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="0dp"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/rq3key5k2gb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="22dp"
+                android:text="Who are you?"
+                android:textColor="#1C160C"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/rce5e40jhhbv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="38dp"
+                android:text="We'll use this to recommend people and events."
+                android:textColor="#1C160C"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/r72flli3gve"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/linear_student"
+                    android:layout_width="173dp"
+                    android:layout_height="157dp"
+                    android:background="@drawable/sffe8ddcesw1cr8bffffffff"
+                    android:orientation="vertical"
+                    android:padding="17dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginBottom="16dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/student_figma" />
+
+                    <TextView
+                        android:id="@+id/r5g71lgdnbej"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="9dp"
+                        android:text="College student"
+                        android:textColor="#1C160C"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/rn6bnzq0cykg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Get matched with other college students"
+                        android:textColor="#A08249"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/linear_tourist"
+                    android:layout_width="173dp"
+                    android:layout_height="157dp"
+                    android:background="@drawable/sffe8ddcesw1cr8bffffffff"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="17dp"
+                    android:paddingTop="17dp"
+                    android:paddingBottom="47dp">
+
+                    <ImageView
+                        android:id="@+id/rdncoyykll9s"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginBottom="17dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/traveler_figma" />
+
+                    <TextView
+                        android:id="@+id/rnfbvgu4hmcf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Tourist"
+                        android:textColor="#1C160C"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/rh9v0jgjqr2o"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Get matched with tourists"
+                        android:textColor="#A08249"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/rv0vtzcsfctr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFFFF"
+        android:orientation="vertical" />
+</LinearLayout>

@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.ImagesAdapter
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthImageBinding
@@ -31,6 +32,7 @@ import com.kwonminseok.busanpartners.viewmodel.AuthenticationViewModel
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import me.relex.circleindicator.CircleIndicator3
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -41,8 +43,10 @@ class CollegeAuthImageFragment : Fragment() {
 
     private var _binding: FragmentCollegeAuthImageBinding? = null
     private val binding get() = _binding!!
+    private lateinit var indicator: CircleIndicator3
+    private lateinit var viewPager: ViewPager2
 
-    private val viewModels by viewModels<AuthenticationViewModel>()
+
     private val viewModel: UserViewModel by viewModels()
 
 //    private val authenticationCollegeViewModel by viewModels<AuthenticationInformationViewModel>()
@@ -66,41 +70,45 @@ class CollegeAuthImageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        viewPager = binding.viewPager // viewPager 초기화
+        indicator = binding.indicator // indicator 초기화
+
 // 버튼을 눌렀을 때 과정
-        lifecycleScope.launchWhenStarted {
-            viewModel.updateStatus.collect { resource ->
-                when (resource) {
-                    is Resource.Loading -> {
-                        // 로딩 인디케이터 표시
-                        binding.btnSendAllData.startAnimation()
-                    }
-
-                    is Resource.Success -> {
-                        // 로딩 인디케이터 숨기기
-                        binding.btnSendAllData.revertAnimation()
-                        findNavController().navigate(
-                            R.id.action_collegeAuthImageFragment_to_profileFragment,
-                            null,
-                            NavOptions.Builder().setPopUpTo(R.id.homeFragment, false).build()
-                        )
-
-                        // 성공 메시지 표시 또는 성공 후 작업
-                        Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    is Resource.Error -> {
-                        // 로딩 인디케이터 숨기기
-                        binding.btnSendAllData.revertAnimation()
-                        // 에러 메시지 표시
-                        Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    else -> Unit // Resource.Unspecified 처리
-                }
-            }
-        }
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.updateStatus.collect { resource ->
+//                when (resource) {
+//                    is Resource.Loading -> {
+//                        // 로딩 인디케이터 표시
+//                        binding.btnSendAllData.startAnimation()
+//                    }
+//
+//                    is Resource.Success -> {
+//                        // 로딩 인디케이터 숨기기
+//                        binding.btnSendAllData.revertAnimation()
+//                        findNavController().navigate(
+//                            R.id.action_collegeAuthImageFragment_to_profileFragment,
+//                            null,
+//                            NavOptions.Builder().setPopUpTo(R.id.homeFragment, false).build()
+//                        )
+//
+//                        // 성공 메시지 표시 또는 성공 후 작업
+//                        Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//
+//                    is Resource.Error -> {
+//                        // 로딩 인디케이터 숨기기
+//                        binding.btnSendAllData.revertAnimation()
+//                        // 에러 메시지 표시
+//                        Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//
+//                    else -> Unit // Resource.Unspecified 처리
+//                }
+//            }
+//        }
 
         // 얘는 일단 user 데이터를 불러오고 만약 학생증 사진이 이미 올라와져있다면 굳이 사진을 올릴 필요가 없으니까. 사진은 그대로 올려두되
 //        lifecycleScope.launchWhenStarted {
@@ -158,7 +166,7 @@ class CollegeAuthImageFragment : Fragment() {
 
 
         // 이미지 버튼 클릭 시
-        binding.btnOpenGallery.setOnClickListener {
+        binding.openGalleryButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -168,47 +176,12 @@ class CollegeAuthImageFragment : Fragment() {
             )
         }
 
-        // 관리하는 페이지 수. default = 1
-//        binding.viewPagerImages.offscreenPageLimit = 4
-        // item_view 간의 양 옆 여백을 상쇄할 값
-//        binding.viewPagerImages.setPageTransformer { page, position ->
-//            // 페이지 간 간격을 조절하여 단순한 스크롤 효과를 제공
-//            page.translationX = position * -(offsetBetweenPages)
-//        }
-//        val offsetBetweenPages =
-//            resources.getDimensionPixelOffset(R.dimen.offsetBetweenPages).toFloat()
-
-//        binding.viewPagerImages.setPageTransformer { page, position ->
-//            val myOffset = position * -(2 * offsetBetweenPages)
-//            if (position < -1) {
-//                page.translationX = -myOffset
-//            } else if (position <= 1) {
-//                // Paging 시 Y축 Animation 배경색을 약간 연하게 처리
-//                val scaleFactor = 0.95f.coerceAtLeast(1 - abs(position))
-//                page.translationX = myOffset
-//                page.scaleY = scaleFactor
-//                page.alpha = scaleFactor
-//            } else {
-//                page.alpha = 0f
-//                page.translationX = myOffset
-//            }
-//        }
-
-
         // 프로필 프래그먼트로 돌아가는 함수
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_collegeAuthImageFragment_to_profileFragment)
         }
 
-//        val callback = object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                findNavController().navigate(R.id.action_collegeAuthImageFragment_to_profileFragment)
-//
-//            }
-//        }
-//        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
-
-        binding.btnSendAllData.setOnClickListener {
+        binding.sendButton.setOnClickListener {
             // imageUri가 null이면 안되도록 설정한다.
             if (imageUris.isEmpty()) {
                 // 아무것도 실행되지 않도록
@@ -216,9 +189,6 @@ class CollegeAuthImageFragment : Fragment() {
             } else {
                 viewModel.viewModelScope.launch {
                     viewModel.uploadUserImagesAndUpdateToFirestore(imageUris, STUDENT)
-//                    viewModel.attachToAuthenticationFolder(STUDENT)
-//                    withContext(Dispatchers.Main) {
-//                    }
                 }
 
             }
@@ -228,34 +198,6 @@ class CollegeAuthImageFragment : Fragment() {
 
     }
 
-    // 사진을 처리하는 과정
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if (requestCode == REQUEST_CODE_IMAGE_PICK && resultCode == RESULT_OK) {
-//            imageUris.clear() // 기존 목록을 클리어
-//
-//            // 선택한 이미지 처리
-//            if (data?.clipData != null) { // 여러 이미지 선택 처리
-//                val clipData = data.clipData!!
-//                for (i in 0 until clipData.itemCount) {
-//                    val imageUri = clipData.getItemAt(i).uri
-//                    imageUris.add(imageUri)
-//                }
-//            } else if (data?.data != null) { // 단일 이미지 선택 처리
-//                val imageUri = data.data!!
-//                imageUris.add(imageUri)
-//            }
-//
-//            binding.viewPagerImages.adapter?.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
-//
-////            // 데이터를 파이어베이스에 저장하는 과정
-////            lifecycleScope.launch {
-////                viewModels.processUserImageSelection(imageUris, STUDENT)
-////            }
-//
-//        }
-//    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -273,6 +215,7 @@ class CollegeAuthImageFragment : Fragment() {
                     imageUris.add(resizedUri)
 
                 }
+
             } else if (data?.data != null) { // 단일 이미지 선택 처리
                 val imageUri = data.data!!
                 val resizedUri = convertResizeImage(imageUri) // 예시 해상도
@@ -313,11 +256,15 @@ class CollegeAuthImageFragment : Fragment() {
     private fun updateImagesAdapter(imageUris: ArrayList<Uri>) {
         if (!::imagesAdapter.isInitialized) {
             imagesAdapter = ImagesAdapter(requireContext(), imageUris)
-            binding.viewPagerImages.adapter = imagesAdapter
+            binding.viewPager.adapter = imagesAdapter
+            indicator.setViewPager(viewPager) // ViewPager와 Indicator 연결
+
         } else {
             imagesAdapter.updateImages(imageUris)
+            indicator.setViewPager(viewPager) // ViewPager와 Indicator 연결
+
         }
-        binding.viewPagerImages.adapter?.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
+        binding.viewPager.adapter?.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
     }
 
 
@@ -338,13 +285,7 @@ class CollegeAuthImageFragment : Fragment() {
         _binding = null
     }
 
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
 
-    private fun hideProgressBar() {
-        binding.progressBar.visibility = View.GONE
-    }
     private fun getRotationAngle(imageUri: Uri): Int {
         val inputStream = requireContext().contentResolver.openInputStream(imageUri)
         val exifInterface = ExifInterface(inputStream!!)

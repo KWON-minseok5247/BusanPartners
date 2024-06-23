@@ -54,12 +54,6 @@
             android:id="@+id/action_profileFragment_to_collegeAuthImageFragment"
             app:destination="@id/collegeAuthImageFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_onboardingStudentInformationFragment"
-            app:destination="@id/onboardingStudentInformationFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_onboardingTravelerInformationFragment"
-            app:destination="@id/onboardingTravelerInformationFragment" />
-        <action
             android:id="@+id/action_profileFragment_to_userAccountForBeginnerFragment"
             app:destination="@id/userAccountForBeginnerFragment" />
         <action
@@ -68,6 +62,9 @@
         <action
             android:id="@+id/action_profileFragment_to_unregisterFragment"
             app:destination="@id/unregisterFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_authenticationSelectFragment"
+            app:destination="@id/authenticationSelectFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
@@ -196,6 +193,21 @@
         <action
             android:id="@+id/action_universityStudentFragment_to_messageFragment"
             app:destination="@id/messageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authenticationSelectFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.AuthenticationSelectFragment"
+        android:label="AuthenticationSelectFragment"
+        tools:layout="@layout/fragment_authentication_select">
+        <action
+            android:id="@+id/action_authenticationSelectFragment_to_onboardingStudentInformationFragment"
+            app:destination="@id/onboardingStudentInformationFragment" />
+        <action
+            android:id="@+id/action_authenticationSelectFragment_to_onboardingTravelerInformationFragment"
+            app:destination="@id/onboardingTravelerInformationFragment" />
+        <action
+            android:id="@+id/action_authenticationSelectFragment_to_collegeAuthImageFragment"
+            app:destination="@id/collegeAuthImageFragment" />
     </fragment>
 
 
