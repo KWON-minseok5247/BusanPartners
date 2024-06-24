@@ -54,30 +54,44 @@
                     android:visibility="invisible" />
             </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/rsz8p47hpfk"
-                android:textColor="#1C160C"
-                android:textSize="16sp"
-                android:layout_marginBottom="38dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:id="@+id/rdfafrxk0m6a"
                 android:layout_width="match_parent"
-                android:text="Choose a profile photo that shows your face clearly." />
+                android:layout_height="wrap_content"
+                android:background="#FFFFFFFF"
+                android:paddingVertical="20dp"
+                android:paddingHorizontal="16dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:textColor="#1C160C"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="학생증 스캔본 및 톡학생증을 촬영해서 올려주세요." />
+                <TextView
+                    android:id="@+id/textViewEventPlace"
+                    android:textColor="#A08249"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="이름과 학번이 식별이 가능한 상태여야 합니다." />
+            </LinearLayout>
+
 
             <RelativeLayout
                 android:id="@+id/rlqonm7jwhcq_rl"
                 android:layout_width="match_parent"
                 android:layout_height="477dp"
                 android:gravity="center_horizontal"
+                android:padding="16dp"
                 android:layout_marginBottom="26dp">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
-                    app:shapeAppearanceOverlay="@style/cr12"
                     android:layout_width="match_parent"
-                    android:layout_height="464dp"
-                    android:layout_marginHorizontal="16dp" />
+                    android:layout_height="match_parent" />
 
                 <me.relex.circleindicator.CircleIndicator3
                     android:id="@+id/indicator"
@@ -89,23 +103,19 @@
                     app:ci_drawable_unselected="@drawable/chipgroup_radius"
                     app:ci_height="8dp"
                     app:ci_width="8dp" />
-
             </RelativeLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginBottom="12dp"
                 android:layout_marginHorizontal="16dp"
-                android:orientation="horizontal"
                 android:padding="16dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/open_gallery_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@drawable/cr24bff009964"
                     android:gravity="center"
                     android:paddingVertical="10dp"
@@ -113,33 +123,38 @@
                     android:text="갤러리"
                     android:textColor="#1C170D"
                     android:textSize="14sp"
-                    android:fontFamily="@font/stream_roboto_regular" />
+                    android:fontFamily="@font/stream_roboto_regular"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.45" />
 
                 <View
-                    android:layout_width="16dp"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/space"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/send_button"
+                    app:layout_constraintStart_toEndOf="@+id/open_gallery_button"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatButton
+                <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/send_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@drawable/cr24bff009963"
                     android:fontFamily="@font/stream_roboto_regular"
+                    app:spinning_bar_color="@color/white"
                     android:gravity="center"
                     android:paddingVertical="10dp"
                     android:text="전송하기"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/space"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:id="@+id/rpk31unlygn"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#FFFFFFFF"
-                android:orientation="vertical" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

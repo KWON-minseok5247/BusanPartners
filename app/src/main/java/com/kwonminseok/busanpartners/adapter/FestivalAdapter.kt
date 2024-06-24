@@ -19,9 +19,8 @@ class FestivalAdapter : RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder>
 //            binding.textViewLocation.text = festival.addr1
             Glide.with(binding.root.context)
                 .load(festival.firstimage)
+                .centerCrop()
                 .into(binding.ivFestivalImage)
-
-
         }
     }
 

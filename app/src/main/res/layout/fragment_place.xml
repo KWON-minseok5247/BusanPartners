@@ -87,8 +87,7 @@
                 android:layout_marginBottom="22dp"
                 android:layout_marginStart="17dp"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Haedong Yonggung Temple" />
+                android:layout_width="wrap_content" />
 
             <TextView
                 android:id="@+id/textViewOverview"
@@ -99,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:text="The Haedong Yonggung Temple is a Buddhist temple in Busan, South Korea. The temple was built in 1376 by the teacher Naong during the Goryeo Dynasty. It is situated on the coast of the north-eastern portion of Busan. This is a rare find in Korea as temples are usually located in mountains." />
+                 />
 
             <LinearLayout
                 android:id="@+id/rdfafrxk0m6a"
@@ -122,8 +121,7 @@
                     android:textColor="#A08249"
                     android:textSize="14sp"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="Busan, South Korea" />
+                    android:layout_width="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -148,8 +146,7 @@
                     android:textColor="#A08249"
                     android:textSize="14sp"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="35.1136° N, 129.0554° E" />
+                    android:layout_width="wrap_content" />
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton

@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.ImagesAdapter
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
@@ -30,6 +31,7 @@ import com.kwonminseok.busanpartners.viewmodel.AuthenticationViewModel
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import me.relex.circleindicator.CircleIndicator3
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -41,8 +43,10 @@ class TravelerAuthFragment : Fragment() {
     private var _binding: FragmentTravelerAuthBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModels by viewModels<AuthenticationViewModel>()
     private val viewModel: UserViewModel by viewModels()
+
+    private lateinit var indicator: CircleIndicator3
+    private lateinit var viewPager: ViewPager2
 
     //    private val authenticationCollegeViewModel by viewModels<AuthenticationInformationViewModel>()
     private val REQUEST_CODE_IMAGE_PICK = 1000
@@ -65,18 +69,24 @@ class TravelerAuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        viewPager = binding.viewPager // viewPager 초기화
+        indicator = binding.indicator // indicator 초기화
+
+
 // 버튼을 눌렀을 때 과정
         lifecycleScope.launchWhenStarted {
             viewModel.updateStatus.collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                         // 로딩 인디케이터 표시
-                        binding.btnSendAllData.startAnimation()
+                        binding.sendButton.startAnimation()
                     }
 
                     is Resource.Success -> {
                         // 로딩 인디케이터 숨기기
-                        binding.btnSendAllData.revertAnimation()
+                        binding.sendButton.revertAnimation()
                         // 성공 메시지 표시 또는 성공 후 작업
                         findNavController().navigate(
                             R.id.action_travelerAuthFragment_to_profileFragment,
@@ -91,7 +101,7 @@ class TravelerAuthFragment : Fragment() {
 
                     is Resource.Error -> {
                         // 로딩 인디케이터 숨기기
-                        binding.btnSendAllData.revertAnimation()
+                        binding.sendButton.revertAnimation()
                         // 에러 메시지 표시
                         Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT)
                             .show()
@@ -104,7 +114,7 @@ class TravelerAuthFragment : Fragment() {
 
 
         // 이미지 버튼 클릭 시
-        binding.btnOpenGallery.setOnClickListener {
+        binding.openGalleryButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -148,7 +158,7 @@ class TravelerAuthFragment : Fragment() {
 
 
         //TODO 데이터들이 전부 갖춰져야 클릭을 할 수 있다거나 버튼이 보여선 안됨. 지금은 테스트용이라 냅둔다.
-        binding.btnSendAllData.setOnClickListener {
+        binding.sendButton.setOnClickListener {
             // imageUri가 null이면 안되도록 설정한다.
             if (imageUris.isEmpty()) {
                 // 아무것도 실행되지 않도록
@@ -265,11 +275,13 @@ class TravelerAuthFragment : Fragment() {
     private fun updateImagesAdapter(imageUris: ArrayList<Uri>) {
         if (!::imagesAdapter.isInitialized) {
             imagesAdapter = ImagesAdapter(requireContext(), imageUris)
-            binding.viewPagerImages.adapter = imagesAdapter
+            binding.viewPager.adapter = imagesAdapter
+            indicator.setViewPager(viewPager) // ViewPager와 Indicator 연결
         } else {
             imagesAdapter.updateImages(imageUris)
+            indicator.setViewPager(viewPager) // ViewPager와 Indicator 연결
         }
-        binding.viewPagerImages.adapter?.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
+        binding.viewPager.adapter?.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
     }
 
 
@@ -288,13 +300,6 @@ class TravelerAuthFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-    private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideProgressBar() {
-        binding.progressBar.visibility = View.GONE
     }
 
     private fun getRotationAngle(imageUri: Uri): Int {

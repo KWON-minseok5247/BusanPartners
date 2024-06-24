@@ -63,6 +63,7 @@ class ImagesAdapter(private val context: Context, private var images: ArrayList<
         // Glide를 사용하여 이미지 로드
         Glide.with(context)
             .load(images[position])
+            .centerInside()
             .into(holder.imageView)
 
         // onClick 콜백이 null이 아닐 경우 실행

@@ -74,96 +74,43 @@ class CollegeAuthImageFragment : Fragment() {
         viewPager = binding.viewPager // viewPager 초기화
         indicator = binding.indicator // indicator 초기화
 
-// 버튼을 눌렀을 때 과정
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.updateStatus.collect { resource ->
-//                when (resource) {
-//                    is Resource.Loading -> {
-//                        // 로딩 인디케이터 표시
-//                        binding.btnSendAllData.startAnimation()
-//                    }
-//
-//                    is Resource.Success -> {
-//                        // 로딩 인디케이터 숨기기
-//                        binding.btnSendAllData.revertAnimation()
-//                        findNavController().navigate(
-//                            R.id.action_collegeAuthImageFragment_to_profileFragment,
-//                            null,
-//                            NavOptions.Builder().setPopUpTo(R.id.homeFragment, false).build()
-//                        )
-//
-//                        // 성공 메시지 표시 또는 성공 후 작업
-//                        Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//
-//                    is Resource.Error -> {
-//                        // 로딩 인디케이터 숨기기
-//                        binding.btnSendAllData.revertAnimation()
-//                        // 에러 메시지 표시
-//                        Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//
-//                    else -> Unit // Resource.Unspecified 처리
-//                }
-//            }
-//        }
 
-        // 얘는 일단 user 데이터를 불러오고 만약 학생증 사진이 이미 올라와져있다면 굳이 사진을 올릴 필요가 없으니까. 사진은 그대로 올려두되
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.user.collectLatest {
-//                when (it) {
-//                    is Resource.Loading -> {
-//                        showProgressBar()
-//                    }
-//
-//                    is Resource.Success -> {
-//                        hideProgressBar()
-//                        // 얘도 함수로 만드는 게 맞고.
-//                        Log.e("제일제일 중요", it.data.toString())
-//                        if (it.data?.authentication?.studentIdentificationCard != null) {
-//                            val urlList = it.data?.authentication?.studentIdentificationCard
-//                            imagesAdapter = ImagesAdapter(requireContext(), urlList).apply {
-//                                onClick = { imageUrl, position ->
-//                                    Log.e("click을 했을 때", "${imageUrl} ${position}")
-//                                    AlertDialog.Builder(requireContext())
-//                                        .setTitle("삭제 확인")
-//                                        .setMessage("정말 삭제하시겠습니까?")
-//                                        .setPositiveButton("삭제") { dialog, which ->
-//                                            lifecycleScope.launch {
-//                                                viewModels.deleteImageFromStorage(imageUrl)
-//                                                viewModels.deleteImageFromDatabase(imageUrl, STUDENT)
-//                                            }
-//                                        }
-//                                        .setNegativeButton("취소", null)
-//                                        .show()
-//
-//
-//                                }
-//                            }
-//                            binding.viewPagerImages.adapter = imagesAdapter
-//                            binding.viewPagerImages.adapter?.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
-//
-//                        }
-//
-//                        else {
-//                            binding.btnSendAllData.isClickable = true
-//                            binding.btnOpenGallery.isClickable = true
-//                        }
-//                    }
-//
-//                    is Resource.Error -> {
-//                        hideProgressBar()
-//                        Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//
-//                    else -> Unit
-//                }
-//            }
-//        }
 
+        lifecycleScope.launchWhenStarted {
+            viewModel.updateStatus.collect { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        // 로딩 인디케이터 표시
+                        binding.sendButton.startAnimation()
+                    }
+
+                    is Resource.Success -> {
+                        // 로딩 인디케이터 숨기기
+                        binding.sendButton.revertAnimation()
+                        // 성공 메시지 표시 또는 성공 후 작업
+                        findNavController().navigate(
+                            R.id.action_collegeAuthImageFragment_to_profileFragment,
+                            null,
+                            NavOptions.Builder().setPopUpTo(R.id.homeFragment, false).build()
+                        )
+                        Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
+                            .show()
+
+
+                    }
+
+                    is Resource.Error -> {
+                        // 로딩 인디케이터 숨기기
+                        binding.sendButton.revertAnimation()
+                        // 에러 메시지 표시
+                        Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    else -> Unit // Resource.Unspecified 처리
+                }
+            }
+        }
 
         // 이미지 버튼 클릭 시
         binding.openGalleryButton.setOnClickListener {
