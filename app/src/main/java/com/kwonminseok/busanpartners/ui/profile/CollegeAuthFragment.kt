@@ -60,7 +60,7 @@ class CollegeAuthFragment : Fragment() {
             } else {
                 val myEmail = binding.editTextEmail.text.toString()
                 if (!Patterns.EMAIL_ADDRESS.matcher(myEmail)
-                        .matches() || !binding.editTextEmail.text.endsWith(emailDomain)
+                        .matches() || !binding.editTextEmail.text?.endsWith(emailDomain)!!
                 ) {
                     // 이메일 형식이 유효하지 않으면, 에러 메시지를 설정합니다.
                     binding.editTextEmail.error = "올바른 이메일 주소(${emailDomain})를 입력하세요."

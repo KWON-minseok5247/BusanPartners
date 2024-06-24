@@ -439,30 +439,30 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    private class InfoWindowAdapter(
-        private val context: Context,
-        private val university: UniversityInfo, // 대학교 정보 객체 추가
-        private val studentCount: Int // 학생 수 추가
-    ) : InfoWindow.ViewAdapter() {
-
-        private var binding: UniversityCardFrontBinding? = null
-
-        override fun getView(infoWindow: InfoWindow): View {
-            val binding = this.binding ?: UniversityCardFrontBinding.inflate(LayoutInflater.from(context)).also {
-                this.binding = it
-            }
-
-//            binding.root.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-            // 대학교 정보를 사용하여 로고와 텍스트 설정
-            binding.imageViewPhoto.setImageResource(university.logoResourceId)
-            binding.tvUniversity.text = university.nameKo
-            // 학생 수를 동적으로 설정
-            binding.tvStudents.text = "현재 연락할 수 있는 학생 수: ${studentCount}명"
-
-            return binding.root
-        }
-    }
+//    private class InfoWindowAdapter(
+//        private val context: Context,
+//        private val university: UniversityInfo, // 대학교 정보 객체 추가
+//        private val studentCount: Int // 학생 수 추가
+//    ) : InfoWindow.ViewAdapter() {
+//
+//        private var binding: UniversityCardFrontBinding? = null
+//
+//        override fun getView(infoWindow: InfoWindow): View {
+//            val binding = this.binding ?: UniversityCardFrontBinding.inflate(LayoutInflater.from(context)).also {
+//                this.binding = it
+//            }
+//
+////            binding.root.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+//
+//            // 대학교 정보를 사용하여 로고와 텍스트 설정
+//            binding.imageViewPhoto.setImageResource(university.logoResourceId)
+//            binding.tvUniversity.text = university.nameKo
+//            // 학생 수를 동적으로 설정
+//            binding.tvStudents.text = "현재 연락할 수 있는 학생 수: ${studentCount}명"
+//
+//            return binding.root
+//        }
+//    }
 
 
 

@@ -405,47 +405,32 @@ class ProfileFragment : Fragment() {
                 tvUniversityName.text = "${user.college} ${user.major?.ko}"
             }
         }
-//        when (user.authentication.authenticationStatus) {
-//            "loading" -> {
-//                Log.e("fetchUserData", "load")
-//                binding.apply {
-//                    authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-//                    travelerAuthentication.visibility = View.INVISIBLE
-//                    collegeAuthentication.visibility = View.INVISIBLE
-//                    authenticationLoadOrCompleteText.text = "인증 중입니다. 잠시만 기다려주세요."
-//                }
-//            }
-//
-//            "complete" -> {
-//                if (user.authentication.collegeStudent) {
-//                    binding.apply {
-//                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-//                        travelerAuthentication.visibility = View.INVISIBLE
-//                        collegeAuthentication.visibility = View.INVISIBLE
-//                        authenticationLoadOrCompleteText.text =
-//                            "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
-//                    }
-//                } else if (user.authentication.traveler) {
-//                    val tokenTime = formatDateTime(user.tokenTime.toString())
-//                    binding.apply {
-//                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-//                        travelerAuthentication.visibility = View.INVISIBLE
-//                        collegeAuthentication.visibility = View.INVISIBLE
-//                        authenticationLoadOrCompleteText.text =
-//                            "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
-//                    }
-//                }
-//
-//            }
-//
-//            else -> {
-//                binding.apply {
-//                    authenticationLoadOrCompleteCard.visibility = View.GONE
-//                    travelerAuthentication.visibility = View.VISIBLE
-//                    collegeAuthentication.visibility = View.VISIBLE
-//                }
-//            }
-//        }
+        when (user.authentication.authenticationStatus) {
+            "loading" -> {
+                binding.apply {
+                    authenticationStatus.text = "인증 진행중입니다. 잠시만 기다려주세요."
+                }
+            }
+
+            "complete" -> {
+                if (user.authentication.collegeStudent) {
+                    binding.apply {
+                        authenticationStatus.text =
+                            "환영합니다. \n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
+                    }
+                } else if (user.authentication.traveler) {
+                    val tokenTime = formatDateTime(user.tokenTime.toString())
+                    binding.apply {
+                        authenticationStatus.text =
+                            "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
+                    }
+                }
+
+            }
+
+            else -> {
+            }
+        }
     }
 
 //    private fun showProgressBar() {

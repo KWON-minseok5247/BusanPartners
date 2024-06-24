@@ -12,8 +12,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="30dp"
@@ -24,6 +23,8 @@
         android:id="@+id/backButton"/>
 
     <TextView
+
+        android:padding="16dp"
         android:id="@+id/tvCheckEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,16 +36,15 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="128dp"/>
 
-
-
-
-
     <Spinner
+        android:padding="16dp"
         android:id="@+id/spinnerUniversityEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvCheckEmail"
         app:layout_constraintStart_toStartOf="parent"
+        android:outlineAmbientShadowColor="@color/jakarta_lighter"
+        android:outlineSpotShadowColor="@color/jakarta_lighter"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="40dp"/>
 
@@ -52,33 +52,59 @@
         android:id="@+id/collegeEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/g_gray700"
+        android:textColor="@color/jakarta_lighter"
         android:text="university email"
         app:layout_constraintTop_toBottomOf="@id/spinnerUniversityEmail"
-        app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
+        app:layout_constraintEnd_toEndOf="@id/editBox"
         android:layout_marginTop="10dp"/>
 
-    <EditText
-        android:id="@+id/editTextEmail"
+    <com.google.android.material.textfield.TextInputLayout
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:id="@+id/editBox"
         android:layout_width="0dp"
-        android:text="a@pukyong.ac.kr"
         android:layout_height="wrap_content"
+        android:hint="이메일"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxStrokeColor="@color/jakarta_lighter"
+        app:boxStrokeWidth="1dp"
+        app:boxBackgroundColor="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/collegeEmail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="이메일"
-        android:paddingEnd="32dp"
-        android:inputType="textEmailAddress" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/jakarta_lighter" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSendVerificationCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="인증번호 보내기"
-        app:layout_constraintTop_toBottomOf="@id/editTextEmail"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/cr24bff009963"
+        android:gravity="center"
+        android:fontFamily="@font/stream_roboto_regular"
+
+        android:paddingVertical="1dp"
+        android:text="전송하기"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/editBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="36dp"/>
+ />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
