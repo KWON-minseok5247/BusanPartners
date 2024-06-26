@@ -60,6 +60,10 @@ class FestivalDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.allLayout.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.VISIBLE
+
+        binding.festivalImageLoading.startShimmer()
 
         val contentId = arguments?.getString("contentId") ?: return
         tourismApiService = TourismAllInOneApiService.getInstance()
@@ -132,6 +136,10 @@ class FestivalDetailFragment : Fragment() {
             override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
                 if (response.isSuccessful) {
                     val commonItem = response.body()?.response?.body?.items?.item?.firstOrNull()
+                    binding.festivalImageLoading.stopShimmer()
+                    binding.festivalImageLoading.visibility = View.GONE
+                    binding.eventViewPager.visibility = View.VISIBLE
+
                     commonItem?.let {commonItem ->
                         val eventStartDate = arguments?.getString("eventstartdate")
                         val eventEndDate = arguments?.getString("eventenddate") ?: return
@@ -157,6 +165,8 @@ class FestivalDetailFragment : Fragment() {
 //                        } else {
 //                            textView.text = Html.fromHtml(htmlString)
 //                        }
+                        binding.allLayout.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.INVISIBLE
 
                         binding.textViewOverview.text = commonItem.overview
                     }

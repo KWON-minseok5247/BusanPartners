@@ -13,6 +13,7 @@
         android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/all_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -64,6 +65,24 @@
                     android:id="@+id/placeViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/festival_image_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="278dp"
+                    app:shimmer_auto_start="true"
+                    app:shimmer_base_alpha="0.7">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <include layout="@layout/item_festival_image_loading" />
+                        <!-- 더 많은 아이템 추가 가능 -->
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
                 <me.relex.circleindicator.CircleIndicator3
                     android:id="@+id/indicator"
@@ -172,5 +191,19 @@
                 android:orientation="vertical">
             </LinearLayout>
         </LinearLayout>
+
+
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        android:indeterminateTint="@color/jakarta_lighter"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

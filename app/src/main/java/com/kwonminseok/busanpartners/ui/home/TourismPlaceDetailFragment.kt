@@ -21,7 +21,6 @@ import com.kwonminseok.busanpartners.data.ImageResponse
 import com.kwonminseok.busanpartners.data.IntroResponse
 import com.kwonminseok.busanpartners.databinding.FragmentFestivalDetailBinding
 import com.kwonminseok.busanpartners.databinding.FragmentPlaceBinding
-import com.kwonminseok.busanpartners.databinding.FragmentTourismPlaceDetailBinding
 import com.kwonminseok.busanpartners.ui.message.AttachmentMapActivity
 import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
@@ -55,7 +54,11 @@ class TourismPlaceDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.allLayout.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.VISIBLE
 
+
+        binding.festivalImageLoading.startShimmer()
         tourismApiService = TourismAllInOneApiService.getInstance()
 
         viewPager = binding.placeViewPager // viewPager 초기화
@@ -123,6 +126,10 @@ class TourismPlaceDetailFragment : Fragment() {
         ).enqueue(object : Callback<CommonResponse> {
             override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
                 if (response.isSuccessful) {
+                    binding.festivalImageLoading.stopShimmer()
+                    binding.festivalImageLoading.visibility = View.GONE
+                    binding.placeViewPager.visibility = View.VISIBLE
+
                     val commonItem = response.body()?.response?.body?.items?.item?.firstOrNull()
                     commonItem?.let {
                         binding.textViewEventPlace.text = "${it.addr1}"
@@ -139,6 +146,10 @@ class TourismPlaceDetailFragment : Fragment() {
                         }
 
                     }
+
+                    binding.allLayout.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.INVISIBLE
+
 
                 } else {
                     Log.e("FestivalDetail", "Common Response failed: ${response.errorBody()?.string()}")

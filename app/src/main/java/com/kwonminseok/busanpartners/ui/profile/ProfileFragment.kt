@@ -19,6 +19,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
+import com.alertview.lib.AlertView
+import com.alertview.lib.OnItemClickListener
 import com.barnea.dialoger.Dialoger
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -279,6 +281,14 @@ class ProfileFragment : Fragment() {
 //            findNavController().navigate(R.id.action_profileFragment_to_onboardingTravelerInformationFragment)
 //        }
         binding.linearAuthentication.setOnClickListener {
+            if (user.authentication.authenticationStatus == "loading") {
+                Toast.makeText(requireContext(), "인증을 진행하고 있습니다. 잠시만 기다려 주십시오.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (user.authentication.authenticationStatus == "complete") {
+                Toast.makeText(requireContext(), "이미 인증이 완료된 상태입니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             findNavController().navigate(R.id.action_profileFragment_to_authenticationSelectFragment)
         }
 
@@ -291,39 +301,57 @@ class ProfileFragment : Fragment() {
 
         // 로그아웃 버튼
         binding.linearLogOut.setOnClickListener {
-            isLogOut = true
-            // room 데이터 삭제
+            AlertView.Builder()
+                .setContext(requireActivity())
+                .setStyle(AlertView.Style.ActionSheet)
+                .setTitle("정말 로그아웃 하시겠습니까?")
+                .setDestructive("확인")
+                .setOthers(arrayOf("취소"))
+                .setOnItemClickListener(object : OnItemClickListener {
+                    override fun onItemClick(o: Any?, position: Int) {
+                        if (position == 0) { // 확인 버튼 위치 확인
+                            isLogOut = true
+                            // room 데이터 삭제
 //            viewModel.getUserStateFlowData(uid).removeObservers(this)
-            BusanPartners.preferences.setString("uid", "")
-            BusanPartners.preferences.setString(Constants.TOKEN, "")
-            viewModel.deleteUser(user.toEntity())
+                            BusanPartners.preferences.setString("uid", "")
+                            BusanPartners.preferences.setString(Constants.TOKEN, "")
+                            viewModel.deleteUser(user.toEntity())
 
-            viewModel.logOutCurrentUser()
-
-
-            chatClient.disconnect(true).enqueue { result ->
-                if (result.isSuccess) {
-                    // 성공적으로 사용자 연결 해제 및 로컬 캐시 지움
-                    // 여기서 새 사용자로 ChatClient를 설정할 수 있습니다.
-                    Log.w(TAG, " chatClient가 성공적으로 로그아웃되었습니다.")
-                } else {
-                    // 연결 해제 실패 처리
-                    Log.w(TAG, " chatClient가 로그아웃에 실패했습니다.")
-
-                }
-            }
+                            viewModel.logOutCurrentUser()
 
 
-            // 접근권한으로부터 해제
-            GoogleSignIn.getClient(
-                requireActivity(),
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-            ).revokeAccess().addOnCompleteListener {
-                // 로그아웃 성공 후 LoginRegisterActivity로 이동
-                val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-            }
+                            chatClient.disconnect(true).enqueue { result ->
+                                if (result.isSuccess) {
+                                    // 성공적으로 사용자 연결 해제 및 로컬 캐시 지움
+                                    // 여기서 새 사용자로 ChatClient를 설정할 수 있습니다.
+                                    Log.w(TAG, " chatClient가 성공적으로 로그아웃되었습니다.")
+                                } else {
+                                    // 연결 해제 실패 처리
+                                    Log.w(TAG, " chatClient가 로그아웃에 실패했습니다.")
+
+                                }
+                            }
+
+
+                            // 접근권한으로부터 해제
+                            GoogleSignIn.getClient(
+                                requireActivity(),
+                                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+                            ).revokeAccess().addOnCompleteListener {
+                                // 로그아웃 성공 후 LoginRegisterActivity로 이동
+                                val intent = Intent(requireContext(), LoginRegisterActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                            }
+                        } else {
+                            (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
+                        }
+                    }
+
+                })
+                .build()
+                .setCancelable(true)
+                .show()
 
 
         }
@@ -342,64 +370,6 @@ class ProfileFragment : Fragment() {
     }
 
 
-//    private fun fetchUserData(user: User) {
-//        binding.apply {
-//            Glide.with(requireView()).load(user.imagePath).override(200, 200)
-//                .into(binding.imageUser)
-//            tvUserName.text = user.name?.ko
-//            if (user.college == null) {
-//                tvUniversityName.visibility = View.GONE
-//            } else {
-//                tvUniversityName.visibility = View.VISIBLE
-//                tvUniversityName.text = "${user.college} ${user.major?.ko}"
-//            }
-//        }
-//        when (user.authentication.authenticationStatus) {
-//            "loading" -> {
-//                Log.e("fetchUserData", "load")
-//                binding.apply {
-//                    TransitionManager.beginDelayedTransition(binding.root)
-//                    authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-//                    travelerAuthentication.visibility = View.INVISIBLE
-//                    collegeAuthentication.visibility = View.INVISIBLE
-//                    authenticationLoadOrCompleteText.text = "인증 중입니다. 잠시만 기다려주세요."
-//                }
-//            }
-//
-//            "complete" -> {
-//                if (user.authentication.collegeStudent) {
-//                    binding.apply {
-//                        TransitionManager.beginDelayedTransition(binding.root)
-//                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-//                        travelerAuthentication.visibility = View.INVISIBLE
-//                        collegeAuthentication.visibility = View.INVISIBLE
-//                        authenticationLoadOrCompleteText.text =
-//                            "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
-//                    }
-//                } else if (user.authentication.traveler) {
-//                    val tokenTime = formatDateTime(user.tokenTime.toString())
-//                    binding.apply {
-//                        TransitionManager.beginDelayedTransition(binding.root)
-//                        authenticationLoadOrCompleteCard.visibility = View.VISIBLE
-//                        travelerAuthentication.visibility = View.INVISIBLE
-//                        collegeAuthentication.visibility = View.INVISIBLE
-//                        authenticationLoadOrCompleteText.text =
-//                            "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
-//                    }
-//                }
-//
-//            }
-//
-//            else -> {
-//                binding.apply {
-//                    TransitionManager.beginDelayedTransition(binding.root)
-//                    authenticationLoadOrCompleteCard.visibility = View.GONE
-//                    travelerAuthentication.visibility = View.VISIBLE
-//                    collegeAuthentication.visibility = View.VISIBLE
-//                }
-//            }
-//        }
-//    }
     private fun fetchUserData(user: User) {
         binding.apply {
             Glide.with(requireView()).load(user.imagePath).override(200, 200)
@@ -423,7 +393,7 @@ class ProfileFragment : Fragment() {
                 if (user.authentication.collegeStudent) {
                     binding.apply {
                         authenticationStatus.text =
-                            "환영합니다. \n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
+                            "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
                     }
                 } else if (user.authentication.traveler) {
                     val tokenTime = formatDateTime(user.tokenTime.toString())

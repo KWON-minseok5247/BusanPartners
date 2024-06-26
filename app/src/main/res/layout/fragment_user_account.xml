@@ -172,7 +172,6 @@
             android:gravity="center"
             android:hint="이름"
             android:singleLine="true"
-            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
             app:layout_constraintStart_toStartOf="@+id/leftGuideline"
             app:layout_constraintTop_toBottomOf="@+id/switchShowHideTags" />
@@ -197,9 +196,8 @@
                 android:textCursorDrawable="@drawable/cursor_drawable"
                 android:fontFamily="@font/poppins_light"
                 android:gravity="center"
-                android:textColor="@color/g_gray700"
-                android:singleLine="true"
                 android:textStyle="bold"
+                android:singleLine="true"
                 app:layout_constraintEnd_toEndOf="@id/rightGuideline"
                 app:layout_constraintStart_toStartOf="@id/leftGuideline"
                 app:layout_constraintTop_toBottomOf="@id/edName" />
