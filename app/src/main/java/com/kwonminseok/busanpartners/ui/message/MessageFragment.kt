@@ -8,12 +8,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.alertview.lib.AlertView
+import com.alertview.lib.OnItemClickListener
 import com.google.firebase.functions.FirebaseFunctions
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
@@ -478,6 +483,11 @@ class MessageFragment : ChannelListFragment() {
     private fun setupChannelListViewModel() {
         viewModel.bindView(binding.channelListView, viewLifecycleOwner)
         // Other viewModel setup code
+        val loadingView = LayoutInflater.from(context).inflate(R.layout.channel_list_loading_view, null)
+
+        binding.channelListView.setLoadingView(loadingView, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
+
+
 
         binding.channelListView.setIsMoreOptionsVisible { channel ->
             // You can determine visibility based on the channel object.
@@ -681,82 +691,165 @@ class MessageFragment : ChannelListFragment() {
 
     private fun deleteChattingRoom(channel: Channel) {
         val userId = chatClient.getCurrentUser()?.id
-        AlertDialog.Builder(requireContext())
+
+        AlertView.Builder()
+            .setContext(requireActivity())
+            .setStyle(AlertView.Style.Alert)
             .setTitle("채팅방 나가기")
             .setMessage("정말로 채팅방을 나가시겠습니까? 상대방과 다시는 대화할 수 없습니다.")
-            .setPositiveButton("예") { dialog, which ->
-
-                if (channel.members.size <= 1) { // 멤버가 1명일 때
-                    chatClient.channel("${channel.type}:${channel.id}")
-                        .delete().enqueue() { deleteResult ->
-                            if (!deleteResult.isSuccess) {
-                                Log.e(
-                                    "사용자가 채널을 삭제시키는데 실패했습니다.",
-                                    deleteResult.errorOrNull().toString()
-                                )
-                                if (userId != null) {
-                                    chatClient.channel("${channel.type}:${channel.id}")
-                                        .removeMembers(
-                                            listOf(userId),
-//                                        Message(text = "The other person left the chat room.")
+            .setDestructive("확인")
+            .setOthers(arrayOf("취소"))
+            .setOnItemClickListener(object : OnItemClickListener {
+                override fun onItemClick(o: Any?, position: Int) {
+                    if (position == 0) { // 확인 버튼 위치 확인
+                        if (channel.members.size <= 1) { // 멤버가 1명일 때
+                            chatClient.channel("${channel.type}:${channel.id}")
+                                .delete().enqueue() { deleteResult ->
+                                    if (!deleteResult.isSuccess) {
+                                        Log.e(
+                                            "사용자가 채널을 삭제시키는데 실패했습니다.",
+                                            deleteResult.errorOrNull().toString()
                                         )
-                                        .enqueue { hideResult ->
-                                            if (hideResult.isSuccess) {
-                                                Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
-                                                val count = currentUser?.chatChannelCount?.minus(1) ?: 0
+                                        if (userId != null) {
+                                            chatClient.channel("${channel.type}:${channel.id}")
+                                                .removeMembers(
+                                                    listOf(userId),
+//                                        Message(text = "The other person left the chat room.")
+                                                )
+                                                .enqueue { hideResult ->
+                                                    if (hideResult.isSuccess) {
+                                                        Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
+                                                        val count = currentUser?.chatChannelCount?.minus(1) ?: 0
 
-                                                currentUser = currentUser?.copy(chatChannelCount = count)
+                                                        currentUser = currentUser?.copy(chatChannelCount = count)
 
-                                                userViewModel.updateUser(currentUser!!)
+                                                        userViewModel.updateUser(currentUser!!)
 
 
-                                                userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
+                                                        userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
 
-                                            }
+                                                    }
+
+                                                }
+
 
                                         }
+                                    } else {
+                                        Log.e("Chat", "채널 삭제에 성공했습니다.")
 
+                                    }
 
                                 }
-                            } else {
-                                Log.e("Chat", "채널 삭제에 성공했습니다.")
+                        } else { // 멤버가 2명인 경우
+                            if (userId != null) { //TODO 여기도 번역이 되어 있어야 함.
+                                chatClient.channel("${channel.type}:${channel.id}").removeMembers(
+                                    listOf(userId),
+                                    Message(text = "The other person left the chat room.")
+                                )
+                                    .enqueue { hideResult ->
+                                        if (hideResult.isSuccess) {
+                                            Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
+                                            val count = currentUser?.chatChannelCount?.minus(1) ?: 0
+
+                                            currentUser = currentUser?.copy(chatChannelCount = count)
+
+                                            userViewModel.updateUser(currentUser!!)
+
+
+                                            userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
+                                        }
+
+                                    }
+
 
                             }
-
-                        }
-                } else { // 멤버가 2명인 경우
-                    if (userId != null) { //TODO 여기도 번역이 되어 있어야 함.
-                        chatClient.channel("${channel.type}:${channel.id}").removeMembers(
-                            listOf(userId),
-                            Message(text = "The other person left the chat room.")
-                        )
-                            .enqueue { hideResult ->
-                                if (hideResult.isSuccess) {
-                                    Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
-                                    val count = currentUser?.chatChannelCount?.minus(1) ?: 0
-
-                                    currentUser = currentUser?.copy(chatChannelCount = count)
-
-                                    userViewModel.updateUser(currentUser!!)
-
-
-                                    userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
-                                }
-
-                            }
-
-
+                        }                    } else {
+                        (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
                     }
                 }
 
-
-                // 그러면 채팅을 시작할 때 +1 하고 만약 int가 3이 되면 더이상 추가할 수 없도록 설정
-                // 그리고 삭제하는 과정에서는 -1 처리를 통해서 최대 채팅방 개수 조정 그리고 대화를 시작하자마자 blockLIst 추가
-                // 대신 연락하기에서 선택할 수 없도록 하기? 분명히 대화하다가 연락하기 다시 누를 수 있다고 생각
-            }
-            .setNegativeButton("아니오") { dialog, which ->
-                Log.e("정상적으로", "아니오.")
-            }
+            })
+            .build()
+            .setCancelable(true)
             .show()
+
+
+//        AlertDialog.Builder(requireContext())
+//            .setTitle("채팅방 나가기")
+//            .setMessage("정말로 채팅방을 나가시겠습니까? 상대방과 다시는 대화할 수 없습니다.")
+//            .setPositiveButton("예") { dialog, which ->
+//
+//                if (channel.members.size <= 1) { // 멤버가 1명일 때
+//                    chatClient.channel("${channel.type}:${channel.id}")
+//                        .delete().enqueue() { deleteResult ->
+//                            if (!deleteResult.isSuccess) {
+//                                Log.e(
+//                                    "사용자가 채널을 삭제시키는데 실패했습니다.",
+//                                    deleteResult.errorOrNull().toString()
+//                                )
+//                                if (userId != null) {
+//                                    chatClient.channel("${channel.type}:${channel.id}")
+//                                        .removeMembers(
+//                                            listOf(userId),
+////                                        Message(text = "The other person left the chat room.")
+//                                        )
+//                                        .enqueue { hideResult ->
+//                                            if (hideResult.isSuccess) {
+//                                                Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
+//                                                val count = currentUser?.chatChannelCount?.minus(1) ?: 0
+//
+//                                                currentUser = currentUser?.copy(chatChannelCount = count)
+//
+//                                                userViewModel.updateUser(currentUser!!)
+//
+//
+//                                                userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
+//
+//                                            }
+//
+//                                        }
+//
+//
+//                                }
+//                            } else {
+//                                Log.e("Chat", "채널 삭제에 성공했습니다.")
+//
+//                            }
+//
+//                        }
+//                } else { // 멤버가 2명인 경우
+//                    if (userId != null) { //TODO 여기도 번역이 되어 있어야 함.
+//                        chatClient.channel("${channel.type}:${channel.id}").removeMembers(
+//                            listOf(userId),
+//                            Message(text = "The other person left the chat room.")
+//                        )
+//                            .enqueue { hideResult ->
+//                                if (hideResult.isSuccess) {
+//                                    Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
+//                                    val count = currentUser?.chatChannelCount?.minus(1) ?: 0
+//
+//                                    currentUser = currentUser?.copy(chatChannelCount = count)
+//
+//                                    userViewModel.updateUser(currentUser!!)
+//
+//
+//                                    userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
+//                                }
+//
+//                            }
+//
+//
+//                    }
+//                }
+//
+//
+//                // 그러면 채팅을 시작할 때 +1 하고 만약 int가 3이 되면 더이상 추가할 수 없도록 설정
+//                // 그리고 삭제하는 과정에서는 -1 처리를 통해서 최대 채팅방 개수 조정 그리고 대화를 시작하자마자 blockLIst 추가
+//                // 대신 연락하기에서 선택할 수 없도록 하기? 분명히 대화하다가 연락하기 다시 누를 수 있다고 생각
+//            }
+//            .setNegativeButton("아니오") { dialog, which ->
+//                Log.e("정상적으로", "아니오.")
+//            }
+//            .show()
     }
 }

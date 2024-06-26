@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui.profile
 
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -69,45 +70,69 @@ class CollegeAuthFragment : Fragment() {
                     binding.editTextEmail.error = null
 
                     val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
-                        .setTitle("로딩중...")
-                        .setDescription("인증번호를 보내고 있습니다.")
-                        .setDrawable(R.drawable.loading)
+                        .setTitle("인증번호 전송 중")
+                        .setDescription("잠시만 기다려주십시오.")
+//                        .setDrawable(R.drawable.loading)
                         .setProgressBarColor(R.color.black)
                         .show()
 
-// Dismiss the loading dialog after 5 seconds
+
                     Handler(Looper.getMainLooper()).postDelayed({
                         dialog.dismiss();
 
-                        Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                            .setTitle("인증번호를 전송하였습니다.")
-                            .setDescription("인증번호를 입력해주세요.")
-                            .setDrawable(R.drawable.ic_send_mail)
-                            .setButtonText("확인")
-                            .setButtonOnClickListener {
-                                //todo 여기서 잠깐의 로딩이 있는게 더 자연스럽겠다.
-//                            UnivCert.certify(BuildConfig.COLLEGE_KEY, myEmail, selectedUniversity, false)
-                                GlobalScope.launch(Dispatchers.IO) {
-                                    try {
-                                        val b = Bundle().apply {
-                                            putParcelable(
-                                                "collegeData",
-                                                CollegeData(myEmail, selectedUniversity)
-                                            )
-                                        }
-                                        findNavController().navigate(
-                                            R.id.action_collegeAuthFragment_to_collegeAuthNumberFragment,
-                                            b
-                                        )
-
-
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                    }
+                        GlobalScope.launch(Dispatchers.IO) {
+                            try {
+                                val b = Bundle().apply {
+                                    putParcelable(
+                                        "collegeData",
+                                        CollegeData(myEmail, selectedUniversity)
+                                    )
                                 }
+                                findNavController().navigate(
+                                    R.id.action_collegeAuthFragment_to_collegeAuthNumberFragment,
+                                    b
+                                )
+
+
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
-                            .show()
+                        }
                     }, 2000)
+
+// Dismiss the loading dialog after 5 seconds
+//                    Handler(Looper.getMainLooper()).postDelayed({
+//                        dialog.dismiss();
+//
+//                        Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+//                            .setTitle("인증번호를 전송하였습니다.")
+//                            .setDescription("인증번호를 입력해주세요.")
+//                            .setDrawable(R.drawable.ic_send_mail)
+//                            .setButtonText("확인")
+//                            .setButtonOnClickListener {
+//                                //todo 여기서 잠깐의 로딩이 있는게 더 자연스럽겠다.
+////                            UnivCert.certify(BuildConfig.COLLEGE_KEY, myEmail, selectedUniversity, false)
+//                                GlobalScope.launch(Dispatchers.IO) {
+//                                    try {
+//                                        val b = Bundle().apply {
+//                                            putParcelable(
+//                                                "collegeData",
+//                                                CollegeData(myEmail, selectedUniversity)
+//                                            )
+//                                        }
+//                                        findNavController().navigate(
+//                                            R.id.action_collegeAuthFragment_to_collegeAuthNumberFragment,
+//                                            b
+//                                        )
+//
+//
+//                                    } catch (e: Exception) {
+//                                        e.printStackTrace()
+//                                    }
+//                                }
+//                            }
+//                            .show()
+//                    }, 2000)
 
                 }
             }

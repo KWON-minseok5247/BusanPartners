@@ -126,6 +126,11 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+
+        //shimmer
+        binding.shimmerFestival.startShimmer()
+        binding.shimmerPlaces.startShimmer()
+
         // Repository 초기화
         val repository = TourismRepository(TourismAllInOneApiService.getInstance())
 
@@ -188,27 +193,6 @@ class HomeFragment : Fragment() {
                 .show()
 
         }
-//        val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
-//            .setTitle("Loading...")
-//            .setDescription("This might take a while...")
-//            .setDrawable(R.drawable.loading)
-//            .setProgressBarColor(R.color.purple_200)
-//            .show()
-//
-//// Dismiss the loading dialog after 5 seconds
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            dialog.dismiss();
-//
-//            Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-//                .setDialogColorTheme(R.color.purple_200)
-//                .setTitle("Beautiful Dialogue Title")
-//                .setDescription("An incredible dialogue message.")
-//                .setDrawable(R.drawable.pusan_logo)
-//                .setButtonText("Okay")
-//                .setButtonOnClickListener {
-//                }
-//                .show()
-//        }, 3000);
 
 
         Log.e("currentUser userEntity", SplashActivity.currentUser.toString())
@@ -327,62 +311,6 @@ class HomeFragment : Fragment() {
 
     }
 
-//    private fun fetchTourApi() { //TODO 얘도 전면수정이 필요해.
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-//
-//        // 초기 위치 설정 과정
-//        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-//            // 사용자의 현재 위치를 받았습니다. 지도 로딩을 시작합니다.
-//            location?.let {
-//
-//                val currentLatitude = it.latitude
-//                val currentLongitude = it.longitude
-//                Log.e("currentLatitude", currentLatitude.toString())
-//                Log.e("currentLongitude", currentLongitude.toString())
-//
-//                TourismApiService.getInstance().korLocationBasedList1(
-//                    10,
-//                    1,
-//                    currentLongitude,
-//                    currentLatitude,
-//                    10000,
-//                ).enqueue(object :
-//                    Callback<TourismResponse> {
-//                    override fun onResponse(
-//                        call: Call<TourismResponse>,
-//                        response: Response<TourismResponse>
-//                    ) {
-//                        if (!isAdded) {
-//                            return
-//                        }
-//
-//                        // 이제 안전하게 UI 업데이트를 진행합니다.
-//                        _binding?.let { binding ->
-//                            if (response.isSuccessful) {
-//                                binding.touristRecyclerView.adapter = tourismAdapter
-//                                response.body()?.response?.body?.items?.item?.let { itemList ->
-//                                    val itemsWithImages =
-//                                        itemList.filter { it.firstimage.isNotEmpty() }
-//                                    tourismAdapter.differ.submitList(itemsWithImages)
-//                                }
-//                            } else {
-//                                Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
-//                            }
-//                        }
-//
-//                    }
-//
-//                    override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
-//                        Log.e(TAG, t.message.toString())
-//
-//                    }
-//                })
-//            } ?: run {
-//                //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
-//                //                initializeMap(LatLng(35.1798159, 129.0750222))
-//            }
-//        }
-//    }
 
     private fun fetchLocationBasedList(longitude: Double, latitude: Double) {
         tourismApiService.locationBasedList1(
@@ -398,6 +326,10 @@ class HomeFragment : Fragment() {
 
                     _binding?.let { binding ->
                         if (response.isSuccessful) {
+                            binding.shimmerPlaces.stopShimmer()
+                            binding.shimmerPlaces.visibility = View.GONE
+                            binding.vpPlaces.visibility = View.VISIBLE
+
                             response.body()?.response?.body?.items?.item?.let { itemList ->
                                 val itemsWithImages =
                                     itemList.filter { it.firstimage.isNotEmpty() }
@@ -432,6 +364,10 @@ class HomeFragment : Fragment() {
 
                     _binding?.let { binding ->
                         if (response.isSuccessful) {
+                            binding.shimmerFestival.stopShimmer()
+                            binding.shimmerFestival.visibility = View.GONE
+                            binding.vpFestivals.visibility = View.VISIBLE
+
                             binding.vpFestivals.adapter = festivalAdapter
                             binding.vpFestivals.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                             response.body()?.response?.body?.items?.item?.let { itemList ->

@@ -22,6 +22,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.alertview.lib.AlertView
+import com.alertview.lib.OnItemClickListener
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
@@ -175,7 +177,8 @@ class UserAccountFragment : Fragment() {
                 )
 
                 val changes = mutableMapOf<String, Any?>()
-                if (edName != oldUser.name?.ko || oldUser.name?.en.isNullOrEmpty()) changes["name"] = edName
+                if (edName != oldUser.name?.ko || oldUser.name?.en.isNullOrEmpty()) changes["name"] =
+                    edName
 
 
                 if (edMajor != oldUser.major?.ko) changes["major"] = edMajor
@@ -190,7 +193,7 @@ class UserAccountFragment : Fragment() {
                         name = TranslatedText(ko = edName),
                         major = TranslatedText(ko = edMajor),
                         introduction = TranslatedText(ko = introduction),
-                        chipGroup = TranslatedList(ko = chipTexts) ,
+                        chipGroup = TranslatedList(ko = chipTexts),
                         wantToMeet = wantToMeet
                     )
 //                    viewModel.updateUser(oldUser.toEntity())
@@ -204,7 +207,7 @@ class UserAccountFragment : Fragment() {
                         name = TranslatedText(ko = edName),
                         major = TranslatedText(ko = edMajor),
                         introduction = TranslatedText(ko = introduction),
-                        chipGroup = TranslatedList(ko = chipTexts) ,
+                        chipGroup = TranslatedList(ko = chipTexts),
                         wantToMeet = wantToMeet
                     )
                     imageData = null
@@ -294,7 +297,11 @@ class UserAccountFragment : Fragment() {
 
                         binding.editTag.text.clear()
                     } else {
-                        Toast.makeText(requireContext(), "최대 15개의 태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "최대 15개의 태그만 추가할 수 있습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 true
@@ -361,144 +368,191 @@ class UserAccountFragment : Fragment() {
             ) {   // 변경이 없을 때.
                 findNavController().navigateUp()
             } else { // 변경을 했는데 저장을 하지 않았을 때
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("저장이 되지 않았습니다.")
-                    .setMessage("그래도 나가시겠습니까?")
-                    .setPositiveButton("확인",
-                        DialogInterface.OnClickListener { dialog, id ->
-                            findNavController().navigateUp()
 
-                        })
-                    .setNegativeButton("취소",
-                        DialogInterface.OnClickListener { dialog, id ->
-                        })
-                builder.show()
+//                AlertView("저장이 되지 않았습니다.", "그래도 나가시겠습니까?", "취소", null, arrayOf("拍照", "从相册中选择"),
+//                    requireActivity(), AlertView.Style.ActionSheet, object : OnItemClickListener {
+//                        override fun onItemClick(o: Any?, position: Int) {
+//                            Toast.makeText(
+//                                requireActivity(), "点击了第" + position + "个",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                    }).show()
+                AlertView.Builder()
+                    .setContext(requireActivity())
+                    .setStyle(AlertView.Style.Alert)
+                    .setTitle("알림")
+                    .setMessage("저장이 되지 않았습니다.\n정말 나가시겠습니까?")
+                    .setDestructive("확인")
+                    .setCancelText("dasd")
+                    .setOthers(arrayOf("취소"))
+                    .setOnItemClickListener(object : OnItemClickListener {
+                        override fun onItemClick(o: Any?, position: Int) {
+                            if (position == 0) { // 확인 버튼 위치 확인
+                                findNavController().navigateUp()
+                            } else {
+                                (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
+                            }
+                        }
+
+                    })
+                    .build()
+                    .setCancelable(true)
+                    .show()
+
+
+//                AlertView.Builder().setContext(requireActivity())
+//                    .setStyle(AlertView.Style.ActionSheet)
+//                    .setTitle("정말 나가시겠습니까?")
+//                    .setMessage(null)
+//                    .setDestructive("1", "2")
+//                    .setOthers()
+//                    .setOnItemClickListener(object : OnItemClickListener{
+//                        override fun onItemClick(o: Any?, position: Int) {
+//                            findNavController().navigateUp()
+//                        }
+//                    })
+//                    .build()
+//                    .show()
+
+//                val builder = AlertDialog.Builder(requireContext())
+//                    builder.setTitle("저장이 되지 않았습니다.")
+//                        .setMessage("그래도 나가시겠습니까?")
+//                        .setPositiveButton("확인",
+//                            DialogInterface.OnClickListener { dialog, id ->
+//                                findNavController().navigateUp()
+//
+//                            })
+//                        .setNegativeButton("취소",
+//                            DialogInterface.OnClickListener { dialog, id ->
+//                            })
+//                    builder.show()
+                }
+
             }
 
+
+        }
+
+        private fun convertUriToByteArray(
+            imageUri: Uri,
+        ): ByteArray {
+            // 비트맵 생성
+            val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val source = ImageDecoder.createSource(requireContext().contentResolver, imageUri)
+                ImageDecoder.decodeBitmap(source)
+            } else {
+                @Suppress("DEPRECATION")
+                MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
+            }
+
+            // ByteArrayOutputStream을 사용해 비트맵을 ByteArray로 변환
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 96, byteArrayOutputStream)
+            return byteArrayOutputStream.toByteArray()
         }
 
 
-    }
+        @Override
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
 
-    private fun convertUriToByteArray(
-        imageUri: Uri,
-    ): ByteArray {
-        // 비트맵 생성
-        val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val source = ImageDecoder.createSource(requireContext().contentResolver, imageUri)
-            ImageDecoder.decodeBitmap(source)
-        } else {
-            @Suppress("DEPRECATION")
-            MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
-        }
-
-        // ByteArrayOutputStream을 사용해 비트맵을 ByteArray로 변환
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 96, byteArrayOutputStream)
-        return byteArrayOutputStream.toByteArray()
-    }
-
-
-    @Override
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == GALLERY) {
-                imageData = data?.data
-                try {
-                    binding.imageUser.setImageURI(imageData)
-                } catch (e: Exception) {
-                    e.printStackTrace()
+            if (resultCode == Activity.RESULT_OK) {
+                if (requestCode == GALLERY) {
+                    imageData = data?.data
+                    try {
+                        binding.imageUser.setImageURI(imageData)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
         }
-    }
 
-    private fun hideUserLoading() {
-        binding.apply {
-            progressbarAccount.visibility = View.GONE
-            imageUser.visibility = View.VISIBLE
-            imageEdit.visibility = View.VISIBLE
-            edName.visibility = View.VISIBLE
-            tvUniversity.visibility = View.VISIBLE
-            edEmail.visibility = View.VISIBLE
-            buttonSave.visibility = View.VISIBLE
+        private fun hideUserLoading() {
+            binding.apply {
+                progressbarAccount.visibility = View.GONE
+                imageUser.visibility = View.VISIBLE
+                imageEdit.visibility = View.VISIBLE
+                edName.visibility = View.VISIBLE
+                tvUniversity.visibility = View.VISIBLE
+                edEmail.visibility = View.VISIBLE
+                buttonSave.visibility = View.VISIBLE
+            }
         }
-    }
 
-    private fun showUserLoading() {
-        binding.apply {
-            progressbarAccount.visibility = View.VISIBLE
-            imageUser.visibility = View.INVISIBLE
-            imageEdit.visibility = View.INVISIBLE
-            edName.visibility = View.INVISIBLE
-            tvUniversity.visibility = View.INVISIBLE
-            edEmail.visibility = View.INVISIBLE
-            buttonSave.visibility = View.INVISIBLE
+        private fun showUserLoading() {
+            binding.apply {
+                progressbarAccount.visibility = View.VISIBLE
+                imageUser.visibility = View.INVISIBLE
+                imageEdit.visibility = View.INVISIBLE
+                edName.visibility = View.INVISIBLE
+                tvUniversity.visibility = View.INVISIBLE
+                edEmail.visibility = View.INVISIBLE
+                buttonSave.visibility = View.INVISIBLE
+            }
         }
-    }
 
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+        override fun onAttach(context: Context) {
+            super.onAttach(context)
 
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 뒤로가기 클릭시 동작하는 로직
-                backPress()
+            callback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // 뒤로가기 클릭시 동작하는 로직
+                    backPress()
 //                requireActivity().supportFragmentManager.beginTransaction()
 //                    .setCustomAnimations(0, R.anim.horizon_exit_front)
 //                    .remove(this@CartFragment)
 //                    .commit()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-    }
-
-    private fun setupHobbiesChips(hobbies: List<String>) {
-        hobbies.forEach { hobby ->
-            val chip = Chip(requireContext()).apply {
-                text = hobby
-                isCheckedIconVisible = false
-                isCloseIconVisible = true // 닫기 아이콘을 보여줍니다.
-                setChipBackgroundColorResource(R.color.chipgroup_color)
-                setOnCloseIconClickListener {
-                    // Chip을 클릭했을 때 ChipGroup에서 제거합니다.
-                    binding.chipGroupHobbies.removeView(this)
                 }
             }
-            binding.chipGroupHobbies.addView(chip)
+            requireActivity().onBackPressedDispatcher.addCallback(this, callback)
         }
 
-    }
+        private fun setupHobbiesChips(hobbies: List<String>) {
+            hobbies.forEach { hobby ->
+                val chip = Chip(requireContext()).apply {
+                    text = hobby
+                    isCheckedIconVisible = false
+                    isCloseIconVisible = true // 닫기 아이콘을 보여줍니다.
+                    setChipBackgroundColorResource(R.color.chipgroup_color)
+                    setOnCloseIconClickListener {
+                        // Chip을 클릭했을 때 ChipGroup에서 제거합니다.
+                        binding.chipGroupHobbies.removeView(this)
+                    }
+                }
+                binding.chipGroupHobbies.addView(chip)
+            }
 
-
-    private fun enterData(user: User) {
-        Glide.with(this).load(user.imagePath).into(binding.imageUser)
-        binding.apply {
-            edName.setText(user.name?.ko)
-            tvUniversity.text = user.college
-            edMajor.setText(user.major?.ko)
-            edEmail.text = user.email
-            introduction.setText(user.introduction?.ko)
-            switchShowHideTags.isChecked = user.wantToMeet
         }
-        binding.chipGroupHobbies.removeAllViews()
-        chipTexts = user.chipGroup?.ko?.toMutableList()
-        user.chipGroup?.let { it?.ko?.let { it1 -> setupHobbiesChips(it1) } }
+
+
+        private fun enterData(user: User) {
+            Glide.with(this).load(user.imagePath).into(binding.imageUser)
+            binding.apply {
+                edName.setText(user.name?.ko)
+                tvUniversity.text = user.college
+                edMajor.setText(user.major?.ko)
+                edEmail.text = user.email
+                introduction.setText(user.introduction?.ko)
+                switchShowHideTags.isChecked = user.wantToMeet
+            }
+            binding.chipGroupHobbies.removeAllViews()
+            chipTexts = user.chipGroup?.ko?.toMutableList()
+            user.chipGroup?.let { it?.ko?.let { it1 -> setupHobbiesChips(it1) } }
+        }
+
+        override fun onResume() {
+            super.onResume()
+            hideBottomNavigationView()
+        }
+
+        override fun onPause() {
+            // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
+            showBottomNavigationView()
+            super.onPause()
+        }
+
+
     }
-
-    override fun onResume() {
-        super.onResume()
-        hideBottomNavigationView()
-    }
-
-    override fun onPause() {
-        // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
-        showBottomNavigationView()
-        super.onPause()
-    }
-
-
-}

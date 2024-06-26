@@ -271,6 +271,7 @@
             android:id="@+id/tvTranslation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/jakarta_lighter"
             android:text="상대방에게는 DeepL을 사용하여 자동으로 번역됩니다. \n 저장을 하면 번역을 시작합니다. 조금만 기다려주세요."
             android:fontFamily="@font/poppins_light"
             android:gravity="center"

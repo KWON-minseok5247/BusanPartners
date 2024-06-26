@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.kwonminseok.busanpartners.data.TourismItem
 import com.kwonminseok.busanpartners.data.TouristDestination
 import com.kwonminseok.busanpartners.databinding.ItemPlaceBinding
-import com.kwonminseok.busanpartners.databinding.ItemTourismBinding
 import kotlin.math.roundToInt
 
 class TourismAdapter : RecyclerView.Adapter<TourismAdapter.TouristDestinationViewHolder>() {

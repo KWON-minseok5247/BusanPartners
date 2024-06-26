@@ -262,6 +262,10 @@ dependencies {
     }
 
 
+    // dialog
+    implementation 'com.github.ydstar:alertview:1.0.0'
+    //noinspection GradleCompatible
+
 
 
 //    configurations.all {

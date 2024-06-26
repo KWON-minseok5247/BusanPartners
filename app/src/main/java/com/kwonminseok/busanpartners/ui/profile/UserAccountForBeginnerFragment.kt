@@ -23,6 +23,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.alertview.lib.AlertView
+import com.alertview.lib.OnItemClickListener
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
@@ -265,18 +267,27 @@ class UserAccountForBeginnerFragment : Fragment() {
             ) {   // 변경이 없을 때.
                 findNavController().navigateUp()
             } else { // 변경을 했는데 저장을 하지 않았을 때
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("저장이 되지 않았습니다.")
-                    .setMessage("그래도 나가시겠습니까?")
-                    .setPositiveButton("확인",
-                        DialogInterface.OnClickListener { dialog, id ->
-                            findNavController().navigateUp()
+                AlertView.Builder()
+                    .setContext(requireActivity())
+                    .setStyle(AlertView.Style.Alert)
+                    .setTitle("알림")
+                    .setMessage("저장이 되지 않았습니다.\n정말 나가시겠습니까?")
+                    .setDestructive("확인")
+                    .setCancelText("dasd")
+                    .setOthers(arrayOf("취소"))
+                    .setOnItemClickListener(object : OnItemClickListener {
+                        override fun onItemClick(o: Any?, position: Int) {
+                            if (position == 0) { // 확인 버튼 위치 확인
+                                findNavController().navigateUp()
+                            } else {
+                                (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
+                            }
+                        }
 
-                        })
-                    .setNegativeButton("취소",
-                        DialogInterface.OnClickListener { dialog, id ->
-                        })
-                builder.show()
+                    })
+                    .build()
+                    .setCancelable(true)
+                    .show()
             }
 
         }

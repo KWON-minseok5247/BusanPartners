@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kwonminseok.busanpartners.databinding.ItemEventBinding
-import com.kwonminseok.busanpartners.databinding.ItemFestivalBinding
 import com.kwonminseok.busanpartners.ui.home.Festival
 
 class FestivalAdapter : RecyclerView.Adapter<FestivalAdapter.FestivalViewHolder>() {
