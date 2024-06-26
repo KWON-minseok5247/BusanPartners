@@ -17,6 +17,7 @@ import com.barnea.dialoger.Dialoger
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthNumberBinding
+import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.util.Constants.COLLEGE_DATA
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
@@ -160,6 +161,24 @@ class CollegeAuthNumberFragment : Fragment() {
                             "universityEmail" to universityEmail,
                             "authentication.studentEmailAuthenticationComplete" to true
                         )
+
+                        val updatedAuthentication = currentUser?.authentication?.copy(
+                            studentEmailAuthenticationComplete = true
+                        )
+
+                        val updateUser = updatedAuthentication?.let { it1 ->
+                            currentUser?.copy(
+                                college = university,
+                                universityEmail = universityEmail,
+                                authentication = it1
+                            )
+                        }
+
+                        Log.e("updateUser", updateUser.toString())
+
+                        if (updateUser != null) {
+                            viewModel.updateUser(updateUser)
+                        }
 
                         viewModel.setCurrentUser(userUpdates)
 

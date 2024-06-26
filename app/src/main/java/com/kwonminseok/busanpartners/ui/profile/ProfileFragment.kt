@@ -127,7 +127,9 @@ class ProfileFragment : Fragment() {
                     }
                 }
             } else { // 여기는 Room으로부터 먼저 가져오되 서버에서도 가져와서 비교를 하고 업데이트 및 수정을 한다.
+
                 user = userEntity.toUser()
+                Log.e("user는 뭐지?", user.toString() )
                 fetchUserData(user)
                 viewModel.getCurrentUser()
 
@@ -157,6 +159,8 @@ class ProfileFragment : Fragment() {
                                             }
 
                                     }
+                                    Log.e("it.data 뭐지?", it.data.toString() )
+
                                     fetchUserData(it.data!!)
                                     user = it.data
                                     viewModel.updateUser(user.toEntity())
@@ -179,7 +183,10 @@ class ProfileFragment : Fragment() {
 
 
 
-        binding.linearProfileUser.setOnClickListener {
+
+
+
+    binding.linearProfileUser.setOnClickListener {
             if (user.authentication.collegeStudent) {
                 findNavController().navigate(R.id.action_profileFragment_to_userAccountFragment)
             } else {

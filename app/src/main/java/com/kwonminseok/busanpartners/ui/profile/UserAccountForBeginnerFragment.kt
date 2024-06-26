@@ -221,7 +221,7 @@ class UserAccountForBeginnerFragment : Fragment() {
             }
         }
 
-        binding.imageCloseUserAccount.setOnClickListener {
+        binding.backButton.setOnClickListener {
             backPress()
 
         }

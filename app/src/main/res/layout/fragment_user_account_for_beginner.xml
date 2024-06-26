@@ -14,41 +14,46 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarUserAccount"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
+                android:id="@+id/rj7m4it3pwp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="wrap_content"
+                android:background="#FFFFFFFF"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="28dp">
 
                 <ImageView
-                    android:id="@+id/imageCloseUserAccount"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_back_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/black" />
-
+                    android:id="@+id/backButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="0dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/back_figma" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rk3nhpswmkf"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:text="My account"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@id/imageCloseUserAccount"
-                    app:layout_constraintStart_toStartOf="@id/imageCloseUserAccount"
-                    app:layout_constraintTop_toTopOf="@id/imageCloseUserAccount" />
+                    android:layout_weight="1"
+                    android:fontFamily="@font/stream_roboto_bold"
+                    android:gravity="center"
+                    android:text="나의 계정"
+                    android:textColor="#1C160C"
+                    android:textSize="18sp" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="0dp"
+                    android:visibility="invisible" />
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
         <ProgressBar
@@ -79,7 +84,7 @@
             android:layout_height="28dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/settings_items_background"
-            android:backgroundTint="#5E85F9"
+            android:backgroundTint="#FF009963"
             android:src="@drawable/ic_edit"
             app:layout_constraintBottom_toBottomOf="@id/imageUser"
             app:layout_constraintEnd_toEndOf="@id/imageUser" />
@@ -89,6 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
+            android:textColor="#A08249"
             android:fontFamily="@font/poppins_light"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/imageUser"
@@ -102,7 +108,7 @@
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/white_background"
+            android:background="@drawable/cr4bff009963"
             android:fontFamily="@font/poppins_light"
             android:gravity="center"
             android:singleLine="true"
@@ -117,19 +123,17 @@
 
         <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/buttonSave"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:background="@drawable/blue_background"
-            android:fontFamily="@font/poppins_light"
-            android:text="Save"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:spinning_bar_color="@color/white"
-            android:textStyle="bold"
-            android:scrollbars="vertical"
-            android:inputType="textMultiLine"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="26dp"
+            android:background="@drawable/cr24bff009963"
+            android:fontFamily="@font/stream_roboto_regular"
+            android:gravity="center"
+            android:paddingVertical="1dp"
+            android:text="저장하기"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
             android:layout_marginBottom="20dp"/>
@@ -141,6 +145,7 @@
             android:layout_height="wrap_content"
             android:text="기본적인 이미지나 이름을 수정할 수 있습니다. \n 대학생 인증을 완료하면 기능이 확장됩니다."
             android:fontFamily="@font/poppins_light"
+            android:textColor="#A08249"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/edName"
             app:layout_constraintStart_toStartOf="parent"

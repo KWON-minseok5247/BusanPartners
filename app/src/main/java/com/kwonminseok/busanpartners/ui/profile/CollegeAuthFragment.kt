@@ -80,7 +80,6 @@ class CollegeAuthFragment : Fragment() {
                         dialog.dismiss();
 
                         Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                            .setDialogColorTheme(R.color.black)
                             .setTitle("인증번호를 전송하였습니다.")
                             .setDescription("인증번호를 입력해주세요.")
                             .setDrawable(R.drawable.ic_send_mail)

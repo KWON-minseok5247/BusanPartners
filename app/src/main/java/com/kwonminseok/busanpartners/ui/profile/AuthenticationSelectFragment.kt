@@ -49,6 +49,7 @@ class AuthenticationSelectFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var user: User
 
+    private val viewModel: UserViewModel by viewModels()
 
     // 여기서 해야 할 거는 일단 room을 통해서 데이터를 가져오기 ->
     // 만약 room에 데이터가 없다면 네트워크로부터 데이터를 가져오기 -> 가져온 데이터를 insert하기
@@ -68,8 +69,62 @@ class AuthenticationSelectFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         user = currentUser!!.toUser()
+        Log.e("user", user.toString())
+        viewModel.getUserStateFlowData(currentUser!!.uid).observe(viewLifecycleOwner) { userEntity ->
+               // 여기는 Room으로부터 먼저 가져오되 서버에서도 가져와서 비교를 하고 업데이트 및 수정을 한다.
+
+            if (userEntity != null) {
+                user = userEntity.toUser()
+            }
+                Log.e("user는 뭐지?", user.toString() )
+                viewModel.getCurrentUser()
+
+
+                lifecycleScope.launchWhenStarted {
+                    viewModel.user.collectLatest {
+                        when (it) {
+                            is Resource.Success -> {
+                                if (user == it.data) {
+                                    return@collectLatest
+                                } else {
+                                    if (it.data?.reset == true) {
+                                        Log.e("reset", "true일 때")
+//                                        fetchUserData(it.data!!)
+//                                        user = it.data
+//                                        viewModel.updateUser(user.toEntity())
+
+                                        Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+                                            .setTitle("서버로부터 데이터가 변경되었습니다.")
+                                            .setDescription("앱을 다시 실행시켜주세요.")
+//                                            .setProgressBarColor(R.color.black)
+                                            .show()
+                                            .setButtonText("확인")
+                                            .setButtonOnClickListener {
+                                                requireActivity().finishAffinity()
+                                                System.exit(0)
+                                            }
+
+                                    }
+                                    Log.e("it.data 뭐지?", it.data.toString() )
+
+                                    user = it.data!!
+                                    viewModel.updateUser(user.toEntity())
+
+                                }
+
+                            }
+
+                            is Resource.Error -> {
+
+                            }
+
+                            else -> Unit
+                        }
+                    }
+                }
+            }
+
 
         // 여기서 만약 이메일인증까지 진행했다면 바로 학생증 인증으로 넘어가기
         // 클릭하면 information 창으로 넘어가기

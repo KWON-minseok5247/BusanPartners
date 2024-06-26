@@ -1,136 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical"
+    android:padding="16dp">
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-<androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_back_button"
-        app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/backButton"/>
-
-    <TextView
-
-        android:padding="16dp"
-        android:id="@+id/tvCheckEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="1. 이메일을 인증해주세요"
-        android:textSize="28sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="128dp"/>
-
-    <Spinner
-        android:padding="16dp"
-        android:id="@+id/spinnerUniversityEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvCheckEmail"
-        app:layout_constraintStart_toStartOf="parent"
-        android:outlineAmbientShadowColor="@color/jakarta_lighter"
-        android:outlineSpotShadowColor="@color/jakarta_lighter"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/collegeEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/jakarta_lighter"
-        android:text="university email"
-        app:layout_constraintTop_toBottomOf="@id/spinnerUniversityEmail"
-        app:layout_constraintEnd_toEndOf="@id/editBox"
-        android:layout_marginTop="10dp"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:id="@+id/editBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="이메일"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxStrokeColor="@color/jakarta_lighter"
-        app:boxStrokeWidth="1dp"
-        app:boxBackgroundColor="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@id/collegeEmail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextEmail"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:textColorHint="@color/jakarta_lighter" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/rj7m4it3pwp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFFFF"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="28dp">
+
+                    <ImageView
+                        android:id="@+id/backButton"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/back_figma" />
+
+                    <TextView
+                        android:id="@+id/rk3nhpswmkf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/stream_roboto_bold"
+                        android:gravity="center"
+                        android:text="이메일 입력"
+                        android:textColor="#1C160C"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="0dp"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_email_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFFFF"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="20dp">
+
+                    <TextView
+                        android:id="@+id/tvAddress"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="대학교 이메일 인증을 먼저 진행합니다."
+                        android:textColor="#1C160C"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textViewEventPlace"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+
+                        android:layout_height="wrap_content"
+                        android:text="본인의 대학교를 선택하고 이메일을 작성해주세요."
+                        android:textColor="#A08249"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonSendVerificationCode"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="26dp"
-        android:background="@drawable/cr24bff009963"
-        android:gravity="center"
-        android:fontFamily="@font/stream_roboto_regular"
+            <Spinner
+                android:id="@+id/spinnerUniversityEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:outlineAmbientShadowColor="@color/jakarta_lighter"
+                android:outlineSpotShadowColor="@color/jakarta_lighter"
+                android:padding="16dp" />
 
-        android:paddingVertical="1dp"
-        android:text="전송하기"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/editBox"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
- />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/collegeEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="university email"
+                    android:paddingEnd="16dp"
+
+                    android:textColor="@color/jakarta_lighter"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="이메일"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/jakarta_lighter"
+                    app:boxStrokeWidth="1dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/collegeEmail">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusedSearchResultHighlightColor="@color/jakarta_lighter"
+                        android:inputType="textEmailAddress"
+                        android:textColorHighlight="@color/jakarta_lighter"
+                        android:textColorHint="@color/jakarta_lighter" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonSendVerificationCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/cr24bff009963"
+                android:fontFamily="@font/stream_roboto_regular"
+                android:gravity="center"
+                android:paddingVertical="1dp"
+                android:text="전송하기"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
 
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tvEmailVerifyPrompt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:visibility="invisible"
-        android:text="인증이 완료되었습니다."
-        android:id="@+id/authenticationComplete"/>
+        </LinearLayout>
 
+    </androidx.core.widget.NestedScrollView>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.core.widget.NestedScrollView>
-
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/progressBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="20dp"
-        android:layout_height="20dp"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
