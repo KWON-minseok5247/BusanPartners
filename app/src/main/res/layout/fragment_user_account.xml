@@ -13,42 +13,47 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarUserAccount"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
+                android:id="@+id/rj7m4it3pwp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="wrap_content"
+                android:background="#FFFFFFFF"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="28dp">
 
                 <ImageView
-                    android:id="@+id/imageCloseUserAccount"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_back_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/black" />
-
+                    android:id="@+id/backButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="0dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/back_figma" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rk3nhpswmkf"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:text="My account"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="@id/imageCloseUserAccount"
-                    app:layout_constraintStart_toStartOf="@id/imageCloseUserAccount"
-                    app:layout_constraintTop_toTopOf="@id/imageCloseUserAccount" />
+                    android:layout_weight="1"
+                    android:fontFamily="@font/stream_roboto_bold"
+                    android:gravity="center"
+                    android:text="나의 계정"
+                    android:textColor="#1C160C"
+                    android:textSize="18sp" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="0dp"
+                    android:visibility="invisible" />
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
+
 
         <ProgressBar
             android:id="@+id/progressbarAccount"
@@ -63,9 +68,9 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageUser"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
-            android:layout_marginTop="24dp"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="36dp"
             android:src="@color/white"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintHorizontal_bias="0.498"
@@ -74,11 +79,11 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageEdit"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/settings_items_background"
-            android:backgroundTint="#5E85F9"
+            android:backgroundTint="#FF009963"
             android:src="@drawable/ic_edit"
             app:layout_constraintBottom_toBottomOf="@id/imageUser"
             app:layout_constraintEnd_toEndOf="@id/imageUser" />
@@ -102,6 +107,7 @@
             android:layout_height="wrap_content"
             android:text="나를 나타내는 키워드를 만들어봐요."
             android:fontFamily="@font/poppins_light"
+            android:textColor="@color/jakarta_lighter"
             android:gravity="center"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/edEmail"
@@ -142,7 +148,14 @@
             android:id="@+id/switchShowHideTags"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="관광객으로부터 연락을 받을 수 있습니다."
+            android:text="관광객으로부터 연락을 받을 수 있습니다.   "
+            android:layout_gravity="center_vertical"
+            android:buttonTint="#4cd964"
+            android:checked="true"
+            android:thumb="@drawable/switch_track_thumb"
+            app:track="@drawable/switch_track_selector"
+            app:thumbTextPadding="24dp"
+            app:switchMinWidth="0dp"
             app:layout_constraintTop_toBottomOf="@+id/edit_tag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -153,10 +166,11 @@
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/white_background"
+            android:background="@drawable/rounded_edittext"
+            android:textCursorDrawable="@drawable/cursor_drawable"
             android:fontFamily="@font/poppins_light"
             android:gravity="center"
-            android:hint="NickName"
+            android:hint="이름"
             android:singleLine="true"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
@@ -179,7 +193,8 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="15dp"
                 android:textSize="15sp"
-                android:background="@drawable/white_background"
+                android:background="@drawable/rounded_edittext"
+                android:textCursorDrawable="@drawable/cursor_drawable"
                 android:fontFamily="@font/poppins_light"
                 android:gravity="center"
                 android:textColor="@color/g_gray700"
@@ -199,7 +214,8 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/white_background"
+                android:background="@drawable/rounded_edittext"
+                android:textCursorDrawable="@drawable/cursor_drawable"
                 android:fontFamily="@font/poppins_light"
                 android:gravity="center"
                 android:textSize="15sp"
@@ -219,7 +235,10 @@
             android:layout_height="300dp"
             android:maxHeight="500dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/white_background"
+            android:background="@drawable/rounded_edittext"
+            android:textCursorDrawable="@drawable/cursor_drawable"
+            android:gravity="top"
+            android:padding="10dp"
             android:hint="간단한 자기소개를 해보세요."
             android:textColor="@color/g_gray700"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
@@ -233,14 +252,13 @@
             android:id="@+id/buttonSave"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:background="@drawable/blue_background"
+            android:background="@drawable/cr24bff009963"
             android:fontFamily="@font/poppins_light"
-            android:text="Save"
+            android:text="저장하기"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="16sp"
             app:spinning_bar_color="@color/white"
-            android:textStyle="bold"
             android:scrollbars="vertical"
             android:inputType="textMultiLine"
             app:layout_constraintBottom_toBottomOf="parent"

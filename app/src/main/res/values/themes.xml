@@ -14,6 +14,16 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="CustomEditText" parent="Widget.AppCompat.EditText">
+        <!-- EditText 커서 색상 설정 -->
+        <item name="android:textCursorDrawable">@drawable/cursor_drawable</item>
+        <!-- 텍스트 선택 핸들 색상 설정 -->
+        <item name="android:textSelectHandle">@color/black</item>
+        <item name="android:textSelectHandleLeft">@color/black</item>
+        <item name="android:textSelectHandleRight">@color/black</item>
+    </style>
+
+
     <style name="cr12">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>

@@ -26,7 +26,6 @@
                 android:background="#FFFFFFFF"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
                 android:paddingVertical="28dp">
 
                 <ImageView
@@ -69,9 +68,9 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageUser"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
-            android:layout_marginTop="150dp"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="107dp"
             android:src="@color/white"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintHorizontal_bias="0.498"
@@ -80,8 +79,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageEdit"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/settings_items_background"
             android:backgroundTint="#FF009963"
@@ -94,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="#A08249"
+            android:textColor="#1C160C"
             android:fontFamily="@font/poppins_light"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/imageUser"
@@ -108,11 +107,14 @@
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/cr4bff009963"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/rounded_edittext"
+            android:textCursorDrawable="@drawable/cursor_drawable"
             android:fontFamily="@font/poppins_light"
             android:gravity="center"
             android:singleLine="true"
-            android:textStyle="bold"
+            style="@style/CustomEditText"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
             app:layout_constraintStart_toStartOf="@+id/leftGuideline"
             app:layout_constraintTop_toBottomOf="@+id/edEmail" />
@@ -131,9 +133,11 @@
             android:fontFamily="@font/stream_roboto_regular"
             android:gravity="center"
             android:paddingVertical="1dp"
+            app:spinning_bar_color="@color/white"
             android:text="저장하기"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
             android:layout_marginBottom="20dp"/>

@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
+import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
@@ -248,7 +249,7 @@ class UserAccountFragment : Fragment() {
             }
         }
 
-        binding.imageCloseUserAccount.setOnClickListener {
+        binding.backButton.setOnClickListener {
             backPress()
 
         }
@@ -273,10 +274,11 @@ class UserAccountFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val tagText = binding.editTag.text.toString()
                 if (tagText.isNotEmpty()) {
-                    if (binding.chipGroupHobbies.childCount < 10) {
+                    if (binding.chipGroupHobbies.childCount < 15) {
                         val chip = Chip(requireContext()).apply {
                             text = tagText
                             isCloseIconVisible = true
+                            setChipBackgroundColorResource(R.color.chipgroup_color)
                             setOnCloseIconClickListener {
                                 binding.chipGroupHobbies.removeView(this)
                             }
@@ -292,7 +294,7 @@ class UserAccountFragment : Fragment() {
 
                         binding.editTag.text.clear()
                     } else {
-                        Toast.makeText(requireContext(), "최대 10개의 태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "최대 15개의 태그만 추가할 수 있습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
                 true
@@ -460,6 +462,7 @@ class UserAccountFragment : Fragment() {
                 text = hobby
                 isCheckedIconVisible = false
                 isCloseIconVisible = true // 닫기 아이콘을 보여줍니다.
+                setChipBackgroundColorResource(R.color.chipgroup_color)
                 setOnCloseIconClickListener {
                     // Chip을 클릭했을 때 ChipGroup에서 제거합니다.
                     binding.chipGroupHobbies.removeView(this)

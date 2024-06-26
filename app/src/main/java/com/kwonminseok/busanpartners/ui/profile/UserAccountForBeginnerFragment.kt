@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +26,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream
+import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
@@ -198,7 +200,10 @@ class UserAccountForBeginnerFragment : Fragment() {
 
                     is Resource.Success -> {
                         // 로딩 인디케이터 숨기기
-                        binding.buttonSave.revertAnimation()
+                        binding.buttonSave.revertAnimation {
+                            binding.buttonSave.background = ContextCompat.getDrawable(requireContext(), R.drawable.cr24bff009963)
+
+                        }
                         // 성공 메시지 표시 또는 성공 후 작업
                         Toast.makeText(requireContext(), "성공적으로 처리되었습니다.", Toast.LENGTH_SHORT)
                             .show()
