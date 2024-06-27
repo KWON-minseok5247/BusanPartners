@@ -11,49 +11,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarUserAccount"
+        <LinearLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_vertical"
+            android:background="#FFFFFFFF"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingVertical="28dp"
+            android:paddingHorizontal="16dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/rj7m4it3pwp"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="0dp"
+                android:src="@drawable/back_figma"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/rk3nhpswmkf"
+                android:textColor="#1C160C"
+                android:textSize="18sp"
+                android:fontFamily="@font/stream_roboto_bold"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFFFF"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingVertical="28dp">
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="세부 정보" />
 
-                <ImageView
-                    android:id="@+id/backButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="0dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/back_figma" />
-
-                <TextView
-                    android:id="@+id/rk3nhpswmkf"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/stream_roboto_bold"
-                    android:gravity="center"
-                    android:text="나의 계정"
-                    android:textColor="#1C160C"
-                    android:textSize="18sp" />
-
-                <View
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="0dp"
-                    android:visibility="invisible" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="0dp"
+                android:visibility="invisible" />
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/progressbarAccount"
@@ -75,7 +70,7 @@
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarUserAccount" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageEdit"

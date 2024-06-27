@@ -50,6 +50,7 @@ import com.naver.maps.map.NaverMapOptions
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,14 +70,15 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
     private var studentsByUniversity: Map<String?, List<User>>? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var userList: MutableList<User>? = null
-//    private val infoWindows = mutableListOf<InfoWindow>()
+
+    //    private val infoWindows = mutableListOf<InfoWindow>()
     private var infoWindow = InfoWindow()
 
     private var selectedUniversityStudents: List<User>? = null
     private val viewModel: UserViewModel by viewModels()
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
-//    private val viewModel by viewModels<ConnectViewModel>()
+    //    private val viewModel by viewModels<ConnectViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -85,7 +87,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
-    _binding = FragmentConnectBinding.inflate(layoutInflater)
+        _binding = FragmentConnectBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -137,12 +139,12 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
             viewModel.students.collectLatest {
                 when (it) {
                     is Resource.Loading -> {
-                        Log.e("Resource.Loading" , "Resource.Loading")
+                        Log.e("Resource.Loading", "Resource.Loading")
 
                     }
 
                     is Resource.Success -> {
-                        Log.e("Resource.Success" , "Resource.Success")
+                        Log.e("Resource.Success", "Resource.Success")
                         // blockList에 포함되지 않은 사용자만 userList에 추가
                         userList = it.data
 
@@ -155,7 +157,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     is Resource.Error -> {
-                        Log.e("Resource.Error" , it.message.toString())
+                        Log.e("Resource.Error", it.message.toString())
 
 
                     }
@@ -179,16 +181,19 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
             } else {
                 val b = Bundle().apply {
-                    putParcelableArray("selectedUniversityStudents",
+                    putParcelableArray(
+                        "selectedUniversityStudents",
                         selectedUniversityStudents?.toTypedArray()
                     )
 //                putParcelableArrayList("selectedUniversityStudents", selectedUniversityStudents.toTypedArray())
 
                 }
-                findNavController().navigate(R.id.action_connectFragment_to_selectedUniversityStudentListFragment, b)
+                findNavController().navigate(
+                    R.id.action_connectFragment_to_selectedUniversityStudentListFragment,
+                    b
+                )
 
             }
-
 
 
         }
@@ -200,7 +205,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         super.onDestroyView()
         _binding = null
     }
-
 
 
     // 연락할 수 있는 대학생 리스트 목록을 받은 후 과정
@@ -222,8 +226,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         }
 
 
-
-
         // 초기 위치 설정 과정
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             // 사용자의 현재 위치를 받았습니다. 지도 로딩을 시작합니다.
@@ -236,8 +238,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         }
 
     }
-
-
 
 
     private fun pukyongMarker(
@@ -318,6 +318,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 //
     }
+
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
         naverMap.locationSource = locationSource
@@ -336,6 +337,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
         studentsByUniversity = userList?.groupBy { it.college }
 
+        //4번 6qjs 7 8
         // 대학생이 있으면 마커를 등록하는 과정
         Universities.universityInfoList.forEach { university ->
             val students = studentsByUniversity?.get(university.nameKo)
@@ -343,7 +345,12 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                 val marker = Marker().apply {
                     position = university.location
                     map = naverMap
-                    icon = MarkerIcons.GRAY
+//                    icon = MarkerIcons.GRAY
+                    icon = OverlayImage.fromResource(R.drawable.marker_10)
+
+                    width = 200
+                    height = 200
+
                 }
 
                 marker.setOnClickListener {
@@ -364,23 +371,34 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                         .setButtonText("연락하기")
                         .setButtonOnClickListener {
                             if (currentUser?.authentication?.authenticationStatus != "complete") {
-                                Snackbar.make(requireView(), "인증을 먼저 진행해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show()
+                                Snackbar.make(
+                                    requireView(),
+                                    "인증을 먼저 진행해주시기 바랍니다.",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
                                 val bundle = Bundle().apply {
                                     putBoolean("showAuthenticationPrompt", true)
                                 }
 
-                                findNavController().navigate(R.id.action_connectFragment_to_profileFragment, bundle)
+                                findNavController().navigate(
+                                    R.id.action_connectFragment_to_profileFragment,
+                                    bundle
+                                )
 
 
                             } else {
                                 val b = Bundle().apply {
-                                    putParcelableArray("selectedUniversityStudents",
+                                    putParcelableArray(
+                                        "selectedUniversityStudents",
                                         selectedUniversityStudents?.toTypedArray()
                                     )
 //                putParcelableArrayList("selectedUniversityStudents", selectedUniversityStudents.toTypedArray())
 
                                 }
-                                findNavController().navigate(R.id.action_connectFragment_to_selectedUniversityStudentListFragment, b)
+                                findNavController().navigate(
+                                    R.id.action_connectFragment_to_selectedUniversityStudentListFragment,
+                                    b
+                                )
 
                             }
                         }
@@ -435,8 +453,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         }
 
 
-
-
     }
 
 //    private class InfoWindowAdapter(
@@ -463,7 +479,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 //            return binding.root
 //        }
 //    }
-
 
 
 //    private fun createMarkerForUniversity(university: UniversityInfo, studentCount: Int) {
@@ -538,7 +553,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 //
 //    }
 
-        companion object {
+    companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
 }

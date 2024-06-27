@@ -7,64 +7,49 @@
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/all_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarUserAccount"
+
+        <LinearLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:id="@+id/rj7m4it3pwp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFFFF"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingVertical="28dp">
-
-                <ImageView
-                    android:id="@+id/backButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="0dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/back_figma" />
-
-                <TextView
-                    android:id="@+id/rk3nhpswmkf"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/stream_roboto_bold"
-                    android:gravity="center"
-                    android:text="나의 계정"
-                    android:textColor="#1C160C"
-                    android:textSize="18sp" />
-
-                <View
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="0dp"
-                    android:visibility="invisible" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-
-        <ProgressBar
-            android:id="@+id/progressbarAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center_vertical"
+            android:background="#FFFFFFFF"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingVertical="28dp"
+            android:paddingHorizontal="16dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="0dp"
+                android:src="@drawable/back_figma"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/rk3nhpswmkf"
+                android:textColor="#1C160C"
+                android:textSize="18sp"
+                android:fontFamily="@font/stream_roboto_bold"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="세부 정보" />
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="0dp"
+                android:visibility="invisible" />
+        </LinearLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageUser"
@@ -75,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="@id/leftGuideline"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarUserAccount" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageEdit"
@@ -168,7 +153,6 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/rounded_edittext"
             android:textCursorDrawable="@drawable/cursor_drawable"
-            android:fontFamily="@font/poppins_light"
             android:gravity="center"
             android:hint="이름"
             android:singleLine="true"
@@ -194,9 +178,7 @@
                 android:textSize="15sp"
                 android:background="@drawable/rounded_edittext"
                 android:textCursorDrawable="@drawable/cursor_drawable"
-                android:fontFamily="@font/poppins_light"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:singleLine="true"
                 app:layout_constraintEnd_toEndOf="@id/rightGuideline"
                 app:layout_constraintStart_toStartOf="@id/leftGuideline"
@@ -214,7 +196,6 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_edittext"
                 android:textCursorDrawable="@drawable/cursor_drawable"
-                android:fontFamily="@font/poppins_light"
                 android:gravity="center"
                 android:textSize="15sp"
                 android:hint="학과 (비공개 가능)"
@@ -232,11 +213,12 @@
             android:layout_width="0dp"
             android:layout_height="300dp"
             android:maxHeight="500dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/rounded_edittext"
             android:textCursorDrawable="@drawable/cursor_drawable"
             android:gravity="top"
             android:padding="10dp"
+            android:textSize="16sp"
             android:hint="간단한 자기소개를 해보세요."
             android:textColor="@color/g_gray700"
             app:layout_constraintEnd_toEndOf="@id/rightGuideline"
@@ -296,5 +278,18 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.96" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="8dp"
+            android:indeterminateTint="@color/jakarta_lighter"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>

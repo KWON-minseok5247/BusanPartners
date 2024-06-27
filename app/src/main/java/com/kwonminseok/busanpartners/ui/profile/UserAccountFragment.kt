@@ -76,6 +76,8 @@ class UserAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.allLayout.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.VISIBLE
 
         // Room으로부터 데이터를 받는 과정
         viewModel.getUserStateFlowData(uid).observe(viewLifecycleOwner) { userEntity ->
@@ -471,7 +473,6 @@ class UserAccountFragment : Fragment() {
 
         private fun hideUserLoading() {
             binding.apply {
-                progressbarAccount.visibility = View.GONE
                 imageUser.visibility = View.VISIBLE
                 imageEdit.visibility = View.VISIBLE
                 edName.visibility = View.VISIBLE
@@ -483,7 +484,6 @@ class UserAccountFragment : Fragment() {
 
         private fun showUserLoading() {
             binding.apply {
-                progressbarAccount.visibility = View.VISIBLE
                 imageUser.visibility = View.INVISIBLE
                 imageEdit.visibility = View.INVISIBLE
                 edName.visibility = View.INVISIBLE
@@ -541,6 +541,10 @@ class UserAccountFragment : Fragment() {
             binding.chipGroupHobbies.removeAllViews()
             chipTexts = user.chipGroup?.ko?.toMutableList()
             user.chipGroup?.let { it?.ko?.let { it1 -> setupHobbiesChips(it1) } }
+
+            binding.allLayout.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.INVISIBLE
+
         }
 
         override fun onResume() {
