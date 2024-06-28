@@ -10,8 +10,6 @@ import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.os.StrictMode
 import android.provider.Settings
 import android.util.Log
@@ -21,51 +19,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.barnea.dialoger.Dialoger
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.material.snackbar.Snackbar
-import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.FestivalAdapter
 import com.kwonminseok.busanpartners.adapter.TourismAdapter
-import com.kwonminseok.busanpartners.adapter.TouristDestinationAdapter
 import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
-import com.kwonminseok.busanpartners.application.BusanPartners
-import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.data.TourismResponse
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
-import com.kwonminseok.busanpartners.db.entity.UserEntity
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
-import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentServerTime
-import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
-import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.LanguageUtils
-import com.kwonminseok.busanpartners.util.Resource
-import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import com.naver.maps.map.util.FusedLocationSource
-import io.getstream.chat.android.client.token.TokenProvider
-import io.getstream.chat.android.models.User
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -74,7 +50,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Calendar
-import java.util.Locale
 import java.util.TimeZone
 
 private val TAG = "HomeFragment"
@@ -155,7 +130,7 @@ class HomeFragment : Fragment() {
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
                 .setTitle("부산파트너스를 이용해주셔서 감사합니다.")
                 .setDescription("다음에도 부산을 꼭 찾아주세요.")
-                .setDrawable(R.drawable.splash_logo)
+                .setDrawable(R.drawable.logo_size)
                 .setButtonText("확인")
                 .setButtonOnClickListener {
                 }
@@ -169,7 +144,6 @@ class HomeFragment : Fragment() {
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
                 .setTitle("인증이 완료되었습니다.")
                 .setDescription("대학생들에게 먼저 연락해보세요.")
-                .setDrawable(R.drawable.splash_logo)
                 .setButtonText("확인")
                 .setButtonOnClickListener {
                 }
@@ -183,7 +157,6 @@ class HomeFragment : Fragment() {
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
                 .setTitle("인증이 완료되었습니다.")
                 .setDescription("마음껏 관광객들과 어울려보세요.")
-                .setDrawable(R.drawable.splash_logo)
                 .setButtonText("확인")
                 .setButtonOnClickListener {
                 }

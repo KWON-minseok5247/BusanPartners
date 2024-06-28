@@ -13,6 +13,6 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
 
-        android:src="@drawable/splash_logo"/>
+        android:src="@drawable/logo_transparent_background"/>
 </LinearLayout>
 

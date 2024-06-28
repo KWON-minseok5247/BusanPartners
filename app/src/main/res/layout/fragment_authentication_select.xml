@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="22dp"
-                android:text="Who are you?"
+                android:text="당신은 누구신가요?"
                 android:textColor="#1C160C"
                 android:textSize="22sp" />
 

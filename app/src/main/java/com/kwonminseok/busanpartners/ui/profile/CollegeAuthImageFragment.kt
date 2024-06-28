@@ -20,6 +20,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.alertview.lib.AlertView
+import com.alertview.lib.OnItemClickListener
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.ImagesAdapter
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthImageBinding
@@ -134,9 +136,30 @@ class CollegeAuthImageFragment : Fragment() {
                 // 아무것도 실행되지 않도록
                 Toast.makeText(requireContext(), "학생증 사진을 추가해주세요!", Toast.LENGTH_SHORT).show()
             } else {
-                viewModel.viewModelScope.launch {
-                    viewModel.uploadUserImagesAndUpdateToFirestore(imageUris, STUDENT)
-                }
+                AlertView.Builder()
+                    .setContext(requireActivity())
+                    .setStyle(AlertView.Style.Alert)
+                    .setTitle("알림")
+                    .setMessage("저장 후에는 변경할 수 없습니다.\n정말 저장하시겠습니까?")
+                    .setDestructive("확인")
+                    .setOthers(arrayOf("취소"))
+                    .setOnItemClickListener(object : OnItemClickListener {
+                        override fun onItemClick(o: Any?, position: Int) {
+                            if (position == 0) { // 확인 버튼 위치 확인
+                                viewModel.viewModelScope.launch {
+                                    viewModel.uploadUserImagesAndUpdateToFirestore(imageUris, STUDENT)
+                                }
+                            } else {
+                                (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
+                            }
+                        }
+
+                    })
+                    .build()
+                    .setCancelable(true)
+                    .show()
+
+
 
             }
         }

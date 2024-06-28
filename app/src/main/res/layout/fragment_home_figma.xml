@@ -19,45 +19,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-      <ImageView
+      <View
           android:id="@+id/busan_image"
           android:layout_width="0dp"
-          android:layout_height="320dp"
+          android:layout_height="120dp"
           android:layout_marginBottom="25dp"
-          android:src="@drawable/busan"
-          android:scaleType="fitXY"
           app:layout_constraintTop_toTopOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"/>
 
-      <TextView
-          android:id="@+id/r5h9c8pktuo6"
-          android:textColor="#1C160C"
-          android:textSize="28sp"
-          android:layout_marginBottom="45dp"
-          android:textStyle="bold"
-          android:layout_marginTop="25dp"
+      <androidx.appcompat.widget.AppCompatImageView
+          android:id="@+id/app_logo_image"
           android:layout_width="wrap_content"
+          android:src="@drawable/logo_white_background_resize"
+          android:layout_height="170dp"
+          android:layout_marginTop="25dp"
           android:fontFamily="@font/stream_roboto_bold"
-
-          android:layout_height="wrap_content"
           android:text="BusanPartners"
           app:layout_constraintTop_toBottomOf="@id/busan_image"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"/>
+
 
       <TextView
           android:id="@+id/r3b7o5cqlh3e"
           android:textColor="#1C160C"
           android:textSize="16sp"
           android:fontFamily="@font/stream_roboto_regular"
-          android:layout_marginTop="40dp"
           android:layout_marginHorizontal="39dp"
           android:layout_width="0dp"
+          android:layout_marginTop="26dp"
           android:layout_height="wrap_content"
           android:gravity="center"
-          android:text="Get personalized recommendations from locals for your next trip."
-          app:layout_constraintTop_toBottomOf="@id/r5h9c8pktuo6"
+          android:text="다양한 사람들을 만나보세요!"
+          app:layout_constraintTop_toBottomOf="@id/app_logo_image"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -72,7 +67,7 @@
           android:fontFamily="@font/stream_roboto_regular"
 
           android:paddingVertical="1dp"
-          android:text="Log in with Google"
+          android:text="구글 로그인"
           android:textColor="#FFFFFF"
           android:textSize="16sp"
           app:layout_constraintEnd_toEndOf="parent"
