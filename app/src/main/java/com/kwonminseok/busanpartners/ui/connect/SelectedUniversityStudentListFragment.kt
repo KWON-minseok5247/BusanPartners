@@ -19,7 +19,6 @@ import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
-import com.kwonminseok.busanpartners.databinding.FragmentSelectedUniversityStudentListBinding
 import com.kwonminseok.busanpartners.databinding.FragmentUniversityBinding
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.util.LanguageUtils
@@ -97,74 +96,12 @@ class SelectedUniversityStudentListFragment : Fragment() {
         }
 
 
-//        //TODO // 자기 자신 클릭할 수 없게. 대학생은 대학생끼리 연락할 수 없게. 관광객이 아니면 연락할 수 없게.
-//        // 무분별하게 연락할 수 없게.
-//        studentCardRv()
-//
-//        binding.floatingMessageButton.setOnClickListener {
-//            if (usersList != null) {
-//
-//                val currentPosition = binding.viewPagerImages.currentItem
-//
-//                if (currentUser?.authentication?.collegeStudent == true) {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "대학생은 다른 대학생에게 연락을 할 수 없습니다.",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//
-//                if (currentUser!!.blockList?.contains(usersList[currentPosition].uid) == true) {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "현재 채팅 중이거나 이미 채팅을 끝낸 상대방과 다시 연락할 수 없습니다. ",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//
-//                if (currentUser!!.chatChannelCount >= 3) {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "최대 활성화할 수 있는 채팅방은 3개입니다.",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//
-//                else {
-//                    val b = Bundle().apply {
-//                        putString("studentUid", usersList[currentPosition].uid)
-//                        putString(
-//                            "name",
-////                            "${usersList[currentPosition].name?.ko}\n (${getTranslatedText(usersList[currentPosition].name)})"
-//                            "${usersList[currentPosition].name?.ko}(${getTranslatedText(usersList[currentPosition].name)})"
-//
-//                        )
-//                    }
-//                    findNavController().navigate(
-//                        R.id.action_selectedUniversityStudentListFragment_to_messageFragment,
-//                        b
-//                    )
-//                }
-//
-//            }
-//
-//
-//        }
-
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-//    private fun studentCardRv() {
-//        binding.viewPagerImages.adapter = adapter
-//    }
 
 
     override fun onResume() {

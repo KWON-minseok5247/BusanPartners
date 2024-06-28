@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.barnea.dialoger.Dialoger
@@ -99,6 +100,7 @@ class CollegeAuthFragment : Fragment() {
                             }
                         }
                     }, 2000)
+
 
 // Dismiss the loading dialog after 5 seconds
 //                    Handler(Looper.getMainLooper()).postDelayed({

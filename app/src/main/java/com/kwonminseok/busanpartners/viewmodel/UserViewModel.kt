@@ -54,6 +54,13 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun setDeleteReason(reason: String, details: String?) {
+        viewModelScope.launch {
+            _updateStatus.value = Resource.Loading()
+            _updateStatus.value = userRepository.setDeleteReason(reason, details)
+        }
+    }
+
     fun setCurrentUser(map: Map<String, Any?>) {
         viewModelScope.launch {
             _updateStatus.value = Resource.Loading()

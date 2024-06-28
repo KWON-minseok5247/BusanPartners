@@ -9,6 +9,7 @@ import com.google.firebase.storage.StorageReference
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
+import com.kwonminseok.busanpartners.data.Feedback
 import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
@@ -36,7 +37,9 @@ interface FirebaseUserRepository {
     // 파이어베이스 전용 함수
     suspend fun getCurrentUser(): Flow<Resource<User>>
 
-//    suspend fun updateCurrentUser(map: Map<String, Any?>): Resource<Boolean>
+    //    suspend fun updateCurrentUser(map: Map<String, Any?>): Resource<Boolean>
+    suspend fun setDeleteReason(reason: String, details: String? = null): Resource<Boolean>
+
 
     //    suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean>
     suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean>
@@ -74,25 +77,47 @@ class FirebaseUserRepositoryImpl(
     override suspend fun getCurrentUser(): Flow<Resource<User>> = callbackFlow {
 
         val docRef = firestore.collection(USER_COLLECTION).document(auth.uid!!)
-            val snapshotListener = docRef.addSnapshotListener { snapshot, error ->
-                // 에러 처리
-                if (error != null) {
-                    trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
-                    return@addSnapshotListener
-                }
-                // 데이터 처리
-                val user = snapshot?.toObject(User::class.java)
-                if (user != null) {
-                    trySend(Resource.Success(user)).isSuccess
-                } else {
-                    trySend(Resource.Error("User not found")).isSuccess
-                }
-
+        val snapshotListener = docRef.addSnapshotListener { snapshot, error ->
+            // 에러 처리
+            if (error != null) {
+                trySend(Resource.Error(error.message ?: "Unknown error")).isSuccess
+                return@addSnapshotListener
             }
-            awaitClose { snapshotListener.remove() }
+            // 데이터 처리
+            val user = snapshot?.toObject(User::class.java)
+            if (user != null) {
+                trySend(Resource.Success(user)).isSuccess
+            } else {
+                trySend(Resource.Error("User not found")).isSuccess
+            }
+
+        }
+        awaitClose { snapshotListener.remove() }
 
 
+    }
 
+    override suspend fun setDeleteReason(reason: String, details: String?): Resource<Boolean> {
+        return try {
+            if (reason == "기타(직접 입력)") {
+                // "기타"의 경우, 모든 details를 저장
+                firestore.collection("user_feedback").document("기타").collection("리스트").add(
+                    Feedback(reason, 1, details)
+                ).await()
+            } else {
+                // 다른 사유의 경우, count 증가 또는 새로운 문서 생성
+                val document = firestore.collection("user_feedback").document(reason).get().await()
+                if (document.exists()) {
+                    val currentCount = document.getLong("count") ?: 0
+                    firestore.collection("user_feedback").document(reason).update("count", currentCount + 1).await()
+                } else {
+                    firestore.collection("user_feedback").document(reason).set(Feedback(reason, 1, details)).await()
+                }
+            }
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Unknown error")
+        }
 
     }
 
@@ -119,6 +144,7 @@ class FirebaseUserRepositoryImpl(
                             }
                         }
                     }
+
                     "chipGroup" -> {
                         if (value is List<*> && value.isNotEmpty()) {
                             val listAsString = value.joinToString(separator = ",")
@@ -130,9 +156,11 @@ class FirebaseUserRepositoryImpl(
                                 zh = translations["ZH"]?.split("、", ",")?.map { it.trim() }
                             )
                         } else {
-                            translatedMap[key] = TranslatedList(listOf(), listOf(), listOf(), listOf())
+                            translatedMap[key] =
+                                TranslatedList(listOf(), listOf(), listOf(), listOf())
                         }
                     }
+
                     else -> {
                         // 이 경우에 대해서는 특별한 처리 없이 바로 업데이트
                         translatedMap[key] = value
@@ -177,7 +205,9 @@ class FirebaseUserRepositoryImpl(
             if (response.isSuccessful) {
                 val responseBody = response.body?.string()
                 val responseJson = JSONObject(responseBody)
-                val translatedText = responseJson.getJSONArray("translations").getJSONObject(0).getString("text").trim()
+                val translatedText =
+                    responseJson.getJSONArray("translations").getJSONObject(0).getString("text")
+                        .trim()
 
                 translations[lang] = translatedText
             } else {
@@ -189,7 +219,6 @@ class FirebaseUserRepositoryImpl(
         Log.e("translations", translations.toString())
         return translations
     }
-
 
 
     override suspend fun uploadUserImagesAndUpdateToFirestore( // 인증 사진을 파이어스토어에 저장을 하는 과정
@@ -264,7 +293,7 @@ class FirebaseUserRepositoryImpl(
 
     override suspend fun deleteCurrentUser(): Resource<Boolean> {
         return try {
-            val uid =auth.uid!!
+            val uid = auth.uid!!
             val storageRef = storage.child("user/${uid}")
 //            storageRef.delete().await()
             // 사용자의 스토리지 참조 하위의 모든 파일과 디렉토리 목록 가져오기

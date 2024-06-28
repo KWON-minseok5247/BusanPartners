@@ -153,7 +153,6 @@ class HomeFragment : Fragment() {
             sharedPreferences.edit().putBoolean("traveler_finish",false).apply()
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                .setDialogColorTheme(R.color.primaryTextColor)
                 .setTitle("부산파트너스를 이용해주셔서 감사합니다.")
                 .setDescription("다음에도 부산을 꼭 찾아주세요.")
                 .setDrawable(R.drawable.splash_logo)
@@ -168,7 +167,6 @@ class HomeFragment : Fragment() {
             sharedPreferences.edit().putBoolean("is_first_visitor",false).apply()
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                .setDialogColorTheme(R.color.primaryTextColor)
                 .setTitle("인증이 완료되었습니다.")
                 .setDescription("대학생들에게 먼저 연락해보세요.")
                 .setDrawable(R.drawable.splash_logo)
@@ -183,7 +181,6 @@ class HomeFragment : Fragment() {
             sharedPreferences.edit().putBoolean("is_first_student",false).apply()
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                .setDialogColorTheme(R.color.primaryTextColor)
                 .setTitle("인증이 완료되었습니다.")
                 .setDescription("마음껏 관광객들과 어울려보세요.")
                 .setDrawable(R.drawable.splash_logo)
@@ -293,6 +290,7 @@ class HomeFragment : Fragment() {
                 putString("contentId", festival.contentid)
                 putString("eventstartdate", festival.eventstartdate)
                 putString("eventenddate", festival.eventenddate)
+                putString("firstImage", festival.firstimage)
             }
 
             findNavController().navigate(R.id.action_homeFragment_to_festivalDetailFragment, bundle)

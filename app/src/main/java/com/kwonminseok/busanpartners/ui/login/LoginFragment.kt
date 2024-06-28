@@ -26,11 +26,9 @@ import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.databinding.FragmentHomeFigmaBinding
-import com.kwonminseok.busanpartners.databinding.FragmentLoginBinding
 import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.Resource
-import com.kwonminseok.busanpartners.util.setupBottomSheetDialog
 import com.kwonminseok.busanpartners.viewmodel.LoginsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

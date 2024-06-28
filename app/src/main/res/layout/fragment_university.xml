@@ -62,7 +62,7 @@
                     android:id="@+id/rhrvr7ghfh8p_rl"
                     android:layout_width="match_parent"
                     android:layout_height="218dp"
-                    android:layout_marginBottom="26dp"
+                    android:layout_marginBottom="16dp"
                     >
                     <ImageView
                         android:id="@+id/imageUniversity"
@@ -71,24 +71,21 @@
                         android:src="@drawable/univ"
                         android:scaleType="fitXY"
                         />
-                    <LinearLayout
-                        android:paddingTop="138dp"
-                        android:paddingBottom="24dp"
-                        android:paddingHorizontal="17dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tvUniversity"
-                            android:textColor="#FFFFFF"
-                            android:textSize="28sp"
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:layout_weight="1"
-                            android:text="University of Southern California"
-                            />
-                    </LinearLayout>
                 </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvUniversity"
+                    android:textColor="#1C160C"
+                    android:textSize="22sp"
+
+                    android:textStyle="bold"
+                    android:layout_marginBottom="28dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="University of Southern California"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center"
+                    />
+
                 <TextView
                     android:id="@+id/r3zfskk3lbj"
                     android:textColor="#1C160C"
@@ -97,7 +94,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="Students"
+                    android:text="학생 목록"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView

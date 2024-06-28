@@ -27,7 +27,6 @@ import com.kwonminseok.busanpartners.data.IntroResponse
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentFestivalDetailBinding
-import com.kwonminseok.busanpartners.databinding.FragmentSelectedUniversityStudentListBinding
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.message.AttachmentMapActivity
 import com.kwonminseok.busanpartners.util.LanguageUtils
@@ -177,6 +176,8 @@ class FestivalDetailFragment : Fragment() {
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("FestivalDetail", t.message.toString())
+
+
             }
         })
     }
@@ -204,12 +205,23 @@ class FestivalDetailFragment : Fragment() {
                     indicator.setViewPager(viewPager) // ViewPager와 Indicator 연결
 
                 } else {
+
                     Log.e("FestivalDetail", "Image Response failed: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<ImageResponse>, t: Throwable) {
                 Log.e("FestivalDetail", t.message.toString())
+                val firstImage = arguments?.getString("firstImage") ?: ""
+                val images = listOf(firstImage)
+                imageEventAdapter = ImagePlaceAdapter()
+                viewPager.adapter = imageEventAdapter
+
+
+                imageEventAdapter.submitList(images)
+                indicator.setViewPager(viewPager) // ViewPager와 Indicator 연결
+
+
             }
         })
     }

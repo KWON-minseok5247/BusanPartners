@@ -33,7 +33,6 @@ import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.data.UniversityInfo
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
-import com.kwonminseok.busanpartners.databinding.UniversityCardFrontBinding
 import com.kwonminseok.busanpartners.ui.home.HomeFragment
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
@@ -346,7 +345,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                     position = university.location
                     map = naverMap
 //                    icon = MarkerIcons.GRAY
-                    icon = OverlayImage.fromResource(R.drawable.marker_10)
+                    icon = OverlayImage.fromResource(R.drawable.maker_11)
 
                     width = 200
                     height = 200

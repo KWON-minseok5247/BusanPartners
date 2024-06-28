@@ -22,7 +22,6 @@ import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
-import com.kwonminseok.busanpartners.databinding.FragmentSelectedUniversityStudentListBinding
 import com.kwonminseok.busanpartners.databinding.FragmentUniversityBinding
 import com.kwonminseok.busanpartners.databinding.FragmentUniversityStudentBinding
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser

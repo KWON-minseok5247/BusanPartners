@@ -24,7 +24,7 @@ class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentCardViewHolder
             binding.apply {
                 Glide.with(itemView).load(user.imagePath).into(binding.ivProfileImage)
                 tvName.text = getTranslatedText(user.name)
-                tvMajor.text = "${getTranslatedText(user.major)}"
+                tvMajor.text = "전공 : ${getTranslatedText(user.major)}"
             }
 
             itemView.setOnClickListener {
