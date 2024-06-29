@@ -68,12 +68,15 @@
                     android:textSize="16sp"
                     android:layout_marginBottom="6dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:text="부산여행을 왔다는 증명이 필요합니다" />
                 <TextView
                     android:id="@+id/textViewEventPlace"
                     android:textColor="#A08249"
                     android:textSize="14sp"
+                    android:layout_gravity="center"
+
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="ex) 비행기 티켓 + 숙박증명서 (이름이 식별되어야 함.) \n 사진이 2장 이상은 있어야 합니다. " />

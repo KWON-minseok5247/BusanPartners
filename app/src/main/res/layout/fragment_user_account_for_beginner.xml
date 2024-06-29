@@ -105,8 +105,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:background="@drawable/rounded_edittext"
-            android:textCursorDrawable="@drawable/cursor_drawable"
-            android:fontFamily="@font/poppins_light"
+
             android:gravity="center"
             android:singleLine="true"
             style="@style/CustomEditText"

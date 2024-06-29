@@ -158,6 +158,10 @@ class UserAccountForBeginnerFragment : Fragment() {
             binding.apply {
                 // TODO 여기서 변경사항을 찾아서 제공하는 게 더 합리적인 것 같다?
                 val edName = edName.text.toString()
+                if (edName.isBlank()) {
+                    Toast.makeText(requireContext(), "이름을 입력해주세요!", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
 
 
                 val newData = mapOf(

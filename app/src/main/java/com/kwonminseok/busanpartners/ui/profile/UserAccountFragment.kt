@@ -162,6 +162,10 @@ class UserAccountFragment : Fragment() {
                 val edMajor = edMajor.text.toString()
                 val introduction = introduction.text.toString()
                 val wantToMeet = switchShowHideTags.isChecked
+                if (edName.isBlank()) {
+                    Toast.makeText(requireContext(), "이름을 입력해주세요!", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
 
                 chipTexts = mutableListOf<String>()
 

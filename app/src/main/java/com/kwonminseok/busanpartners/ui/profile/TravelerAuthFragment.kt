@@ -19,10 +19,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.alertview.lib.AlertView
+import com.alertview.lib.OnItemClickListener
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.ImagesAdapter
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.databinding.FragmentTravelerAuthBinding
+import com.kwonminseok.busanpartners.util.Constants
 import com.kwonminseok.busanpartners.util.Constants.TRAVELER
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
@@ -163,14 +166,36 @@ class TravelerAuthFragment : Fragment() {
             if (imageUris.isEmpty()) {
                 // 아무것도 실행되지 않도록
                 Toast.makeText(requireContext(), "증명할 수 있는 사진을 추가해주세요!", Toast.LENGTH_SHORT).show()
+            }
+            else if (imageUris.size == 1) {
+                // 사진이 1장일 때 최소 2장 이상의 사진 추가 요청
+                Toast.makeText(requireContext(), "최소 2장 이상의 사진을 추가해주세요!", Toast.LENGTH_SHORT).show()
             } else {
-                viewModel.viewModelScope.launch {
-                    viewModel.uploadUserImagesAndUpdateToFirestore(imageUris, TRAVELER)
-//                    viewModel.attachToAuthenticationFolder(STUDENT)
-//                    withContext(Dispatchers.Main) {
-//                        findNavController().navigate(R.id.action_travelerAuthFragment_to_profileFragment)
-//                    }
-                }
+
+                AlertView.Builder()
+                    .setContext(requireActivity())
+                    .setStyle(AlertView.Style.Alert)
+                    .setTitle("알림")
+                    .setMessage("저장 후에는 변경할 수 없습니다.\n정말 저장하시겠습니까?")
+                    .setDestructive("확인")
+                    .setOthers(arrayOf("취소"))
+                    .setOnItemClickListener(object : OnItemClickListener {
+                        override fun onItemClick(o: Any?, position: Int) {
+                            if (position == 0) { // 확인 버튼 위치 확인
+                                viewModel.viewModelScope.launch {
+                                    viewModel.uploadUserImagesAndUpdateToFirestore(imageUris, TRAVELER)
+                                }
+                            } else {
+                                (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
+                            }
+                        }
+
+                    })
+                    .build()
+                    .setCancelable(true)
+                    .show()
+
+
 
             }
         }

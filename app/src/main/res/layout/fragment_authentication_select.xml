@@ -23,30 +23,30 @@
                 android:id="@+id/rj7m4it3pwp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:background="#FFFFFFFF"
-                android:paddingVertical="28dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
-                android:orientation="horizontal">
+                android:paddingVertical="28dp">
 
                 <ImageView
                     android:id="@+id/backButton"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="0dp"
-                    android:src="@drawable/back_figma"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:src="@drawable/back_figma" />
 
                 <TextView
                     android:id="@+id/rk3nhpswmkf"
-                    android:textColor="#1C160C"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/stream_roboto_bold"
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/stream_roboto_bold"
                     android:gravity="center"
-                    android:text="세부 정보" />
+                    android:text="세부 정보"
+                    android:textColor="#1C160C"
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="24dp"
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="22dp"
-                android:text="당신은 누구신가요?"
+                android:text="당신은 어떤 사람인가요?"
                 android:textColor="#1C160C"
                 android:textSize="22sp" />
 
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="38dp"
-                android:text="We'll use this to recommend people and events."
+                android:text="대학생 또는 관광객을 선택해주세요."
                 android:textColor="#1C160C"
                 android:textSize="16sp" />
 
@@ -79,15 +79,16 @@
                 android:id="@+id/r72flli3gve"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="16dp">
 
                 <LinearLayout
                     android:id="@+id/linear_student"
                     android:layout_width="173dp"
-                    android:layout_height="157dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/sffe8ddcesw1cr8bffffffff"
+                    android:minHeight="157dp"
                     android:orientation="vertical"
                     android:padding="17dp">
 
@@ -103,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="9dp"
-                        android:text="College student"
+                        android:text="대학생"
                         android:textColor="#1C160C"
                         android:textSize="16sp" />
 
@@ -111,7 +112,7 @@
                         android:id="@+id/rn6bnzq0cykg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Get matched with other college students"
+                        android:text="다양한 사람들과 교류하며 새로운 시야를 넓혀보세요."
                         android:textColor="#A08249"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -124,12 +125,11 @@
                 <LinearLayout
                     android:id="@+id/linear_tourist"
                     android:layout_width="173dp"
-                    android:layout_height="157dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/sffe8ddcesw1cr8bffffffff"
+                    android:minHeight="157dp"
                     android:orientation="vertical"
-                    android:paddingHorizontal="17dp"
-                    android:paddingTop="17dp"
-                    android:paddingBottom="47dp">
+                    android:padding="17dp">
 
                     <ImageView
                         android:id="@+id/rdncoyykll9s"
@@ -144,7 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:text="Tourist"
+                        android:text="관광객"
                         android:textColor="#1C160C"
                         android:textSize="16sp" />
 
@@ -152,7 +152,7 @@
                         android:id="@+id/rh9v0jgjqr2o"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Get matched with tourists"
+                        android:text="부산의 일상 속에서 특별한 순간을 경험해보세요."
                         android:textColor="#A08249"
                         android:textSize="14sp" />
                 </LinearLayout>
