@@ -6,6 +6,8 @@
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
+        <item name="android:fontFamily">@font/notosans_regular</item>
+
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
@@ -22,6 +24,15 @@
         <item name="android:textSelectHandleLeft">@color/black</item>
         <item name="android:textSelectHandleRight">@color/black</item>
     </style>
+
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/jakarta_lighter</item>
+        <item name="colorControlActivated">@color/jakarta_lighter</item>
+        <item name="android:textCursorDrawable">@color/jakarta_lighter</item>
+        <item name="android:textColor">@color/jakarta_lighter</item>
+        <item name="android:textColorHighlight">@color/jakarta_lighter</item>
+    </style>
+
 
 
     <style name="cr12">
@@ -48,6 +59,8 @@
         <item name="android:windowLightStatusBar">true</item>
 
         <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/spoqahansansneo_regular</item>
+
     </style>
 
 

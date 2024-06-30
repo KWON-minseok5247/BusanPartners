@@ -41,8 +41,8 @@
                                     android:id="@+id/rk3nhpswmkf"
                                     android:textColor="#1C160C"
                                     android:textSize="18sp"
-                                    android:fontFamily="@font/stream_roboto_bold"
                                     android:layout_height="wrap_content"
+                                    android:textStyle="bold"
                                     android:layout_width="0dp"
                                     android:layout_weight="1"
                                     android:gravity="center"
@@ -202,11 +202,10 @@
                             android:background="@drawable/cr24bff009963"
                             android:gravity="center"
                             android:paddingVertical="10dp"
-                            android:textStyle="bold"
                             android:text="Get location details"
                             android:textColor="#FFFFFF"
                             android:textSize="14sp"
-                            android:fontFamily="@font/stream_roboto_regular" />
+                            />
 
                         <LinearLayout
                             android:id="@+id/rtiviak7kk4"

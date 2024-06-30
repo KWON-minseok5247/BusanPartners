@@ -26,7 +26,7 @@
             android:id="@+id/rk3nhpswmkf"
             android:textColor="#1C160C"
             android:textSize="18sp"
-            android:fontFamily="@font/stream_roboto_bold"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -126,7 +126,6 @@
                 android:layout_marginTop="26dp"
                 android:background="@drawable/cr24bff009963"
                 android:gravity="center"
-                android:fontFamily="@font/stream_roboto_regular"
 
                 android:paddingVertical="1dp"
                 android:text="연락하기"

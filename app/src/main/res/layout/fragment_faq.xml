@@ -31,8 +31,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
-            android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-medium"/>
+            android:layout_marginStart="16dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

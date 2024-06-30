@@ -44,7 +44,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/stream_roboto_bold"
+                        android:textStyle="bold"
                         android:gravity="center"
                         android:text="이메일 입력"
                         android:textColor="#1C160C"
@@ -127,20 +127,24 @@
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusTopStart="8dp"
+
+                    app:cursorColor="@color/jakarta"
                     app:boxStrokeColor="@color/jakarta_lighter"
                     app:boxStrokeWidth="1dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/collegeEmail">
+                    app:layout_constraintTop_toBottomOf="@id/collegeEmail"
+                    app:hintTextColor="@color/jakarta_lighter">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusedSearchResultHighlightColor="@color/jakarta_lighter"
+
                         android:inputType="textEmailAddress"
-                        android:textColorHighlight="@color/jakarta_lighter"
-                        android:textColorHint="@color/jakarta_lighter" />
+                        android:textColor="@android:color/black"
+                    android:textColorHint="@color/jakarta_lighter"
+                    android:textCursorDrawable="@drawable/cursor_color"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -151,7 +155,6 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="26dp"
                 android:background="@drawable/cr24bff009963"
-                android:fontFamily="@font/stream_roboto_regular"
                 android:gravity="center"
                 android:paddingVertical="1dp"
                 android:text="전송하기"

@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
@@ -73,6 +74,7 @@ class ProfileFragment : Fragment() {
     private val uid = BusanPartners.preferences.getString("uid", "")
     private lateinit var sharedPreferences: SharedPreferences
 
+    private var hasShownFancyShowCase = false  // 추가된 플래그 변수
 
     // 여기서 해야 할 거는 일단 room을 통해서 데이터를 가져오기 ->
     // 만약 room에 데이터가 없다면 네트워크로부터 데이터를 가져오기 -> 가져온 데이터를 insert하기
@@ -149,16 +151,20 @@ class ProfileFragment : Fragment() {
 //                                        user = it.data
 //                                        viewModel.updateUser(user.toEntity())
 
-                                        Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                                            .setTitle("서버로부터 데이터가 변경되었습니다.")
-                                            .setDescription("앱을 다시 실행시켜주세요.")
-//                                            .setProgressBarColor(R.color.black)
-                                            .show()
-                                            .setButtonText("확인")
-                                            .setButtonOnClickListener {
-                                                requireActivity().finishAffinity()
-                                                System.exit(0)
-                                            }
+//                                        Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
+//                                            .setTitle("서버로부터 데이터가 변경되었습니다.")
+//                                            .setDescription("앱을 다시 실행시켜주세요.")
+////                                            .setProgressBarColor(R.color.black)
+//                                            .show()
+//                                            .setButtonText("확인")
+//                                            .setButtonOnClickListener {
+//                                                requireActivity().finishAffinity()
+//                                                System.exit(0)
+//                                            }
+//                                        isDialogShown = true
+                                        Toast.makeText(requireContext(),"서버로부터 데이터가 변경되었습니다. 다시 실행해주세요,", Toast.LENGTH_SHORT).show()
+                                        requireActivity().finishAffinity()
+                                        System.exit(0)
 
                                     }
                                     Log.e("it.data 뭐지?", it.data.toString() )
@@ -184,6 +190,7 @@ class ProfileFragment : Fragment() {
         }
 
 
+// Handle back press
 
 
 
@@ -225,21 +232,21 @@ class ProfileFragment : Fragment() {
 
         // connect에서 넘어왔을 경우 실행되는 코드
         val showAuthenticationPrompt = arguments?.getBoolean("showAuthenticationPrompt") ?: false
-        if (showAuthenticationPrompt) {
+        if (showAuthenticationPrompt && !hasShownFancyShowCase) {  // 플래그 체크 추가
             Handler(Looper.getMainLooper()).postDelayed({
                 FancyShowCaseView.Builder(requireActivity())
                     .focusOn(binding.linearAuthentication)
                     .focusShape(FocusShape.ROUNDED_RECTANGLE)
-                    .focusAnimationStep(0)  // 기본값은 1
+                    .focusAnimationStep(0)
                     .focusAnimationMaxValue(10)
                     .title("인증을 먼저 진행해주세요.")
                     .titleStyle(R.style.CustomShowcaseTitle, Gravity.CENTER)
                     .build()
                     .show()
-            }, 300) // 0.3초 지연
-
-
+            }, 300)
+            hasShownFancyShowCase = true  // 플래그 설정
         }
+
 
 
         // 모든 알림 온오프
@@ -483,6 +490,7 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+
 
 
 

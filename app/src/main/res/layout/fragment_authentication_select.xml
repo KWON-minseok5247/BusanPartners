@@ -22,6 +22,7 @@
             <LinearLayout
                 android:id="@+id/rj7m4it3pwp"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:background="#FFFFFFFF"
                 android:gravity="center_vertical"
@@ -42,7 +43,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/stream_roboto_bold"
+                    android:textStyle="bold"
                     android:gravity="center"
                     android:text="세부 정보"
                     android:textColor="#1C160C"
@@ -57,9 +58,10 @@
 
             <TextView
                 android:id="@+id/rq3key5k2gb"
+                android:layout_gravity="center"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginBottom="22dp"
                 android:text="당신은 어떤 사람인가요?"
                 android:textColor="#1C160C"
@@ -68,6 +70,9 @@
             <TextView
                 android:id="@+id/rce5e40jhhbv"
                 android:layout_width="match_parent"
+                android:layout_gravity="center"
+
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="38dp"
@@ -96,6 +101,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginBottom="16dp"
+
                         android:scaleType="fitXY"
                         android:src="@drawable/student_figma" />
 

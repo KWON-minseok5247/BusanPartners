@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFFFF"
-        android:paddingBottom="35dp"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:paddingBottom="35dp">
 
         <LinearLayout
             android:id="@+id/all_layout"
@@ -22,44 +22,44 @@
                 android:id="@+id/rj7m4it3pwp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:background="#FFFFFFFF"
-                android:paddingVertical="28dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
-                android:orientation="horizontal">
+                android:paddingVertical="28dp">
 
                 <ImageView
                     android:id="@+id/backButton"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="0dp"
-                android:src="@drawable/back_figma"
-                android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:src="@drawable/back_figma" />
 
                 <TextView
                     android:id="@+id/rk3nhpswmkf"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="세부 정보"
                     android:textColor="#1C160C"
                     android:textSize="18sp"
-                    android:fontFamily="@font/stream_roboto_bold"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="세부 정보" />
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="0dp"
-                android:visibility="invisible" />
+                    android:visibility="invisible" />
             </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/rlqonm7jwhcq_rl"
                 android:layout_width="match_parent"
                 android:layout_height="278dp"
-                android:gravity="center_horizontal"
-                android:layout_marginBottom="26dp">
+                android:layout_marginBottom="26dp"
+                android:gravity="center_horizontal">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/placeViewPager"
@@ -101,46 +101,47 @@
 
             <TextView
                 android:id="@+id/textViewTitle"
-                android:textColor="#1C160C"
-                android:textSize="22sp"
-                android:layout_marginBottom="22dp"
-                android:layout_marginStart="17dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_marginStart="17dp"
+                android:layout_marginBottom="22dp"
+                android:textColor="#1C160C"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/textViewOverview"
-                android:textColor="#1C160C"
-                android:textSize="16sp"
-                android:layout_marginBottom="35dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="35dp"
                 android:layout_weight="1"
-                 />
+                android:textColor="#1C160C"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:id="@+id/rdfafrxk0m6a"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFFFF"
-                android:paddingVertical="20dp"
+                android:orientation="vertical"
                 android:paddingHorizontal="16dp"
-                android:orientation="vertical">
+                android:paddingVertical="20dp">
+
                 <TextView
                     android:id="@+id/tvAddress"
-                    android:textColor="#1C160C"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="6dp"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="Address" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:text="Address"
+                    android:textColor="#1C160C"
+                    android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/textViewEventPlace"
-                    android:textColor="#A08249"
-                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content" />
+                    android:textColor="#A08249"
+                    android:textSize="14sp" />
             </LinearLayout>
 
 
@@ -153,19 +154,16 @@
                 android:background="@drawable/cr24bff009963"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:textStyle="bold"
                 android:text="Get location details"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:fontFamily="@font/stream_roboto_regular" />
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:id="@+id/rtiviak7kk4"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:background="#FFFFFFFF"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:orientation="vertical"></LinearLayout>
         </LinearLayout>
 
 
@@ -178,8 +176,8 @@
         android:layout_marginTop="8dp"
         android:indeterminateTint="@color/jakarta_lighter"
         android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

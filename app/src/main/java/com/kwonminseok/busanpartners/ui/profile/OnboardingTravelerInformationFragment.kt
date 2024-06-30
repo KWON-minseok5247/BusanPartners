@@ -82,12 +82,12 @@ class OnboardingTravelerInformationFragment : Fragment() {
             OnboardingPage(
                 R.string.traveler_authentication_onboarding_1,
                 R.string.traveler_description_onboarding_1,
-                R.raw.student_card_authentication
+                R.raw.finger_authentication
             ),
             OnboardingPage(
                 R.string.traveler_authentication_onboarding_2,
                 R.string.traveler_description_onboarding_2,
-                R.raw.lottielogo
+                R.raw.student_card_authentication
             ),
             // fgh가 되는데 이상하다?
         )

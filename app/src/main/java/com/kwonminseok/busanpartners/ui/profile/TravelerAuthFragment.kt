@@ -127,32 +127,6 @@ class TravelerAuthFragment : Fragment() {
             )
         }
 
-        // 관리하는 페이지 수. default = 1
-//        binding.viewPagerImages.offscreenPageLimit = 4
-        // item_view 간의 양 옆 여백을 상쇄할 값
-//        binding.viewPagerImages.setPageTransformer { page, position ->
-//            // 페이지 간 간격을 조절하여 단순한 스크롤 효과를 제공
-//            page.translationX = position * -(offsetBetweenPages)
-//        }
-//        val offsetBetweenPages =
-//            resources.getDimensionPixelOffset(R.dimen.offsetBetweenPages).toFloat()
-
-//        binding.viewPagerImages.setPageTransformer { page, position ->
-//            val myOffset = position * -(2 * offsetBetweenPages)
-//            if (position < -1) {
-//                page.translationX = -myOffset
-//            } else if (position <= 1) {
-//                // Paging 시 Y축 Animation 배경색을 약간 연하게 처리
-//                val scaleFactor = 0.95f.coerceAtLeast(1 - abs(position))
-//                page.translationX = myOffset
-//                page.scaleY = scaleFactor
-//                page.alpha = scaleFactor
-//            } else {
-//                page.alpha = 0f
-//                page.translationX = myOffset
-//            }
-//        }
-
 
         // 프로필 프래그먼트로 돌아가는 함수
         binding.backButton.setOnClickListener {

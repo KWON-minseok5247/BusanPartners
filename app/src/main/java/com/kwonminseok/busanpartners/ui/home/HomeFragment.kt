@@ -165,7 +165,6 @@ class HomeFragment : Fragment() {
         }
 
 
-        Log.e("currentUser userEntity", SplashActivity.currentUser.toString())
         tourismApiService = TourismAllInOneApiService.getInstance()
 
         // 뒤로가기 2번시 종료
@@ -305,7 +304,6 @@ class HomeFragment : Fragment() {
                                 val itemsWithImages =
                                     itemList.filter { it.firstimage.isNotEmpty() }
                                 tourismAdapter.differ.submitList(itemsWithImages)
-                                Log.e("d", response.body().toString())
                             }
                         } else {
                             Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
