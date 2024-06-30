@@ -167,7 +167,7 @@ class FAQFragment : Fragment() {
             tab.text = categories[position]
         }.attach()
 
-        binding.backImageView.setOnClickListener {
+        binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
     }

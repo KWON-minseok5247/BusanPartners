@@ -49,7 +49,7 @@
           android:layout_marginTop="26dp"
           android:layout_height="wrap_content"
           android:gravity="center"
-          android:text="다양한 사람들을 만나보세요!"
+          android:text="부산에서 만나는 소중한 인연 \n지금 바로 시작하세요!"
           app:layout_constraintTop_toBottomOf="@id/app_logo_image"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"/>
@@ -81,7 +81,8 @@
 
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:text="By continuing, you agree to our Terms of Service and Privacy Policy."
+          android:text="계속 진행하면 서비스 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주합니다.
+"
           app:layout_constraintTop_toBottomOf="@id/googleLoginButton"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"/>

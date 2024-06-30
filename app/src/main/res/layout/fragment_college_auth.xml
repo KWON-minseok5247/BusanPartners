@@ -29,7 +29,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="28dp">
+                    android:paddingVertical="18dp">
 
                     <ImageView
                         android:id="@+id/backButton"
@@ -56,36 +56,109 @@
                         android:layout_marginStart="0dp"
                         android:visibility="invisible" />
                 </LinearLayout>
-
                 <LinearLayout
-                    android:id="@+id/linear_email_textView"
+                    android:id="@+id/rdfafrxk0m6a"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFFFF"
-                    android:orientation="vertical"
+                    android:paddingVertical="20dp"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="20dp">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvAddress"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="6dp"
-                        android:text="대학교 이메일 인증을 먼저 진행합니다."
+                        android:id="@+id/tvTitle"
                         android:textColor="#1C160C"
-                        android:textSize="16sp" />
+                        android:textSize="18sp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:text="대학생 인증 안내" />
 
                     <TextView
-                        android:id="@+id/textViewEventPlace"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center"
-
+                        android:id="@+id/tvSubTitle1"
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="6dp"
                         android:layout_height="wrap_content"
-                        android:text="본인의 대학교를 선택하고 이메일을 작성해주세요."
+                        android:layout_gravity="start"
+                        android:layout_width="wrap_content"
+                        android:text="1. 이메일 인증" />
+                    <TextView
+                        android:id="@+id/tvDetail1_1"
                         android:textColor="#A08249"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_marginStart="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_width="wrap_content"
+                        android:text="• 현재 다니는 대학교의 이메일을 입력하고, 이메일로 받은 인증번호를 입력하세요." />
+
+
+                    <TextView
+                        android:id="@+id/tvSubTitle2"
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_width="wrap_content"
+                        android:text="2. 학생증" />
+                    <TextView
+                        android:id="@+id/tvDetail2_1"
+                        android:textColor="#A08249"
+                        android:textSize="14sp"
+                        android:layout_marginStart="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_width="wrap_content"
+                        android:text="• 이름과 학번을 식별할 수 있는 사진을 업로드하세요." />
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/tvNote"-->
+<!--                        android:textColor="@color/jakarta"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:layout_marginTop="50dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:text="회원탈퇴 시, 입력하신 대학생 이메일과 학생증 사진은 즉시 삭제됩니다."-->
+<!--                        />-->
+
                 </LinearLayout>
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/linear_email_textView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="#FFFFFFFF"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:paddingHorizontal="16dp"-->
+<!--                    android:paddingVertical="20dp">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/tvAddress"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginBottom="6dp"-->
+<!--                        android:text="먼저, 대학교 이메일 인증을 완료하세요."-->
+<!--                        android:textColor="#1C160C"-->
+<!--                        android:textSize="16sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textViewEventPlace"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text= "대학교를 선택하고 이메일 주소를 입력해 주세요."-->
+<!--                        android:textColor="#A08249"-->
+<!--                        android:textSize="14sp" />-->
+<!--                </LinearLayout>-->
 
             </LinearLayout>
 
@@ -157,7 +230,7 @@
                 android:background="@drawable/cr24bff009963"
                 android:gravity="center"
                 android:paddingVertical="1dp"
-                android:text="전송하기"
+                android:text="인증 메일 보내기"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
 

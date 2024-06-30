@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:background="#FFFFFFFF"
-                android:paddingVertical="28dp"
+                android:paddingVertical="18dp"
                 android:paddingHorizontal="16dp"
                 android:orientation="horizontal">
 
@@ -71,7 +71,7 @@
 
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="학생증 스캔본 및 톡학생증을 촬영해서 올려주세요." />
+                    android:text="학생증 사진이나 스캔본을 업로드해 주세요."/>
                 <TextView
                     android:id="@+id/textViewEventPlace"
                     android:textColor="#A08249"
@@ -80,7 +80,7 @@
                     android:layout_gravity="center"
 
                     android:layout_width="wrap_content"
-                    android:text="이름과 학번이 식별이 가능한 상태여야 합니다." />
+                    android:text="이름과 학번이 명확하게 보이도록 해 주세요." />
             </LinearLayout>
 
 
@@ -93,6 +93,7 @@
                 android:layout_marginBottom="26dp">
 
                 <androidx.viewpager2.widget.ViewPager2
+                    android:background="@drawable/rounded_connect"
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -113,8 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:layout_marginHorizontal="16dp"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:layout_marginHorizontal="16dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/open_gallery_button"
@@ -124,7 +125,7 @@
                     android:gravity="center"
                     android:paddingVertical="10dp"
                     android:textStyle="bold"
-                    android:text="갤러리"
+                    android:text="사진 선택"
                     android:textColor="#1C170D"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"

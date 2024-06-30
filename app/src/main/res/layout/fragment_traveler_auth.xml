@@ -18,13 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/rj7m4it3pwp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:background="#FFFFFFFF"
-                android:paddingVertical="28dp"
+                android:paddingVertical="18dp"
                 android:paddingHorizontal="16dp"
                 android:orientation="horizontal">
 
@@ -62,26 +63,88 @@
                 android:paddingVertical="20dp"
                 android:paddingHorizontal="16dp"
                 android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/tvAddress"
+                    android:id="@+id/tvTitle"
                     android:textColor="#1C160C"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:layout_marginBottom="6dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:text="부산여행을 왔다는 증명이 필요합니다" />
+                    android:text="외국인 관광객 인증 안내" />
+
                 <TextView
-                    android:id="@+id/textViewEventPlace"
+                    android:id="@+id/tvSubTitle1"
+                    android:textColor="#1C160C"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:text="1. 비행기 티켓 또는 배 티켓" />
+                <TextView
+                    android:id="@+id/tvDetail1_1"
                     android:textColor="#A08249"
                     android:textSize="14sp"
-                    android:layout_gravity="center"
-
+                    android:layout_marginStart="20dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
                     android:layout_width="wrap_content"
-                    android:text="ex) 비행기 티켓 + 숙박증명서 (이름이 식별되어야 함.) \n 사진이 2장 이상은 있어야 합니다. " />
-            </LinearLayout>
+                    android:text="• 이름과 날짜를 확인할 수 있도록 캡쳐나 촬영을 하고 업로드해주세요." />
+                <TextView
+                    android:id="@+id/tvDetail1_2"
+                    android:textColor="#A08249"
+                    android:textSize="14sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:text="• 그 외 세부적인 개인 정보는 가려도 됩니다." />
 
+                <TextView
+                    android:id="@+id/tvSubTitle2"
+                    android:textColor="#1C160C"
+                    android:textSize="16sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:text="2. 숙박 증명서" />
+                <TextView
+                    android:id="@+id/tvDetail2_1"
+                    android:textColor="#A08249"
+                    android:textSize="14sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:text="• 아고다, 익스피디아, 트립닷컴 등의 홈페이지나 앱에서 예약한 숙소의 숙박 증명서를 제출해주세요." />
+                <TextView
+                    android:id="@+id/tvDetail2_2"
+                    android:textColor="#A08249"
+                    android:textSize="14sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:text="• 이름과 날짜가 명확히 보여야 합니다. 나머지 개인 정보는 가려도 됩니다." />
+
+                <TextView
+                    android:id="@+id/tvNote"
+                    android:textColor="@color/jakarta"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_marginTop="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:text="이름과 날짜의 일치 여부를 확인하는 것이 가장 중요합니다. \n최소 2장의 사진을 업로드해주세요. \n업로드된 사진은 인증일로부터 7일 후에 삭제됩니다." />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/rlqonm7jwhcq_rl"
@@ -92,6 +155,7 @@
                 android:layout_marginBottom="26dp">
 
                 <androidx.viewpager2.widget.ViewPager2
+                    android:background="@drawable/rounded_connect"
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -111,9 +175,9 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:layout_marginBottom="12dp"
-                android:layout_marginHorizontal="16dp"
-                android:padding="16dp">
+                android:layout_marginHorizontal="16dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/open_gallery_button"
@@ -154,6 +218,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/space"
                     app:layout_constraintTop_toTopOf="parent"/>
+
+
+                <View
+                    android:id="@+id/spac1"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/open_gallery_button"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

@@ -22,10 +22,6 @@ class AttachmentMapActivity : FragmentActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_attachment_map) // 맵을 표시할 레이아웃 설정
 
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.setNavigationOnClickListener {
-            onBackPressed() // 뒤로가기 동작
-        }
 
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map_fragment_attachment) as MapFragment?

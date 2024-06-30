@@ -18,7 +18,7 @@
         android:id="@+id/label_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@drawable/rounded_connect"
         android:padding="8dp"
         android:elevation="4dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,7 +27,8 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:textSize="16sp"
-        android:textColor="@android:color/black"/>
+        android:textColor="@color/jakarta"
+        />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/floating_button"

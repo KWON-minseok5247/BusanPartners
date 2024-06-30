@@ -394,7 +394,7 @@
                         android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="고객 센터"
+                        android:text="FAQ"
                         />
                     <LinearLayout
                         android:id="@+id/rvru8mgippo"

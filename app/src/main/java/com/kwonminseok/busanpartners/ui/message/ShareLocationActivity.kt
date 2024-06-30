@@ -59,7 +59,7 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
         binding = ActivityShareLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbar.setNavigationOnClickListener {
+        binding.backButton.setOnClickListener {
             onBackPressed() // 뒤로가기 동작
         }
 

@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingVertical="28dp"
+            android:paddingVertical="18dp"
             android:paddingHorizontal="16dp"
             android:orientation="horizontal">
 

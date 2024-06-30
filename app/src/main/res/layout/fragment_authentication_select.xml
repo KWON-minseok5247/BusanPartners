@@ -28,7 +28,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="28dp">
+                android:paddingVertical="18dp">
 
                 <ImageView
                     android:id="@+id/backButton"

@@ -63,8 +63,8 @@ class CollegeAuthCompleteFragment : Fragment() {
         if (isVerified) {
             //TODO 여기서는 유저에서 대학생이라는 것을 true로 설정하고 프로필 화면으로 이동해야 한다.
 
-            binding.authenticationAnswer.text = "이메일 인증이 완료되었습니다."
-            binding.authenticationDetailAnswer.text = "학생증 사진을 준비해주세요."
+            binding.authenticationAnswer.text = "이메일 인증이 성공적으로 완료되었습니다."
+            binding.authenticationDetailAnswer.text = "이제 학생증 사진을 준비해 주세요."
             // 유저정보 업데이트 함수 필요
 //            binding.authCompleteButton.setOnClickListener {
 //                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthImageFragment)
@@ -80,8 +80,8 @@ class CollegeAuthCompleteFragment : Fragment() {
 
         } else {            // 여기선 false이므로 다시 이메일 인증화면으로 돌아간다.
 
-            binding.authenticationAnswer.text = "이메일 인증을 실패하였습니다."
-            binding.authenticationDetailAnswer.text = "인증번호를 제대로 확인한 후 진행해주세요."
+            binding.authenticationAnswer.text = "이메일 인증에 실패했습니다."
+            binding.authenticationDetailAnswer.text = "인증번호를 다시 확인하고 시도해 주세요."
             binding.authCompleteButton.setOnClickListener {
                 findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthFragment)
             }

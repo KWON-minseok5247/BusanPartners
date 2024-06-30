@@ -25,7 +25,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:background="#FFFFFFFF"
-                            android:paddingVertical="28dp"
+                            android:paddingVertical="18dp"
                             android:paddingHorizontal="16dp"
                             android:orientation="horizontal">
 
@@ -136,7 +136,7 @@
                                     android:layout_marginBottom="6dp"
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
-                                    android:text="Address" />
+                                    android:text="위치" />
                                 <TextView
                                     android:id="@+id/textViewEventPlace"
                                     android:textColor="#A08249"
@@ -160,7 +160,7 @@
                                     android:layout_marginBottom="6dp"
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
-                                    android:text="Date" />
+                                    android:text="날짜" />
                                 <TextView
                                     android:id="@+id/textViewSpendTimeFestival"
                                     android:textColor="#A08249"
@@ -184,7 +184,7 @@
                                     android:layout_marginBottom="6dp"
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
-                                    android:text="Hompage" />
+                                    android:text="홈페이지" />
                                 <TextView
                                     android:id="@+id/textViewHomepage"
                                     android:textColor="#A08249"
@@ -202,7 +202,7 @@
                             android:background="@drawable/cr24bff009963"
                             android:gravity="center"
                             android:paddingVertical="10dp"
-                            android:text="Get location details"
+                            android:text="위치 확인하기"
                             android:textColor="#FFFFFF"
                             android:textSize="14sp"
                             />
