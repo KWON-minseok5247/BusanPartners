@@ -88,8 +88,8 @@
                 <TextView
                     android:id="@+id/r3zfskk3lbj"
                     android:textColor="#1C160C"
-                    android:textSize="22sp"
-                    android:layout_marginBottom="28dp"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginStart="16dp"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"

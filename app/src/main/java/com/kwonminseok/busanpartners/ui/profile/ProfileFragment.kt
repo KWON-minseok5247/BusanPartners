@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.finishAffinity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -37,6 +39,8 @@ import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
+import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
+import com.kwonminseok.busanpartners.extensions.statusBarHeight
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
@@ -434,6 +438,10 @@ class ProfileFragment : Fragment() {
 
         // 날짜 형식화
         return offsetDateTime.format(formatter)
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     fun muteAllChannels(context: Context, chatClient: ChatClient) {

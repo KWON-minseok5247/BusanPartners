@@ -494,7 +494,7 @@ class SplashActivity : AppCompatActivity() {
         val currentServerTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(currentServerTime)
         val tokenTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(user.tokenTime)
 
-        lifecycleScope.launch {
+        lifecycleScope.launch { // 실제 계정으로 접속
             if (currentServerTimeToDateTime != null && currentServerTimeToDateTime <= tokenTimeToDateTime) {
                 val myUser = User.Builder()
                     .withId(user.uid)

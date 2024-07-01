@@ -3,6 +3,7 @@ package com.kwonminseok.busanpartners.ui.connect
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -20,6 +21,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +34,8 @@ import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
+import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
+import com.kwonminseok.busanpartners.ui.home.HomeFragment
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.util.LanguageUtils
@@ -74,6 +78,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
     private var selectedUniversityStudents: List<User>? = null
     private val viewModel: UserViewModel by viewModels()
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
+
 
     //    private val viewModel by viewModels<ConnectViewModel>()
     override fun onCreateView(
@@ -147,6 +152,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
 
                         //TODO 만약 대학생이라면 환영합니다 뭐 이런 느낌으로.
+                        binding.labelChange.visibility = View.VISIBLE
                         binding.labelChange.text = "부산 시에서 연락 가능한 대학생은 총 ${userList?.size}명입니다. "
 //                        userList = it.data
                         onDataLoaded()
@@ -197,6 +203,17 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().setStatusBarTransparent()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -226,12 +243,25 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         // 초기 위치 설정 과정
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             // 사용자의 현재 위치를 받았습니다. 지도 로딩을 시작합니다.
+//            location?.let {
+//                initializeMap(LatLng(it.latitude, it.longitude))
+//            } ?: run {
+//                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
+//                initializeMap(LatLng(35.1798159, 129.0750222))
+//            }
             location?.let {
-                initializeMap(LatLng(it.latitude, it.longitude))
+                val userLatLng = LatLng(it.latitude, it.longitude)
+                val finalLatLng = if (isInBusan(userLatLng)) {
+                    userLatLng
+                } else {
+                    BUSAN_DEFAULT
+                }
+                initializeMap(finalLatLng)
             } ?: run {
                 // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
-                initializeMap(LatLng(35.1798159, 129.0750222))
+                initializeMap(BUSAN_DEFAULT)
             }
+
         }
 
     }
@@ -478,7 +508,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 //    }
 
 
-//    private fun createMarkerForUniversity(university: UniversityInfo, studentCount: Int) {
+    //    private fun createMarkerForUniversity(university: UniversityInfo, studentCount: Int) {
 ////        Marker().apply {
 ////            position = university.location
 ////            map = naverMap
@@ -549,8 +579,20 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 //
 //
 //    }
+    private fun isInBusan(location: LatLng): Boolean {
+        return location.latitude in BUSAN_SW.latitude..BUSAN_NE.latitude &&
+                location.longitude in BUSAN_SW.longitude..BUSAN_NE.longitude
+    }
+
+
+
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+        private val BUSAN_SW = LatLng(35.0500, 128.9400) // 부산시 남서쪽 좌표를 조정
+        private val BUSAN_NE = LatLng(35.2700, 129.2100) // 부산시 북동쪽 좌표를 조정
+        private val BUSAN_DEFAULT = LatLng(35.1335411, 129.1059852) // 기본 좌표 (부산 시청)
+
+
     }
 }

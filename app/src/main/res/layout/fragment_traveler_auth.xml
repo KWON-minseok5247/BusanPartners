@@ -142,7 +142,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:text="이름과 날짜의 일치 여부를 확인하는 것이 가장 중요합니다. \n최소 2장의 사진을 업로드해주세요. \n업로드된 사진은 인증일로부터 7일 후에 삭제됩니다." />
+                    android:text="이름과 날짜의 일치 여부를 확인하는 것이 가장 중요합니다. \n각각 1장 이상의 사진을 업로드해주세요. \n업로드된 사진은 인증일로부터 7일 후에 삭제됩니다." />
 
             </LinearLayout>
 

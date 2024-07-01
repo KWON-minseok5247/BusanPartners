@@ -9,8 +9,11 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +25,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.databinding.ActivityHomeBinding
+import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,6 +67,8 @@ class HomeActivity : AppCompatActivity() {
             .setLaunchSingleTop(true) // 현재 화면이 이미 스택에 있으면 해당 화면을 재사용
             .build()
 
+        setStatusBarTransparent()
+        applyWindowInsets(binding.root)
 
 //        // 아래 이것들로 인해 프래그먼트가 움직인다?
         val navController = findNavController(R.id.homeHostFragment)
@@ -245,5 +251,14 @@ class HomeActivity : AppCompatActivity() {
         val flat =
             Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
         return !TextUtils.isEmpty(flat) && flat.contains(pkgName)
+    }
+
+
+    private fun applyWindowInsets(view: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            v.setPadding(0, statusBarInsets.top, 0, 0)
+            WindowInsetsCompat.CONSUMED
+        }
     }
 }

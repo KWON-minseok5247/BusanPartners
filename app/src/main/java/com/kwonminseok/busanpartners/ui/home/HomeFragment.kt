@@ -17,10 +17,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +36,9 @@ import com.kwonminseok.busanpartners.adapter.TourismAdapter
 import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.data.TourismResponse
 import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
+import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
+import com.kwonminseok.busanpartners.extensions.setStatusBarVisible
+import com.kwonminseok.busanpartners.extensions.statusBarHeight
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
@@ -41,6 +47,7 @@ import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentServerTime
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.LanguageUtils
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.util.FusedLocationSource
 import retrofit2.Call
 import retrofit2.Callback
@@ -78,6 +85,10 @@ class HomeFragment : Fragment() {
     private lateinit var tourismApiService: TourismAllInOneApiService
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+        private val BUSAN_SW = LatLng(35.0500, 128.9400) // 부산시 남서쪽 좌표를 조정
+        private val BUSAN_NE = LatLng(35.2700, 129.2100) // 부산시 북동쪽 좌표를 조정
+        private val BUSAN_DEFAULT = LatLng(35.1335411, 129.1059852) // 기본 좌표 (부산 시청)
+
     }
 
     override fun onCreateView(
@@ -130,7 +141,7 @@ class HomeFragment : Fragment() {
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
                 .setTitle("부산파트너스를 이용해주셔서 감사합니다.")
                 .setDescription("다음에도 부산을 꼭 찾아주세요.")
-                .setDrawable(R.drawable.logo_size)
+                .setDrawable(R.drawable.logo_transparent_background)
                 .setButtonText("확인")
                 .setButtonOnClickListener {
                 }
@@ -238,17 +249,15 @@ class HomeFragment : Fragment() {
                     Log.e("currentLongitude", currentLongitude.toString())
                     binding.vpPlaces.adapter = tourismAdapter
 
-                    fetchLocationBasedList(currentLongitude,currentLatitude)
-//                    lifecycleScope.launch {
-//                        viewModel.fetchTourismPagingData(currentLongitude, currentLatitude, LanguageUtils.getContentIdForTourPlace(requireContext())).collectLatest { pagingData ->
-//                            Log.e("pagingData", pagingData.toString())
-//                            tourismAdapter.submitData(pagingData)
-//                        }
-//                    }
-
+                    val userLatLng = LatLng(currentLatitude, currentLongitude)
+                    val finalLatLng = if (isInBusan(userLatLng)) {
+                        userLatLng
+                    } else {
+                        BUSAN_DEFAULT
+                    }
+                    fetchLocationBasedList(finalLatLng.longitude, finalLatLng.latitude)
                 } ?: run {
-                    //                // 위치 정보가 없는 경우, 기본 위치 사용 (부산 시청)
-                    //                initializeMap(LatLng(35.1798159, 129.0750222))
+                    fetchLocationBasedList(BUSAN_DEFAULT.longitude, BUSAN_DEFAULT.latitude)
                 }
             }
 
@@ -485,6 +494,24 @@ class HomeFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+//        requireActivity().setStatusBarTransparent()
+////        binding.fragmentHomeLayout.setPadding(0,getStatusBarHeight(requireContext()), 0, 0)
+//        // 상태 바, 네비게이션 높이 만큼 padding 주기
+//        view?.let {
+//            ViewCompat.setOnApplyWindowInsetsListener(it) { v, insets ->
+//                val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+//                v.setPadding(0, statusBarHeight, 0, 0)
+//                insets
+//            }
+//        }
+
+
+
+
+    }
+
 
 
     private fun fetchFestivalList(currentServerTime: String) {
@@ -518,4 +545,10 @@ class HomeFragment : Fragment() {
             Log.e("firstDate secondDate", "$firstDate $secondDate")
         }
     }
+
+    private fun isInBusan(location: LatLng): Boolean {
+        return location.latitude in BUSAN_SW.latitude..BUSAN_NE.latitude &&
+                location.longitude in BUSAN_SW.longitude..BUSAN_NE.longitude
+    }
+
 }
