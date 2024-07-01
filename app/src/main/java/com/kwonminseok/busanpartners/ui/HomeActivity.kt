@@ -20,6 +20,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import androidx.navigation.navOptions
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.kwonminseok.busanpartners.R
@@ -63,29 +64,49 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val navOptions = NavOptions.Builder()
-            .setLaunchSingleTop(true) // 현재 화면이 이미 스택에 있으면 해당 화면을 재사용
-            .build()
+//        val navOptions = NavOptions.Builder()
+//            .setLaunchSingleTop(true) // 현재 화면이 이미 스택에 있으면 해당 화면을 재사용
+//            .build()
 
         setStatusBarTransparent()
         applyWindowInsets(binding.root)
 
 //        // 아래 이것들로 인해 프래그먼트가 움직인다?
         val navController = findNavController(R.id.homeHostFragment)
+
+        val navOptions = navOptions {
+            anim {
+                enter = R.anim.anim_slide_in_from_right_fade_in
+                exit = R.anim.anim_fade_out
+                popEnter = R.anim.anim_slide_in_from_right_fade_in
+                popExit = R.anim.anim_fade_out
+            }
+        }
+
 //        binding.bottomNavigation.setupWithNavController(navController)
-
-
-
 
 
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
             setOnItemSelectedListener { item ->
-                NavigationUI.onNavDestinationSelected(item, navController)
-                navController.popBackStack(item.itemId, inclusive = false)
+                navController.navigate(item.itemId, null, navOptions)
                 true
             }
         }
+
+
+
+//        binding.bottomNavigation.apply {
+//            setupWithNavController(navController)
+//            setOnItemSelectedListener { item ->
+//                NavigationUI.onNavDestinationSelected(item, navController)
+//                navController.popBackStack(item.itemId, inclusive = false)
+//                true
+//            }
+//        }
+
+
+
 
 //        chatClient.subscribeFor(
 //            NotificationMessageNewEvent::class.java,

@@ -9,25 +9,46 @@
         android:id="@+id/connectFragment"
         android:name="com.kwonminseok.busanpartners.ui.connect.ConnectFragment"
         android:label="fragment_connect"
-        tools:layout="@layout/fragment_connect" >
+        tools:layout="@layout/fragment_connect">
         <action
             android:id="@+id/action_connectFragment_to_selectedUniversityStudentListFragment"
-            app:destination="@id/selectedUniversityStudentListFragment" />
+            app:destination="@id/selectedUniversityStudentListFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_connectFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.kwonminseok.busanpartners.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_festivalDetailFragment"
-            app:destination="@id/festivalDetailFragment" />
+            app:destination="@id/festivalDetailFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+
+            />
         <action
             android:id="@+id/action_homeFragment_to_tourismPlaceDetailFragment"
-            app:destination="@id/tourismPlaceDetailFragment" />
+            app:destination="@id/tourismPlaceDetailFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
 
     <fragment
@@ -35,36 +56,67 @@
         android:name="com.kwonminseok.busanpartners.ui.message.MessageFragment"
         android:label="fragment_message"
 
-        tools:layout="@layout/fragment_message" >
+        tools:layout="@layout/fragment_message">
         <argument
             android:name="studentUid"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="true"
+            />
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.kwonminseok.busanpartners.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_userAccountFragment"
-            app:destination="@id/userAccountFragment" />
+            app:destination="@id/userAccountFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_profileFragment_to_collegeAuthImageFragment"
-            app:destination="@id/collegeAuthImageFragment" />
+            app:destination="@id/collegeAuthImageFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_profileFragment_to_userAccountForBeginnerFragment"
-            app:destination="@id/userAccountForBeginnerFragment" />
+            app:destination="@id/userAccountForBeginnerFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_profileFragment_to_FAQFragment"
-            app:destination="@id/FAQFragment" />
+            app:destination="@id/FAQFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_profileFragment_to_unregisterFragment"
-            app:destination="@id/unregisterFragment" />
+            app:destination="@id/unregisterFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_profileFragment_to_authenticationSelectFragment"
-            app:destination="@id/authenticationSelectFragment" />
+            app:destination="@id/authenticationSelectFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
@@ -73,10 +125,20 @@
         tools:layout="@layout/fragment_college_auth">
         <action
             android:id="@+id/action_collegeAuthFragment_to_collegeAuthNumberFragment"
-            app:destination="@id/collegeAuthNumberFragment" />
+            app:destination="@id/collegeAuthNumberFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_collegeAuthFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthNumberFragment"
@@ -88,7 +150,12 @@
             app:argType="com.kwonminseok.busanpartners.data.CollegeData" />
         <action
             android:id="@+id/action_collegeAuthNumberFragment_to_collegeAuthCompleteFragment"
-            app:destination="@id/collegeAuthCompleteFragment" />
+            app:destination="@id/collegeAuthCompleteFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthCompleteFragment"
@@ -97,10 +164,20 @@
         tools:layout="@layout/fragment_collete_auth_complete">
         <action
             android:id="@+id/action_collegeAuthCompleteFragment_to_collegeAuthImageFragment"
-            app:destination="@id/collegeAuthImageFragment" />
+            app:destination="@id/collegeAuthImageFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_collegeAuthCompleteFragment_to_collegeAuthFragment"
-            app:destination="@id/collegeAuthFragment" />
+            app:destination="@id/collegeAuthFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
 
     <fragment
@@ -110,13 +187,18 @@
         tools:layout="@layout/fragment_traveler_auth">
         <action
             android:id="@+id/action_travelerAuthFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/userAccountFragment"
         android:name="com.kwonminseok.busanpartners.ui.profile.UserAccountFragment"
         android:label="UserAccountFragment"
-        tools:layout="@layout/fragment_user_account"/>
+        tools:layout="@layout/fragment_user_account" />
     <fragment
         android:id="@+id/selectedUniversityStudentListFragment"
         android:name="com.kwonminseok.busanpartners.ui.connect.SelectedUniversityStudentListFragment"
@@ -127,7 +209,12 @@
             app:argType="com.kwonminseok.busanpartners.data.User[]" />
         <action
             android:id="@+id/action_selectedUniversityStudentListFragment_to_universityStudentFragment"
-            app:destination="@id/universityStudentFragment" />
+            app:destination="@id/universityStudentFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthImageFragment"
@@ -136,7 +223,12 @@
         tools:layout="@layout/fragment_college_auth_image">
         <action
             android:id="@+id/action_collegeAuthImageFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/onboardingStudentInformationFragment"
@@ -145,7 +237,12 @@
         tools:layout="@layout/fragment_onboarding_information">
         <action
             android:id="@+id/action_onboardingStudentInformationFragment_to_collegeAuthFragment"
-            app:destination="@id/collegeAuthFragment" />
+            app:destination="@id/collegeAuthFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/onboardingTravelerInformationFragment"
@@ -154,33 +251,38 @@
         tools:layout="@layout/fragment_onboarding_information">
         <action
             android:id="@+id/action_onboardingTravelerInformationFragment_to_travelerAuthFragment"
-            app:destination="@id/travelerAuthFragment" />
+            app:destination="@id/travelerAuthFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/userAccountForBeginnerFragment"
         android:name="com.kwonminseok.busanpartners.ui.profile.UserAccountForBeginnerFragment"
         android:label="UserAccountForBeginnerFragment"
-        tools:layout="@layout/fragment_user_account_for_beginner"/>
+        tools:layout="@layout/fragment_user_account_for_beginner" />
     <fragment
         android:id="@+id/FAQFragment"
         android:name="com.kwonminseok.busanpartners.ui.profile.FAQFragment"
-        tools:layout="@layout/fragment_faq"
-        android:label="FAQFragment" />
+        android:label="FAQFragment"
+        tools:layout="@layout/fragment_faq" />
     <fragment
         android:id="@+id/festivalDetailFragment"
         android:name="com.kwonminseok.busanpartners.ui.home.FestivalDetailFragment"
         android:label="FestivalDetailFragment"
-        tools:layout="@layout/fragment_festival_detail"/>
+        tools:layout="@layout/fragment_festival_detail" />
     <fragment
         android:id="@+id/tourismPlaceDetailFragment"
         android:name="com.kwonminseok.busanpartners.ui.home.TourismPlaceDetailFragment"
         android:label="TourismPlaceDetailFragment"
-        tools:layout="@layout/fragment_tourism_place_detail"/>
+        tools:layout="@layout/fragment_tourism_place_detail" />
     <fragment
         android:id="@+id/unregisterFragment"
         android:name="com.kwonminseok.busanpartners.ui.profile.UnregisterFragment"
         android:label="UnregisterFragment"
-        tools:layout="@layout/fragment_unregister"/>
+        tools:layout="@layout/fragment_unregister" />
     <fragment
         android:id="@+id/universityStudentFragment"
         android:name="com.kwonminseok.busanpartners.ui.connect.UniversityStudentFragment"
@@ -192,7 +294,12 @@
 
         <action
             android:id="@+id/action_universityStudentFragment_to_messageFragment"
-            app:destination="@id/messageFragment" />
+            app:destination="@id/messageFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/authenticationSelectFragment"
@@ -201,13 +308,28 @@
         tools:layout="@layout/fragment_authentication_select">
         <action
             android:id="@+id/action_authenticationSelectFragment_to_onboardingStudentInformationFragment"
-            app:destination="@id/onboardingStudentInformationFragment" />
+            app:destination="@id/onboardingStudentInformationFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_authenticationSelectFragment_to_onboardingTravelerInformationFragment"
-            app:destination="@id/onboardingTravelerInformationFragment" />
+            app:destination="@id/onboardingTravelerInformationFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
         <action
             android:id="@+id/action_authenticationSelectFragment_to_collegeAuthImageFragment"
-            app:destination="@id/collegeAuthImageFragment" />
+            app:destination="@id/collegeAuthImageFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
 
 
