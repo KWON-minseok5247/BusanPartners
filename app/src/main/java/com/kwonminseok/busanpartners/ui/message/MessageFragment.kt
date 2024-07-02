@@ -13,7 +13,9 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -24,6 +26,8 @@ import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
+import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
+import com.kwonminseok.busanpartners.extensions.setStatusBarVisible
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.repository.TimeRepository
 //import com.kwonminseok.busanpartners.databinding.FragmentMessageBinding
@@ -451,6 +455,7 @@ class MessageFragment : ChannelListFragment() {
     private val uid = BusanPartners.preferences.getString("uid", "")
     private var token: String = BusanPartners.preferences.getString(Constants.TOKEN, "")
     lateinit var user: com.kwonminseok.busanpartners.data.User
+    private var originalPaddingTop: Int = 0
 
     private val viewModel: ChannelListViewModel by viewModels {
         ChannelListViewModelFactory(
@@ -467,7 +472,7 @@ class MessageFragment : ChannelListFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        originalPaddingTop = binding.root.paddingTop
         if (chatClient.getCurrentUser() == null) {
 
             Log.e(TAG, chatClient.toString())
@@ -852,4 +857,27 @@ class MessageFragment : ChannelListFragment() {
 //            }
 //            .show()
     }
+
+    override fun onResume() {
+        super.onResume()
+//        hideBottomNavigationView()
+        requireActivity().setStatusBarTransparent()
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val statusBarHeight = insets.systemWindowInsetTop
+            view.updatePadding(top = originalPaddingTop + statusBarHeight)
+            insets
+        }
+
+
+    }
+
+    override fun onPause() {
+        // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
+        super.onPause()
+//        showBottomNavigationView()
+        requireActivity().setStatusBarVisible()
+        binding.root.updatePadding(top = originalPaddingTop)
+
+    }
+
 }

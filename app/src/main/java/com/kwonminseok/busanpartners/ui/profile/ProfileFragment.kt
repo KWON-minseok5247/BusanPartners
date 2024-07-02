@@ -40,6 +40,7 @@ import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatCli
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentProfileBinding
 import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
+import com.kwonminseok.busanpartners.extensions.setStatusBarVisible
 import com.kwonminseok.busanpartners.extensions.statusBarHeight
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
@@ -79,6 +80,7 @@ class ProfileFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
 
     private var hasShownFancyShowCase = false  // 추가된 플래그 변수
+    private var statusBarHeight: Int = 0
 
     // 여기서 해야 할 거는 일단 room을 통해서 데이터를 가져오기 ->
     // 만약 room에 데이터가 없다면 네트워크로부터 데이터를 가져오기 -> 가져온 데이터를 insert하기
@@ -97,6 +99,15 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
+        // 상태바 높이 계산
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            statusBarHeight = insets.systemWindowInsetTop
+            insets
+        }
+
 
         viewModel.getUserStateFlowData(uid).observe(viewLifecycleOwner) { userEntity ->
             // userEntity가 null이 아닐 때 UI 업데이트
@@ -237,17 +248,48 @@ class ProfileFragment : Fragment() {
         // connect에서 넘어왔을 경우 실행되는 코드
         val showAuthenticationPrompt = arguments?.getBoolean("showAuthenticationPrompt") ?: false
         if (showAuthenticationPrompt && !hasShownFancyShowCase) {  // 플래그 체크 추가
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                FancyShowCaseView.Builder(requireActivity())
+//                    .focusOn(binding.linearAuthentication)
+//                    .focusShape(FocusShape.ROUNDED_RECTANGLE)
+//                    .focusAnimationStep(0)
+//                    .focusAnimationMaxValue(10)
+//                    .title("인증을 먼저 진행해주세요.")
+//                    .titleStyle(R.style.CustomShowcaseTitle, Gravity.CENTER)
+//                    .build()
+//                    .show()
+//            }, 300)
+            val density = resources.displayMetrics.density
+            val offsetInDp = 25 * density
+
             Handler(Looper.getMainLooper()).postDelayed({
+                // Focus on view excluding the status bar height
+//                val location = IntArray(2)
+//                binding.linearAuthentication.getLocationOnScreen(location)
+//                val focusX = location[0] + binding.linearAuthentication.width / 2
+//                // 상태바 높이를 빼서 focusY 조정 후, 추가로 오프셋을 줘서 더 낮게 설정
+//                val focusY = location[1] + binding.linearAuthentication.height / 2 - statusBarHeight + 65 // 추가로 100dp 낮게 설정
+
+                val location = IntArray(2)
+                binding.linearAuthentication.getLocationOnScreen(location)
+                val focusX = location[0] + binding.linearAuthentication.width / 2
+                // 상태바 높이를 빼서 focusY 조정 후, 추가로 오프셋을 줘서 더 낮게 설정
+                val focusY = location[1] + binding.linearAuthentication.height / 2 - statusBarHeight + offsetInDp.toInt()
+
                 FancyShowCaseView.Builder(requireActivity())
-                    .focusOn(binding.linearAuthentication)
+                    .focusRectAtPosition(focusX, focusY, binding.linearAuthentication.width, binding.linearAuthentication.height
+                    )
                     .focusShape(FocusShape.ROUNDED_RECTANGLE)
                     .focusAnimationStep(0)
                     .focusAnimationMaxValue(10)
                     .title("인증을 먼저 진행해주세요.")
                     .titleStyle(R.style.CustomShowcaseTitle, Gravity.CENTER)
-                    .build()
+                    .build().apply {
+                        // set position if needed
+                    }
                     .show()
             }, 300)
+
             hasShownFancyShowCase = true  // 플래그 설정
         }
 
@@ -270,27 +312,6 @@ class ProfileFragment : Fragment() {
             }
         }
 
-
-
-        // 여기서 만약 이메일인증까지 진행했다면 바로 학생증 인증으로 넘어가기
-        // 클릭하면 information 창으로 넘어가기
-//        binding.collegeAuthentication.setOnClickListener {
-//            if (user.authentication.studentEmailAuthenticationComplete) {
-//                findNavController().navigate(R.id.action_profileFragment_to_collegeAuthImageFragment)
-//            } else {
-//                findNavController().navigate(R.id.action_profileFragment_to_onboardingStudentInformationFragment)
-//
-////                val intent =
-////                    Intent(requireContext(), OnboardingStudentInformationActivity::class.java)
-////                startActivity(intent)
-//
-//            }
-//        }
-
-        // 클릭하면 information 창으로 넘어가기
-//        binding.travelerAuthentication.setOnClickListener {
-//            findNavController().navigate(R.id.action_profileFragment_to_onboardingTravelerInformationFragment)
-//        }
         binding.linearAuthentication.setOnClickListener {
             if (user.authentication.authenticationStatus == "loading") {
                 Toast.makeText(requireContext(), "인증을 진행하고 있습니다. 잠시만 기다려 주십시오.", Toast.LENGTH_SHORT).show()
@@ -442,6 +463,14 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        requireActivity().setStatusBarTransparent()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().setStatusBarVisible()
+
     }
 
     fun muteAllChannels(context: Context, chatClient: ChatClient) {

@@ -133,7 +133,6 @@ class ChannelActivity : BaseConnectedActivity() {
         // 예시 채팅방에 접속했을 때!
         if (requireNotNull(cid == "messaging:ExampleChat")) {
             setContent {
-
                 ChatTheme(
                     attachmentFactories = customFactories + defaultFactories,
                 ) {
@@ -180,7 +179,7 @@ class ChannelActivity : BaseConnectedActivity() {
                                 MessageListHeader(
                                     trailingContent = {
                                         Image(
-                                            painter = painterResource(id = R.drawable.ic_location), // 고정된 이미지 리소스 ID
+                                            painter = painterResource(id = R.drawable.map_4), // 고정된 이미지 리소스 ID
                                             contentDescription = "",
                                             modifier = Modifier
                                                 .size(40.dp) // onChannelAvatar와 동일한 크기
@@ -301,9 +300,7 @@ class ChannelActivity : BaseConnectedActivity() {
                                 },
                             )
                         }
-
-
-
+// 지도 관련 UI 요소 추가
                         if (isShowingAttachments) {
                             val defaultTabFactories =
                                 AttachmentsPickerTabFactories.defaultFactories(
@@ -456,7 +453,7 @@ class ChannelActivity : BaseConnectedActivity() {
                                 MessageListHeader(
                                     trailingContent = {
                                         Image(
-                                            painter = painterResource(id = R.drawable.ic_location), // 고정된 이미지 리소스 ID
+                                            painter = painterResource(id = R.drawable.map_4), // 고정된 이미지 리소스 ID
                                             contentDescription = "",
                                             modifier = Modifier
                                                 .size(40.dp) // onChannelAvatar와 동일한 크기

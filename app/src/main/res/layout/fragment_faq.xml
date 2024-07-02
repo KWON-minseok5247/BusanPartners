@@ -47,7 +47,6 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
         app:tabTextColor="@color/jakarta"
         app:tabSelectedTextColor="@color/black"
         app:tabIndicatorColor="@color/black"

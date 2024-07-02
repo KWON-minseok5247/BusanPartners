@@ -208,7 +208,7 @@ fun showNotification(channel: NotificationChannel, message: RemoteMessage) {
     val pendingIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
     val notification = NotificationCompat.Builder(this, channel.id)
-        .setSmallIcon(R.drawable.pukyong_logo)
+        .setSmallIcon(R.drawable.white_logo_transparent_background)
         .setContentTitle("상대방으로부터 메세지가 왔습니다!")
         .setContentText("알림을 눌러 확인해보세요.")
         .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -221,7 +221,7 @@ fun showNotification(channel: NotificationChannel, message: RemoteMessage) {
 
     // 그룹 요약 알림 생성
     val summaryNotification = NotificationCompat.Builder(this, channel.id)
-        .setSmallIcon(R.drawable.pukyong_logo)
+        .setSmallIcon(R.drawable.white_logo_transparent_background)
         .setContentTitle("새로운 메시지")
         .setContentText("여러 메시지가 도착했습니다.")
         .setPriority(NotificationCompat.PRIORITY_HIGH)

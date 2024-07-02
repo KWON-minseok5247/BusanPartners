@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,6 +46,7 @@ import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentServerTime
+import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.naver.maps.geometry.LatLng
@@ -154,7 +156,7 @@ class HomeFragment : Fragment() {
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
                 .setTitle("인증이 완료되었습니다.")
-                .setDescription("대학생들에게 먼저 연락해보세요.")
+                .setDescription("${currentUser!!.tokenTime} 대학생들에게 먼저 연락해보세요.")
                 .setButtonText("확인")
                 .setButtonOnClickListener {
                 }
@@ -496,22 +498,15 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        requireActivity().setStatusBarTransparent()
-////        binding.fragmentHomeLayout.setPadding(0,getStatusBarHeight(requireContext()), 0, 0)
-//        // 상태 바, 네비게이션 높이 만큼 padding 주기
-//        view?.let {
-//            ViewCompat.setOnApplyWindowInsetsListener(it) { v, insets ->
-//                val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-//                v.setPadding(0, statusBarHeight, 0, 0)
-//                insets
-//            }
-//        }
-
-
-
+        requireActivity().setStatusBarTransparent()
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        requireActivity().setStatusBarVisible()
+
+    }
 
 
     private fun fetchFestivalList(currentServerTime: String) {

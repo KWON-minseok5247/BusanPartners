@@ -68,18 +68,18 @@ class HomeActivity : AppCompatActivity() {
 //            .setLaunchSingleTop(true) // 현재 화면이 이미 스택에 있으면 해당 화면을 재사용
 //            .build()
 
-        setStatusBarTransparent()
-        applyWindowInsets(binding.root)
+//        setStatusBarTransparent()
+//        applyWindowInsets(binding.root)
 
 //        // 아래 이것들로 인해 프래그먼트가 움직인다?
         val navController = findNavController(R.id.homeHostFragment)
 
         val navOptions = navOptions {
             anim {
-                enter = R.anim.anim_slide_in_from_right_fade_in
-                exit = R.anim.anim_fade_out
-                popEnter = R.anim.anim_slide_in_from_right_fade_in
-                popExit = R.anim.anim_fade_out
+                enter = R.anim.animate_fade_enter
+                exit = R.anim.animate_fade_exit
+                popEnter = R.anim.animate_fade_enter
+                popExit = R.anim.animate_fade_exit
             }
         }
 
@@ -150,7 +150,7 @@ class HomeActivity : AppCompatActivity() {
             } else {
                 binding.bottomNavigation.getOrCreateBadge(R.id.messageFragment).apply {
                     number = unreadCount
-                    backgroundColor = resources.getColor(R.color.g_blue)
+                    backgroundColor = resources.getColor(R.color.green_message_count)
                 }
             }
         })

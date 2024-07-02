@@ -4,9 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/rj7m4it3pwp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="18dp">
 
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/back_figma" />
+
+        <TextView
+            android:id="@+id/rk3nhpswmkf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="이메일 입력"
+            android:textColor="#1C160C"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="0dp"
+            android:visibility="invisible" />
+    </LinearLayout>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,6 +47,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="16dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -21,41 +55,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/rj7m4it3pwp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFFFFF"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="18dp">
 
-                    <ImageView
-                        android:id="@+id/backButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="0dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/back_figma" />
-
-                    <TextView
-                        android:id="@+id/rk3nhpswmkf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:text="이메일 입력"
-                        android:textColor="#1C160C"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="0dp"
-                        android:visibility="invisible" />
-                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvSubTitle1"

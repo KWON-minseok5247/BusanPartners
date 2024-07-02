@@ -27,6 +27,8 @@ import com.kwonminseok.busanpartners.data.IntroResponse
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentFestivalDetailBinding
+import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
+import com.kwonminseok.busanpartners.extensions.setStatusBarVisible
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.message.AttachmentMapActivity
 import com.kwonminseok.busanpartners.util.LanguageUtils
@@ -89,13 +91,17 @@ class FestivalDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        hideBottomNavigationView()
+//        hideBottomNavigationView()
+        requireActivity().setStatusBarTransparent()
+
     }
 
     override fun onPause() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
-        showBottomNavigationView()
         super.onPause()
+//        showBottomNavigationView()
+        requireActivity().setStatusBarVisible()
+
     }
 
     private suspend fun fetchIntroData(contentId: Int) {

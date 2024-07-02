@@ -4,7 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <View
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+    </View>
     <io.getstream.chat.android.ui.feature.channels.header.ChannelListHeaderView
         android:id="@+id/channelListHeaderView"
         android:layout_width="0dp"
@@ -13,7 +21,7 @@
         app:streamUiShowUserAvatar="false"
         app:streamUiActionButtonIcon="@drawable/pusan_education_logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/empty_view"/>
 
     <io.getstream.chat.android.ui.feature.channels.list.ChannelListView
         android:id="@+id/channelListView"

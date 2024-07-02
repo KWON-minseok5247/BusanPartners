@@ -35,6 +35,7 @@ import com.kwonminseok.busanpartners.data.Universities
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
+import com.kwonminseok.busanpartners.extensions.setStatusBarVisible
 import com.kwonminseok.busanpartners.ui.home.HomeFragment
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
@@ -211,6 +212,8 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
     override fun onPause() {
         super.onPause()
+        binding.labelChange.visibility = View.INVISIBLE
+        requireActivity().setStatusBarVisible()
 
     }
 

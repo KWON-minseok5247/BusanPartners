@@ -21,6 +21,8 @@ import com.kwonminseok.busanpartners.data.ImageResponse
 import com.kwonminseok.busanpartners.data.IntroResponse
 import com.kwonminseok.busanpartners.databinding.FragmentFestivalDetailBinding
 import com.kwonminseok.busanpartners.databinding.FragmentPlaceBinding
+import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
+import com.kwonminseok.busanpartners.extensions.setStatusBarVisible
 import com.kwonminseok.busanpartners.ui.message.AttachmentMapActivity
 import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
@@ -80,16 +82,19 @@ class TourismPlaceDetailFragment : Fragment() {
         _binding = null
     }
 
-
     override fun onResume() {
         super.onResume()
-        hideBottomNavigationView()
+//        hideBottomNavigationView()
+        requireActivity().setStatusBarTransparent()
+
     }
 
     override fun onPause() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
-        showBottomNavigationView()
         super.onPause()
+//        showBottomNavigationView()
+        requireActivity().setStatusBarVisible()
+
     }
 
     private suspend fun fetchIntroData(contentId: Int) {
@@ -193,6 +198,8 @@ class TourismPlaceDetailFragment : Fragment() {
             }
         })
     }
+
+
 
 
 }
