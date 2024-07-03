@@ -42,6 +42,7 @@ import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -197,40 +198,43 @@ class UserAccountForBeginnerFragment : Fragment() {
 
         // 버튼을 눌렀을 때 과정
         lifecycleScope.launchWhenStarted {
+            var startTime: Long = 0
             viewModel.updateStatus.collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                         // 로딩 인디케이터 표시
                         binding.buttonSave.startAnimation()
+                        startTime = System.currentTimeMillis()
                     }
 
                     is Resource.Success -> {
+                        val elapsedTime = System.currentTimeMillis() - startTime
+                        val remainingTime = 1000 - elapsedTime
+
+                        if (remainingTime > 0) {
+                            delay(remainingTime)
+                        }
+
                         // 로딩 인디케이터 숨기기
                         binding.buttonSave.revertAnimation {
                             binding.buttonSave.background = ContextCompat.getDrawable(requireContext(), R.drawable.cr24bff009963)
-
                         }
                         // 성공 메시지 표시 또는 성공 후 작업
-                        Toast.makeText(requireContext(), "성공적으로 처리되었습니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(requireContext(), "성공적으로 처리되었습니다.", Toast.LENGTH_SHORT).show()
                     }
 
                     is Resource.Error -> {
                         // 로딩 인디케이터 숨기기
                         binding.buttonSave.revertAnimation()
                         // 에러 메시지 표시
-                        Toast.makeText(
-                            requireContext(),
-                            "${resource.message}",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT).show()
                     }
 
                     else -> Unit // Resource.Unspecified 처리
                 }
             }
         }
+
 
         binding.backButton.setOnClickListener {
             backPress()

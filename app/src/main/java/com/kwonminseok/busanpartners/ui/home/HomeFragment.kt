@@ -139,6 +139,7 @@ class HomeFragment : Fragment() {
 
         if (travelerFinish) {
             sharedPreferences.edit().putBoolean("traveler_finish",false).apply()
+            sharedPreferences.edit().putBoolean("is_first_visit", true).apply()
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
                 .setTitle("부산파트너스를 이용해주셔서 감사합니다.")

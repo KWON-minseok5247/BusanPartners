@@ -16,6 +16,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -56,6 +57,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
+import java.time.format.DateTimeParseException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -408,6 +410,7 @@ class SplashActivity : AppCompatActivity() {
     }
     // TODO 매번 인증하는 것은 문제가 있으니까 그냥 false true로 만들어서 빠르게 넘길 수 있도록 하기.
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -490,12 +493,10 @@ class SplashActivity : AppCompatActivity() {
             }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
-        val currentServerTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(currentServerTime)
-        val tokenTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(user.tokenTime)
-
-        lifecycleScope.launch { // 실제 계정으로 접속
-            if (currentServerTimeToDateTime != null && currentServerTimeToDateTime <= tokenTimeToDateTime) {
+        if (user.authentication.collegeStudent) {
+            lifecycleScope.launch {
                 val myUser = User.Builder()
                     .withId(user.uid)
                     .withName(user.name?.ko ?: "")
@@ -513,7 +514,6 @@ class SplashActivity : AppCompatActivity() {
                         handleRetryOrNavigate("토큰을 가져오는 중 오류가 발생했습니다.")
                     }
                 } else {
-
                     val isFirstVisit = sharedPreferences.getBoolean("is_first_visit", true)
 
                     if (isFirstVisit) {
@@ -531,50 +531,118 @@ class SplashActivity : AppCompatActivity() {
                     // 만약 처음이다. 그러면 dialog 하나 넣기
                     connectClient(myUser)
                 }
-            } else { // 토큰 타임이 지났거나 처음 방문하는 경우
-                val guestUser = User(
-                    id = "guestID",
-                    name = "guestID",
-                    image = "https://bit.ly/2TIt8NR"
-                )
+            }
+            return // 대학생일 경우 바로 종료
+        }
 
-                //여기서 만약에 entity에 traveler가 true로 되어 있다면? -> false로 만들고 이미지 없애고, complete 지우고
-                if (user.authentication.traveler) {
-                    val newData = mapOf(
-                        "authentication.traveler" to false,
-                        "authentication.authenticationStatus" to "expire",
-                        "authentication.travelerAuthenticationImage" to FieldValue.delete(),
-                        "blockList" to mutableListOf<String>(),
-                        "chatChannelCount" to 0
+        if (currentServerTime == null) { // 만약 서버로부터 시간을 받지 못했을 경우.
+            val temporaryTime = getCachedServerTime() ?: DEFAULT_SERVER_TIME
+
+            val clientTimeToDateTime: OffsetDateTime = OffsetDateTime.now() // 클라이언트 현재 시간
+
+            val cachedServerTimeToDateTime: OffsetDateTime? = try {
+                OffsetDateTime.parse(temporaryTime)
+            } catch (e: DateTimeParseException) {
+                null
+            }
+
+            val effectiveTimeToDateTime: OffsetDateTime = when { // 어쩔 수 없지만 멋대로 시간 조작하면 그 잘못은 이사람에게.. 이게 맞는 것 같다.
+                cachedServerTimeToDateTime == null -> clientTimeToDateTime
+                clientTimeToDateTime.isAfter(cachedServerTimeToDateTime) -> clientTimeToDateTime
+                else -> cachedServerTimeToDateTime
+            }
+            currentServerTime = effectiveTimeToDateTime.toString()
+
+        }
+
+
+        val currentServerTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(currentServerTime)
+        val tokenTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(user.tokenTime)
+
+        lifecycleScope.launch { // 실제 계정으로 접속
+            if (currentServerTimeToDateTime != null) {
+                if (currentServerTimeToDateTime <= tokenTimeToDateTime) {
+                    val myUser = User.Builder()
+                        .withId(user.uid)
+                        .withName(user.name?.ko ?: "")
+                        .withImage(user.imagePath)
+                        .build()
+                    Log.e("myUser", myUser.toString())
+
+                    if (token.isEmpty()) {
+                        Log.e(TAG, "token이 비어있을 때.")
+                        try {
+                            token = getNewToken()
+                            connectClient(myUser)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "토큰을 가져오는 중 오류가 발생했습니다.", e)
+                            handleRetryOrNavigate("토큰을 가져오는 중 오류가 발생했습니다.")
+                        }
+                    } else {
+
+                        val isFirstVisit = sharedPreferences.getBoolean("is_first_visit", true)
+
+                        if (isFirstVisit) {
+                            // 다이얼로그를 보여줍니다.
+                            if (user.authentication.traveler) { // 관광객일 때
+                                sharedPreferences.edit().putBoolean("is_first_visitor", true).apply()
+                            }
+                            if (user.authentication.collegeStudent) { // 대학생일때
+                                sharedPreferences.edit().putBoolean("is_first_student", true).apply()
+                            }
+                            // 지금부터는
+                            sharedPreferences.edit().putBoolean("is_first_visit", false).apply()
+                        }
+
+                        // 만약 처음이다. 그러면 dialog 하나 넣기
+                        connectClient(myUser)
+                    }
+                } else { // 토큰 타임이 지났거나 처음 방문하는 경우
+                    val guestUser = User(
+                        id = "guestID",
+                        name = "guestID",
+                        image = "https://bit.ly/2TIt8NR"
                     )
-                    viewModel.setCurrentUser(newData)
 
-                    val updatedAuthentication = user.authentication.copy(
-                        traveler = false,
-                        authenticationStatus = "expire",
-                        travelerAuthenticationImage = null
-                    )
+                    //여기서 만약에 entity에 traveler가 true로 되어 있다면? -> false로 만들고 이미지 없애고, complete 지우고
+                    if (user.authentication.traveler) {
+                        val newData = mapOf(
+                            "authentication.traveler" to false,
+                            "authentication.authenticationStatus" to "expire",
+                            "authentication.travelerAuthenticationImage" to FieldValue.delete(),
+                            "blockList" to mutableListOf<String>(),
+                            "chatChannelCount" to 0,
+                            "tokenTime" to "2000-01-01T12:38:11.818609+09:00"
+                        )
+                        viewModel.setCurrentUser(newData)
 
-                    val updatedUser = user.copy(
-                        blockList = mutableListOf(),
-                        authentication = updatedAuthentication,
-                        chatChannelCount = 0
-                    )
-                    viewModel.updateUser(updatedUser.toEntity())
-                    sharedPreferences.edit().putBoolean("traveler_finish", true).apply()
+                        val updatedAuthentication = user.authentication.copy(
+                            traveler = false,
+                            authenticationStatus = "expire",
+                            travelerAuthenticationImage = null
+                        )
 
-                }
+                        val updatedUser = user.copy(
+                            blockList = mutableListOf(),
+                            authentication = updatedAuthentication,
+                            chatChannelCount = 0
+                        )
+                        viewModel.updateUser(updatedUser.toEntity())
+                        sharedPreferences.edit().putBoolean("traveler_finish", true).apply()
 
-                client?.let { chatClient ->
-                    chatClient.connectUser(
-                        guestUser,
-                        BuildConfig.GUEST_ID_TOKEN
-                    ).enqueue { result ->
-                        if (result.isSuccess) {
-                            navigateToHomeActivity()
-                        } else {
-                            Log.e(TAG, "게스트 유저 연결 실패: ${result.errorOrNull()}")
-                            handleRetryOrNavigate("게스트 유저 연결 실패.")
+                    }
+
+                    client?.let { chatClient ->
+                        chatClient.connectUser(
+                            guestUser,
+                            BuildConfig.GUEST_ID_TOKEN
+                        ).enqueue { result ->
+                            if (result.isSuccess) {
+                                navigateToHomeActivity()
+                            } else {
+                                Log.e(TAG, "게스트 유저 연결 실패: ${result.errorOrNull()}")
+                                handleRetryOrNavigate("게스트 유저 연결 실패.")
+                            }
                         }
                     }
                 }
@@ -582,6 +650,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun connectClient(myUser: User) {
         val tokenProvider = object : TokenProvider {
             override fun loadToken(): String = BusanPartners.preferences.getString(Constants.TOKEN, "")
@@ -599,6 +668,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleRetryOrNavigate(errorMessage: String) {
         if (retryCount < maxRetries) {
             retryCount++
@@ -612,17 +682,25 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupUserStream() {
         lifecycleScope.launch {
             try {
                 TimeRepository.fetchCurrentTime()
                 currentServerTime = TimeRepository.currentTime?.datetime
-                Log.e("currentServerTime", currentServerTime ?: "2021-04-09T12:38:11.818609+09:00")
-                //TODO currentUser로 해도 되지 않을까?
+                if (currentServerTime != null) {
+                    saveServerTime(currentServerTime!!)
+                }
+//                else {
+//                    currentServerTime = getCachedServerTime() ?: DEFAULT_SERVER_TIME
+//                }
+
+
                 BusanPartners.preferences.setString("uid", user.uid)
                 connectUserToStream(user)
             } catch (e: Exception) {
                 Log.e("setupUserStream", "Exception: ${e.message}")
+                currentServerTime = getCachedServerTime() ?: DEFAULT_SERVER_TIME
                 handleRetryOrNavigate("사용자 스트림 설정 중 오류가 발생했습니다.")
             }
         }
@@ -706,12 +784,12 @@ class SplashActivity : AppCompatActivity() {
             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         )
         startActivity(intent)
-
     }
-
+    //"2021-04-09T12:38:11.818609+09:00"
     companion object {
         var currentUser: UserEntity? = null
-        var currentServerTime: String? = "2021-04-09T12:38:11.818609+09:00"
+        var currentServerTime: String? = null
+        const val DEFAULT_SERVER_TIME = "2021-04-09T12:38:11.818609+09:00"
 
         fun createLaunchIntent(
             context: Context,
@@ -749,6 +827,15 @@ class SplashActivity : AppCompatActivity() {
             val networkInfo = connectivityManager.activeNetworkInfo
             return networkInfo != null && networkInfo.isConnected
         }
+    }
+
+    private fun saveServerTime(serverTime: String) {
+        sharedPreferences.edit().putString("last_server_time", serverTime).apply()
+    }
+
+
+    private fun getCachedServerTime(): String? {
+        return sharedPreferences.getString("last_server_time", null)
     }
 
 
