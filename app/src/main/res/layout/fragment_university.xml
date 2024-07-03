@@ -67,8 +67,8 @@
                     <ImageView
                         android:id="@+id/imageUniversity"
                         android:layout_width="match_parent"
-                        android:layout_height="218dp"
-                        android:src="@drawable/univ"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/paint_4"
                         android:scaleType="fitXY"
                         />
                 </RelativeLayout>
@@ -80,7 +80,6 @@
                     android:layout_marginBottom="28dp"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="University of Southern California"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center"
                     />
