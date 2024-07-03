@@ -1,4 +1,4 @@
-![세부 대학생](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/8c6da4f4-6a9b-42fb-a8ce-36ede07f6547)2024년 3월 6일 개발 시작
+2024년 3월 6일 개발 시작
 
 https://www.2024tourapi.com/
 2024년 5월 21일 한국관광공사 x 카카오 2024 관광데이터 활용 공모전 예비 심사 합격
