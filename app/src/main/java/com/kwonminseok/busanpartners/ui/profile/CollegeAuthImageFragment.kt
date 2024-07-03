@@ -164,7 +164,14 @@ class CollegeAuthImageFragment : Fragment() {
             }
         }
         // firebase 폴더를 따로 만들어 uid와 status를 알림
-
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_collegeAuthImageFragment_to_profileFragment)
+                }
+            }
+        )
 
     }
 

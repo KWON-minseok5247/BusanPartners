@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui.profile
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,9 +12,14 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -100,13 +106,18 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        requireActivity().setStatusBarTransparent()
+//        applyWindowInsets(binding.root)
 
 
-        // 상태바 높이 계산
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            statusBarHeight = insets.systemWindowInsetTop
-            insets
-        }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
+                }
+            }
+        )
 
 
         viewModel.getUserStateFlowData(uid).observe(viewLifecycleOwner) { userEntity ->
@@ -248,47 +259,52 @@ class ProfileFragment : Fragment() {
         // connect에서 넘어왔을 경우 실행되는 코드
         val showAuthenticationPrompt = arguments?.getBoolean("showAuthenticationPrompt") ?: false
         if (showAuthenticationPrompt && !hasShownFancyShowCase) {  // 플래그 체크 추가
+            Handler(Looper.getMainLooper()).postDelayed({
+                FancyShowCaseView.Builder(requireActivity())
+                    .focusOn(binding.linearAuthentication)
+                    .focusShape(FocusShape.ROUNDED_RECTANGLE)
+                    .focusAnimationStep(0)
+                    .focusAnimationMaxValue(10)
+//                    .title("인증을 먼저 진행해주세요.")
+//                    .titleStyle(R.style.CustomShowcaseTitle, Gravity.CENTER)
+//                    .titleGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL) // 타이틀을 상단 중앙으로 배치
+                    .build()
+                    .show()
+            }, 300)
+
+
+
+//            val density = resources.displayMetrics.density
+//            val offsetInDp = 25 * density
+//
 //            Handler(Looper.getMainLooper()).postDelayed({
+//                // Focus on view excluding the status bar height
+////                val location = IntArray(2)
+////                binding.linearAuthentication.getLocationOnScreen(location)
+////                val focusX = location[0] + binding.linearAuthentication.width / 2
+////                // 상태바 높이를 빼서 focusY 조정 후, 추가로 오프셋을 줘서 더 낮게 설정
+////                val focusY = location[1] + binding.linearAuthentication.height / 2 - statusBarHeight + 65 // 추가로 100dp 낮게 설정
+//
+//                val location = IntArray(2)
+//                binding.linearAuthentication.getLocationOnScreen(location)
+//                val focusX = location[0] + binding.linearAuthentication.width / 2
+//                // 상태바 높이를 빼서 focusY 조정 후, 추가로 오프셋을 줘서 더 낮게 설정
+//                val focusY = location[1] + binding.linearAuthentication.height / 2 - statusBarHeight + offsetInDp.toInt()
+//
 //                FancyShowCaseView.Builder(requireActivity())
 //                    .focusOn(binding.linearAuthentication)
+////                    .focusRectAtPosition(focusX, focusY, binding.linearAuthentication.width, binding.linearAuthentication.height
+////                    )
 //                    .focusShape(FocusShape.ROUNDED_RECTANGLE)
 //                    .focusAnimationStep(0)
 //                    .focusAnimationMaxValue(10)
 //                    .title("인증을 먼저 진행해주세요.")
 //                    .titleStyle(R.style.CustomShowcaseTitle, Gravity.CENTER)
-//                    .build()
+//                    .build().apply {
+//                        // set position if needed
+//                    }
 //                    .show()
 //            }, 300)
-            val density = resources.displayMetrics.density
-            val offsetInDp = 25 * density
-
-            Handler(Looper.getMainLooper()).postDelayed({
-                // Focus on view excluding the status bar height
-//                val location = IntArray(2)
-//                binding.linearAuthentication.getLocationOnScreen(location)
-//                val focusX = location[0] + binding.linearAuthentication.width / 2
-//                // 상태바 높이를 빼서 focusY 조정 후, 추가로 오프셋을 줘서 더 낮게 설정
-//                val focusY = location[1] + binding.linearAuthentication.height / 2 - statusBarHeight + 65 // 추가로 100dp 낮게 설정
-
-                val location = IntArray(2)
-                binding.linearAuthentication.getLocationOnScreen(location)
-                val focusX = location[0] + binding.linearAuthentication.width / 2
-                // 상태바 높이를 빼서 focusY 조정 후, 추가로 오프셋을 줘서 더 낮게 설정
-                val focusY = location[1] + binding.linearAuthentication.height / 2 - statusBarHeight + offsetInDp.toInt()
-
-                FancyShowCaseView.Builder(requireActivity())
-                    .focusRectAtPosition(focusX, focusY, binding.linearAuthentication.width, binding.linearAuthentication.height
-                    )
-                    .focusShape(FocusShape.ROUNDED_RECTANGLE)
-                    .focusAnimationStep(0)
-                    .focusAnimationMaxValue(10)
-                    .title("인증을 먼저 진행해주세요.")
-                    .titleStyle(R.style.CustomShowcaseTitle, Gravity.CENTER)
-                    .build().apply {
-                        // set position if needed
-                    }
-                    .show()
-            }, 300)
 
             hasShownFancyShowCase = true  // 플래그 설정
         }
@@ -463,13 +479,21 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().setStatusBarTransparent()
+//        requireActivity().setStatusBarTransparent()
+//        applyWindowInsets(binding.root)
+////        binding.linearProfileUser.setPadding(
+////            0,
+////            requireContext().statusBarHeight(),
+////            0,
+////            0
+////        )
+//        Log.e("d", requireContext().statusBarHeight().toString())
 
     }
 
     override fun onPause() {
         super.onPause()
-        requireActivity().setStatusBarVisible()
+//        requireActivity().setStatusBarVisible()
 
     }
 
@@ -528,9 +552,22 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun applyWindowInsets(view: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            v.setPadding(0, statusBarInsets.top, 0, 0)
+            WindowInsetsCompat.CONSUMED
+        }
+    }
 
 
 
+
+
+    fun getStatusBarHeight(activity: Activity): Int {
+        val windowInsets = ViewCompat.getRootWindowInsets(activity.window.decorView)
+        return windowInsets?.getInsets(WindowInsetsCompat.Type.statusBars())?.top ?: 0
+    }
 
 
 }

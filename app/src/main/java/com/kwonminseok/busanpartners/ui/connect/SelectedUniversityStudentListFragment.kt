@@ -53,6 +53,10 @@ class SelectedUniversityStudentListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         val args: Array<out Parcelable>? =
             arguments?.getParcelableArray("selectedUniversityStudents")
         val usersList = args?.toList()?.mapNotNull { it as? User }

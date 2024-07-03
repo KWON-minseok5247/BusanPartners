@@ -80,28 +80,27 @@
                 android:textColor="#1C160C"
                 android:textSize="16sp" />
 
-            <LinearLayout
-                android:id="@+id/r72flli3gve"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/linear_student"
-                    android:layout_width="173dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/sffe8ddcesw1cr8bffffffff"
                     android:minHeight="157dp"
                     android:orientation="vertical"
-                    android:padding="17dp">
+                    android:padding="17dp"
+                    app:layout_constraintWidth_percent="0.45"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/guideline">
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginBottom="16dp"
-
                         android:scaleType="fitXY"
                         android:src="@drawable/student_figma" />
 
@@ -123,19 +122,25 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
 
                 <LinearLayout
                     android:id="@+id/linear_tourist"
-                    android:layout_width="173dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/sffe8ddcesw1cr8bffffffff"
                     android:minHeight="157dp"
                     android:orientation="vertical"
-                    android:padding="17dp">
+                    android:padding="17dp"
+                    app:layout_constraintWidth_percent="0.45"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/guideline"
+                    app:layout_constraintEnd_toEndOf="parent">
 
                     <ImageView
                         android:id="@+id/rdncoyykll9s"
@@ -162,7 +167,9 @@
                         android:textColor="#A08249"
                         android:textSize="14sp" />
                 </LinearLayout>
-            </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </ScrollView>
 

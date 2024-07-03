@@ -125,6 +125,9 @@ class AuthenticationSelectFragment : Fragment() {
                 }
             }
 
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         // 여기서 만약 이메일인증까지 진행했다면 바로 학생증 인증으로 넘어가기
         // 클릭하면 information 창으로 넘어가기

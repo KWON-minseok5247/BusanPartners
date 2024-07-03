@@ -58,15 +58,11 @@ class UniversityStudentFragment : Fragment() {
 
         val user: User? = arguments?.getParcelable("selectedUniversityStudent")
         user?.let {
-            // 받은 데이터를 UI에 적용합니다.
-//            binding.apply {
-//                tvName.text = it.name?.en
-//                tvMajor.text = it.major?.en
-//                // Glide 등을 사용하여 이미지를 로드할 수 있습니다.
-//                Glide.with(this@UniversityStudentFragment)
-//                    .load(it.imagePath)
-//                    .into(binding.imageUser)
-//            }
+
+            binding.backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
             binding.apply {
                 Glide.with(this@UniversityStudentFragment).load(user.imagePath).into(binding.imageUser)
                 tvName.text = getTranslatedText(user.name)
@@ -138,6 +134,7 @@ class UniversityStudentFragment : Fragment() {
 
 
         }
+
 
 
 //        Universities.universityInfoList.forEach { university ->

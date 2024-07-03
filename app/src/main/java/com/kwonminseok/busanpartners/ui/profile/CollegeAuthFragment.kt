@@ -142,10 +142,14 @@ class CollegeAuthFragment : Fragment() {
 
 
         // 프로필 프래그먼트로 돌아가는 함수
+//        binding.backButton.setOnClickListener {
+//            findNavController().navigate(R.id.action_collegeAuthFragment_to_profileFragment)
+//
+//        }
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_collegeAuthFragment_to_profileFragment)
-
+            findNavController().popBackStack()
         }
+
     }
 
     private fun getUniversitySpinner() {

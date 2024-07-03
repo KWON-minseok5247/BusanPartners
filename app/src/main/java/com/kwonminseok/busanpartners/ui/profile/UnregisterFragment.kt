@@ -183,6 +183,11 @@ class UnregisterFragment : Fragment() {
 
         }
 
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+
 
         // 선택된 이유를 처리하는 로직 추가
         // 예: Firebase에 저장

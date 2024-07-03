@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -282,4 +283,10 @@ class HomeActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
     }
+
+    fun getStatusBarHeight(activity: Activity): Int {
+        val windowInsets = ViewCompat.getRootWindowInsets(activity.window.decorView)
+        return windowInsets?.getInsets(WindowInsetsCompat.Type.statusBars())?.top ?: 0
+    }
+
 }

@@ -60,7 +60,7 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         binding.backButton.setOnClickListener {
-            onBackPressed() // 뒤로가기 동작
+            finish()
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)

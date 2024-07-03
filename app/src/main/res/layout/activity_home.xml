@@ -47,7 +47,8 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
         android:elevation="0dp"
         app:itemIconTint="@drawable/bottom_nav_item_background"
         app:itemPaddingBottom="10dp"

@@ -129,10 +129,13 @@ class TravelerAuthFragment : Fragment() {
 
 
         // 프로필 프래그먼트로 돌아가는 함수
-        binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_travelerAuthFragment_to_profileFragment)
-        }
+//        binding.backButton.setOnClickListener {
+//            findNavController().navigate(R.id.action_travelerAuthFragment_to_profileFragment)
+//        }
 
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         //TODO 데이터들이 전부 갖춰져야 클릭을 할 수 있다거나 버튼이 보여선 안됨. 지금은 테스트용이라 냅둔다.
         binding.sendButton.setOnClickListener {

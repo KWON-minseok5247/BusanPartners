@@ -117,6 +117,9 @@
             app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
             app:popExitAnim="@anim/anim_fade_out"
             />
+        <action
+            android:id="@+id/action_profileFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
