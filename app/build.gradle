@@ -35,7 +35,7 @@ android {
         buildConfigField "String", "COLLEGE_KEY", properties['COLLEGE_KEY']
         buildConfigField "String", "NAVER_CLIENT_ID", properties['NAVER_CLIENT_ID']
         buildConfigField "String", "DEEPL_API", properties['DEEPL_API']
-
+        buildConfigField "String", "DEFAULT_WEB_CLIENT_ID", properties['DEFAULT_WEB_CLIENT_ID']
         buildConfigField "String", "CLOUD_TRANSLATION_KEY", properties['CLOUD_TRANSLATION_KEY']
 
         // 매니페스트에서 사용이 가능하다. 구글맵 같은 경우가 이에 해당한다.

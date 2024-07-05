@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.User
@@ -53,7 +54,7 @@ class LoginFragment : Fragment() {
 
         // Google SignIn Options, 로그인하는 인스턴스를 생성하는 과정
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id)) // Firebase에서 제공하는 웹 클라이언트 ID
+            .requestIdToken(BuildConfig.DEFAULT_WEB_CLIENT_ID) // Firebase에서 제공하는 웹 클라이언트 ID
             .requestEmail()
             .build()
 

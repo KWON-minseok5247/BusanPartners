@@ -1,5 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BusanPartners</string>
-    <string name="map_sharing">next</string>
+
+    <string-array name="university_list">
+        <item>Pukyong National University</item>
+        <item>Busan National University of Education</item>
+        <item>Pusan National University</item>
+        <item>Korea National Open University</item>
+        <item>Korea Maritime and Ocean University</item>
+        <item>Kyungsung University</item>
+        <item>Kosin University</item>
+        <item>Tongmyong University</item>
+        <item>Dongseo University</item>
+        <item>Dong-A University</item>
+        <item>Dong-Eui University</item>
+        <item>Busan Catholic University</item>
+        <item>Busan University of Foreign Studies</item>
+        <item>Silla University</item>
+        <item>Youngsan University</item>
+        <item>Inje University</item>
+    </string-array>
+
+    <!-- Onboarding pages -->
+    <string name="student_authentication_onboarding_1">Student Verification Process</string>
+    <string name="student_description_onboarding_1">To provide seamless service, a simple verification process is required. \n Please confirm your university email.</string>
+
+    <string name="student_authentication_onboarding_2">Student ID Verification Process</string>
+    <string name="student_description_onboarding_2">Take a photo of your student ID showing your name and submit it.</string>
+
+    <string name="student_authentication_onboarding_3">Upon Verification Completion</string>
+    <string name="student_description_onboarding_3">Verified students can chat freely without restrictions. \n Make new connections and create valuable experiences.</string>
+
+    <string name="start_text_advice">By continuing on this application you agree to our Terms of Use and Privacy Policy</string>
+
+    <string name="traveler_authentication_onboarding_1">Tourist Verification Process</string>
+    <string name="traveler_description_onboarding_1">To provide seamless service, a simple verification process is required.</string>
+
+    <string name="traveler_authentication_onboarding_2">Capture or take a photo with your name written on it.</string>
+    <string name="traveler_description_onboarding_2">Attach at least two photos, such as flight tickets and accommodation certificates.</string>
+
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+
+    <string name="init_title_one">Welcome to BusanPartners!</string>
+    <string name="init_introduction_one">We provide opportunities to connect foreign tourists visiting Busan with local university students for cultural exchange.</string>
+
+    <string name="init_title_two">Start messaging with others.</string>
+    <string name="init_introduction_two">Complete verification and start chatting with your desired match.</string>
+
+    <string name="init_title_three">Experience cultural exchange.</string>
+    <string name="init_introduction_three">Broaden your horizons by interacting with various people.</string>
+
+    <string name="init_title_four">Experience cultural exchange.</string>
+    <string name="map_sharing">Share Location</string>
+    <string name="share_the_map">Share the Location</string>
+    <string name="details">Details</string>
+    <string name="who_are_you">Who are you?</string>
+    <string name="select_student_or_traveler">Please select a university student or tourist.</string>
+    <string name="university_student">University Student</string>
+    <string name="selected_university_info">Broaden your horizons by interacting with various people.</string>
+    <string name="traveler">Tourist</string>
+    <string name="selected_traveler_info">Experience special moments in the daily life of Busan.</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="email_authentication">1. Email Verification</string>
+    <string name="email_authentication_info">• Enter the email of your current university and input the verification code received via email.</string>
+    <string name="email">Email</string>
+    <string name="send_authentication_email">Send Verification Email</string>
+    <string name="attach_image">Attach Image</string>
+    <string name="student_card">2. Student ID</string>
+    <string name="student_card_info">• Upload a photo that shows your name and student ID number.</string>
+    <string name="select_image">Select Image</string>
+    <string name="send">Send</string>
+    <string name="enter_authentication_number">Enter Verification Code</string>
+    <string name="authentication_number_title">Verification Code Sent</string>
+    <string name="authentication_number_info">Please enter the verification code.</string>
+    <string name="do_it">Confirm</string>
+    <string name="authentication_number_complete">Verification Code Confirmed</string>
+    <string name="next_button">Next</string>
+    <string name="faq_header">Frequently Asked Questions</string>
+    <string name="location">Location</string>
+    <string name="festival_time">Festival Time</string>
+    <string name="homepage">Homepage</string>
+    <string name="check_the_location_button">Check Location</string>
+    <string name="current_festival">Current Festival</string>
+    <string name="nearest_place">Nearest Tourist Spot</string>
+    <string name="login_title">Meet valuable connections in Busan \nStart now!</string>
+    <string name="google_login_btn">Google Login</string>
+    <string name="agree_personal_information">By continuing, you agree to our Terms of Service and Privacy Policy.</string>
+    <string name="authentication">Verification</string>
+    <string name="authenticate">Verify</string>
+    <string name="notifications">Notifications</string>
+    <string name="all_notification">All Notifications</string>
+    <string name="chat_notification">Chat Notifications</string>
+    <string name="regional">Settings</string>
+    <string name="log_out">Log Out</string>
+    <string name="translate_language">Change Language</string>
+    <string name="faq">Frequently Asked Questions</string>
+    <string name="use_information">Terms of Use</string>
+    <string name="personal_information">Privacy Policy</string>
+    <string name="delete_user">Delete Account</string>
+    <string name="traveler_authentication_title">Tourist Verification Guide</string>
+    <string name="traveler_small_title_one">1. Flight or Ferry Ticket</string>
+    <string name="traveler_small_info_one">• Capture or take a photo showing your name and date, then upload it.</string>
+    <string name="traveler_small_info_two">• Other detailed personal information can be obscured.</string>
+    <string name="traveler_small_info_three">• Submit a proof of accommodation reservation from websites or apps like Agoda, Expedia, or Trip.com.</string>
+    <string name="traveler_small_info_four">• Your name and date should be clearly visible. Other personal information can be obscured.</string>
+    <string name="traveler_small_title_two">2. Proof of Accommodation</string>
+    <string name="traveler_small_info_five">The most important thing is to verify the match of name and date. \nUpload at least one photo for each. \nUploaded photos will be deleted 7 days after verification.</string>
+    <string name="student_list">Student List</string>
+    <string name="connect_student">Contact</string>
+    <string name="deepl_service_info">Automatically translated using DeepL. \nSome translations may be inaccurate.</string>
+    <string name="delete_user_title_one">It was nice to meet you.</string>
+    <string name="delete_user_info">Please let us know why you are deleting your account. \nYour feedback helps us improve the service.</string>
+    <string name="delete_user_radio_one">It\'s inconvenient to use.</string>
+    <string name="delete_user_radio_two">I\'m worried about the security of my personal information.</string>
+    <string name="delete_user_radio_three">I\'m dissatisfied with the matching system.</string>
+    <string name="delete_user_radio_four">I had an uncomfortable experience with another user.</string>
+    <string name="delete_user_radio_five">It\'s too complicated to use.</string>
+    <string name="delete_user_radio_six">Other (please specify)</string>
+    <string name="delete_user_btn">Delete</string>
+    <string name="profile_detail">Profile Screen</string>
+    <string name="profile_show_chip_group">Create keywords that represent you.</string>
+    <string name="add_tag">Add Tag</string>
+    <string name="profile_can_get_a_call">You can receive contacts from tourists.</string>
+    <string name="name">Name</string>
+    <string name="major">Major (can be kept private)</string>
+    <string name="profile_introduce">Introduce yourself briefly.</string>
+    <string name="save_btn">Save</string>
+    <string name="profile_deepl_info">It will be automatically translated to the other person using DeepL. \n Translation will start once saved. Please wait a moment.</string>
+    <string name="profile_guest_info">You can modify basic images and names. \n Features will expand upon completion of university student verification.</string>
+    <string name="view_profile">View Profile</string>
+    <string name="chat_message">Chat Message</string>
+    <string name="chat_message_info">You will receive notifications for messages. If you change the importance, you may not receive notifications set by BusanPartners properly.</string>
+    <string name="location_permission_required">Please allow location notifications.</string>
+
+    <string name="welcome_message">The total number of university students you can contact in Busan city is %1$d.</string>
+    <string name="verify_first">Please proceed with verification first.</string>
+    <string name="contact_student_count">The number of students you can contact now: %1$d</string>
+
+    <string name="college_student_cannot_contact">University students cannot contact other university students.</string>
+    <string name="cannot_recontact">You cannot contact someone you are currently chatting with or have already chatted with.</string>
+    <string name="max_chat_rooms">You can have a maximum of 3 active chat rooms.</string>
+
+    <string name="thanks_for_using">Thank you for using.</string>
+    <string name="great_experience_in_busan">We hope you had a great experience in Busan. Please visit us again next time!</string>
+    <string name="confirmation">Confirm</string>
+    <string name="authentication_completed">Verification completed.</string>
+    <string name="contact_students_first">Contact university students first.</string>
+    <string name="make_precious_memories">Make valuable memories with various people!</string>
+    <string name="press_back_again_to_exit">Press back again to exit.</string>
+    <string name="location_permission_needed">Location Permission Needed</string>
+    <string name="location_permission_needed_desc">Location permission is needed to use this feature.</string>
+    <string name="error">Error</string>
+
+    <string name="token_fetch_error">An error occurred while fetching the token.</string>
+    <string name="relogin_prompt">Please log in again.</string>
+    <string name="network_error">Network Error</string>
+    <string name="no_internet_connection">No internet connection. Exiting the app.</string>
+    <string name="retrying_to_connect">Retrying to connect: %1$d</string>
+    <string name="max_retries_reached">Maximum retry attempts reached. Please log in again.</string>
+    <string name="guest_user_connect_failed">Guest user connection failed: %1$s</string>
+    <string name="user_connect_failed">User connection failed: %1$s</string>
+    <string name="user_stream_setup_error">An error occurred while setting up user stream.</string>
+
+    <string name="only_member_cannot_send">The other person has left the chat room and you cannot send messages.</string>
+
+    <string name="user_left_chat">The other person has left the chat room.</string>
+    <string name="leave_chat_room_title">Leave Chat Room</string>
+    <string name="leave_chat_room_message">Are you sure you want to leave the chat room? You will not be able to chat with the other person again.</string>
+    <string name="cancel">Cancel</string>
+    <string name="mute_chat_notifications">Mute Chat Notifications</string>
+    <string name="unmute_chat_notifications">Unmute Chat Notifications</string>
+    <string name="leave_chat">Leave Chat Room</string>
+
+    <string name="data_changed_message">Data has been changed from the server. Please restart.</string>
+
+    <string name="email_verification_success">Email verification was successfully completed.</string>
+    <string name="prepare_student_id">Please prepare a photo of your student ID.</string>
+    <string name="email_verification_failed">Email verification failed.</string>
+    <string name="retry_verification">Please check the verification code and try again.</string>
+    <string name="cannot_go_back_during_verification">You cannot go back during verification.</string>
+
+    <string name="error_email_required">Please enter an email.</string>
+    <string name="error_invalid_email">Please enter a valid email address (%1$s).</string>
+    <string name="verification_code_sending">Sending Verification Code</string>
+    <string name="please_wait">Please wait a moment.</string>
+
+    <string name="saved_successfully">Saved successfully.</string>
+    <string name="add_student_id_photo">Please add a photo of your student ID!</string>
+    <string name="save_alert_title">Alert</string>
+    <string name="save_alert_message">Once saved, it cannot be changed.\nAre you sure you want to save?</string>
+    <string name="choose_photo">Choose a photo</string>
+    <string name="cannot_go_back">You cannot go back during verification.</string>
+
+    <string name="loading">Loading</string>
+    <string name="checking_verification_code">Checking verification code.</string>
+
+    <string name="category_all">All</string>
+    <string name="category_other">Others</string>
+
+    <string name="notification_activated">Notifications have been activated</string>
+    <string name="notification_deactivated">Notifications have been deactivated</string>
+    <string name="log_out_confirmation">Are you sure you want to log out?</string>
+    <string name="auth_in_progress">Verification in progress. Please wait a moment.</string>
+    <string name="auth_already_completed">Verification has already been completed.</string>
+    <string name="welcome_traveler">Welcome to Busan. \n Feel free to chat until %1$s.</string>
+    <string name="authentication_completed_student">Verification completed. \nMake valuable memories with various people!</string>
+
+    <string name="add_student_id_photo_traveler">Please add a photo to prove!</string>
+    <string name="add_minimum_two_photos">Please add at least two photos!</string>
+
+    <string name="delete_account_message">All your information will be immediately deleted upon account deletion and cannot be restored.</string>
+    <string name="choose_delete_reason">Please select the reason for deletion</string>
+    <string name="deleting_account">Deleting account</string>
+    <string name="please_wait_for_delete">Please wait a moment. It may take up to 20 seconds.</string>
+    <string name="account_deleted">Your account has been successfully deleted.</string>
+    <string name="returning_to_main">Returning to the main screen.</string>
+    <string name="account_deletion_failed">Failed to delete account.</string>
+    <string name="reauth_failed">Re-authentication failed. Please try again.</string>
+    <string name="google_login_failed">Google login failed. Please try again.</string>
+
+    <string name="enter_name_prompt">Please enter your name!</string>
+    <string name="unsaved_changes_message">Changes have not been saved.\nAre you sure you want to leave?</string>
+
+    <string name="new_message_from_contact">You have received a message from the other person!</string>
+    <string name="tap_to_check">Tap the notification to check it.</string>
+    <string name="new_messages">New Messages</string>
+    <string name="multiple_messages_received">Multiple messages received.</string>
 </resources>

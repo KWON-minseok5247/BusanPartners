@@ -120,6 +120,14 @@
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_languageFragment"
+            app:destination="@id/languageFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthFragment"
@@ -334,6 +342,11 @@
             app:popExitAnim="@anim/anim_fade_out"
             />
     </fragment>
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.kwonminseok.busanpartners.ui.profile.LanguageFragment"
+        android:label="LanguageFragment"
+        tools:layout="@layout/fragment_translate"/>
 
 
 </navigation>

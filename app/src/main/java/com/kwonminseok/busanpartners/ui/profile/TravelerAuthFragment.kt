@@ -142,7 +142,7 @@ class TravelerAuthFragment : Fragment() {
             // imageUri가 null이면 안되도록 설정한다.
             if (imageUris.isEmpty()) {
                 // 아무것도 실행되지 않도록
-                Toast.makeText(requireContext(), getString(R.string.add_student_id_photo), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.add_student_id_photo_traveler), Toast.LENGTH_SHORT).show()
             }
             else if (imageUris.size == 1) {
                 // 사진이 1장일 때 최소 2장 이상의 사진 추가 요청

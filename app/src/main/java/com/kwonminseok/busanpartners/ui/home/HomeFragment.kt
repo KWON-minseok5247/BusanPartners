@@ -330,7 +330,6 @@ class HomeFragment : Fragment() {
                         }
                     }
                 } else {
-                    Toast.makeText(context, getString(R.string.failed_to_get_tourism_data), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -369,7 +368,6 @@ class HomeFragment : Fragment() {
                         }
                     }
                 } else {
-                    Toast.makeText(context, getString(R.string.failed_to_get_festival_data), Toast.LENGTH_SHORT).show()
                 }
             }
 

@@ -25,6 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
@@ -316,7 +317,7 @@ class UnregisterFragment : Fragment() {
 
         val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
             .setTitle(getString(R.string.deleting_account))
-            .setDescription(getString(R.string.please_wait))
+            .setDescription(getString(R.string.please_wait_for_delete))
             .setProgressBarColor(R.color.jakarta)
             .show()
 
@@ -333,7 +334,7 @@ class UnregisterFragment : Fragment() {
         val googleSignInClient = GoogleSignIn.getClient(
             requireActivity(),
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(BuildConfig.DEFAULT_WEB_CLIENT_ID)
                 .build()
         )
 

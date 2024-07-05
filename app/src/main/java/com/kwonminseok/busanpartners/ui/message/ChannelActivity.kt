@@ -853,7 +853,7 @@ class ChannelActivity : BaseConnectedActivity() {
 
                             Text(
                                 modifier = Modifier.padding(start = 4.dp),
-                                text = getString(R.string.you_cannot_send),
+                                text = getString(R.string.only_member_cannot_send),
                                 color = ChatTheme.colors.textLowEmphasis
                             )
                         }

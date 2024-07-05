@@ -1,16 +1,6 @@
 <resources>
     <string name="app_name">BusanPartners</string>
 
-    <!--    로그인 화면 string   -->
-    <string name="register">REGISTER</string>
-    <string name="login_email_hint">Email</string>
-    <string name="login_password_hint">Password</string>
-    <string name="signup_login_hint">Already have an account? Sign In</string>
-    <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
     <string-array name="university_list">
         <item>국립부경대학교</item>
         <item>부산교육대학교</item>
@@ -29,16 +19,6 @@
         <item>영산대학교</item>
         <item>인제대학교</item>
     </string-array>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="default_web_client_id">760398627197-5kptn558eup71175bunupurl12cf20cr.apps.googleusercontent.com</string>
 
 
 
@@ -61,30 +41,8 @@
     <string name="traveler_description_onboarding_2">비행기 티켓과 숙박증명서 등 2장 이상의 사진을 첨부해주세요.</string>
 
 
-    <string name="start">start</string>
-    <string name="skip">Skip</string>
-    <string name="finish">finish</string>
-    <string name="next">next</string>
-    <string name="back">back</string>
-
-    <string name="stream_chat_notification_title">Chat message</string>
-    <string name="stream_chat_notification_content">You\'ve received new message</string>
-    <string name="stream_chat_notification_reply">Reply</string>
-    <string name="stream_chat_notification_type_hint">Type message</string>
-    <string name="stream_chat_notification_read">Mark as read</string>
-    <string name="stream_chat_notification_channel_id" translatable="false">stream_GetStreamClient</string>
-    <string name="stream_chat_notification_channel_name">New chat messages</string>
-<!--    <string name="stream_chat_other_notifications_channel_id" translatable="false">stream_GetStreamClientOther</string>-->
-    <string name="stream_chat_other_notifications_channel_id" translatable="false"></string>
-<!--    <string name="stream_chat_other_notifications_channel_name">Other notifications</string>-->
-    <string name="stream_chat_other_notifications_channel_name"></string>
-    <string name="stream_chat_load_notification_data_title">Loading notification data</string>
-    <string name="stream_chat_notification_group_summary_content_text">You\'ve received new messages</string>
-    <string name="stream_chat_error_notification_group_summary_title">Chat messages</string>
-    <string name="stream_chat_error_notification_group_summary_content_text">You\'ve received new messages</string>
-    <string name="stream_chat_notification_empty_username">User without name</string>
-    <string name="stream_ui_message_input_permission_notifications_message">Notifications blocked</string>
-    <string name="stream_ui_channel_list_untitled_channel">Notifications 123</string>
+    <string name="skip">건너뛰기</string>
+    <string name="next">다음</string>
 
     <string name="init_title_one">부산파트너스에 오신 걸 환영합니다!</string>
     <string name="init_introduction_one">부산을 방문하는 외국인 관광객과 지역 대학생을 연결하여 문화를 교류할 수 있는 기회를 제공합니다. </string>
@@ -131,15 +89,15 @@
     <string name="login_title">부산에서 만나는 소중한 인연 \n지금 바로 시작하세요!</string>
     <string name="google_login_btn">구글 로그인</string>
     <string name="agree_personal_information">계속 진행하면 서비스 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주합니다.</string>
-    <string name="authentication">Authentication</string>
+    <string name="authentication">인증</string>
     <string name="authenticate">인증하기</string>
-    <string name="notifications">Notifications</string>
+    <string name="notifications">알림</string>
     <string name="all_notification">모든 알림</string>
     <string name="chat_notification">채팅 알림</string>
-    <string name="regional">Regional</string>
+    <string name="regional">설정</string>
     <string name="log_out">로그아웃</string>
     <string name="translate_language">언어 변경</string>
-    <string name="faq">FAQ</string>
+    <string name="faq">자주 묻는 질문</string>
     <string name="use_information">이용 약관</string>
     <string name="personal_information">개인정보처리방침</string>
     <string name="delete_user">회원 탈퇴</string>
@@ -195,23 +153,19 @@
     <string name="press_back_again_to_exit">뒤로가기를 한 번 더 누르면 종료됩니다.</string>
     <string name="location_permission_needed">위치 권한 필요</string>
     <string name="location_permission_needed_desc">이 기능을 사용하기 위해 위치 권한이 필요합니다.</string>
-    <string name="failed_to_get_tourism_data">Failed to get tourism data</string>
-    <string name="error">Error</string>
-    <string name="failed_to_get_festival_data">Failed to get festival data</string>
-
+    <string name="error">에러</string>
 
     <string name="token_fetch_error">토큰을 가져오는 중 오류가 발생했습니다.</string>
     <string name="relogin_prompt">다시 로그인해주세요.</string>
     <string name="network_error">네트워크 오류</string>
     <string name="no_internet_connection">인터넷 연결이 없습니다. 앱을 종료합니다.</string>
-    <string name="retrying_to_connect">Retrying to connect... attempt %1$d</string>
+    <string name="retrying_to_connect">연결 재시도 횟수 : %1$d</string>
     <string name="max_retries_reached">최대 재시도 횟수에 도달했습니다. 다시 로그인해주세요.</string>
     <string name="guest_user_connect_failed">게스트 유저 연결 실패: %1$s</string>
     <string name="user_connect_failed">유저 연결 실패: %1$s</string>
     <string name="user_stream_setup_error">사용자 스트림 설정 중 오류가 발생했습니다.</string>
 
-    <string name="only_member_cannot_send">You cannot send messages in this channel as you are the only member.</string>
-    <string name="you_cannot_send">You cannot send a message to other people.</string>
+    <string name="only_member_cannot_send">상대방이 채팅방을 떠나 메시지를 보낼 수 없습니다.</string>
 
     <string name="user_left_chat">상대방이 채팅방을 떠났습니다.</string>
     <string name="leave_chat_room_title">채팅방 나가기</string>
@@ -257,13 +211,13 @@
     <string name="welcome_traveler">부산에 오신 것을 환영합니다. \n %1$s까지 자유롭게 대화를 나눠보세요.</string>
     <string name="authentication_completed_student">인증이 완료되었습니다. \n다양한 사람들과 소중한 추억을 만들어 보세요!</string>
 
-    <string name="add_student_id_photo">증명할 수 있는 사진을 추가해주세요!</string>
+    <string name="add_student_id_photo_traveler">증명할 수 있는 사진을 추가해주세요!</string>
     <string name="add_minimum_two_photos">최소 2장 이상의 사진을 추가해주세요!</string>
 
     <string name="delete_account_message">탈퇴 후 회원님의 모든 정보가 즉시 삭제되며 복원이 불가능합니다.</string>
     <string name="choose_delete_reason">삭제하시는 이유를 선택해 주세요</string>
     <string name="deleting_account">계정 삭제 중</string>
-    <string name="please_wait">잠시만 기다려 주세요. 최대 20초 정도 소요될 수 있습니다.</string>
+    <string name="please_wait_for_delete">잠시만 기다려 주세요. 최대 20초 정도 소요될 수 있습니다.</string>
     <string name="account_deleted">계정이 정상적으로 삭제되었습니다.</string>
     <string name="returning_to_main">첫 화면으로 이동합니다.</string>
     <string name="account_deletion_failed">계정 삭제에 실패했습니다.</string>
