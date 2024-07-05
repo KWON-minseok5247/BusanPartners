@@ -126,7 +126,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
-                Toast.makeText(requireContext(), "위치 알림을 허용해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.location_permission_required), Toast.LENGTH_SHORT).show()
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                     data = Uri.fromParts("package", requireContext().packageName, null)
                 }
@@ -154,7 +154,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
                         //TODO 만약 대학생이라면 환영합니다 뭐 이런 느낌으로.
                         binding.labelChange.visibility = View.VISIBLE
-                        binding.labelChange.text = "부산 시에서 연락 가능한 대학생은 총 ${userList?.size}명입니다. "
+                        binding.labelChange.text = getString(R.string.welcome_message, userList?.size)
 //                        userList = it.data
                         onDataLoaded()
 
@@ -172,35 +172,35 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        binding.floatingButton.setOnClickListener {
-            // TODO 여기서 관광객인증을 못하면 버튼을 누르면 관광객 인증하라고 알리기.
-            if (currentUser?.authentication?.authenticationStatus != "complete") {
-                Snackbar.make(it, "인증을 먼저 진행해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show()
-                val bundle = Bundle().apply {
-                    putBoolean("showAuthenticationPrompt", true)
-                }
-
-                findNavController().navigate(R.id.action_connectFragment_to_profileFragment, bundle)
-
-
-            } else {
-                val b = Bundle().apply {
-                    putParcelableArray(
-                        "selectedUniversityStudents",
-                        selectedUniversityStudents?.toTypedArray()
-                    )
-//                putParcelableArrayList("selectedUniversityStudents", selectedUniversityStudents.toTypedArray())
-
-                }
-                findNavController().navigate(
-                    R.id.action_connectFragment_to_selectedUniversityStudentListFragment,
-                    b
-                )
-
-            }
-
-
-        }
+//        binding.floatingButton.setOnClickListener {
+//            // TODO 여기서 관광객인증을 못하면 버튼을 누르면 관광객 인증하라고 알리기.
+//            if (currentUser?.authentication?.authenticationStatus != "complete") {
+//                Snackbar.make(it, "인증을 먼저 진행해주시기 바랍니다.", Snackbar.LENGTH_SHORT).show()
+//                val bundle = Bundle().apply {
+//                    putBoolean("showAuthenticationPrompt", true)
+//                }
+//
+//                findNavController().navigate(R.id.action_connectFragment_to_profileFragment, bundle)
+//
+//
+//            } else {
+//                val b = Bundle().apply {
+//                    putParcelableArray(
+//                        "selectedUniversityStudents",
+//                        selectedUniversityStudents?.toTypedArray()
+//                    )
+////                putParcelableArrayList("selectedUniversityStudents", selectedUniversityStudents.toTypedArray())
+//
+//                }
+//                findNavController().navigate(
+//                    R.id.action_connectFragment_to_selectedUniversityStudentListFragment,
+//                    b
+//                )
+//
+//            }
+//
+//
+//        }
 
     }
 
@@ -269,45 +269,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-
-    private fun pukyongMarker(
-        naverMap: NaverMap,
-        infoWindow: InfoWindow
-    ) {
-        val pukyongUniversityStudents = studentsByUniversity?.get("국립부경대학교")
-        Log.e("pukyongUniversityStudents", pukyongUniversityStudents.toString())
-        Marker().apply {
-            position = LatLng(35.1335411, 129.1059852)
-            map = naverMap
-            icon = MarkerIcons.GRAY
-            setOnClickListener {
-                if (infoWindow.marker == null) {
-                    infoWindow.open(this)
-                    binding.floatingButton.apply {
-                        visibility = View.VISIBLE // 뷰를 보이게 설정
-                        alpha = 0f // 투명도를 0으로 설정하여 뷰를 투명하게 만듭니다.
-                        animate()
-                            .alpha(1f) // 투명도를 1로 변경하여 뷰를 점진적으로 나타나게 합니다.
-                            .setDuration(300) // 애니메이션 지속 시간을 300밀리초로 설정
-                            .setListener(null) // 애니메이션 리스너를 설정할 필요가 없을 때는 null을 사용
-                    }
-                } else {
-                    infoWindow.close()
-                    binding.floatingButton.animate()
-                        .alpha(0f) // 투명도를 0으로 변경하여 뷰를 점진적으로 사라지게 합니다.
-                        .setDuration(300) // 애니메이션 지속 시간을 300밀리초로 설정
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                binding.floatingButton.visibility = View.GONE // 애니메이션이 끝나면 뷰를 숨깁니다.
-                            }
-                        })
-                }
-
-
-                true
-            }
-        }
-    }
 
 
     override fun onRequestPermissionsResult(
@@ -396,14 +357,14 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
                     Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
                         .setTitle(universityName)
-                        .setDescription("현재 연락할 수 있는 학생 수: ${students.size}명")
+                        .setDescription(getString(R.string.contact_student_count, students.size))
                         .setDrawable(university.logoResourceId)
-                        .setButtonText("연락하기")
+                        .setButtonText(getString(R.string.connect_student))
                         .setButtonOnClickListener {
                             if (currentUser?.authentication?.authenticationStatus != "complete") {
                                 Snackbar.make(
                                     requireView(),
-                                    "인증을 먼저 진행해주시기 바랍니다.",
+                                    getString(R.string.verify_first),
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                                 val bundle = Bundle().apply {

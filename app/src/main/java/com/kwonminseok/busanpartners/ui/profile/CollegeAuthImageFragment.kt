@@ -95,8 +95,7 @@ class CollegeAuthImageFragment : Fragment() {
                             null,
                             NavOptions.Builder().setPopUpTo(R.id.homeFragment, false).build()
                         )
-                        Toast.makeText(requireContext(), "성공적으로 저장되었습니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(requireContext(), getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
 
 
                     }
@@ -120,7 +119,7 @@ class CollegeAuthImageFragment : Fragment() {
             intent.type = "image/*"
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             startActivityForResult(
-                Intent.createChooser(intent, "사진을 선택하세요"),
+                Intent.createChooser(intent, getString(R.string.choose_photo)),
                 REQUEST_CODE_IMAGE_PICK
             )
         }
@@ -134,15 +133,15 @@ class CollegeAuthImageFragment : Fragment() {
             // imageUri가 null이면 안되도록 설정한다.
             if (imageUris.isEmpty()) {
                 // 아무것도 실행되지 않도록
-                Toast.makeText(requireContext(), "학생증 사진을 추가해주세요!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.add_student_id_photo), Toast.LENGTH_SHORT).show()
             } else {
                 AlertView.Builder()
                     .setContext(requireActivity())
                     .setStyle(AlertView.Style.Alert)
-                    .setTitle("알림")
-                    .setMessage("저장 후에는 변경할 수 없습니다.\n정말 저장하시겠습니까?")
-                    .setDestructive("확인")
-                    .setOthers(arrayOf("취소"))
+                    .setTitle(getString(R.string.save_alert_title))
+                    .setMessage(getString(R.string.save_alert_message))
+                    .setDestructive(getString(R.string.confirmation))
+                    .setOthers(arrayOf(getString(R.string.cancel)))
                     .setOnItemClickListener(object : OnItemClickListener {
                         override fun onItemClick(o: Any?, position: Int) {
                             if (position == 0) { // 확인 버튼 위치 확인

@@ -28,7 +28,6 @@ class ChatInitializer(
     private val autoTranslationEnabled: Boolean,
 ) {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @Suppress("UNUSED_VARIABLE")
     fun init(apiKey: String) {
         FirebaseApp.initializeApp(context)

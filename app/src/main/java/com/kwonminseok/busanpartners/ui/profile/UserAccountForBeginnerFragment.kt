@@ -160,7 +160,7 @@ class UserAccountForBeginnerFragment : Fragment() {
                 // TODO 여기서 변경사항을 찾아서 제공하는 게 더 합리적인 것 같다?
                 val edName = edName.text.toString()
                 if (edName.isBlank()) {
-                    Toast.makeText(requireContext(), "이름을 입력해주세요!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.enter_name_prompt), Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
@@ -220,7 +220,7 @@ class UserAccountForBeginnerFragment : Fragment() {
                             binding.buttonSave.background = ContextCompat.getDrawable(requireContext(), R.drawable.cr24bff009963)
                         }
                         // 성공 메시지 표시 또는 성공 후 작업
-                        Toast.makeText(requireContext(), "성공적으로 처리되었습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
                     }
 
                     is Resource.Error -> {
@@ -278,11 +278,10 @@ class UserAccountForBeginnerFragment : Fragment() {
                 AlertView.Builder()
                     .setContext(requireActivity())
                     .setStyle(AlertView.Style.Alert)
-                    .setTitle("알림")
-                    .setMessage("저장이 되지 않았습니다.\n정말 나가시겠습니까?")
-                    .setDestructive("확인")
-                    .setCancelText("dasd")
-                    .setOthers(arrayOf("취소"))
+                    .setTitle(getString(R.string.save_alert_title))
+                    .setMessage(getString(R.string.unsaved_changes_message))
+                    .setDestructive(getString(R.string.confirmation))
+                    .setOthers(arrayOf(getString(R.string.cancel)))
                     .setOnItemClickListener(object : OnItemClickListener {
                         override fun onItemClick(o: Any?, position: Int) {
                             if (position == 0) { // 확인 버튼 위치 확인

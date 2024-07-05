@@ -188,7 +188,7 @@ class ProfileFragment : Fragment() {
 //                                                System.exit(0)
 //                                            }
 //                                        isDialogShown = true
-                                        Toast.makeText(requireContext(),"서버로부터 데이터가 변경되었습니다. 다시 실행해주세요,", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(requireContext(),getString(R.string.data_changed_message), Toast.LENGTH_SHORT).show()
                                         requireActivity().finishAffinity()
                                         System.exit(0)
 
@@ -318,11 +318,11 @@ class ProfileFragment : Fragment() {
             // 약간 알림 1개까지 추가로 제공하고 막히고 제공하는 느낌???????
             if (isChecked) {
                 // 사용자가 스위치를 켜면 채널 알림을 활성화합니다.
-                Toast.makeText(requireContext(), "알림이 활성화되었습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.notification_activated), Toast.LENGTH_SHORT).show()
 
             } else {
                 // 사용자가 스위치를 끄면 채널 알림을 비활성화합니다.
-                Toast.makeText(requireContext(), "알림이 비활성화되었습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.notification_deactivated), Toast.LENGTH_SHORT).show()
 
 
             }
@@ -330,11 +330,11 @@ class ProfileFragment : Fragment() {
 
         binding.linearAuthentication.setOnClickListener {
             if (user.authentication.authenticationStatus == "loading") {
-                Toast.makeText(requireContext(), "인증을 진행하고 있습니다. 잠시만 기다려 주십시오.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.auth_in_progress), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (user.authentication.authenticationStatus == "complete") {
-                Toast.makeText(requireContext(), "이미 인증이 완료된 상태입니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.auth_already_completed), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             findNavController().navigate(R.id.action_profileFragment_to_authenticationSelectFragment)
@@ -352,9 +352,9 @@ class ProfileFragment : Fragment() {
             AlertView.Builder()
                 .setContext(requireActivity())
                 .setStyle(AlertView.Style.ActionSheet)
-                .setTitle("정말 로그아웃 하시겠습니까?")
-                .setDestructive("확인")
-                .setOthers(arrayOf("취소"))
+                .setTitle(getString(R.string.log_out_confirmation))
+                .setDestructive(getString(R.string.confirmation))
+                .setOthers(arrayOf(getString(R.string.cancel)))
                 .setOnItemClickListener(object : OnItemClickListener {
                     override fun onItemClick(o: Any?, position: Int) {
                         if (position == 0) { // 확인 버튼 위치 확인
@@ -433,21 +433,19 @@ class ProfileFragment : Fragment() {
         when (user.authentication.authenticationStatus) {
             "loading" -> {
                 binding.apply {
-                    authenticationStatus.text = "인증 진행중입니다. 잠시만 기다려주세요."
+                    authenticationStatus.text = getString(R.string.auth_in_progress)
                 }
             }
 
             "complete" -> {
                 if (user.authentication.collegeStudent) {
                     binding.apply {
-                        authenticationStatus.text =
-                            "환영합니다. \n\n자유롭게 관광객들과 대화를 나누고 다양한 경험을 쌓아 보세요."
+                        authenticationStatus.text = getString(R.string.authentication_completed_student)
                     }
                 } else if (user.authentication.traveler) {
                     val tokenTime = formatDateTime(user.tokenTime.toString())
                     binding.apply {
-                        authenticationStatus.text =
-                            "부산에 오신 것을 환영합니다. \n ${tokenTime}까지 자유롭게 대화를 나눠보세요."
+                        authenticationStatus.text = getString(R.string.welcome_traveler, tokenTime)
                     }
                 }
 
@@ -518,7 +516,7 @@ class ProfileFragment : Fragment() {
                         }
                     }
                 }
-                Toast.makeText(context, "모든 채널의 알림이 비활성화되었습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.notification_deactivated), Toast.LENGTH_SHORT).show()
             } else {
                 Log.e("ChatMute", "Failed to query channels: ${result.errorOrNull()?.message}")
             }
@@ -545,7 +543,7 @@ class ProfileFragment : Fragment() {
                         }
                     }
                 }
-                Toast.makeText(context, "모든 채널의 알림이 활성화되었습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.notification_activated), Toast.LENGTH_SHORT).show()
             } else {
                 Log.e("ChatMute", "Failed to query channels: ${result.errorOrNull()?.message}")
             }

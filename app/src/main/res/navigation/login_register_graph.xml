@@ -32,6 +32,11 @@
         tools:layout="@layout/fragment_onboarding_init_image">
         <action
             android:id="@+id/action_onboardingInitImageFragment_to_loginFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

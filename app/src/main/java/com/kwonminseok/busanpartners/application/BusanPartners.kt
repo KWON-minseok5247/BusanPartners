@@ -11,6 +11,7 @@ import com.google.firebase.FirebaseApp
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
+import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
@@ -78,19 +79,16 @@ class BusanPartners : Application() {
     }
 
     private fun initializeNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "chat_channel"
-            val channelName = "채팅 메세지"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(channelId, channelName, importance).apply {
-                description = "메시지가 오면 알림을 받습니다. 중요도를 변경할 경우 부산파트너스에서 설정한 알림을 정상적으로 받아보지 못할 수도 있습니다."
-            }
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+        val channelId = "chat_channel"
+        val channelName = getString(R.string.chat_message)
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(channelId, channelName, importance).apply {
+            description = getString(R.string.chat_message_info)
         }
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun initializeChatClient() {
         val pushNotificationEnabled = true
         val ignorePushMessagesWhenUserOnline = true
@@ -108,10 +106,10 @@ class BusanPartners : Application() {
         val notificationChannel: () -> NotificationChannel = {
             val channelId = "chat_channel"
 //            val channelId = this.getString(R.string.stream_chat_other_notifications_channel_id)
-            val channelName = "채팅 메세지"
+            val channelName = getString(R.string.chat_message)
             val importance = NotificationManager.IMPORTANCE_HIGH
             NotificationChannel(channelId, channelName, importance).apply {
-                description = "메시지가 오면 알림을 받습니다. 중요도를 변경할 경우 부산파트너스에서 설정한 알림을 정상적으로 받아보지 못할 수도 있습니다."
+                description = getString(R.string.chat_message_info)
             }
 
 //            val importance = NotificationManager.IMPORTANCE_HIGH

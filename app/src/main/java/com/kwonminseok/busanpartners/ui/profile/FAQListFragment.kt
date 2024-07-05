@@ -87,9 +87,9 @@ class FAQListFragment : Fragment() {
 
         category = arguments?.getString(ARG_CATEGORY)
         faqList = arguments?.getParcelableArrayList(ARG_FAQ_LIST) ?: listOf()
-        selectedLanguage = arguments?.getString(ARG_LANGUAGE) ?: "ko"
+        selectedLanguage = arguments?.getString(ARG_LANGUAGE) ?: "en"
 
-        val filteredList = if (category == "전체") {
+        val filteredList = if (category == getString(R.string.category_all)) {
             faqList
         } else {
             faqList.filter { it.category == category }

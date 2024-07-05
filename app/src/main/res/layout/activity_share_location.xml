@@ -35,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="장소 공유" />
+            android:text="@string/map_sharing" />
 
         <View
             android:layout_width="24dp"
@@ -76,7 +76,7 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/cr24bff009963"
         android:textColor="#FFFFFF"
-        android:text="장소 공유하기"
+        android:text="@string/share_the_map"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

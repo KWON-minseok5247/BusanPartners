@@ -94,16 +94,9 @@ class AuthenticationSelectFragment : Fragment() {
 //                                        user = it.data
 //                                        viewModel.updateUser(user.toEntity())
 
-                                        Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                                            .setTitle("서버로부터 데이터가 변경되었습니다.")
-                                            .setDescription("앱을 다시 실행시켜주세요.")
-//                                            .setProgressBarColor(R.color.black)
-                                            .show()
-                                            .setButtonText("확인")
-                                            .setButtonOnClickListener {
-                                                requireActivity().finishAffinity()
-                                                System.exit(0)
-                                            }
+                                        Toast.makeText(requireContext(), getString(R.string.data_changed_message), Toast.LENGTH_SHORT).show()
+                                        requireActivity().finishAffinity()
+                                        System.exit(0)
 
                                     }
                                     Log.e("it.data 뭐지?", it.data.toString() )

@@ -37,7 +37,7 @@ class CollegeAuthCompleteFragment : Fragment() {
                 // Toast 메시지로 경고를 표시하는 등 사용자에게 피드백을 줄 수도 있습니다.
                 Toast.makeText(
                     context,
-                    "인증번호 확인 중에는 뒤로 가실 수 없습니다.",
+                    getString(R.string.cannot_go_back_during_verification),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -63,8 +63,8 @@ class CollegeAuthCompleteFragment : Fragment() {
         if (isVerified) {
             //TODO 여기서는 유저에서 대학생이라는 것을 true로 설정하고 프로필 화면으로 이동해야 한다.
 
-            binding.authenticationAnswer.text = "이메일 인증이 성공적으로 완료되었습니다."
-            binding.authenticationDetailAnswer.text = "이제 학생증 사진을 준비해 주세요."
+            binding.authenticationAnswer.text = getString(R.string.email_verification_success)
+            binding.authenticationDetailAnswer.text = getString(R.string.prepare_student_id)
             // 유저정보 업데이트 함수 필요
 //            binding.authCompleteButton.setOnClickListener {
 //                findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthImageFragment)
@@ -80,8 +80,8 @@ class CollegeAuthCompleteFragment : Fragment() {
 
         } else {            // 여기선 false이므로 다시 이메일 인증화면으로 돌아간다.
 
-            binding.authenticationAnswer.text = "이메일 인증에 실패했습니다."
-            binding.authenticationDetailAnswer.text = "인증번호를 다시 확인하고 시도해 주세요."
+            binding.authenticationAnswer.text = getString(R.string.email_verification_failed)
+            binding.authenticationDetailAnswer.text = getString(R.string.retry_verification)
             binding.authCompleteButton.setOnClickListener {
                 findNavController().navigate(R.id.action_collegeAuthCompleteFragment_to_collegeAuthFragment)
             }

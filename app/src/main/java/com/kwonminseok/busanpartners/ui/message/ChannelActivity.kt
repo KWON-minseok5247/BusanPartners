@@ -215,7 +215,7 @@ class ChannelActivity : BaseConnectedActivity() {
                             bottomBar = {
                                 if (listViewModel.channel.memberCount == 1) {
                                     Text(
-                                        text = "You cannot send messages in this channel as you are the only member.",
+                                        text = getString(R.string.only_member_cannot_send),
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(16.dp),
@@ -853,7 +853,7 @@ class ChannelActivity : BaseConnectedActivity() {
 
                             Text(
                                 modifier = Modifier.padding(start = 4.dp),
-                                text = "You can't send a message to other people.",
+                                text = getString(R.string.you_cannot_send),
                                 color = ChatTheme.colors.textLowEmphasis
                             )
                         }

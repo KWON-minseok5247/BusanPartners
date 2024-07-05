@@ -108,10 +108,10 @@ class UnregisterFragment : Fragment() {
             AlertView.Builder()
                 .setContext(requireActivity())
                 .setStyle(AlertView.Style.Alert)
-                .setTitle("알림")
-                .setMessage("탈퇴 후 회원님의 모든 정보가 즉시 삭제되며 복원이 불가능합니다.")
-                .setDestructive("확인")
-                .setOthers(arrayOf("취소"))
+                .setTitle(getString(R.string.save_alert_title))
+                .setMessage(getString(R.string.delete_account_message))
+                .setDestructive(getString(R.string.confirmation))
+                .setOthers(arrayOf(getString(R.string.cancel)))
                 .setOnItemClickListener(object : OnItemClickListener {
                     override fun onItemClick(o: Any?, position: Int) {
                         if (position == 0) { // 확인 버튼 위치 확인
@@ -128,7 +128,7 @@ class UnregisterFragment : Fragment() {
                             if (selectedReason.isEmpty()) {
                                 Toast.makeText(
                                     requireContext(),
-                                    "삭제하시는 이유를 선택해 주세요",
+                                    getString(R.string.choose_delete_reason),
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 return
@@ -315,8 +315,8 @@ class UnregisterFragment : Fragment() {
     private fun deleteAccount() {
 
         val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
-            .setTitle("계정 삭제 중")
-            .setDescription("잠시만 기다려 주세요. 최대 20초 정도 소요될 수 있습니다.")
+            .setTitle(getString(R.string.deleting_account))
+            .setDescription(getString(R.string.please_wait))
             .setProgressBarColor(R.color.jakarta)
             .show()
 
@@ -395,9 +395,9 @@ class UnregisterFragment : Fragment() {
                                                 .addOnCompleteListener {
                                                     if (it.isSuccessful) {
                                                         Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                                                            .setTitle("계정이 정상적으로 삭제되었습니다.")
-                                                            .setDescription("첫 화면으로 이동합니다.")
-                                                            .setButtonText("확인")
+                                                            .setTitle(getString(R.string.account_deleted))
+                                                            .setDescription(getString(R.string.returning_to_main))
+                                                            .setButtonText(getString(R.string.confirmation))
                                                             .setButtonOnClickListener {
                                                                 val intent = Intent(
                                                                     requireContext(),
@@ -411,7 +411,7 @@ class UnregisterFragment : Fragment() {
 
                                                         Toast.makeText(
                                                             requireContext(),
-                                                            "계정이 정상적으로 삭제되었습니다.",
+                                                            getString(R.string.account_deleted),
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     } else {
@@ -421,7 +421,7 @@ class UnregisterFragment : Fragment() {
                                                         )
                                                         Toast.makeText(
                                                             requireContext(),
-                                                            "Google Sign-In access revoke failed.",
+                                                            getString(R.string.account_deletion_failed),
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     }
@@ -430,7 +430,7 @@ class UnregisterFragment : Fragment() {
                                             Log.e("계정 삭제에 실패했습니다", "Failure: ${result.message}")
                                             Toast.makeText(
                                                 requireContext(),
-                                                "계정 삭제에 실패했습니다.",
+                                                getString(R.string.account_deletion_failed),
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }
@@ -442,18 +442,10 @@ class UnregisterFragment : Fragment() {
                                         dialog.dismiss() // 로딩 다이얼로그 닫기
                                         Toast.makeText(
                                             requireContext(),
-                                            "계정 삭제에 실패했습니다.",
+                                            getString(R.string.account_deletion_failed),
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
-                                    Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                                        .setTitle("Beautiful Dialogue Title")
-                                        .setDescription("An incredible dialogue message.")
-                                        .setButtonText("Okay")
-                                        .setButtonOnClickListener {
-                                            Toast.makeText(requireContext(), "dialog button clicked", Toast.LENGTH_SHORT).show()
-                                        }
-                                        .show()
 
                                 }
                             }
@@ -461,7 +453,7 @@ class UnregisterFragment : Fragment() {
                             Log.e("Reauthentication", "Failed: ${reauthTask.exception?.message}")
                             Toast.makeText(
                                 requireContext(),
-                                "재인증에 실패했습니다. 다시 시도해주세요.",
+                                getString(R.string.reauth_failed),
                                 Toast.LENGTH_SHORT
                             ).show()
                             dialog.dismiss() // 로딩 다이얼로그 닫기
@@ -472,7 +464,7 @@ class UnregisterFragment : Fragment() {
                     Log.e("Google Sign-In", "ID Token is null")
                     Toast.makeText(
                         requireContext(),
-                        "구글 로그인에 실패했습니다. 다시 시도해주세요.",
+                        getString(R.string.google_login_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                     dialog.dismiss() // 로딩 다이얼로그 닫기
@@ -480,8 +472,11 @@ class UnregisterFragment : Fragment() {
                 }
             } else {
                 Log.e("Google Sign-In", "Silent sign-in failed: ${task.exception?.message}")
-                Toast.makeText(requireContext(), "구글 로그인에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.google_login_failed),
+                    Toast.LENGTH_SHORT
+                ).show()
                 dialog.dismiss() // 로딩 다이얼로그 닫기
 
             }

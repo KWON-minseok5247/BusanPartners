@@ -52,7 +52,7 @@ class CollegeAuthNumberFragment : Fragment() {
             override fun handleOnBackPressed() {
                 Toast.makeText(
                     context,
-                    "인증번호 확인 중에는 뒤로 가실 수 없습니다.",
+                    getString(R.string.cannot_go_back_during_verification),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -128,8 +128,8 @@ class CollegeAuthNumberFragment : Fragment() {
         binding.buttonSendVerificationCode.setOnClickListener {
 
             val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
-                .setTitle("로딩중...")
-                .setDescription("인증번호를 확인하고 있습니다.")
+                .setTitle(getString(R.string.loading))
+                .setDescription(getString(R.string.checking_verification_code))
                 .setProgressBarColor(R.color.black)
                 .show()
 

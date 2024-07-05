@@ -69,7 +69,7 @@ fun LocationAttachmentPreviewContent(
                 .align(Alignment.CenterStart)
                 .padding(16.dp)
                 .fillMaxWidth(),
-            text = "지도 공유",
+            text = "Share Map",
             style = ChatTheme.typography.body,
             maxLines = 1,
             color = ChatTheme.colors.textHighEmphasis,
@@ -157,7 +157,7 @@ fun LocationAttachmentContent(
             }
 
             Text(
-                text = "지도 공유",
+                text = "Share Map",
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .background(Color.White)

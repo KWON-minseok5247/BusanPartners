@@ -155,7 +155,18 @@ class FAQFragment : Fragment() {
 
         loadFaqsFromJson()
 
-        val categories = listOf("전체", "대학생", "관광객", "그 외")
+        val categories = listOf(
+            getString(R.string.category_all),
+            getString(R.string.university_student),
+            getString(R.string.traveler),
+            getString(R.string.category_other)
+        )
+
+
+
+
+
+
         val fragments = categories.map { category ->
             FAQListFragment.newInstance(category, faqList, selectedLanguage)
         }

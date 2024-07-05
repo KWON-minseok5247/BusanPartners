@@ -74,380 +74,6 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 private val TAG = "MessageFragment"
-
-//@AndroidEntryPoint
-//class MessageFragment : ChannelListFragment() {
-//    private var currentServerTime: String? = "2021-04-09T12:38:11.818609+09:00"
-//    private val uid = BusanPartners.preferences.getString("uid", "")
-//    private var token: String = BusanPartners.preferences.getString(Constants.TOKEN, "")
-//    lateinit var user: com.kwonminseok.busanpartners.data.User
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        if (chatClient.getCurrentUser() == null) {
-//            Log.e(TAG, "setupUserStream이 실행되었습니다.")
-//            Toast.makeText(requireContext(), "setupUserStream이 실행되었습니다.", Toast.LENGTH_SHORT).show()
-//            setupUserStream()
-//
-//        } else {
-//            getStudentChat()
-//            setupChannelListViewModel()
-//        }
-//    }
-//
-//    private fun setupChannelListViewModel() {
-////        val factory = ChannelListViewModelFactory(
-////            requireContext(),
-////            Filters.and(Filters.eq("type", "messaging"), Filters.in_("members", listOf(uid))),
-////            ChannelListViewModel.DEFAULT_SORT,
-////            null,
-////            false
-////        )
-////        val viewModel: ChannelListViewModel by viewModels { factory }
-////
-////        viewModel.bindView(binding.channelListView, viewLifecycleOwner)
-////
-//        // Other viewModel setup code
-//
-//        binding.channelListView.setIsMoreOptionsVisible { channel ->
-//            // You can determine visibility based on the channel object.
-//            ContextCompat.getDrawable(requireContext(), R.drawable.pusan_logo)
-//
-//            false
-//        }
-//
-//        binding.channelListHeaderView.setOnActionButtonClickListener {
-//            // 클릭 이벤트를 비어 있는 블록으로 처리하여 아무 작업도 수행하지 않음
-//
-//        }
-//
-//        binding.channelListView.setChannelItemClickListener { channel ->
-//            if (channel.members.size == 1) {
-//                Toast.makeText(requireContext(), "상대방이 채팅방을 떠났습니다.", Toast.LENGTH_SHORT).show()
-//            }
-//            startActivity(ChannelActivity.newIntent(requireContext(), channel))
-//
-//        }
-//
-//        binding.channelListView.setIsDeleteOptionVisible { channel ->
-//            // You can determine visibility based on the channel object.
-//            // Here is the default implementation:
-//            channel.ownCapabilities.contains("delete-channel")
-//            false
-//        }
-//
-////                binding.channelListView.setChannelItemClickListener { channel ->
-////            startActivity(ChannelActivity.createIntent(requireContext(), channel.cid))
-//////                    val intent = Intent(requireContext(), ChannelActivity::class.java)
-//////                    intent.putExtra("channelId", channel.id) // 채널 ID를 ChannelActivity로 전달
-//////                    startActivity(intent)
-////
-//////            startActivity(ChannelActivity.getIntent(requireContext(), channel.cid))
-////
-////        }
-//
-////        binding.channelListView.setChannelItemClickListener { channel ->
-////            val intent = Intent(requireContext(), ChannelActivity::class.java)
-////            intent.putExtra("channelId", channel.cid) // 채널 ID를 ChannelActivity로 전달
-////            startActivity(intent)
-////        }
-//
-//        binding.channelListView.setChannelLongClickListener { channel ->
-//            if (channel.id == "ExampleChat") { // 예시 채팅방을 나갈 수 없도록 함.
-//                true
-//            } else {
-//                val isMuted =
-//                    BusanPartners.chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }
-//                        ?: false
-//                // 차단 상태 확인 (임시로 false로 설정, 실제 로직 필요)
-////            val isBlocked = checkIfUserIsBlocked(otherUser?.id, channel.cid)
-////            val isBlocked = checkIfUserIsBlocked(channel, chatClient.getCurrentUser()!!.id)
-//                val isBlocked = false
-//
-//                val options = when {
-//                    isMuted && isBlocked -> arrayOf("채팅방 알림 켜기", "사용자 차단 해제", "채팅방 나가기")
-//                    !isMuted && isBlocked -> arrayOf("채팅방 알림 끄기", "사용자 차단 해제", "채팅방 나가기")
-//                    isMuted && !isBlocked -> arrayOf("채팅방 알림 켜기", "사용자 차단", "채팅방 나가기")
-//                    else -> arrayOf("채팅방 알림 끄기", "사용자 차단", "채팅방 나가기")
-//                }
-//
-////                val cid = "$channelType:$channelId"
-//                AlertDialog.Builder(requireContext())
-////                .setTitle("Channel Options")
-//                    .setItems(options) { dialog, which ->
-//                        when (which) {
-//                            0 -> if (isMuted) unmuteChat(channel.id) else muteChat(channel.id)
-////                        1 -> if (canDelete) chatClient.channel("${channel.type}:${channel.id}").delete().enqueue()
-//                            1 -> if (isBlocked) unBlockUser(channel) else blockUser(channel)
-//                            2 -> deleteChattingRoom(channel)
-////                        1 -> if (canDelete) chatClient.channel("${channel.type}:${channel.id}").removeMembers(chatClient.getCurrentUser()?.id ?: "").enqueue()
-//
-//                        }
-//                    }
-//                    .show()
-//                true
-//            }
-//            //todo 추후 dialog 사이즈 늘리기
-//
-//        }
-//    }
-//
-//    private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
-//        val currentServerTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(currentServerTime)
-//        val tokenTimeToDateTime: OffsetDateTime? = OffsetDateTime.parse(user.tokenTime)
-//
-//        if (currentServerTimeToDateTime != null && currentServerTimeToDateTime <= tokenTimeToDateTime) {
-//            val myUser = User.Builder()
-//                .withId(user.uid)
-//                .withName(user.name?.ko ?: "Guest")
-//                .withImage(user.imagePath)
-//                .build()
-//
-//            if (token == "") {
-//                lifecycleScope.launch {
-//                    getNewToken()
-//                    connectClient(myUser)
-//                }
-//            } else {
-//                connectClient(myUser)
-//            }
-//        } else {
-//            val guestUser = User(id = "guestID", name = "guestID", image = "https://bit.ly/2TIt8NR")
-//            chatClient.connectUser(guestUser, BuildConfig.GUEST_ID_TOKEN).enqueue { result ->
-//                if (result.isSuccess) {
-//                    setupChannelListViewModel()
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun connectClient(myUser: User) {
-//        val tokenProvider = object : TokenProvider {
-//            override fun loadToken(): String = BusanPartners.preferences.getString(Constants.TOKEN, "")
-//        }
-//
-//        chatClient.connectUser(myUser, tokenProvider).enqueue { result ->
-//            if (result.isSuccess) {
-//                setupChannelListViewModel()
-//            }
-//        }
-//    }
-//
-//    private fun setupUserStream() {
-//        lifecycleScope.launch {
-//            TimeRepository.fetchCurrentTime()
-//            currentServerTime = TimeRepository.currentTime?.datetime
-//            BusanPartners.preferences.setString("uid", user.uid)
-//            connectUserToStream(user)
-//        }
-//    }
-//
-//    private suspend fun getNewToken(): String = suspendCoroutine { continuation ->
-//        val functions = FirebaseFunctions.getInstance("asia-northeast3")
-//        functions.getHttpsCallable("ext-auth-chat-getStreamUserToken")
-//            .call()
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    val token = task.result?.data as String
-//                    BusanPartners.preferences.setString(Constants.TOKEN, token)
-//                    continuation.resume(token)
-//                } else {
-//                    val exception = task.exception ?: RuntimeException("Unknown token fetch error")
-//                    continuation.resumeWithException(exception)
-//                }
-//            }
-//    }
-//
-//    private fun getStudentChat() {
-//
-//        // 일단 원인은 찾아냈다. -> 채널이 이상하게 꼬인 것 같음.
-//        val studentUid = arguments?.getString("studentUid", null)
-//        val name = arguments?.getString("name", "Chatting Room")
-//        if (studentUid != null) {
-//            val channelClient = BusanPartners.chatClient.channel(channelType = "messaging", channelId = "")
-//            channelClient.create(
-//                //6
-//                memberIds = listOf(studentUid, BusanPartners.chatClient.getCurrentUser()!!.id),
-////                extraData = emptyMap()
-//                extraData = mapOf("name" to name.toString())
-//            )?.enqueue { result ->
-//                if (result.isSuccess) {
-//                    val newChannel = result.getOrThrow()
-//                    startActivity(ChannelActivity.newIntent(requireContext(), newChannel))
-////                    startActivity(ChannelActivity.getIntent(requireContext(), newChannel.id))
-//
-//                } else {
-//                    Log.e(
-//                        "Channel Creation Failed",
-//                        result.toString() ?: "Error creating channel"
-//                    )
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun muteChat(channelId: String) {
-//
-//
-//        BusanPartners.chatClient.muteChannel("messaging", channelId).enqueue { result ->
-//            if (result.isSuccess) {
-////            Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
-//            } else {
-//                Log.e("ChatMute", "Failed to mute: ${result}")
-//            }
-//        }
-//
-//    }
-//
-//    private fun unmuteChat(channelId: String) {
-//
-//        BusanPartners.chatClient.unmuteChannel("messaging", channelId).enqueue { result ->
-//            if (result.isSuccess) {
-////                Toast.makeText(context, "Notifications disabled", Toast.LENGTH_SHORT).show()
-//            } else {
-//                Log.e("ChatMute", "Failed to mute: ${result}")
-//            }
-//        }
-//
-//    }
-//
-//    @SuppressLint("CheckResult")
-//    private fun blockUser(channel: Channel) {
-//
-//
-//        Log.e("blockUser", "blockUser가 실행되었습니다.")
-//        val currentUserId = ChatClient.instance().getCurrentUser()?.id
-//        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
-//        Log.e("otherUser", otherUser.toString())
-//
-//        if (otherUser != null) {
-//            BusanPartners.chatClient.channel("messaging", channel.id).shadowBanUser(otherUser.id,
-//                "유저의 선택으로 밴되었습니다", null)
-//                .enqueue { result ->
-//                    if (result.isSuccess) {
-//                        // 차단 성공
-//                        Log.e("BanUser", "User $otherUser.id banned successfully")
-//                    } else {
-//                        // 차단 실패
-//                        Log.e("BanUser", "${result.errorOrNull().toString()}")
-//                    }
-//                }
-//
-//
-////            chatClient.banUser(otherUser.id, "messaging", channel.id, "유저의 선택으로 밴되었습니다.", null)
-////                .enqueue {
-////                    Toast.makeText(
-////                        requireContext(),
-////                        "${otherUser.name}님이 차단되었습니다.",
-////                        Toast.LENGTH_SHORT
-////                    ).show()
-////                }
-//        }
-//
-//    }
-//
-//    private fun unBlockUser(channel: Channel) {
-//        Log.e("unBlockUser", "unBlockUser 실행되었습니다.")
-//
-//        val currentUserId = ChatClient.instance().getCurrentUser()?.id
-//        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
-//        Log.e("otherUser", otherUser.toString())
-//        if (otherUser != null) {
-//            BusanPartners.chatClient.unbanUser(otherUser.id, "messaging", channel.id)
-//                .enqueue {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "${otherUser.name}님이 차단 해제되었습니다.",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//        }
-//
-//    }
-//
-//    private fun deleteChattingRoom(channel: Channel) {
-//        val userId = BusanPartners.chatClient.getCurrentUser()?.id
-//        AlertDialog.Builder(requireContext())// 여기서 눈물흘리는 벡터 하나 만들어주고
-//            .setTitle("채팅방 나가기")
-//            .setMessage("정말로 채팅방을 나가시겠습니까? 상대방과 다시는 대화할 수 없습니다.")
-//            .setPositiveButton("예") { dialog, which ->
-//                if (userId != null) {
-//
-//                    BusanPartners.chatClient.channel("${channel.type}:${channel.id}").hide(true).enqueue { hideResult ->
-//                        if (hideResult.isSuccess) {
-//                            // 채널 숨기기에 성공한 후 멤버를 제거합니다.
-//                            BusanPartners.chatClient.channel("${channel.type}:${channel.id}").removeMembers(
-//                                listOf(userId),
-//                                Message(text = "The other person left the chat room.")
-//
-//                            ).enqueue { result ->
-//                                if (result.isSuccess) {
-//                                    Log.e(
-//                                        "채널 삭제시",
-//                                        "${channel.memberCount} ${channel.members.size}"
-//                                    )
-//                                    if (channel.members.size == 1) {
-//                                        BusanPartners.chatClient.channel("${channel.type}:${channel.id}").delete().enqueue() { result ->
-//                                            if (result.isSuccess) {
-//                                                Log.e("사용자가 채널을 성공적으로 삭제시켰습니다..", "확인")
-//                                            } else {
-//                                                Log.e(
-//                                                    "사용자가 채널을 삭제시키는데 실패했습니다.",
-//                                                    result.errorOrNull().toString()
-//                                                )
-//
-//                                            }
-//                                        }
-//                                    }
-//                                    Log.e("사용자가 채널을 성공적으로 나갔습니다.", "확인")
-//                                } else {
-//                                    Log.e(
-//                                        "사용자가 채널을 떠나지 못했습니다.",
-//                                        result.errorOrNull()?.message ?: "알 수 없는 오류"
-//                                    )
-//                                }
-//                            }
-//                        } else {
-//                            Log.e("채널 숨기기 실패", hideResult.errorOrNull()?.message ?: "알 수 없는 오류")
-//                        }
-//                    }
-////                    chatClient.channel("${channel.type}:${channel.id}")
-////                        .removeMembers(listOf(userId)).enqueue { result ->
-////                        if (result.isSuccess) {
-////                            Log.e("사용자가 채널을 성공적으로 나갔습니다.", "확인")
-////
-////                            chatClient.channel("${channel.type}:${channel.id}")
-////                                .hide(true).enqueue { hideResult ->
-////                                    if (hideResult.isSuccess) {
-////                                        Log.e("채널이 성공적으로 숨겨졌습니다.", "확인")
-////                                    } else {
-////                                        Log.e("채널 숨기기 실패", hideResult.errorOrNull()?.message ?: "알 수 없는 오류")
-////                                    }
-////                                }
-////
-////                        } else {
-////                            Log.e("사용자가 채널.", "실패")
-////
-////                        }
-////                    }
-//                }
-//
-//                BusanPartners.chatClient.channel("${channel.type}:${channel.id}").hide(true)
-//
-//            }
-//            .setNegativeButton("아니오") { dialog, which ->
-//                // 아무 작업 없이 다이얼로그 닫기
-//                Log.e("정상적으로", "아니오.")
-//
-//            }
-//            .show()
-//
-//    }
-//
-//}
-
-//private val TAG = "MessageFragment"
 @AndroidEntryPoint
 class MessageFragment : ChannelListFragment() {
 
@@ -476,7 +102,7 @@ class MessageFragment : ChannelListFragment() {
         if (chatClient.getCurrentUser() == null) {
 
             Log.e(TAG, chatClient.toString())
-            Toast.makeText(requireContext(), "setupUserStream이 실행되었습니다.", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireContext(), "setupUserStream이 실행되었습니다.", Toast.LENGTH_SHORT).show()
             setupUserStream()
 
         } else {
@@ -507,7 +133,7 @@ class MessageFragment : ChannelListFragment() {
 
         binding.channelListView.setChannelItemClickListener { channel ->
             if (channel.members.size <= 1) {
-                Toast.makeText(requireContext(), "상대방이 채팅방을 떠났습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.user_left_chat), Toast.LENGTH_SHORT).show()
             }
             startActivity(ChannelActivity.newIntent(requireContext(), channel))
 //            startActivity(ChannelActivityForCompose.newIntent(requireContext(), channel))
@@ -529,9 +155,8 @@ class MessageFragment : ChannelListFragment() {
                     chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }
                         ?: false
                 val options = when {
-                    isMuted -> arrayOf("채팅방 알림 켜기", "채팅방 나가기")
-                    !isMuted -> arrayOf("채팅방 알림 끄기", "채팅방 나가기")
-                    else -> arrayOf("채팅방 알림 끄기", "채팅방 나가기")
+                    isMuted -> arrayOf(getString(R.string.unmute_chat_notifications), getString(R.string.leave_chat))
+                    else -> arrayOf(getString(R.string.mute_chat_notifications), getString(R.string.leave_chat))
                 }
                 AlertDialog.Builder(requireContext())
                     .setItems(options) { dialog, which ->
@@ -700,10 +325,10 @@ class MessageFragment : ChannelListFragment() {
         AlertView.Builder()
             .setContext(requireActivity())
             .setStyle(AlertView.Style.Alert)
-            .setTitle("채팅방 나가기")
-            .setMessage("정말로 채팅방을 나가시겠습니까? 상대방과 다시는 대화할 수 없습니다.")
-            .setDestructive("확인")
-            .setOthers(arrayOf("취소"))
+            .setTitle(getString(R.string.leave_chat_room_title))
+            .setMessage(getString(R.string.leave_chat_room_message))
+            .setDestructive(getString(R.string.confirmation))
+            .setOthers(arrayOf(getString(R.string.cancel)))
             .setOnItemClickListener(object : OnItemClickListener {
                 override fun onItemClick(o: Any?, position: Int) {
                     if (position == 0) { // 확인 버튼 위치 확인

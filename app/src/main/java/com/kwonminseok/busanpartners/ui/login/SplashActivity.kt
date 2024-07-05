@@ -410,7 +410,6 @@ class SplashActivity : AppCompatActivity() {
     }
     // TODO 매번 인증하는 것은 문제가 있으니까 그냥 false true로 만들어서 빠르게 넘길 수 있도록 하기.
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -452,18 +451,18 @@ class SplashActivity : AppCompatActivity() {
                 setupUserStream()
             } else {
                 Log.e("자동 로그인을 할 때", "task가 실패")
-                handleRetryOrNavigate("토큰을 가져오는 중 오류가 발생했습니다.")
+                handleRetryOrNavigate(getString(R.string.token_fetch_error))
             }
         }.addOnFailureListener {
             Log.e("자동 로그인을 할 때", "토큰 얻는 것 자체를 실패함.")
-            handleRetryOrNavigate("토큰을 가져오는 중 오류가 발생했습니다.")
+            handleRetryOrNavigate(getString(R.string.token_fetch_error))
         }
 
         // 타임아웃 설정
         lifecycleScope.launch {
             delay(timeoutDuration)
             if (!isFinishing) {
-                Toast.makeText(this@SplashActivity, "다시 로그인해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SplashActivity, getString(R.string.relogin_prompt), Toast.LENGTH_SHORT).show()
                 navigateToLoginRegisterActivity()
             }
         }
@@ -493,7 +492,6 @@ class SplashActivity : AppCompatActivity() {
             }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {
         if (user.authentication.collegeStudent) {
             lifecycleScope.launch {
@@ -511,7 +509,7 @@ class SplashActivity : AppCompatActivity() {
                         connectClient(myUser)
                     } catch (e: Exception) {
                         Log.e(TAG, "토큰을 가져오는 중 오류가 발생했습니다.", e)
-                        handleRetryOrNavigate("토큰을 가져오는 중 오류가 발생했습니다.")
+                        handleRetryOrNavigate(getString(R.string.token_fetch_error))
                     }
                 } else {
                     val isFirstVisit = sharedPreferences.getBoolean("is_first_visit", true)
@@ -576,7 +574,7 @@ class SplashActivity : AppCompatActivity() {
                             connectClient(myUser)
                         } catch (e: Exception) {
                             Log.e(TAG, "토큰을 가져오는 중 오류가 발생했습니다.", e)
-                            handleRetryOrNavigate("토큰을 가져오는 중 오류가 발생했습니다.")
+                            handleRetryOrNavigate(getString(R.string.token_fetch_error))
                         }
                     } else {
 
@@ -641,7 +639,7 @@ class SplashActivity : AppCompatActivity() {
                                 navigateToHomeActivity()
                             } else {
                                 Log.e(TAG, "게스트 유저 연결 실패: ${result.errorOrNull()}")
-                                handleRetryOrNavigate("게스트 유저 연결 실패.")
+                                handleRetryOrNavigate(getString(R.string.guest_user_connect_failed, result.errorOrNull().toString()))
                             }
                         }
                     }
@@ -650,7 +648,6 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun connectClient(myUser: User) {
         val tokenProvider = object : TokenProvider {
             override fun loadToken(): String = BusanPartners.preferences.getString(Constants.TOKEN, "")
@@ -662,13 +659,12 @@ class SplashActivity : AppCompatActivity() {
                     navigateToHomeActivity()
                 } else {
                     Log.e("connectUser", "Failed to connect user: ${result.errorOrNull()}")
-                    handleRetryOrNavigate("유저 연결 실패.")
+                    handleRetryOrNavigate(getString(R.string.user_connect_failed, result.errorOrNull().toString()))
                 }
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleRetryOrNavigate(errorMessage: String) {
         if (retryCount < maxRetries) {
             retryCount++
@@ -677,12 +673,11 @@ class SplashActivity : AppCompatActivity() {
             setupUserStream()
         } else {
             Log.e("Retry", "Max retries reached, navigating to login")
-            Toast.makeText(this, "최대 재시도 횟수에 도달했습니다. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.max_retries_reached), Toast.LENGTH_SHORT).show()
             navigateToLoginRegisterActivity()
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupUserStream() {
         lifecycleScope.launch {
             try {
@@ -701,7 +696,7 @@ class SplashActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.e("setupUserStream", "Exception: ${e.message}")
                 currentServerTime = getCachedServerTime() ?: DEFAULT_SERVER_TIME
-                handleRetryOrNavigate("사용자 스트림 설정 중 오류가 발생했습니다.")
+                handleRetryOrNavigate(getString(R.string.user_stream_setup_error))
             }
         }
     }
@@ -807,11 +802,12 @@ class SplashActivity : AppCompatActivity() {
 
     private fun showNetworkErrorAndExit() {
         Dialoger(this, Dialoger.TYPE_MESSAGE)
-            .setTitle("네트워크 오류")
-            .setDescription("인터넷 연결이 없습니다. 앱을 종료합니다.")
+            .setTitle(getString(R.string.network_error))
+            .setDescription(getString(R.string.no_internet_connection))
+
             .setProgressBarColor(R.color.black)
             .show()
-            .setButtonText("확인")
+            .setButtonText(getString(R.string.confirmation))
             .setButtonOnClickListener {
                 finish()
             }
@@ -819,14 +815,9 @@ class SplashActivity : AppCompatActivity() {
 
     fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val network = connectivityManager.activeNetwork ?: return false
-            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-            return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-        } else {
-            val networkInfo = connectivityManager.activeNetworkInfo
-            return networkInfo != null && networkInfo.isConnected
-        }
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
     private fun saveServerTime(serverTime: String) {

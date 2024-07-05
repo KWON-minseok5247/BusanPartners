@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Authentication"
+                android:text="@string/authentication"
                 android:textSize="18sp"
                 android:textColor="#1C160C"
 
@@ -140,7 +140,7 @@
                         android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="인증하기"
+                        android:text="@string/authenticate"
                         />
                     <LinearLayout
                         android:layout_width="0dp"
@@ -167,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Notifications"
+                android:text="@string/notifications"
                 android:textSize="18sp"
                 android:textColor="#1C160C"
 
@@ -212,7 +212,7 @@
                         android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="모든 알림"
+                        android:text="@string/all_notification"
                         />
 
                     <LinearLayout
@@ -268,7 +268,7 @@
                         android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="채팅 알림"
+                        android:text="@string/chat_notification"
                         />
 
                     <LinearLayout
@@ -301,7 +301,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Regional"
+                android:text="@string/regional"
                 android:textSize="18sp"
                 android:textColor="#1C160C"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
@@ -347,7 +347,53 @@
                         android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="로그아웃"
+                        android:text="@string/log_out"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/click_figma"
+                        android:scaleType="fitXY"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_translate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="#FFFFFFFF"
+                    android:paddingVertical="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/depth_4_fra"
+                        android:paddingHorizontal="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/ic_translate"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:textColor="#1C160C"
+                        android:textSize="16sp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="@string/translate_language"
                         />
 
                     <LinearLayout
@@ -396,7 +442,7 @@
                         android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="FAQ"
+                        android:text="@string/faq"
                         />
                     <LinearLayout
                         android:id="@+id/rvru8mgippo"
@@ -446,7 +492,7 @@
                         android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="이용 약관"
+                        android:text="@string/use_information"
                         />
                     <LinearLayout
                         android:layout_width="0dp"
@@ -492,7 +538,7 @@
                         android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="개인정보처리방침"
+                        android:text="@string/personal_information"
                         />
                     <LinearLayout
                         android:layout_width="0dp"
@@ -537,7 +583,7 @@
                         android:textSize="16sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:text="회원 탈퇴"
+                        android:text="@string/delete_user"
                         />
                     <LinearLayout
                         android:layout_width="0dp"

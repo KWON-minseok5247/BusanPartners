@@ -48,7 +48,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="회원 탈퇴" />
+                    android:text="@string/delete_user" />
 
                 <View
                     android:layout_width="24dp"
@@ -64,7 +64,7 @@
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="만나서 반가웠습니다." />
+                android:text="@string/delete_user_title_one" />
 
             <TextView
                 android:padding="26dp"
@@ -75,7 +75,7 @@
                 android:gravity="center"
 
                 android:layout_width="match_parent"
-                android:text="계정을 삭제하려는 이유를 알려주십시오. \n귀하의 피드백은 서비스를 개선하는 데 도움이 됩니다." />
+                android:text="@string/delete_user_info" />
 
             <RadioGroup
                 android:id="@+id/radioGroup"
@@ -93,7 +93,7 @@
                     android:layout_marginBottom="12dp"
                     android:buttonTint="#009963"
                     android:padding="16dp"
-                    android:text="이용이 불편합니다."
+                    android:text="@string/delete_user_radio_one"
                     android:textSize="15sp"
                     />
 
@@ -101,7 +101,7 @@
                     android:id="@+id/radio_concerns_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="개인 정보 등의 보안이 걱정됩니다."
+                    android:text="@string/delete_user_radio_two"
                     android:textSize="15sp"
                     android:buttonTint="#009963"
                     android:layout_marginBottom="12dp"
@@ -111,7 +111,7 @@
                     android:id="@+id/radio_not_satisfied"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="매칭 시스템에 불만이 있습니다."
+                    android:text="@string/delete_user_radio_three"
                     android:textSize="15sp"
                     android:buttonTint="#009963"
                     android:layout_marginBottom="12dp"
@@ -121,7 +121,7 @@
                     android:id="@+id/radio_too_many_emails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="상대방으로부터 불편함을 겪었습니다."
+                    android:text="@string/delete_user_radio_four"
                     android:textSize="15sp"
                     android:buttonTint="#009963"
                     android:layout_marginBottom="12dp"
@@ -131,7 +131,7 @@
                     android:id="@+id/radio_use_too_hard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="사용하기에 너무 복잡합니다."
+                    android:text="@string/delete_user_radio_five"
                     android:textSize="15sp"
                     android:buttonTint="#009963"
                     android:layout_marginBottom="12dp"
@@ -142,7 +142,7 @@
                     android:id="@+id/radio_other"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="기타(직접 입력)"
+                    android:text="@string/delete_user_radio_six"
                     android:textSize="15sp"
                     android:buttonTint="#009963"
                     android:padding="16dp" />
@@ -171,7 +171,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:background="@drawable/cr24bff009963"
                 android:gravity="center"
-                android:text="삭제하기"
+                android:text="@string/delete_user_btn"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
 

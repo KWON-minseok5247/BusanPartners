@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="장소 공유" />
+            android:text="@string/map_sharing" />
 
         <View
             android:layout_width="24dp"

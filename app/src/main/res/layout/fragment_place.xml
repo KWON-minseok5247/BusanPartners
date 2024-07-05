@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="세부 정보"
+                    android:text="@string/details"
                     android:textColor="#1C160C"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:text="위치"
+                    android:text="@string/location"
                     android:textColor="#1C160C"
                     android:textSize="16sp" />
 
@@ -161,7 +161,7 @@
                 android:background="@drawable/cr24bff009963"
                 android:gravity="center"
                 android:paddingVertical="10dp"
-                android:text="위치 확인하기"
+                android:text="@string/check_the_location_button"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 

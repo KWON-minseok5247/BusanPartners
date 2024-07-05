@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,11 +20,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.OnboardingViewPagerAdapter
 import com.kwonminseok.busanpartners.data.OnboardingPage
-import com.kwonminseok.busanpartners.databinding.FragmentOnboardingInformationBinding
 import com.kwonminseok.busanpartners.databinding.FragmentOnboardingInitImageBinding
-import com.kwonminseok.busanpartners.ui.home.HomeFragment
-import com.kwonminseok.busanpartners.util.hideBottomNavigationView
-import com.kwonminseok.busanpartners.util.showBottomNavigationView
 
 //class OnboardingStudentInformationActivity : AppCompatActivity() {
 //
@@ -101,12 +96,13 @@ class OnboardingInitImageFragment : Fragment() {
             OnboardingPage(
                 R.string.init_title_one,
                 R.string.init_introduction_one,
-                R.raw.lottie_splash_animation
+//                R.raw.lottie_splash_animation
+                        R.raw.internet
             ),
             OnboardingPage(
                 R.string.init_title_two,
                 R.string.init_introduction_two,
-                R.raw.lottie_messaging
+                R.raw.message
             ),
             OnboardingPage(
                 R.string.init_title_three,

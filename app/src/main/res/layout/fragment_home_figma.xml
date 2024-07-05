@@ -34,7 +34,6 @@
           android:src="@drawable/logo_white_background_resize"
           android:layout_height="170dp"
           android:layout_marginTop="25dp"
-          android:text="BusanPartners"
           app:layout_constraintTop_toBottomOf="@id/busan_image"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"/>
@@ -49,7 +48,7 @@
           android:layout_marginTop="26dp"
           android:layout_height="wrap_content"
           android:gravity="center"
-          android:text="부산에서 만나는 소중한 인연 \n지금 바로 시작하세요!"
+          android:text="@string/login_title"
           app:layout_constraintTop_toBottomOf="@id/app_logo_image"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"/>
@@ -64,7 +63,7 @@
           android:gravity="center"
 
           android:paddingVertical="1dp"
-          android:text="구글 로그인"
+          android:text="@string/google_login_btn"
           android:textColor="#FFFFFF"
           android:textSize="16sp"
           app:layout_constraintEnd_toEndOf="parent"
@@ -81,8 +80,7 @@
 
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:text="계속 진행하면 서비스 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주합니다.
-"
+          android:text="@string/agree_personal_information"
           app:layout_constraintTop_toBottomOf="@id/googleLoginButton"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"/>

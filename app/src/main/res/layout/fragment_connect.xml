@@ -33,19 +33,6 @@
         android:textColor="@color/jakarta"
         />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/floating_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="연락하기"
-        android:gravity="center"
-        android:visibility="gone"
-        app:icon="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="40dp"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

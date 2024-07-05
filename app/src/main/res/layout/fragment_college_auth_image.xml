@@ -45,7 +45,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="이미지 첨부" />
+                    android:text="@string/attach_image" />
 
                 <View
                     android:layout_width="24dp"
@@ -71,16 +71,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:text="2. 학생증" />
+                    android:text="@string/student_card" />
                 <TextView
                     android:id="@+id/tvDetail2_1"
                     android:textColor="#A08249"
                     android:textSize="14sp"
-                    android:layout_marginStart="20dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:text="• 이름과 학번을 식별할 수 있는 사진을 업로드하세요." />
+                    android:text="@string/student_card_info" />
             </LinearLayout>
 
 
@@ -125,7 +125,7 @@
                     android:gravity="center"
                     android:paddingVertical="10dp"
                     android:textStyle="bold"
-                    android:text="사진 선택"
+                    android:text="@string/select_image"
                     android:textColor="#1C170D"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +149,7 @@
                     app:spinning_bar_color="@color/white"
                     android:gravity="center"
                     android:paddingVertical="10dp"
-                    android:text="전송하기"
+                    android:text="@string/send"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold"

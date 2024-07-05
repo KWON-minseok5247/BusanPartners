@@ -92,7 +92,7 @@ class OnboardingStudentInformationFragment : Fragment() {
             OnboardingPage(
                 R.string.student_authentication_onboarding_3,
                 R.string.student_description_onboarding_3,
-                R.raw.lottie_messaging
+                R.raw.message
             )
         )
 

@@ -59,6 +59,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.Calendar
+import java.util.Locale
 import java.util.TimeZone
 
 private val TAG = "HomeFragment"
@@ -142,23 +143,29 @@ class HomeFragment : Fragment() {
             sharedPreferences.edit().putBoolean("is_first_visit", true).apply()
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                .setTitle("부산파트너스를 이용해주셔서 감사합니다.")
-                .setDescription("다음에도 부산을 꼭 찾아주세요.")
-                .setDrawable(R.drawable.logo_transparent_background)
-                .setButtonText("확인")
+                .setTitle(getString(R.string.thanks_for_using))
+                .setDescription(getString(R.string.great_experience_in_busan))
+                .setDrawable(R.drawable.logo_transparent_background_only_logo)
+                .setButtonText(getString(R.string.confirmation))
                 .setButtonOnClickListener {
                 }
                 .show()
 
-        }
 
+        }
         if (isFirstVisitor) {
-            sharedPreferences.edit().putBoolean("is_first_visitor",false).apply()
+
+                sharedPreferences.edit().putBoolean("is_first_visitor",false).apply()
+
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("yyyy년 M월 d일까지 이용 가능합니다.", Locale.getDefault())
+            val date = inputFormat.parse(currentUser!!.tokenTime)
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                .setTitle("인증이 완료되었습니다.")
-                .setDescription("${currentUser!!.tokenTime} 대학생들에게 먼저 연락해보세요.")
-                .setButtonText("확인")
+                .setDrawable(R.drawable.logo_transparent_background_only_logo)
+                .setTitle(getString(R.string.authentication_completed))
+                .setDescription("${outputFormat.format(date!!)} ${getString(R.string.contact_students_first)}")
+                .setButtonText(getString(R.string.confirmation))
                 .setButtonOnClickListener {
                 }
                 .show()
@@ -169,9 +176,10 @@ class HomeFragment : Fragment() {
             sharedPreferences.edit().putBoolean("is_first_student",false).apply()
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-                .setTitle("인증이 완료되었습니다.")
-                .setDescription("마음껏 관광객들과 어울려보세요.")
-                .setButtonText("확인")
+                .setTitle(getString(R.string.authentication_completed))
+                .setDrawable(R.drawable.logo_transparent_background_only_logo)
+                .setDescription(getString(R.string.make_precious_memories))
+                .setButtonText(getString(R.string.confirmation))
                 .setButtonOnClickListener {
                 }
                 .show()
@@ -193,7 +201,7 @@ class HomeFragment : Fragment() {
                         backPressedTime = System.currentTimeMillis()
                         toast = Toast.makeText(
                             requireContext(),
-                            "뒤로가기를 한 번 더 누르면 종료됩니다.",
+                            getString(R.string.press_back_again_to_exit),
                             Toast.LENGTH_SHORT
                         )
                         toast.show()
@@ -227,7 +235,7 @@ class HomeFragment : Fragment() {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
-                Toast.makeText(requireContext(), "위치 알림을 허용해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.location_permission_required), Toast.LENGTH_SHORT).show()
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                     data = Uri.fromParts("package", requireContext().packageName, null)
                 }
@@ -322,7 +330,7 @@ class HomeFragment : Fragment() {
                         }
                     }
                 } else {
-                    Toast.makeText(context, "Failed to get tourism data", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.failed_to_get_tourism_data), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -361,12 +369,12 @@ class HomeFragment : Fragment() {
                         }
                     }
                 } else {
-                    Toast.makeText(context, "Failed to get festival data", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.failed_to_get_festival_data), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
-                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "${getString(R.string.error)}: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -511,35 +519,18 @@ class HomeFragment : Fragment() {
 
 
     private fun fetchFestivalList(currentServerTime: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // API 버전 26 이상일 때
-            val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
-            val dateTime = LocalDateTime.parse(currentServerTime, formatter)
+        // API 버전 26 이상일 때
+        val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+        val dateTime = LocalDateTime.parse(currentServerTime, formatter)
 
-            // 첫 번째 날짜: 원래 날짜
-            firstDate = dateTime.toLocalDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+        // 첫 번째 날짜: 원래 날짜
+        firstDate = dateTime.toLocalDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
 
-            // 두 번째 날짜: 3개월 후
-            val dateAfterThreeMonths = dateTime.plus(3, ChronoUnit.MONTHS)
-            secondDate = dateAfterThreeMonths.toLocalDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+        // 두 번째 날짜: 3개월 후
+        val dateAfterThreeMonths = dateTime.plus(3, ChronoUnit.MONTHS)
+        secondDate = dateAfterThreeMonths.toLocalDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
 
-            Log.e("firstDate secondDate", "$firstDate $secondDate")
-        } else {
-            // API 버전 26 미만일 때
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
-            val date = inputFormat.parse(currentServerTime)
-
-            val outputFormat = SimpleDateFormat("yyyyMMdd")
-            firstDate = outputFormat.format(date)
-
-            val calendar = Calendar.getInstance()
-            calendar.time = date
-            calendar.add(Calendar.MONTH, 3)
-            secondDate = outputFormat.format(calendar.time)
-
-            Log.e("firstDate secondDate", "$firstDate $secondDate")
-        }
+        Log.e("firstDate secondDate", "$firstDate $secondDate")
     }
 
     private fun isInBusan(location: LatLng): Boolean {

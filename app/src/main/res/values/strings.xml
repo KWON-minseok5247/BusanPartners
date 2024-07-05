@@ -44,21 +44,21 @@
 
     <!-- 온보딩 페이지 위해서 작성 -->
     <string name="student_authentication_onboarding_1">대학생 인증 절차</string>
-    <string name="student_description_onboarding_1">무분별한 인증을 막기 위해 최소한의 인증 절차를 두고 있습니다. \n 대학교 이메일 확인이 필요합니다.</string>
+    <string name="student_description_onboarding_1">원활한 서비스 제공을 위해 간단한 인증 절차가 필요합니다. \n 대학교 이메일 확인이 필요합니다.</string>
 
     <string name="student_authentication_onboarding_2">학생증 인증 절차</string>
-    <string name="student_description_onboarding_2">자신의 이름이 나오도록 학생증 사진을 찍어주세요.</string>
+    <string name="student_description_onboarding_2">학생증 사진을 자신의 이름이 보이도록 찍어서 제출해주세요.</string>
 
     <string name="student_authentication_onboarding_3">인증 완료시</string>
-    <string name="student_description_onboarding_3">인증된 대학생은 제한없이 자유롭게 채팅이 가능합니다. \n 언제든지 채팅을 그만둘 수 있습니다. </string>
+    <string name="student_description_onboarding_3">인증된 대학생은 제한없이 자유롭게 채팅이 가능합니다. \n 새로운 인연과 소중한 경험을 만들어보세요. </string>
 
     <string name="start_text_advice">By continuing on this application you agree to our Terms of Use and Privacy Policy</string>
 
     <string name="traveler_authentication_onboarding_1">관광객 인증 절차</string>
-    <string name="traveler_description_onboarding_1">무분별한 인증을 막기 위해 최소한의 인증 절차를 두고 있습니다.</string>
+    <string name="traveler_description_onboarding_1">원활한 서비스 제공을 위해 간단한 인증 절차가 필요합니다.</string>
 
     <string name="traveler_authentication_onboarding_2">본인의 이름이 적힌 사진을 캡쳐 혹은 촬영해주세요.</string>
-    <string name="traveler_description_onboarding_2">비행기 티켓 + 숙박증명서 등 2장 이상의 사진을 첨부해주세요.</string>
+    <string name="traveler_description_onboarding_2">비행기 티켓과 숙박증명서 등 2장 이상의 사진을 첨부해주세요.</string>
 
 
     <string name="start">start</string>
@@ -86,13 +86,197 @@
     <string name="stream_ui_message_input_permission_notifications_message">Notifications blocked</string>
     <string name="stream_ui_channel_list_untitled_channel">Notifications 123</string>
 
-    <string name="init_title_one">부산파트너스</string>
-    <string name="init_introduction_one">부산을 방문하는 외국인 관광객과 지역 대학생을 연결하여 서로의 문화를 공유할 수 있습니다. </string>
-    <string name="init_title_two">상대방과 메시지를 나눠보세요</string>
-    <string name="init_introduction_two">인증을 마치고 원하는 상대방과 메시지를 나눠보세요.</string>
-    <string name="init_title_three">실제로 만나서 문화를 공유해보세요.</string>
-    <string name="init_introduction_three">분명 같은 언어를 사용할 수 있을 거에요.</string>
+    <string name="init_title_one">부산파트너스에 오신 걸 환영합니다!</string>
+    <string name="init_introduction_one">부산을 방문하는 외국인 관광객과 지역 대학생을 연결하여 문화를 교류할 수 있는 기회를 제공합니다. </string>
 
+    <string name="init_title_two">상대방과 메시지를 나눠보세요.</string>
+    <string name="init_introduction_two">인증을 마치고 원하는 상대방과 대화를 시작하세요.</string>
+
+    <string name="init_title_three">문화 교류를 경험해보세요.</string>
+    <string name="init_introduction_three">다양한 사람들과 교류하며 새로운 시야를 넓혀보세요.</string>
+
+    <string name="init_title_four">문화 교류를 경험해보세요.</string>
+    <string name="map_sharing">장소 공유</string>
+    <string name="share_the_map">장소 공유하기</string>
+    <string name="details">세부 정보</string>
+    <string name="who_are_you">당신은 어떤 사람인가요?</string>
+    <string name="select_student_or_traveler">대학생 또는 관광객을 선택해주세요.</string>
+    <string name="university_student">대학생</string>
+    <string name="selected_university_info">다양한 사람들과 교류하며 새로운 시야를 넓혀보세요.</string>
+    <string name="traveler">관광객</string>
+    <string name="selected_traveler_info">부산의 일상 속에서 특별한 순간을 경험해보세요.</string>
+    <string name="enter_email">이메일 입력</string>
+    <string name="email_authentication">1. 이메일 인증</string>
+    <string name="email_authentication_info">• 현재 재학중인 대학교의 이메일을 입력하고, 이메일로 받은 인증번호를 입력하세요.</string>
+    <string name="email">이메일</string>
+    <string name="send_authentication_email">인증 메일 보내기</string>
+    <string name="attach_image">이미지 첨부</string>
+    <string name="student_card">2. 학생증</string>
+    <string name="student_card_info">• 이름과 학번을 식별할 수 있는 사진을 업로드하세요.</string>
+    <string name="select_image">사진 선택</string>
+    <string name="send">전송하기</string>
+    <string name="enter_authentication_number">인증번호 입력</string>
+    <string name="authentication_number_title">인증번호를 발송했습니다.</string>
+    <string name="authentication_number_info">인증번호를 입력해주세요.</string>
+    <string name="do_it">확인</string>
+    <string name="authentication_number_complete">인증번호 확인</string>
+    <string name="next_button">다음</string>
+    <string name="faq_header">자주 묻는 질문</string>
+    <string name="location">위치</string>
+    <string name="festival_time">운영 기간</string>
+    <string name="homepage">홈페이지</string>
+    <string name="check_the_location_button">위치 확인하기</string>
+    <string name="current_festival">축제 현황</string>
+    <string name="nearest_place">가까운 관광지</string>
+    <string name="login_title">부산에서 만나는 소중한 인연 \n지금 바로 시작하세요!</string>
+    <string name="google_login_btn">구글 로그인</string>
+    <string name="agree_personal_information">계속 진행하면 서비스 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주합니다.</string>
+    <string name="authentication">Authentication</string>
+    <string name="authenticate">인증하기</string>
+    <string name="notifications">Notifications</string>
+    <string name="all_notification">모든 알림</string>
+    <string name="chat_notification">채팅 알림</string>
+    <string name="regional">Regional</string>
+    <string name="log_out">로그아웃</string>
+    <string name="translate_language">언어 변경</string>
+    <string name="faq">FAQ</string>
+    <string name="use_information">이용 약관</string>
+    <string name="personal_information">개인정보처리방침</string>
+    <string name="delete_user">회원 탈퇴</string>
+    <string name="traveler_authentication_title">외국인 관광객 인증 안내</string>
+    <string name="traveler_small_title_one">1. 비행기 티켓 또는 배 티켓</string>
+    <string name="traveler_small_info_one">• 이름과 날짜를 확인할 수 있도록 캡쳐나 촬영을 하고 업로드해주세요.</string>
+    <string name="traveler_small_info_two">• 그 외 세부적인 개인 정보는 가려도 됩니다.</string>
+    <string name="traveler_small_info_three">• 아고다, 익스피디아, 트립닷컴 등의 홈페이지나 앱에서 예약한 숙소의 숙박 증명서를 제출해주세요.</string>
+    <string name="traveler_small_info_four">• 이름과 날짜가 명확히 보여야 합니다. 나머지 개인 정보는 가려도 됩니다.</string>
+    <string name="traveler_small_title_two">2. 숙박 증명서</string>
+    <string name="traveler_small_info_five">이름과 날짜의 일치 여부를 확인하는 것이 가장 중요합니다. \n각각 1장 이상의 사진을 업로드해주세요. \n업로드된 사진은 인증일로부터 7일 후에 삭제됩니다.</string>
+    <string name="student_list">학생 목록</string>
+    <string name="connect_student">연락하기</string>
+    <string name="deepl_service_info">DeepL 서비스를 통해 자동 번역이 되었습니다. \n일부 번역이 정확하지 않을 수 있습니다.</string>
+    <string name="delete_user_title_one">만나서 반가웠습니다.</string>
+    <string name="delete_user_info">계정을 삭제하려는 이유를 알려주십시오. \n귀하의 피드백은 서비스를 개선하는 데 도움이 됩니다.</string>
+    <string name="delete_user_radio_one">이용이 불편합니다.</string>
+    <string name="delete_user_radio_two">개인 정보 등의 보안이 걱정됩니다.</string>
+    <string name="delete_user_radio_three">매칭 시스템에 불만이 있습니다.</string>
+    <string name="delete_user_radio_four">상대방으로부터 불편함을 겪었습니다.</string>
+    <string name="delete_user_radio_five">사용하기에 너무 복잡합니다.</string>
+    <string name="delete_user_radio_six">기타(직접 입력)</string>
+    <string name="delete_user_btn">삭제하기</string>
+    <string name="profile_detail">프로필 화면</string>
+    <string name="profile_show_chip_group">나를 나타내는 키워드를 만들어봐요.</string>
+    <string name="add_tag">태그 추가</string>
+    <string name="profile_can_get_a_call">관광객으로부터 연락을 받을 수 있습니다.</string>
+    <string name="name">이름</string>
+    <string name="major">학과 (비공개 가능)</string>
+    <string name="profile_introduce">간단한 자기소개를 해보세요.</string>
+    <string name="save_btn">저장하기</string>
+    <string name="profile_deepl_info">상대방에게는 DeepL을 사용하여 자동으로 번역됩니다. \n 저장을 하면 번역을 시작합니다. 조금만 기다려주세요.</string>
+    <string name="profile_guest_info">기본적인 이미지나 이름을 수정할 수 있습니다. \n 대학생 인증을 완료하면 기능이 확장됩니다.</string>
+    <string name="view_profile">View Profile</string>
+    <string name="chat_message">채팅 메시지</string>
+    <string name="chat_message_info">메시지가 오면 알림을 받습니다. 중요도를 변경할 경우 부산파트너스에서 설정한 알림을 정상적으로 받아보지 못할 수도 있습니다.</string>
+    <string name="location_permission_required">위치 알림을 허용해주세요.</string>
+
+    <string name="welcome_message">부산 시에서 연락 가능한 대학생은 총 %1$d명입니다.</string>
+    <string name="verify_first">인증을 먼저 진행해주시기 바랍니다.</string>
+    <string name="contact_student_count">현재 연락할 수 있는 학생 수: %1$d명</string>
+
+    <string name="college_student_cannot_contact">대학생은 다른 대학생에게 연락을 할 수 없습니다.</string>
+    <string name="cannot_recontact">현재 채팅 중이거나 이미 채팅을 끝낸 상대방과 다시 연락할 수 없습니다.</string>
+    <string name="max_chat_rooms">최대 활성화할 수 있는 채팅방은 3개입니다.</string>
+
+    <string name="thanks_for_using">이용해주셔서 감사합니다.</string>
+    <string name="great_experience_in_busan">부산에서의 멋진 경험이 되셨기를 바랍니다. 다음에도 꼭 찾아주세요!</string>
+    <string name="confirmation">확인</string>
+    <string name="authentication_completed">인증이 완료되었습니다.</string>
+    <string name="contact_students_first">대학생들에게 먼저 연락해보세요.</string>
+    <string name="make_precious_memories">다양한 사람들과 소중한 추억을 만들어 보세요!</string>
+    <string name="press_back_again_to_exit">뒤로가기를 한 번 더 누르면 종료됩니다.</string>
+    <string name="location_permission_needed">위치 권한 필요</string>
+    <string name="location_permission_needed_desc">이 기능을 사용하기 위해 위치 권한이 필요합니다.</string>
+    <string name="failed_to_get_tourism_data">Failed to get tourism data</string>
+    <string name="error">Error</string>
+    <string name="failed_to_get_festival_data">Failed to get festival data</string>
+
+
+    <string name="token_fetch_error">토큰을 가져오는 중 오류가 발생했습니다.</string>
+    <string name="relogin_prompt">다시 로그인해주세요.</string>
+    <string name="network_error">네트워크 오류</string>
+    <string name="no_internet_connection">인터넷 연결이 없습니다. 앱을 종료합니다.</string>
+    <string name="retrying_to_connect">Retrying to connect... attempt %1$d</string>
+    <string name="max_retries_reached">최대 재시도 횟수에 도달했습니다. 다시 로그인해주세요.</string>
+    <string name="guest_user_connect_failed">게스트 유저 연결 실패: %1$s</string>
+    <string name="user_connect_failed">유저 연결 실패: %1$s</string>
+    <string name="user_stream_setup_error">사용자 스트림 설정 중 오류가 발생했습니다.</string>
+
+    <string name="only_member_cannot_send">You cannot send messages in this channel as you are the only member.</string>
+    <string name="you_cannot_send">You cannot send a message to other people.</string>
+
+    <string name="user_left_chat">상대방이 채팅방을 떠났습니다.</string>
+    <string name="leave_chat_room_title">채팅방 나가기</string>
+    <string name="leave_chat_room_message">정말로 채팅방을 나가시겠습니까? 상대방과 다시는 대화할 수 없습니다.</string>
+    <string name="cancel">취소</string>
+    <string name="mute_chat_notifications">채팅방 알림 끄기</string>
+    <string name="unmute_chat_notifications">채팅방 알림 켜기</string>
+    <string name="leave_chat">채팅방 나가기</string>
+
+    <string name="data_changed_message">서버로부터 데이터가 변경되었습니다. 다시 실행해주세요.</string>
+
+
+    <string name="email_verification_success">이메일 인증이 성공적으로 완료되었습니다.</string>
+    <string name="prepare_student_id">학생증 사진을 준비해 주세요.</string>
+    <string name="email_verification_failed">이메일 인증에 실패했습니다.</string>
+    <string name="retry_verification">인증번호를 다시 확인하고 시도해 주세요.</string>
+    <string name="cannot_go_back_during_verification">인증번호 확인 중에는 뒤로 가실 수 없습니다.</string>
+
+    <string name="error_email_required">이메일을 입력해주세요.</string>
+    <string name="error_invalid_email">올바른 이메일 주소(%1$s)를 입력하세요.</string>
+    <string name="verification_code_sending">인증번호 전송 중</string>
+    <string name="please_wait">잠시만 기다려주십시오.</string>
+
+    <string name="saved_successfully">성공적으로 저장되었습니다.</string>
+    <string name="add_student_id_photo">학생증 사진을 추가해주세요!</string>
+    <string name="save_alert_title">알림</string>
+    <string name="save_alert_message">저장 후에는 변경할 수 없습니다.\n정말 저장하시겠습니까?</string>
+    <string name="choose_photo">사진을 선택하세요</string>
+    <string name="cannot_go_back">인증번호 확인 중에는 뒤로 가실 수 없습니다.</string>
+
+    <string name="loading">로딩중</string>
+    <string name="checking_verification_code">인증번호를 확인하고 있습니다.</string>
+
+    <string name="category_all">전체</string>
+    <string name="category_other">그 외</string>
+
+
+    <string name="notification_activated">알림이 활성화되었습니다</string>
+    <string name="notification_deactivated">알림이 비활성화되었습니다</string>
+    <string name="log_out_confirmation">정말 로그아웃 하시겠습니까?</string>
+    <string name="auth_in_progress">인증을 진행하고 있습니다. 잠시만 기다려 주십시오.</string>
+    <string name="auth_already_completed">이미 인증이 완료된 상태입니다.</string>
+    <string name="welcome_traveler">부산에 오신 것을 환영합니다. \n %1$s까지 자유롭게 대화를 나눠보세요.</string>
+    <string name="authentication_completed_student">인증이 완료되었습니다. \n다양한 사람들과 소중한 추억을 만들어 보세요!</string>
+
+    <string name="add_student_id_photo">증명할 수 있는 사진을 추가해주세요!</string>
+    <string name="add_minimum_two_photos">최소 2장 이상의 사진을 추가해주세요!</string>
+
+    <string name="delete_account_message">탈퇴 후 회원님의 모든 정보가 즉시 삭제되며 복원이 불가능합니다.</string>
+    <string name="choose_delete_reason">삭제하시는 이유를 선택해 주세요</string>
+    <string name="deleting_account">계정 삭제 중</string>
+    <string name="please_wait">잠시만 기다려 주세요. 최대 20초 정도 소요될 수 있습니다.</string>
+    <string name="account_deleted">계정이 정상적으로 삭제되었습니다.</string>
+    <string name="returning_to_main">첫 화면으로 이동합니다.</string>
+    <string name="account_deletion_failed">계정 삭제에 실패했습니다.</string>
+    <string name="reauth_failed">재인증에 실패했습니다. 다시 시도해주세요.</string>
+    <string name="google_login_failed">구글 로그인에 실패했습니다. 다시 시도해주세요.</string>
+
+    <string name="enter_name_prompt">이름을 입력해주세요!</string>
+    <string name="unsaved_changes_message">저장이 되지 않았습니다.\n정말 나가시겠습니까?</string>
+
+    <string name="new_message_from_contact">상대방으로부터 메세지가 왔습니다!</string>
+    <string name="tap_to_check">알림을 눌러 확인해보세요.</string>
+    <string name="new_messages">새로운 메시지</string>
+    <string name="multiple_messages_received">여러 메시지가 도착했습니다.</string>
 
 
 </resources>

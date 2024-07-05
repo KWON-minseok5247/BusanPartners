@@ -41,7 +41,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="세부 정보" />
+                android:text="@string/profile_detail" />
 
             <View
                 android:layout_width="24dp"
@@ -126,7 +126,7 @@
             android:gravity="center"
             android:paddingVertical="1dp"
             app:spinning_bar_color="@color/white"
-            android:text="저장하기"
+            android:text="@string/save_btn"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -139,7 +139,7 @@
             android:id="@+id/tvTranslation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="기본적인 이미지나 이름을 수정할 수 있습니다. \n 대학생 인증을 완료하면 기능이 확장됩니다."
+            android:text="@string/profile_guest_info"
             android:textColor="#A08249"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/edName"

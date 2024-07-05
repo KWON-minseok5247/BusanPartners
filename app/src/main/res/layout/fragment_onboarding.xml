@@ -42,7 +42,7 @@
         android:layout_below="@id/text_onboarding_title"
         android:text="@string/student_description_onboarding_1"
         android:textSize="14sp"
-        android:textColor="@color/light_grey"
+        android:textColor="#A08249"
         android:gravity="center"
         android:layout_marginBottom="30dp"/>
 

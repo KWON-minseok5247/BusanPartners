@@ -45,7 +45,7 @@
                     android:layout_weight="1"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:text="세부 정보"
+                    android:text="@string/details"
                     android:textColor="#1C160C"
                     android:textSize="18sp" />
 
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="22dp"
-                android:text="당신은 어떤 사람인가요?"
+                android:text="@string/who_are_you"
                 android:textColor="#1C160C"
                 android:textSize="22sp" />
 
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="38dp"
-                android:text="대학생 또는 관광객을 선택해주세요."
+                android:text="@string/select_student_or_traveler"
                 android:textColor="#1C160C"
                 android:textSize="16sp" />
 
@@ -109,7 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="9dp"
-                        android:text="대학생"
+                        android:text="@string/university_student"
                         android:textColor="#1C160C"
                         android:textSize="16sp" />
 
@@ -117,7 +117,7 @@
                         android:id="@+id/rn6bnzq0cykg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="다양한 사람들과 교류하며 새로운 시야를 넓혀보세요."
+                        android:text="@string/selected_university_info"
                         android:textColor="#A08249"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -155,7 +155,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:text="관광객"
+                        android:text="@string/traveler"
                         android:textColor="#1C160C"
                         android:textSize="16sp" />
 
@@ -163,7 +163,7 @@
                         android:id="@+id/rh9v0jgjqr2o"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="부산의 일상 속에서 특별한 순간을 경험해보세요."
+                        android:text="@string/selected_traveler_info"
                         android:textColor="#A08249"
                         android:textSize="14sp" />
                 </LinearLayout>

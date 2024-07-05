@@ -58,21 +58,21 @@ class CollegeAuthFragment : Fragment() {
         //TODO 이메일 작성은 필수 안하면 에러뜨도록
         binding.buttonSendVerificationCode.setOnClickListener {
             if (binding.editTextEmail.text.toString() == "") {
-                binding.editTextEmail.error = "이메일을 입력해주세요."
+                binding.editTextEmail.error = getString(R.string.error_email_required)
             } else {
                 val myEmail = binding.editTextEmail.text.toString()
                 if (!Patterns.EMAIL_ADDRESS.matcher(myEmail)
                         .matches() || !binding.editTextEmail.text?.endsWith(emailDomain)!!
                 ) {
                     // 이메일 형식이 유효하지 않으면, 에러 메시지를 설정합니다.
-                    binding.editTextEmail.error = "올바른 이메일 주소(${emailDomain})를 입력하세요."
+                    binding.editTextEmail.error = getString(R.string.error_invalid_email, emailDomain)
                 } else {
                     // 이메일 형식이 유효하면, 특정 작업을 수행합니다. 예를 들어, 에러 메시지를 지웁니다.
                     binding.editTextEmail.error = null
 
                     val dialog = Dialoger(requireContext(), Dialoger.TYPE_LOADING)
-                        .setTitle("인증번호 전송 중")
-                        .setDescription("잠시만 기다려주십시오.")
+                        .setTitle(getString(R.string.verification_code_sending))
+                        .setDescription(getString(R.string.please_wait))
 //                        .setDrawable(R.drawable.loading)
                         .setProgressBarColor(R.color.black)
                         .show()
@@ -101,40 +101,6 @@ class CollegeAuthFragment : Fragment() {
                         }
                     }, 2000)
 
-
-// Dismiss the loading dialog after 5 seconds
-//                    Handler(Looper.getMainLooper()).postDelayed({
-//                        dialog.dismiss();
-//
-//                        Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
-//                            .setTitle("인증번호를 전송하였습니다.")
-//                            .setDescription("인증번호를 입력해주세요.")
-//                            .setDrawable(R.drawable.ic_send_mail)
-//                            .setButtonText("확인")
-//                            .setButtonOnClickListener {
-//                                //todo 여기서 잠깐의 로딩이 있는게 더 자연스럽겠다.
-////                            UnivCert.certify(BuildConfig.COLLEGE_KEY, myEmail, selectedUniversity, false)
-//                                GlobalScope.launch(Dispatchers.IO) {
-//                                    try {
-//                                        val b = Bundle().apply {
-//                                            putParcelable(
-//                                                "collegeData",
-//                                                CollegeData(myEmail, selectedUniversity)
-//                                            )
-//                                        }
-//                                        findNavController().navigate(
-//                                            R.id.action_collegeAuthFragment_to_collegeAuthNumberFragment,
-//                                            b
-//                                        )
-//
-//
-//                                    } catch (e: Exception) {
-//                                        e.printStackTrace()
-//                                    }
-//                                }
-//                            }
-//                            .show()
-//                    }, 2000)
 
                 }
             }

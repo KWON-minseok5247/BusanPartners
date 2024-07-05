@@ -50,7 +50,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="세부 정보" />
+                        android:text="@string/details" />
 
                     <View
                         android:layout_width="24dp"
@@ -92,7 +92,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="학생 목록"
+                    android:text="@string/student_list"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView

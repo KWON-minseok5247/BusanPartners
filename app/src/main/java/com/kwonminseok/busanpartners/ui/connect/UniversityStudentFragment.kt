@@ -91,7 +91,7 @@ class UniversityStudentFragment : Fragment() {
                 if (currentUser?.authentication?.collegeStudent == true) {
                     Toast.makeText(
                         requireContext(),
-                        "대학생은 다른 대학생에게 연락을 할 수 없습니다.",
+                        getString(R.string.college_student_cannot_contact),
                         Toast.LENGTH_SHORT
                     ).show()
                     return@setOnClickListener
@@ -100,7 +100,7 @@ class UniversityStudentFragment : Fragment() {
                 if (currentUser!!.blockList?.contains(user!!.uid) == true) {
                     Toast.makeText(
                         requireContext(),
-                        "현재 채팅 중이거나 이미 채팅을 끝낸 상대방과 다시 연락할 수 없습니다. ",
+                        getString(R.string.cannot_recontact),
                         Toast.LENGTH_SHORT
                     ).show()
                     return@setOnClickListener
@@ -109,7 +109,7 @@ class UniversityStudentFragment : Fragment() {
                 if (currentUser!!.chatChannelCount >= 3) {
                     Toast.makeText(
                         requireContext(),
-                        "최대 활성화할 수 있는 채팅방은 3개입니다.",
+                        getString(R.string.max_chat_rooms),
                         Toast.LENGTH_SHORT
                     ).show()
                     return@setOnClickListener

@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="이메일 입력"
+            android:text="@string/enter_email"
             android:textColor="#1C160C"
             android:textSize="18sp" />
 
@@ -66,16 +66,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:text="1. 이메일 인증" />
+                    android:text="@string/email_authentication" />
                 <TextView
                     android:id="@+id/tvDetail1_1"
                     android:textColor="#A08249"
                     android:textSize="14sp"
-                    android:layout_marginStart="20dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_gravity="start"
                     android:layout_width="wrap_content"
-                    android:text="• 현재 재학중인 대학교의 이메일을 입력하고, 이메일로 받은 인증번호를 입력하세요." />
+                    android:text="@string/email_authentication_info" />
 
 <!--                <LinearLayout-->
 <!--                    android:id="@+id/linear_email_textView"-->
@@ -114,7 +114,7 @@
                 android:id="@+id/spinnerUniversityEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:outlineAmbientShadowColor="@color/jakarta_lighter"
                 android:outlineSpotShadowColor="@color/jakarta_lighter"
                 android:padding="16dp" />
@@ -138,7 +138,7 @@
                     android:id="@+id/editBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="이메일"
+                    android:hint="@string/email"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     app:boxBackgroundColor="@android:color/transparent"
@@ -177,7 +177,7 @@
                 android:background="@drawable/cr24bff009963"
                 android:gravity="center"
                 android:paddingVertical="1dp"
-                android:text="인증 메일 보내기"
+                android:text="@string/send_authentication_email"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
 
