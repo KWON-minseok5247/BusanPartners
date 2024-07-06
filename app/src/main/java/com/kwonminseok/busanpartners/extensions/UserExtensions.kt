@@ -2,6 +2,7 @@ package com.kwonminseok.busanpartners.extensions
 
 import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.util.TypedValue
@@ -160,6 +161,8 @@ fun Context.statusBarHeight(): Int {
     return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
     else 0
 }
+
+
 
 
 //fun Activity.setStatusBarVisible() {

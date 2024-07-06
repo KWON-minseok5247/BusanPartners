@@ -9,13 +9,16 @@ object LanguageUtils {
 
     fun getDeviceLanguage(context: Context): String {
         val language = context.resources.configuration.locales.get(0).language
+        Log.e("getDeviceLanguage", language)
         return when (language) {
-            "ko", "ja", "zh", "zh-TW", "en" -> language
+            "ko", "ja", "zh", "zh-TW", "en", "es" -> language
             else -> "en"
         }
     }
 
     fun getContentIdForTourPlace(context: Context): Int {
+        Log.e("getContentIdForTourPlace", context.resources.configuration.locales.get(0).language)
+
         return when (context.resources.configuration.locales.get(0).language) {
             "ko" -> 12
             else -> 76
@@ -25,12 +28,12 @@ object LanguageUtils {
     }
 
     fun getContentIdForFestival(context: Context): Int {
+        Log.e("getContentIdForFestival", context.resources.configuration.locales.get(0).language)
+
         return when (context.resources.configuration.locales.get(0).language) {
             "ko" -> 15
             else -> 85
-
         }
-
     }
 
 
@@ -45,7 +48,7 @@ object LanguageUtils {
                     else -> "http://apis.data.go.kr/B551011/ChsService1/"
                 }
             }
-
+            "es" -> "http://apis.data.go.kr/B551011/SpnService1/"
             "ja" -> "http://apis.data.go.kr/B551011/JpnService1/"
             else -> "http://apis.data.go.kr/B551011/EngService1/"
 

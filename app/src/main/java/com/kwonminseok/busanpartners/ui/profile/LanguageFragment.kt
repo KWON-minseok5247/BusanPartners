@@ -26,7 +26,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.LanguageAdapter
+import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.application.BusanPartners
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.preferences
 import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentTranslateBinding
 import com.kwonminseok.busanpartners.databinding.FragmentUnregisterBinding
@@ -36,6 +38,7 @@ import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.util.Constants
+import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,12 +52,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-@AndroidEntryPoint
 class LanguageFragment : Fragment() {
 
     private var _binding: FragmentTranslateBinding? = null
     private val binding get() = _binding!!
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var languages: List<Pair<String, Locale>>
     private var selectedPosition: Int = -1
 
@@ -70,8 +71,6 @@ class LanguageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-
         languages = listOf(
             Pair("시스템 기본 언어", Locale.getDefault()),
             Pair("한국어", Locale.KOREAN),
@@ -86,12 +85,23 @@ class LanguageFragment : Fragment() {
             Pair("Español", Locale("es"))
         )
 
-        // 기본적으로 선택된 언어의 위치를 찾기
-        val currentLocale = getCurrentLocale()
+        val currentLocale = getCurrentLocale(preferences)
         selectedPosition = if (currentLocale == Locale.getDefault()) 0 else languages.indexOfFirst { it.second == currentLocale }
 
-        // 언어 선택 뷰 추가
+        populateLanguageOptions()
+
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.r9rymzh6imkh.setOnClickListener {
+            findNavController().popBackStack() // Activity를 재생성하지 않고 프래그먼트를 종료합니다.
+        }
+    }
+
+    private fun populateLanguageOptions() {
         val languageContainer = binding.languageContainer
+        languageContainer.removeAllViews() // 이전에 추가된 뷰를 제거합니다.
         for ((index, language) in languages.withIndex()) {
             val languageView = layoutInflater.inflate(R.layout.language_item, languageContainer, false)
             val textView = languageView.findViewById<TextView>(R.id.itemTextView)
@@ -110,47 +120,50 @@ class LanguageFragment : Fragment() {
 
             languageContainer.addView(languageView)
         }
-
-        binding.backButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        binding.r9rymzh6imkh.setOnClickListener {
-            activity?.recreate()
-        }
     }
 
     private fun updateSelectedPosition(position: Int) {
         if (selectedPosition != position) {
             selectedPosition = position
-            for (i in 0 until binding.languageContainer.childCount) {
-                val child = binding.languageContainer.getChildAt(i)
-                val radioButton = child.findViewById<RadioButton>(R.id.radioButton)
-                radioButton.isChecked = i == selectedPosition
-            }
+            Log.e("selectedPosition", selectedPosition.toString())
+            updateRadioButtonStates()
             val selectedLocale = languages[selectedPosition].second
+            Log.e("selectedLocale", selectedLocale.toString())
             updateLocale(selectedLocale)
         }
     }
 
+    private fun updateRadioButtonStates() {
+        for (i in 0 until binding.languageContainer.childCount) {
+            val child = binding.languageContainer.getChildAt(i)
+            Log.e("child", child.toString())
+            val radioButton = child.findViewById<RadioButton>(R.id.radioButton)
+            radioButton.isChecked = i == selectedPosition
+        }
+    }
+
     private fun updateLocale(locale: Locale) {
+        val currentLocale = resources.configuration.locales[0]
+        if (locale == currentLocale) {
+            return  // 로케일이 이미 현재 로케일과 같다면 재생성을 하지 않음
+        }
+
         Locale.setDefault(locale)
         val config = resources.configuration
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
         saveLocale(locale)
+        TourismAllInOneApiService.init(requireContext(), forceRefresh = true)
+        populateLanguageOptions() // 언어 변경 후 다시 UI를 업데이트합니다.
     }
 
     private fun saveLocale(locale: Locale) {
-        with(sharedPreferences.edit()) {
-            putString("selected_locale", locale.toLanguageTag())
-            apply()
-        }
+        preferences.setString("selected_locale", locale.toLanguageTag())
     }
 
-    private fun getCurrentLocale(): Locale {
-        val localeString = sharedPreferences.getString("selected_locale", Locale.getDefault().toLanguageTag())
-        return if (localeString.isNullOrEmpty()) Locale.getDefault() else Locale.forLanguageTag(localeString)
+    private fun getCurrentLocale(preferences: PreferenceUtil): Locale {
+        val localeString = preferences.getString("selected_locale", Locale.getDefault().toLanguageTag())
+        return if (localeString.isEmpty()) Locale.getDefault() else Locale.forLanguageTag(localeString)
     }
 
     override fun onDestroyView() {

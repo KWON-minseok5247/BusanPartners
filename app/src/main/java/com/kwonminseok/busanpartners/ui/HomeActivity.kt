@@ -3,6 +3,8 @@ package com.kwonminseok.busanpartners.ui
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -25,6 +27,7 @@ import androidx.navigation.navOptions
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.databinding.ActivityHomeBinding
 import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
@@ -41,6 +44,7 @@ import io.getstream.chat.android.client.events.UserPresenceChangedEvent
 import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.Filters
 import io.getstream.result.Result
+import java.util.Locale
 
 const val EXTRA_CHANNEL_ID = "extra_channel_id"
 const val EXTRA_CHANNEL_TYPE = "extra_channel_type"
@@ -65,6 +69,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        applySavedLocale()
 //        val navOptions = NavOptions.Builder()
 //            .setLaunchSingleTop(true) // 현재 화면이 이미 스택에 있으면 해당 화면을 재사용
 //            .build()
@@ -260,11 +265,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun requestNotificationAccess(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (!isNotificationServiceEnabled(context)) {
-                val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
-                context.startActivity(intent)
-            }
+        if (!isNotificationServiceEnabled(context)) {
+            val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+            context.startActivity(intent)
         }
     }
 
@@ -287,6 +290,24 @@ class HomeActivity : AppCompatActivity() {
     fun getStatusBarHeight(activity: Activity): Int {
         val windowInsets = ViewCompat.getRootWindowInsets(activity.window.decorView)
         return windowInsets?.getInsets(WindowInsetsCompat.Type.statusBars())?.top ?: 0
+    }
+
+
+    private fun applySavedLocale() {
+        val localeString = BusanPartners.preferences.getString("selected_locale", Locale.getDefault().toLanguageTag())
+        val locale = if (localeString.isEmpty()) {
+            Log.e("localeString null", Locale.getDefault().toString())
+
+            Locale.getDefault()
+        } else {
+            Log.e("localeString", localeString)
+            Locale.forLanguageTag(localeString)
+        }
+
+        Locale.setDefault(locale)
+        val config = Configuration(resources.configuration)
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
 }

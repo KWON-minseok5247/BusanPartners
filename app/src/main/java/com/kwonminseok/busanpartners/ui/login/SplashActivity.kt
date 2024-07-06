@@ -418,7 +418,6 @@ class SplashActivity : AppCompatActivity() {
         Log.e("Splash 화면이", "시작되었습니다.")
         sharedPreferences = this.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         // 언어 설정 적용
-        applySavedLocale()
 
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -833,20 +832,6 @@ class SplashActivity : AppCompatActivity() {
         return sharedPreferences.getString("last_server_time", null)
     }
 
-    private fun applySavedLocale() {
-        val sharedPreferences: SharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val localeString = sharedPreferences.getString("selected_locale", Locale.getDefault().toLanguageTag())
-        val locale = if (localeString.isNullOrEmpty()) {
-            Locale.getDefault()
-        } else {
-            Locale.forLanguageTag(localeString)
-        }
-
-        Locale.setDefault(locale)
-        val config = resources.configuration
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
-    }
 
 
 

@@ -60,11 +60,21 @@ interface TourismAllInOneApiService {
                 .create(TourismAllInOneApiService::class.java)
         }
 
-        fun init(context: Context) = INSTANCE ?: synchronized(this) {
+//        fun init(context: Context) = INSTANCE ?: synchronized(this) {
+//            INSTANCE ?: create(context).also {
+//                INSTANCE = it
+//            }
+//        }
+
+        fun init(context: Context, forceRefresh: Boolean = false) = synchronized(this) {
+            if (forceRefresh) {
+                INSTANCE = null
+            }
             INSTANCE ?: create(context).also {
                 INSTANCE = it
             }
         }
+
 
         fun getInstance(): TourismAllInOneApiService = INSTANCE!!
     }
