@@ -3,289 +3,603 @@
     "category": "대학생",
     "questions": {
       "ko": "대학생 인증을 하면 무엇이 달라지나요?",
-      "ja": "学生証認証を行うと何が変わりますか。",
+      "en": "What changes after student verification?",
       "zh": "进行学生认证后会有什么变化？",
+      "zh-CN": "进行学生认证后会有什么变化？",
       "zh-TW": "進行學生認證後會有什麼變化？",
-      "en": "What changes after student verification?"
+      "ja": "学生証認証を行うと何が変わりますか。",
+      "es": "¿Qué cambia después de la verificación del estudiante?",
+      "vi": "Điều gì thay đổi sau khi xác minh sinh viên?",
+      "th": "มีอะไรเปลี่ยนแปลงหลังจากยืนยันตัวตนของนักเรียน?",
+      "in": "Apa yang berubah setelah verifikasi mahasiswa?"
     },
     "answers": {
       "ko": "대학생 인증을 완료하면, 정해진 기간 없이 메시지 기능을 사용할 수 있으며 관광객과 매칭할 수 있습니다.",
-      "ja": "学生証認証が完了すると、定められた期間なしにメッセージ機能を使用でき、観光客とマッチングすることができます。",
+      "en": "After completing student verification, you can use the messaging feature without a specified period and match with tourists.",
       "zh": "完成学生认证后，可以在没有特定时间限制的情况下使用消息功能，并可以与游客匹配。",
+      "zh-CN": "完成学生认证后，可以在没有特定时间限制的情况下使用消息功能，并可以与游客匹配。",
       "zh-TW": "完成學生認證後，可以在沒有特定時間限制的情況下使用消息功能，並可以與遊客匹配。",
-      "en": "After completing student verification, you can use the messaging feature without a specified period and match with tourists."
+      "ja": "学生証認証が完了すると、定められた期間なしにメッセージ機能を使用でき、観光客とマッチングすることができます。",
+      "es": "Después de completar la verificación de estudiante, puede usar la función de mensajería sin un período especificado y emparejarse con turistas.",
+      "vi": "Sau khi hoàn tất xác minh sinh viên, bạn có thể sử dụng tính năng nhắn tin mà không cần khoảng thời gian cụ thể và kết nối với khách du lịch.",
+      "th": "หลังจากการยืนยันตัวตนนักเรียน คุณสามารถใช้ฟีเจอร์ส่งข้อความได้โดยไม่ต้องระบุช่วงเวลา และจับคู่กับนักท่องเที่ยวได้",
+      "in": "Setelah menyelesaikan verifikasi mahasiswa, Anda dapat menggunakan fitur pesan tanpa jangka waktu tertentu dan cocok dengan wisatawan."
     }
   },
   {
     "category": "대학생",
     "questions": {
       "ko": "자기소개를 영어로 해야 하나요?",
-      "ja": "自己紹介を英語で書く必要がありますか。",
+      "en": "Do I need to write my self-introduction in English?",
       "zh": "自我介绍需要用英语吗？",
+      "zh-CN": "自我介绍需要用英语吗？",
       "zh-TW": "自我介紹需要用英語嗎？",
-      "en": "Do I need to write my self-introduction in English?"
+      "ja": "自己紹介を英語で書く必要がありますか。",
+      "es": "¿Necesito escribir mi auto-presentación en inglés?",
+      "vi": "Tôi có cần viết tự giới thiệu bằng tiếng Anh không?",
+      "th": "ฉันต้องเขียนแนะนำตัวเองเป็นภาษาอังกฤษหรือไม่?",
+      "in": "Apakah saya perlu menulis perkenalan diri saya dalam bahasa Inggris?"
     },
     "answers": {
       "ko": "한국어로 작성해도 됩니다. 저장하면 DeepL 번역 기능을 통해 영어, 중국어, 일본어로 번역되어 상대방은 번역된 내용을 읽을 수 있습니다.",
-      "ja": "韓国語で書いても構いません。保存するとDeepLの翻訳機能を通じて英語、中国語、日本語に翻訳され、相手は翻訳された内容を読むことができます。",
+      "en": "You can write it in Korean. When saved, it will be translated into English, Chinese, and Japanese through the DeepL translation feature, and the other person can read the translated content.",
       "zh": "可以用韩语写。保存后，通过DeepL翻译功能，可以翻译成英语、中文、日语，对方可以阅读翻译后的内容。",
+      "zh-CN": "可以用韩语写。保存后，通过DeepL翻译功能，可以翻译成英语、中文、日语，对方可以阅读翻译后的内容。",
       "zh-TW": "可以用韓語寫。保存後，通過DeepL翻譯功能，可以翻譯成英語、中文、日語，對方可以閱讀翻譯後的內容。",
-      "en": "You can write it in Korean. When saved, it will be translated into English, Chinese, and Japanese through the DeepL translation feature, and the other person can read the translated content."
+      "ja": "韓国語で書いても構いません。保存するとDeepLの翻訳機能を通じて英語、中国語、日本語に翻訳され、相手は翻訳された内容を読むことができます。",
+      "es": "Puede escribirlo en coreano. Cuando se guarde, se traducirá al inglés, chino y japonés a través de la función de traducción DeepL, y la otra persona podrá leer el contenido traducido.",
+      "vi": "Bạn có thể viết bằng tiếng Hàn. Khi lưu, nội dung sẽ được dịch sang tiếng Anh, tiếng Trung và tiếng Nhật thông qua tính năng dịch DeepL, và người kia có thể đọc nội dung đã dịch.",
+      "th": "คุณสามารถเขียนเป็นภาษาเกาหลีได้ เมื่อบันทึกแล้ว จะถูกแปลเป็นภาษาอังกฤษ จีน และญี่ปุ่นผ่านฟีเจอร์แปล DeepL และอีกฝ่ายสามารถอ่านเนื้อหาที่แปลได้",
+      "in": "Anda bisa menulisnya dalam bahasa Korea. Saat disimpan, akan diterjemahkan ke dalam bahasa Inggris, Cina, dan Jepang melalui fitur terjemahan DeepL, dan orang lain dapat membaca konten yang diterjemahkan."
     }
   },
   {
     "category": "대학생",
     "questions": {
       "ko": "대학생 인증 절차는 어떻게 되나요?",
-      "ja": "学生証認証の手続きはどのように行われますか。",
+      "en": "What is the student verification process?",
       "zh": "学生认证的程序是怎样的？",
+      "zh-CN": "学生认证的程序是怎样的？",
       "zh-TW": "學生認證的程序是怎樣的？",
-      "en": "What is the student verification process?"
+      "ja": "学生証認証の手続きはどのように行われますか。",
+      "es": "¿Cuál es el proceso de verificación del estudiante?",
+      "vi": "Quá trình xác minh sinh viên là gì?",
+      "th": "กระบวนการยืนยันตัวตนนักเรียนคืออะไร?",
+      "in": "Apa proses verifikasi mahasiswa?"
     },
     "answers": {
       "ko": "1. 대학교 이메일을 통해 인증번호를 전송받고 인증번호를 입력합니다.\n2. 학생증 사진을 첨부합니다.",
-      "ja": "1. 大学のメールを通じて認証番号を受け取り、認証番号を入力します。\n2. 学生証の写真を添付します。",
+      "en": "1. Receive the verification code via university email and enter the verification code.\n2. Attach a photo of your student ID.",
       "zh": "1. 通过大学电子邮件接收验证码并输入验证码。\n2. 附上学生证照片。",
+      "zh-CN": "1. 通过大学电子邮件接收验证码并输入验证码。\n2. 附上学生证照片。",
       "zh-TW": "1. 通過大學電子郵件接收驗證碼並輸入驗證碼。\n2. 附上學生證照片。",
-      "en": "1. Receive the verification code via university email and enter the verification code.\n2. Attach a photo of your student ID."
+      "ja": "1. 大学のメールを通じて認証番号を受け取り、認証番号を入力します。\n2. 学生証の写真を添付します。",
+      "es": "1. Reciba el código de verificación a través del correo electrónico de la universidad e ingrese el código de verificación.\n2. Adjunte una foto de su tarjeta de estudiante.",
+      "vi": "1. Nhận mã xác minh qua email của trường đại học và nhập mã xác minh.\n2. Đính kèm ảnh thẻ sinh viên của bạn.",
+      "th": "1. รับรหัสยืนยันผ่านอีเมลของมหาวิทยาลัยและป้อนรหัสยืนยัน\n2. แนบรูปถ่ายบัตรนักเรียนของคุณ",
+      "in": "1. Terima kode verifikasi melalui email universitas dan masukkan kode verifikasi.\n2. Lampirkan foto kartu mahasiswa Anda."
     }
   },
   {
     "category": "대학생",
     "questions": {
       "ko": "대학생 인증은 얼마나 걸리나요?",
-      "ja": "学生証認証はどのくらいかかりますか。",
+      "en": "How long does student verification take?",
       "zh": "学生认证需要多长时间？",
+      "zh-CN": "学生认证需要多长时间？",
       "zh-TW": "學生認證需要多長時間？",
-      "en": "How long does student verification take?"
+      "ja": "学生証認証はどのくらいかかりますか。",
+      "es": "¿Cuánto tiempo tarda la verificación del estudiante?",
+      "vi": "Xác minh sinh viên mất bao lâu?",
+      "th": "การยืนยันตัวตนนักเรียนใช้เวลานานเท่าใด?",
+      "in": "Berapa lama waktu yang dibutuhkan untuk verifikasi mahasiswa?"
     },
     "answers": {
       "ko": "학생증 사진을 첨부한 후 최대 24시간 이내에 인증이 완료됩니다.",
-      "ja": "学生証の写真を添付した後、最大24時間以内に認証が完了します。",
+      "en": "After attaching the student ID photo, verification will be completed within 24 hours.",
       "zh": "附上学生证照片后，认证将在24小时内完成。",
+      "zh-CN": "附上学生证照片后，认证将在24小时内完成。",
       "zh-TW": "附上學生證照片後，認證將在24小時內完成。",
-      "en": "After attaching the student ID photo, verification will be completed within 24 hours."
+      "ja": "学生証の写真を添付した後、最大24時間以内に認証が完了します。",
+      "es": "Después de adjuntar la foto de la tarjeta de estudiante, la verificación se completará dentro de las 24 horas.",
+      "vi": "Sau khi đính kèm ảnh thẻ sinh viên, việc xác minh sẽ hoàn tất trong vòng 24 giờ.",
+      "th": "หลังจากแนบรูปถ่ายบัตรนักเรียนแล้ว การตรวจสอบจะเสร็จสิ้นภายใน 24 ชั่วโมง",
+      "in": "Setelah melampirkan foto kartu mahasiswa, verifikasi akan selesai dalam waktu 24 jam."
     }
   },
   {
     "category": "대학생",
     "questions": {
       "ko": "대학생 인증이 실패했을 때는 어떻게 하나요?",
-      "ja": "学生証認証に失敗した場合はどうすればいいですか。",
+      "en": "What should I do if student verification fails?",
       "zh": "如果学生认证失败怎么办？",
+      "zh-CN": "如果学生认证失败怎么办？",
       "zh-TW": "如果學生認證失敗怎麼辦？",
-      "en": "What should I do if student verification fails?"
+      "ja": "学生証認証に失敗した場合はどうすればいいですか。",
+      "es": "¿Qué debo hacer si falla la verificación del estudiante?",
+      "vi": "Tôi nên làm gì nếu xác minh sinh viên không thành công?",
+      "th": "ฉันควรทำอย่างไรหากการยืนยันตัวตนนักเรียนล้มเหลว?",
+      "in": "Apa yang harus saya lakukan jika verifikasi mahasiswa gagal?"
     },
     "answers": {
       "ko": "학생증을 캡처하거나 촬영하여 식별이 가능한 상태로 다시 업로드해 주세요.",
-      "ja": "学生証をキャプチャまたは撮影し、識別可能な状態で再アップロードしてください。",
+      "en": "Please capture or photograph the student ID and re-upload it in an identifiable state.",
       "zh": "请截取或拍摄学生证，并在可识别的状态下重新上传。",
+      "zh-CN": "请截取或拍摄学生证，并在可识别的状态下重新上传。",
       "zh-TW": "請截取或拍攝學生證，並在可識別的狀態下重新上傳。",
-      "en": "Please capture or photograph the student ID and re-upload it in an identifiable state."
+      "ja": "学生証をキャプチャまたは撮影し、識別可能な状態で再アップロードしてください。",
+      "es": "Por favor capture o fotografíe la tarjeta de estudiante y vuelva a cargarla en un estado identificable.",
+      "vi": "Vui lòng chụp lại hoặc chụp lại thẻ sinh viên và tải lại ở trạng thái có thể nhận dạng được.",
+      "th": "โปรดจับภาพหรือถ่ายภาพบัตรนักเรียนและอัปโหลดอีกครั้งในสถานะที่สามารถระบุตัวตนได้",
+      "in": "Harap tangkap atau potret kartu mahasiswa dan unggah ulang dalam kondisi yang dapat diidentifikasi."
     }
   },
   {
     "category": "대학생",
     "questions": {
       "ko": "이메일이 안왔습니다.",
-      "ja": "メールが届きませんでした。",
+      "en": "I didn't receive the email.",
       "zh": "没有收到电子邮件。",
+      "zh-CN": "没有收到电子邮件。",
       "zh-TW": "沒有收到電子郵件。",
-      "en": "I didn't receive the email."
+      "ja": "メールが届きませんでした。",
+      "es": "No recibí el correo electrónico.",
+      "vi": "Tôi không nhận được email.",
+      "th": "ฉันไม่ได้รับอีเมล",
+      "in": "Saya tidak menerima email."
     },
     "answers": {
       "ko": "이메일을 받는 데 최대 1분 이상 소요될 수 있습니다. 그 이후에도 받지 못했다면 이메일 주소를 확인하고 다시 인증해 주세요.",
-      "ja": "メールの受信に最大1分以上かかる場合があります。それでも届かない場合は、メールアドレスを確認して再度認証してください。",
+      "en": "It may take up to a minute to receive the email. If you still haven't received it, please check your email address and try verification again.",
       "zh": "接收电子邮件可能需要最多一分钟。如果仍未收到，请检查电子邮件地址并重新验证。",
+      "zh-CN": "接收电子邮件可能需要最多一分钟。如果仍未收到，请检查电子邮件地址并重新验证。",
       "zh-TW": "接收電子郵件可能需要最多一分鐘。如果仍未收到，請檢查電子郵件地址並重新驗證。",
-      "en": "It may take up to a minute to receive the email. If you still haven't received it, please check your email address and try verification again."
+      "ja": "メールの受信に最大1分以上かかる場合があります。それでも届かない場合は、メールアドレスを確認して再度認証してください。",
+      "es": "Puede tardar hasta un minuto en recibir el correo electrónico. Si aún no lo ha recibido, verifique su dirección de correo electrónico e intente la verificación nuevamente.",
+      "vi": "Có thể mất đến một phút để nhận email. Nếu bạn vẫn chưa nhận được, vui lòng kiểm tra địa chỉ email của bạn và thử xác minh lại.",
+      "th": "อาจใช้เวลาถึงหนึ่งนาทีในการรับอีเมล หากคุณยังไม่ได้รับ โปรดตรวจสอบที่อยู่อีเมลของคุณและลองยืนยันอีกครั้ง",
+      "in": "Mungkin diperlukan waktu hingga satu menit untuk menerima email. Jika Anda masih belum menerimanya, harap periksa alamat email Anda dan coba verifikasi lagi."
     }
   },
   {
     "category": "관광객",
     "questions": {
       "ko": "관광객 인증을 해도 왜 7일 동안밖에 이용할 수 없나요?",
-      "ja": "観光客認証を行ってもなぜ7日間しか利用できないのですか。",
+      "en": "Why can I only use it for 7 days even after tourist verification?",
       "zh": "即使进行了游客认证，为什么只能使用7天？",
+      "zh-CN": "即使进行了游客认证，为什么只能使用7天？",
       "zh-TW": "即使進行了遊客認證，為什麼只能使用7天？",
-      "en": "Why can I only use it for 7 days even after tourist verification?"
+      "ja": "観光客認証を行ってもなぜ7日間しか利用できないのですか。",
+      "es": "¿Por qué solo puedo usarlo durante 7 días incluso después de la verificación del turista?",
+      "vi": "Tại sao tôi chỉ có thể sử dụng nó trong 7 ngày ngay cả sau khi xác minh khách du lịch?",
+      "th": "ทำไมถึงใช้ได้เพียง 7 วันหลังจากการยืนยันนักท่องเที่ยว?",
+      "in": "Mengapa saya hanya dapat menggunakannya selama 7 hari bahkan setelah verifikasi turis?"
     },
     "answers": {
       "ko": "이 앱은 부산을 여행하는 관광객들이 대학생들과 매칭할 수 있도록 설계되었습니다. 따라서 서비스 이용 기간을 7일로 제한하고 있습니다.",
-      "ja": "このアプリは、釜山を旅行する観光客が大学生とマッチングできるように設計されています。そのため、サービス利用期間を7日に制限しています。",
+      "en": "This app is designed for tourists visiting Busan to match with college students. Therefore, the service usage period is limited to 7 days.",
       "zh": "此应用程序旨在让访问釜山的游客能够与大学生匹配。因此，服务使用期限制为7天。",
+      "zh-CN": "此应用程序旨在让访问釜山的游客能够与大学生匹配。因此，服务使用期限制为7天。",
       "zh-TW": "此應用程序旨在讓訪問釜山的遊客能夠與大學生匹配。因此，服務使用期限制為7天。",
-      "en": "This app is designed for tourists visiting Busan to match with college students. Therefore, the service usage period is limited to 7 days."
+      "ja": "このアプリは、釜山を旅行する観光客が大学生とマッチングできるように設計されています。そのため、サービス利用期間を7日に制限しています。",
+      "es": "Esta aplicación está diseñada para que los turistas que visitan Busan coincidan con estudiantes universitarios. Por lo tanto, el período de uso del servicio está limitado a 7 días.",
+      "vi": "Ứng dụng này được thiết kế cho khách du lịch đến thăm Busan để kết nối với sinh viên đại học. Do đó, thời gian sử dụng dịch vụ chỉ giới hạn trong 7 ngày.",
+      "th": "แอพนี้ออกแบบมาสำหรับนักท่องเที่ยวที่มาเยือนปูซานเพื่อจับคู่กับนักศึกษา ดังนั้นระยะเวลาการใช้งานจึงจำกัดอยู่ที่ 7 วัน",
+      "in": "Aplikasi ini dirancang untuk turis yang mengunjungi Busan untuk cocok dengan mahasiswa. Oleh karena itu, periode penggunaan layanan dibatasi hingga 7 hari."
     }
   },
   {
     "category": "관광객",
     "questions": {
       "ko": "관광객 인증 절차는 어떻게 되나요?",
-      "ja": "観光客認証の手続きはどのように行われますか。",
+      "en": "What is the tourist verification process?",
       "zh": "游客认证的程序是怎样的？",
+      "zh-CN": "游客认证的程序是怎样的？",
       "zh-TW": "遊客認證的程序是怎樣的？",
-      "en": "What is the tourist verification process?"
+      "ja": "観光客認証の手続きはどのように行われますか。",
+      "es": "¿Cuál es el proceso de verificación de turistas?",
+      "vi": "Quá trình xác minh khách du lịch là gì?",
+      "th": "กระบวนการตรวจสอบนักท่องเที่ยวคืออะไร?",
+      "in": "Apa proses verifikasi turis?"
     },
     "answers": {
       "ko": "부산에 여행을 왔음을 증명하기 위해 이름이 확인 가능한 비행기 티켓, 배 티켓, 또는 숙박증명서 캡쳐본을 제출해야 합니다.",
-      "ja": "釜山への旅行を証明するために、名前が確認できる飛行機チケット、船チケット、または宿泊証明書のキャプチャを提出する必要があります。",
+      "en": "To prove you have visited Busan, you need to submit a screenshot of your plane ticket, boat ticket, or accommodation proof showing your name.",
       "zh": "为了证明你来过釜山，需要提交能确认姓名的飞机票、船票或住宿证明的截图。",
+      "zh-CN": "为了证明你来过釜山，需要提交能确认姓名的飞机票、船票或住宿证明的截图。",
       "zh-TW": "為了證明你來過釜山，需要提交能確認姓名的飛機票、船票或住宿證明的截圖。",
-      "en": "To prove you have visited Busan, you need to submit a screenshot of your plane ticket, boat ticket, or accommodation proof showing your name."
+      "ja": "釜山への旅行を証明するために、名前が確認できる飛行機チケット、船チケット、または宿泊証明書のキャプチャを提出する必要があります。",
+      "es": "Para demostrar que has visitado Busan, debes enviar una captura de pantalla de tu boleto de avión, boleto de barco o prueba de alojamiento que muestre tu nombre.",
+      "vi": "Để chứng minh bạn đã đến Busan, bạn cần gửi ảnh chụp màn hình vé máy bay, vé tàu hoặc bằng chứng lưu trú có tên của bạn.",
+      "th": "เพื่อพิสูจน์ว่าคุณเคยไปปูซาน คุณต้องส่งภาพหน้าจอตั๋วเครื่องบิน ตั๋วเรือ หรือหลักฐานการเข้าพักที่แสดงชื่อของคุณ",
+      "in": "Untuk membuktikan bahwa Anda telah mengunjungi Busan, Anda perlu mengirimkan tangkapan layar tiket pesawat, tiket kapal, atau bukti akomodasi yang menunjukkan nama Anda."
     }
   },
   {
     "category": "관광객",
     "questions": {
       "ko": "왜 인증 절차에 사진이 요구되나요?",
-      "ja": "なぜ認証手続きに写真が必要なのですか。",
+      "en": "Why are photos required in the verification process?",
       "zh": "为什么认证程序需要照片？",
+      "zh-CN": "为什么认证程序需要照片？",
       "zh-TW": "為什麼認證程序需要照片？",
-      "en": "Why are photos required in the verification process?"
+      "ja": "なぜ認証手続きに写真が必要なのですか。",
+      "es": "¿Por qué se requieren fotos en el proceso de verificación?",
+      "vi": "Tại sao ảnh được yêu cầu trong quy trình xác minh?",
+      "th": "ทำไมต้องใช้รูปถ่ายในการตรวจสอบ?",
+      "in": "Mengapa foto diperlukan dalam proses verifikasi?"
     },
     "answers": {
       "ko": "대학생들이 무분별한 채팅을 받지 않도록 최소한의 인증 절차로 사진을 요구합니다.",
-      "ja": "大学生が無分別なチャットを受けないようにするため、最低限の認証手続きとして写真を要求しています。",
+      "en": "To prevent college students from receiving indiscriminate chats, we require photos as a minimum verification procedure.",
       "zh": "为了防止大学生收到随意的聊天信息，要求最低限度的认证程序并提交照片。",
+      "zh-CN": "为了防止大学生收到随意的聊天信息，要求最低限度的认证程序并提交照片。",
       "zh-TW": "為了防止大學生收到隨意的聊天信息，要求最低限度的認證程序並提交照片。",
-      "en": "To prevent college students from receiving indiscriminate chats, we require photos as a minimum verification procedure."
+      "ja": "大学生が無分別なチャットを受けないようにするため、最低限の認証手続きとして写真を要求しています。",
+      "es": "Para evitar que los estudiantes universitarios reciban chats indiscriminados, requerimos fotos como un procedimiento mínimo de verificación.",
+      "vi": "Để ngăn sinh viên đại học nhận các cuộc trò chuyện bừa bãi, chúng tôi yêu cầu ảnh là quy trình xác minh tối thiểu.",
+      "th": "เพื่อป้องกันไม่ให้นักศึกษามหาวิทยาลัยได้รับการแชทที่ไม่เลือกหน้า เราจึงต้องใช้รูปถ่ายเป็นขั้นตอนการยืนยันขั้นต่ำ",
+      "in": "Untuk mencegah mahasiswa menerima obrolan yang tidak sesuai, kami memerlukan foto sebagai prosedur verifikasi minimum."
     }
   },
   {
     "category": "관광객",
     "questions": {
       "ko": "관광객 인증이 실패했을 때는 어떻게 하나요?",
-      "ja": "観光客認証に失敗した場合はどうすればいいですか。",
+      "en": "What should I do if tourist verification fails?",
       "zh": "如果游客认证失败怎么办？",
+      "zh-CN": "如果游客认证失败怎么办？",
       "zh-TW": "如果遊客認證失敗怎麼辦？",
-      "en": "What should I do if tourist verification fails?"
+      "ja": "観光客認証に失敗した場合はどうすればいいですか。",
+      "es": "¿Qué debo hacer si falla la verificación de turistas?",
+      "vi": "Tôi nên làm gì nếu xác minh khách du lịch không thành công?",
+      "th": "ฉันควรทำอย่างไรหากการยืนยันนักท่องเที่ยวล้มเหลว?",
+      "in": "Apa yang harus saya lakukan jika verifikasi turis gagal?"
     },
     "answers": {
       "ko": "이름이 확인되지 않거나 일치하지 않는 경우, 또는 요구한 내용이 아닐 때 인증이 거절될 수 있습니다. 이럴 때는 정확한 증명서를 다시 제출해 주세요.",
-      "ja": "名前が確認できない、または一致しない場合、または要求された内容でない場合、認証が拒否されることがあります。このような場合は、正確な証明書を再提出してください。",
+      "en": "If the name cannot be confirmed or does not match, or if it is not the required content, the verification may be rejected. In this case, please resubmit the correct documentation.",
       "zh": "如果姓名无法确认或不一致，或者不是要求的内容，认证可能会被拒绝。这时请重新提交准确的证明文件。",
+      "zh-CN": "如果姓名无法确认或不一致，或者不是要求的内容，认证可能会被拒绝。这时请重新提交准确的证明文件。",
       "zh-TW": "如果姓名無法確認或不一致，或者不是要求的內容，認證可能會被拒絕。這時請重新提交準確的證明文件。",
-      "en": "If the name cannot be confirmed or does not match, or if it is not the required content, the verification may be rejected. In this case, please resubmit the correct documentation."
+      "ja": "名前が確認できない、または一致しない場合、または要求された内容でない場合、認証が拒否されることがあります。このような場合は、正確な証明書を再提出してください。",
+      "es": "Si el nombre no se puede confirmar o no coincide, o si no es el contenido requerido, la verificación puede ser rechazada. En este caso, vuelva a enviar la documentación correcta.",
+      "vi": "Nếu tên không thể xác nhận hoặc không khớp, hoặc nếu không phải là nội dung bắt buộc, việc xác minh có thể bị từ chối. Trong trường hợp này, vui lòng gửi lại tài liệu chính xác.",
+      "th": "หากไม่สามารถยืนยันชื่อได้หรือไม่ตรงกัน หรือหากไม่ใช่เนื้อหาที่กำหนด การตรวจสอบอาจถูกปฏิเสธ ในกรณีนี้ โปรดยื่นเอกสารที่ถูกต้องอีกครั้ง",
+      "in": "Jika nama tidak dapat dikonfirmasi atau tidak cocok, atau jika itu bukan konten yang diperlukan, verifikasi mungkin ditolak. Dalam kasus ini, silakan kirim ulang dokumen yang benar."
     }
   },
   {
     "category": "관광객",
     "questions": {
       "ko": "관광객 인증은 얼마나 걸리나요?",
-      "ja": "観光客認証はどのくらいかかりますか。",
+      "en": "How long does tourist verification take?",
       "zh": "游客认证需要多长时间？",
+      "zh-CN": "游客认证需要多长时间？",
       "zh-TW": "遊客認證需要多長時間？",
-      "en": "How long does tourist verification take?"
+      "ja": "観光客認証はどのくらいかかりますか。",
+      "es": "¿Cuánto tiempo tarda la verificación de turistas?",
+      "vi": "Xác minh khách du lịch mất bao lâu?",
+      "th": "การยืนยันนักท่องเที่ยวใช้เวลานานเท่าใด?",
+      "in": "Berapa lama waktu yang dibutuhkan untuk verifikasi turis?"
     },
     "answers": {
       "ko": "증명할 수 있는 사진을 첨부한 후, 인증 절차는 짧게는 1시간, 길게는 최대 24시간 이내에 완료됩니다.",
-      "ja": "証明できる写真を添付した後、認証手続きは早ければ1時間、遅くとも24時間以内に完了します。",
+      "en": "After attaching a verifiable photo, the verification process can be completed in as little as 1 hour or up to 24 hours.",
       "zh": "附上能证明的照片后，认证程序最短1小时，最长24小时内完成。",
+      "zh-CN": "附上能证明的照片后，认证程序最短1小时，最长24小时内完成。",
       "zh-TW": "附上能證明的照片後，認證程序最短1小時，最長24小時內完成。",
-      "en": "After attaching a verifiable photo, the verification process can be completed in as little as 1 hour or up to 24 hours."
+      "ja": "証明できる写真を添付した後、認証手続きは早ければ1時間、遅くとも24時間以内に完了します。",
+      "es": "Después de adjuntar una foto verificable, el proceso de verificación puede completarse en tan solo 1 hora o hasta 24 horas.",
+      "vi": "Sau khi đính kèm một bức ảnh có thể xác minh, quá trình xác minh có thể hoàn tất trong ít nhất là 1 giờ hoặc lên đến 24 giờ.",
+      "th": "หลังจากแนบรูปถ่ายที่ตรวจสอบได้ กระบวนการตรวจสอบสามารถทำได้ภายใน 1 ชั่วโมงหรือสูงสุด 24 ชั่วโมง",
+      "in": "Setelah melampirkan foto yang dapat diverifikasi, proses verifikasi dapat diselesaikan dalam waktu minimal 1 jam atau hingga 24 jam."
     }
   },
   {
     "category": "관광객",
     "questions": {
       "ko": "채팅방은 최대 몇 개까지 이용 가능한가요?",
-      "ja": "チャットルームは最大何個まで利用できますか。",
+      "en": "How many chat rooms can be used at the same time?",
       "zh": "聊天室最多可以使用几个？",
+      "zh-CN": "聊天室最多可以使用几个？",
       "zh-TW": "聊天室最多可以使用幾個？",
-      "en": "How many chat rooms can be used at the same time?"
+      "ja": "チャットルームは最大何個まで利用できますか。",
+      "es": "¿Cuántas salas de chat se pueden usar al mismo tiempo?",
+      "vi": "Có thể sử dụng bao nhiêu phòng trò chuyện cùng một lúc?",
+      "th": "สามารถใช้ห้องแชทได้กี่ห้องในเวลาเดียวกัน?",
+      "in": "Berapa banyak ruang obrolan yang dapat digunakan pada saat yang sama?"
     },
     "answers": {
       "ko": "최대 3개의 채팅방을 동시에 활성화할 수 있습니다. 기존 채팅방을 나가면 새로운 상대방과 매칭할 수 있지만, 나간 채팅방의 상대방과는 다시 연락할 수 없습니다.",
-      "ja": "最大3つのチャットルームを同時にアクティブにできます。既存のチャットルームを退出すると新しい相手とマッチングできますが、退出したチャットルームの相手とは再び連絡を取ることはできません。",
+      "en": "You can activate up to 3 chat rooms at the same time. When you leave an existing chat room, you can match with a new partner, but you cannot contact the partner in the chat room you left.",
       "zh": "最多可以同时激活3个聊天室。退出现有聊天室后，可以匹配新对象，但无法与已退出聊天室的对象再次联系。",
+      "zh-CN": "最多可以同时激活3个聊天室。退出现有聊天室后，可以匹配新对象，但无法与已退出聊天室的对象再次联系。",
       "zh-TW": "最多可以同時激活3個聊天室。退出現有聊天室後，可以匹配新對象，但無法與已退出聊天室的對象再次聯繫。",
-      "en": "You can activate up to 3 chat rooms at the same time. When you leave an existing chat room, you can match with a new partner, but you cannot contact the partner in the chat room you left."
+      "ja": "最大3つのチャットルームを同時にアクティブにできます。既存のチャットルームを退出すると新しい相手とマッチングできますが、退出したチャットルームの相手とは再び連絡を取ることはできません。",
+      "es": "Puede activar hasta 3 salas de chat al mismo tiempo. Cuando salga de una sala de chat existente, puede emparejarse con un nuevo compañero, pero no puede contactar con el compañero en la sala de chat que dejó.",
+      "vi": "Bạn có thể kích hoạt tối đa 3 phòng trò chuyện cùng một lúc. Khi bạn rời khỏi một phòng trò chuyện hiện có, bạn có thể kết nối với một đối tác mới, nhưng bạn không thể liên lạc với đối tác trong phòng trò chuyện mà bạn đã rời khỏi.",
+      "th": "คุณสามารถเปิดใช้งานห้องแชทได้สูงสุด 3 ห้องในเวลาเดียวกัน เมื่อคุณออกจากห้องแชทที่มีอยู่ คุณสามารถจับคู่กับคู่ใหม่ได้ แต่คุณไม่สามารถติดต่อคู่ในห้องแชทที่คุณออกจากไปได้",
+      "in": "Anda dapat mengaktifkan hingga 3 ruang obrolan pada saat yang sama. Ketika Anda meninggalkan ruang obrolan yang ada, Anda dapat cocok dengan pasangan baru, tetapi Anda tidak dapat menghubungi pasangan di ruang obrolan yang Anda tinggalkan."
     }
   },
   {
     "category": "그 외",
     "questions": {
       "ko": "채팅이 갑자기 안돼요",
-      "ja": "チャットが突然できなくなりました",
+      "en": "The chat suddenly stopped working",
       "zh": "聊天突然无法进行了",
+      "zh-CN": "聊天突然无法进行了",
       "zh-TW": "聊天突然無法進行了",
-      "en": "The chat suddenly stopped working"
+      "ja": "チャットが突然できなくなりました",
+      "es": "El chat de repente dejó de funcionar",
+      "vi": "Trò chuyện đột nhiên ngừng hoạt động",
+      "th": "การแชทหยุดทำงานกะทันหัน",
+      "in": "Obrolan tiba-tiba berhenti berfungsi"
     },
     "answers": {
       "ko": "현재 서비스는 무료로 제공되고 있습니다. 하지만 동시 접속자가 많아지면 채팅이 일시적으로 중단될 수 있습니다. 이용자가 많아지면 유료화를 검토할 예정입니다.",
-      "ja": "現在サービスは無料で提供されています。ただし、同時接続者が多くなると、チャットが一時的に中断されることがあります。利用者が増えると、有料化を検討する予定です。",
+      "en": "The service is currently provided for free. However, if there are many simultaneous users, the chat may be temporarily interrupted. If the number of users increases, we plan to consider charging.",
       "zh": "目前服务是免费的。但是，如果同时连接的用户增多，聊天可能会暂时中断。用户增加后，我们会考虑收费。",
+      "zh-CN": "目前服务是免费的。但是，如果同时连接的用户增多，聊天可能会暂时中断。用户增加后，我们会考虑收费。",
       "zh-TW": "目前服務是免費的。但是，如果同時連接的用戶增多，聊天可能會暫時中斷。用戶增加後，我們會考慮收費。",
-      "en": "The service is currently provided for free. However, if there are many simultaneous users, the chat may be temporarily interrupted. If the number of users increases, we plan to consider charging."
+      "ja": "現在サービスは無料で提供されています。ただし、同時接続者が多くなると、チャットが一時的に中断されることがあります。利用者が増えると、有料化を検討する予定です。",
+      "es": "El servicio se proporciona actualmente de forma gratuita. Sin embargo, si hay muchos usuarios simultáneos, el chat puede interrumpirse temporalmente. Si aumenta el número de usuarios, planeamos considerar el cobro.",
+      "vi": "Dịch vụ hiện đang được cung cấp miễn phí. Tuy nhiên, nếu có nhiều người dùng đồng thời, cuộc trò chuyện có thể bị gián đoạn tạm thời. Nếu số lượng người dùng tăng lên, chúng tôi dự định sẽ tính phí.",
+      "th": "ขณะนี้บริการมีให้ใช้ฟรี อย่างไรก็ตาม หากมีผู้ใช้หลายคนในเวลาเดียวกัน การแชทอาจหยุดชะงักชั่วคราว หากจำนวนผู้ใช้เพิ่มขึ้น เราวางแผนที่จะพิจารณาเรียกเก็บเงิน",
+      "in": "Layanan saat ini disediakan secara gratis. Namun, jika ada banyak pengguna simultan, obrolan mungkin akan terganggu sementara. Jika jumlah pengguna meningkat, kami berencana untuk mempertimbangkan penagihan."
     }
   },
   {
     "category": "그 외",
     "questions": {
       "ko": "서비스 이용료는 얼마인가요?",
-      "ja": "サービス利用料はいくらですか。",
+      "en": "What is the service fee?",
       "zh": "服务费用是多少？",
+      "zh-CN": "服务费用是多少？",
       "zh-TW": "服務費用是多少？",
-      "en": "What is the service fee?"
+      "ja": "サービス利用料はいくらですか。",
+      "es": "¿Cuál es la tarifa del servicio?",
+      "vi": "Phí dịch vụ là bao nhiêu?",
+      "th": "ค่าบริการเท่าไหร่?",
+      "in": "Berapa biaya layanan?"
     },
     "answers": {
       "ko": "현재 서비스는 무료입니다. 추후 유료화가 결정되면 미리 안내드리겠습니다.",
-      "ja": "現在サービスは無料です。今後、有料化が決定された場合は事前にお知らせいたします。",
+      "en": "The service is currently free. If it is decided to charge in the future, we will notify you in advance.",
       "zh": "目前服务是免费的。以后如果决定收费，会提前通知。",
+      "zh-CN": "目前服务是免费的。以后如果决定收费，会提前通知。",
       "zh-TW": "目前服務是免費的。以後如果決定收費，會提前通知。",
-      "en": "The service is currently free. If it is decided to charge in the future, we will notify you in advance."
+      "ja": "現在サービスは無料です。今後、有料化が決定された場合は事前にお知らせいたします。",
+      "es": "El servicio es actualmente gratuito. Si se decide cobrar en el futuro, le notificaremos con anticipación.",
+      "vi": "Dịch vụ hiện đang miễn phí. Nếu sau này quyết định thu phí, chúng tôi sẽ thông báo trước cho bạn.",
+      "th": "ขณะนี้บริการฟรี หากตัดสินใจเรียกเก็บเงินในอนาคต เราจะแจ้งให้คุณทราบล่วงหน้า",
+      "in": "Layanan ini saat ini gratis. Jika diputuskan untuk menagih di masa depan, kami akan memberi tahu Anda sebelumnya."
     }
   },
   {
     "category": "그 외",
     "questions": {
       "ko": "상대방이 채팅을 나갔어요",
-      "ja": "相手がチャットを退出しました",
+      "en": "The other person left the chat",
       "zh": "对方退出了聊天",
+      "zh-CN": "对方退出了聊天",
       "zh-TW": "對方退出了聊天",
-      "en": "The other person left the chat"
+      "ja": "相手がチャットを退出しました",
+      "es": "La otra persona dejó el chat",
+      "vi": "Người kia đã rời khỏi cuộc trò chuyện",
+      "th": "อีกฝ่ายออกจากการแชท",
+      "in": "Orang lain meninggalkan obrolan"
     },
     "answers": {
       "ko": "한 번 나간 상대방과는 다시 연락할 수 없습니다. 채팅방을 나갈 때 이에 대해 다시 한번 알립니다.",
-      "ja": "一度退出した相手とは再度連絡を取ることはできません。チャットルームを退出する際に、再度お知らせします。",
+      "en": "You cannot contact the other person again once they leave. You will be reminded of this when leaving the chat room.",
       "zh": "一旦对方退出，就无法再次联系。在对方退出聊天室时会再次通知。",
+      "zh-CN": "一旦对方退出，就无法再次联系。在对方退出聊天室时会再次通知。",
       "zh-TW": "一旦對方退出，就無法再次聯繫。在對方退出聊天室時會再次通知。",
-      "en": "You cannot contact the other person again once they leave. You will be reminded of this when leaving the chat room."
+      "ja": "一度退出した相手とは再度連絡を取ることはできません。チャットルームを退出する際に、再度お知らせします。",
+      "es": "No puedes contactar a la otra persona nuevamente una vez que se vayan. Se te recordará esto cuando salgas de la sala de chat.",
+      "vi": "Bạn không thể liên lạc lại với người kia một khi họ rời đi. Bạn sẽ được nhắc nhở về điều này khi rời khỏi phòng trò chuyện.",
+      "th": "คุณไม่สามารถติดต่ออีกฝ่ายได้อีกเมื่อพวกเขาออกไป คุณจะได้รับการเตือนเกี่ยวกับเรื่องนี้เมื่อออกจากห้องแชท",
+      "in": "Anda tidak dapat menghubungi orang lain lagi setelah mereka pergi. Anda akan diingatkan tentang hal ini saat meninggalkan ruang obrolan."
     }
   },
   {
     "category": "그 외",
     "questions": {
       "ko": "상대방을 신고하고 싶어요",
-      "ja": "相手を通報したいです",
+      "en": "I want to report the other person",
       "zh": "我想举报对方",
+      "zh-CN": "我想举报对方",
       "zh-TW": "我想舉報對方",
-      "en": "I want to report the other person"
+      "ja": "相手を通報したいです",
+      "es": "Quiero reportar a la otra persona",
+      "vi": "Tôi muốn báo cáo người kia",
+      "th": "ฉันต้องการรายงานบุคคลอื่น",
+      "in": "Saya ingin melaporkan orang lain"
     },
     "answers": {
       "ko": "불편한 메시지가 있다면 '신고하기' 버튼을 클릭하세요. 해당 메시지가 서버로 전송되어 확인 후 제재 조치를 취하겠습니다.",
-      "ja": "不快なメッセージがあった場合、「通報する」ボタンをクリックしてください。該当メッセージがサーバーに送信され、確認後、制裁措置を取ります。",
+      "en": "If there are uncomfortable messages, please click the 'Report' button. The relevant message will be sent to the server, and after verification, sanctions will be taken.",
       "zh": "如果有不舒服的消息，请点击“举报”按钮。相关消息会发送到服务器，确认后会采取制裁措施。",
+      "zh-CN": "如果有不舒服的消息，请点击“举报”按钮。相关消息会发送到服务器，确认后会采取制裁措施。",
       "zh-TW": "如果有不舒服的消息，請點擊“舉報”按鈕。相關消息會發送到伺服器，確認後會採取制裁措施。",
-      "en": "If there are uncomfortable messages, please click the 'Report' button. The relevant message will be sent to the server, and after verification, sanctions will be taken."
+      "ja": "不快なメッセージがあった場合、「通報する」ボタンをクリックしてください。該当メッセージがサーバーに送信され、確認後、制裁措置を取ります。",
+      "es": "Si hay mensajes incómodos, haga clic en el botón 'Reportar'. El mensaje relevante se enviará al servidor y, después de la verificación, se tomarán las sanciones correspondientes.",
+      "vi": "Nếu có tin nhắn không thoải mái, vui lòng nhấp vào nút 'Báo cáo'. Tin nhắn có liên quan sẽ được gửi đến máy chủ và sau khi xác minh, các biện pháp trừng phạt sẽ được thực hiện.",
+      "th": "หากมีข้อความที่ไม่สบายใจ โปรดคลิกปุ่ม 'รายงาน' ข้อความที่เกี่ยวข้องจะถูกส่งไปยังเซิร์ฟเวอร์ และหลังจากตรวจสอบแล้วจะมีการดำเนินการลงโทษ",
+      "in": "Jika ada pesan yang tidak nyaman, silakan klik tombol 'Laporkan'. Pesan terkait akan dikirim ke server, dan setelah verifikasi, sanksi akan diambil."
     }
   },
   {
     "category": "그 외",
     "questions": {
       "ko": "축제나 관광지의 정보가 달라요.",
-      "ja": "祭りや観光地の情報が異なります。",
+      "en": "The information about the festival or tourist spot is different.",
       "zh": "节日或景点的信息不同。",
+      "zh-CN": "节日或景点的信息不同。",
       "zh-TW": "節日或景點的資訊不同。",
-      "en": "The information about the festival or tourist spot is different."
+      "ja": "祭りや観光地の情報が異なります。",
+      "es": "La información sobre el festival o lugar turístico es diferente.",
+      "vi": "Thông tin về lễ hội hoặc điểm du lịch khác nhau.",
+      "th": "ข้อมูลเกี่ยวกับเทศกาลหรือสถานที่ท่องเที่ยวแตกต่างกัน",
+      "in": "Informasi tentang festival atau tempat wisata berbeda."
     },
     "answers": {
-      "ko": "대한민국 정부에서 제공하는 공공데이터 포털의 API를 사용하여 정보를 제공합니다. 문제가 있는 내용을 알려주시면 해당 포털에 문의하겠습니다.",
-      "ja": "大韓民国政府が提供する公共データポータルのAPIを使用して情報を提供しています。問題がある内容をお知らせいただければ、該当ポータルに問い合わせます。",
-      "zh": "我们使用大韩民国政府提供的公共数据门户网站的API提供信息。如果您发现问题，请告诉我们，我们会联系相关门户网站。",
-      "zh-TW": "我們使用大韓民國政府提供的公共數據門戶網站的API提供信息。如果您發現問題，請告訴我們，我們會聯繫相關門戶網站。",
-      "en": "We use the API of the public data portal provided by the South Korean government to provide information. If there is a problem with the information, please let us know and we will contact the relevant portal."
+      "ko": "대한민국 정부에서 제공하는 공공데이터 포털의 API를 사용하여 정보를 제공합니다. 문제가 있는 내용을 알려주시면 해당 포털에 문의하겠습니다. \n\n그 외에도 좀 더 다양하고 자세한 정보를 원하시면 https://www.visitbusan.net/kr/index.do을 방문해 주세요.",
+      "en": "We use the API of the public data portal provided by the South Korean government to provide information. If there is a problem with the information, please let us know and we will contact the relevant portal. \n\nFor more diverse and detailed information, please visit https://www.visitbusan.net/kr/index.do.",
+      "zh": "我们使用大韩民国政府提供的公共数据门户网站的API提供信息。如果您发现问题，请告诉我们，我们会联系相关门户网站。\n\n此外，如果您需要更多样化和详细的信息，请访问https://www.visitbusan.net/kr/index.do。",
+      "zh-CN": "我们使用大韩民国政府提供的公共数据门户网站的API提供信息。如果您发现问题，请告诉我们，我们会联系相关门户网站。\n\n此外，如果您需要更多样化和详细的信息，请访问https://www.visitbusan.net/kr/index.do。",
+      "zh-TW": "我們使用大韓民國政府提供的公共數據門戶網站的API提供信息。如果您發現問題，請告訴我們，我們會聯繫相關門戶網站。\n\n此外，如果您需要更多樣化和詳細的信息，請訪問https://www.visitbusan.net/kr/index.do。",
+      "ja": "大韓民国政府が提供する公共データポータルのAPIを使用して情報を提供しています。問題がある内容をお知らせいただければ、該当ポータルに問い合わせます。\n\nさらに多様で詳細な情報が必要な場合は、https://www.visitbusan.net/kr/index.do をご覧ください。",
+      "es": "Utilizamos la API del portal de datos públicos proporcionado por el gobierno de Corea del Sur para proporcionar información. Si hay un problema con la información, háganoslo saber y nos pondremos en contacto con el portal correspondiente.\n\nPara obtener información más diversa y detallada, visite https://www.visitbusan.net/kr/index.do.",
+      "vi": "Chúng tôi sử dụng API của cổng dữ liệu công khai do chính phủ Hàn Quốc cung cấp để cung cấp thông tin. Nếu có vấn đề với thông tin, vui lòng cho chúng tôi biết và chúng tôi sẽ liên hệ với cổng thông tin liên quan.\n\nĐể có thêm thông tin đa dạng và chi tiết hơn, vui lòng truy cập https://www.visitbusan.net/kr/index.do.",
+      "th": "เราใช้ API ของพอร์ทัลข้อมูลสาธารณะที่จัดทำโดยรัฐบาลเกาหลีใต้เพื่อให้ข้อมูล หากมีปัญหาเกี่ยวกับข้อมูล โปรดแจ้งให้เราทราบและเราจะติดต่อพอร์ทัลที่เกี่ยวข้อง\n\nสำหรับข้อมูลที่หลากหลายและละเอียดกว่านี้ โปรดเยี่ยมชม https://www.visitbusan.net/kr/index.do",
+      "in": "Kami menggunakan API dari portal data publik yang disediakan oleh pemerintah Korea Selatan untuk memberikan informasi. Jika ada masalah dengan informasi tersebut, beri tahu kami dan kami akan menghubungi portal terkait.\n\nUntuk informasi yang lebih beragam dan terperinci, kunjungi https://www.visitbusan.net/kr/index.do."
+    }
+  },
+  {
+    "category": "대학생",
+    "questions": {
+      "ko": "이름은 외국어로 작성해야 하나요?",
+      "en": "Do I need to write my name in a foreign language?",
+      "zh": "姓名需要用外语写吗？",
+      "zh-CN": "姓名需要用外语写吗？",
+      "zh-TW": "名字需要用外語寫嗎？",
+      "ja": "名前は外国語で書く必要がありますか。",
+      "es": "¿Necesito escribir mi nombre en un idioma extranjero?",
+      "vi": "Tôi có cần viết tên của mình bằng một ngôn ngữ nước ngoài không?",
+      "th": "ฉันต้องเขียนชื่อตัวเองเป็นภาษาต่างประเทศหรือไม่?",
+      "in": "Apakah saya perlu menulis nama saya dalam bahasa asing?"
+    },
+    "answers": {
+      "ko": "그럴 필요는 없습니다. 번역 서비스를 통해 상대방은 이름을 휴대폰의 시스템 기본 언어로 영어, 중국어(간체), 일본어, 스페인어 중 하나로 인식하게 됩니다.\n예시:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キム, Jake Kim\n중국어의 경우, 한자를 알 수 없으므로 영어로 표시될 수 있습니다.",
+      "en": "No, you don't have to. Through the translation service, the other person will recognize the name in one of the system's default languages: English, Simplified Chinese, Japanese, or Spanish.\nExample:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キム, Jake Kim\nIn the case of Chinese, if the characters are not known, it may be displayed in English.",
+      "zh": "不，不需要。通过翻译服务，对方会将名字识别为系统默认语言之一：英语、简体中文、日语或西班牙语。\n示例:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キム, Jake Kim\n在中文的情况下，如果字符未知，则可能会显示为英文。",
+      "zh-CN": "不，不需要。通过翻译服务，对方会将名字识别为系统默认语言之一：英语、简体中文、日语或西班牙语。\n示例:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キム, Jake Kim\n在中文的情况下，如果字符未知，则可能会显示为英文。",
+      "zh-TW": "不，不需要。通過翻譯服務，對方會將名字識別為系統默認語言之一：英語、簡體中文、日語或西班牙語。\n示例:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キム, Jake Kim\n在中文的情況下，如果字符未知，則可能會顯示為英文。",
+      "ja": "いいえ、その必要はありません。翻訳サービスを通じて、相手は名前をシステムのデフォルト言語のいずれか（英語、簡体字中国語、日本語、スペイン語）で認識します。\n例:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キム, Jake Kim\n中国語の場合、文字が不明な場合は英語で表示されることがあります。",
+      "es": "No, no tienes que hacerlo. A través del servicio de traducción, la otra persona reconocerá el nombre en uno de los idiomas predeterminados del sistema: inglés, chino simplificado, japonés o español.\nEjemplo:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キム, Jake Kim\nEn el caso del chino, si no se conocen los caracteres, se puede mostrar en inglés.",
+      "vi": "Không, bạn không phải làm vậy. Thông qua dịch vụ dịch thuật, người kia sẽ nhận ra tên bằng một trong các ngôn ngữ mặc định của hệ thống: tiếng Anh, tiếng Trung giản thể, tiếng Nhật hoặc tiếng Tây Ban Nha.\nVí dụ:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キム, Jake Kim\nTrong trường hợp tiếng Trung, nếu các ký tự không được biết, nó có thể được hiển thị bằng tiếng Anh.",
+      "th": "ไม่ คุณไม่จำเป็นต้องทำเช่นนั้น ผ่านบริการแปล อีกฝ่ายจะรับรู้ชื่อตามภาษาที่ตั้งไว้ในระบบ: ภาษาอังกฤษ ภาษาจีนตัวย่อ ภาษาญี่ปุ่น หรือภาษาสเปน\nตัวอย่าง:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キิม, Jake Kim\nในกรณีของภาษาจีน หากไม่รู้จักตัวอักษร ก็จะแสดงเป็นภาษาอังกฤษ",
+      "in": "Tidak, Anda tidak harus melakukannya. Melalui layanan terjemahan, orang lain akan mengenali nama tersebut dalam salah satu bahasa default sistem: Inggris, Cina Sederhana, Jepang, atau Spanyol.\nContoh:\n김민수 -> Minsoo Kim, ミンス・キム, Minsoo Kim\nJake Kim -> Jake Kim, ジェイク・キム, Jake Kim\nDalam kasus bahasa Cina, jika karakter tidak diketahui, itu mungkin ditampilkan dalam bahasa Inggris."
+    }
+  },
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "이미지나 이름을 변경하고 싶어요.",
+      "en": "I want to change my image or name.",
+      "zh": "我想更改图片或名字。",
+      "zh-CN": "我想更改图片或名字。",
+      "zh-TW": "我想更改圖片或名字。",
+      "ja": "画像や名前を変更したいです。",
+      "es": "Quiero cambiar mi imagen o nombre.",
+      "vi": "Tôi muốn thay đổi hình ảnh hoặc tên của mình.",
+      "th": "ฉันต้องการเปลี่ยนรูปภาพหรือชื่อ",
+      "in": "Saya ingin mengubah gambar atau nama saya."
+    },
+    "answers": {
+      "ko": "프로필 화면에서 자신의 이미지를 클릭하면, 이미지와 이름을 변경할 수 있습니다.",
+      "en": "You can change your image and name by clicking on your image on the profile screen.",
+      "zh": "您可以通过点击个人资料屏幕上的图片来更改图片和名字。",
+      "zh-CN": "您可以通过点击个人资料屏幕上的图片来更改图片和名字。",
+      "zh-TW": "您可以通過點擊個人資料螢幕上的圖片來更改圖片和名字。",
+      "ja": "プロフィール画面で自分の画像をクリックすると、画像や名前を変更できます。",
+      "es": "Puede cambiar su imagen y nombre haciendo clic en su imagen en la pantalla de perfil.",
+      "vi": "Bạn có thể thay đổi hình ảnh và tên của mình bằng cách nhấp vào hình ảnh của bạn trên màn hình hồ sơ.",
+      "th": "คุณสามารถเปลี่ยนรูปภาพและชื่อของคุณได้โดยคลิกที่รูปภาพของคุณบนหน้าจอโปรไฟล์",
+      "in": "Anda dapat mengubah gambar dan nama Anda dengan mengklik gambar Anda di layar profil."
+    }
+  },
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "위치가 정확하지 않아요.",
+      "en": "The location is not accurate.",
+      "zh": "位置不准确。",
+      "zh-CN": "位置不准确。",
+      "zh-TW": "位置不準確。",
+      "ja": "位置が正確ではありません。",
+      "es": "La ubicación no es precisa.",
+      "vi": "Vị trí không chính xác.",
+      "th": "ตำแหน่งไม่ถูกต้อง",
+      "in": "Lokasinya tidak akurat."
+    },
+    "answers": {
+      "ko": "부산 이외의 지역에서 앱을 실행하면, 부산시의 특정 지점을 기준으로 정보를 제공합니다. 부산 내에 있으면, 사용자의 정확한 위치로 정보가 갱신됩니다.",
+      "en": "If the app is run outside of Busan, it provides information based on a specific point in Busan city. If you are within Busan, the information will be updated to your exact location.",
+      "zh": "如果在釜山以外的地方运行应用程序，它会根据釜山市的某个特定点提供信息。如果您在釜山，信息会更新到您的确切位置。",
+      "zh-CN": "如果在釜山以外的地方运行应用程序，它会根据釜山市的某个特定点提供信息。如果您在釜山，信息会更新到您的确切位置。",
+      "zh-TW": "如果在釜山以外的地方運行應用程序，它會根據釜山市的某個特定點提供信息。如果您在釜山，信息會更新到您的確切位置。",
+      "ja": "釜山以外の地域でアプリを実行すると、釜山市の特定の地点を基準に情報を提供します。釜山内にいる場合、ユーザーの正確な位置に基づいて情報が更新されます。",
+      "es": "Si la aplicación se ejecuta fuera de Busan, proporciona información basada en un punto específico de la ciudad de Busan. Si estás en Busan, la información se actualizará a tu ubicación exacta.",
+      "vi": "Nếu ứng dụng được chạy bên ngoài Busan, nó sẽ cung cấp thông tin dựa trên một điểm cụ thể trong thành phố Busan. Nếu bạn ở trong Busan, thông tin sẽ được cập nhật theo vị trí chính xác của bạn.",
+      "th": "หากแอปทำงานนอกปูซาน จะให้ข้อมูลตามจุดเฉพาะในเมืองปูซาน หากคุณอยู่ในปูซาน ข้อมูลจะได้รับการอัปเดตตามตำแหน่งที่แน่นอนของคุณ",
+      "in": "Jika aplikasi dijalankan di luar Busan, aplikasi ini memberikan informasi berdasarkan titik tertentu di kota Busan. Jika Anda berada di Busan, informasi akan diperbarui ke lokasi Anda yang tepat."
+    }
+  },
+
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "번역이 부족하거나 이상해요.",
+      "en": "The translation is insufficient or strange.",
+      "zh": "翻译不足或奇怪。",
+      "zh-CN": "翻译不足或奇怪。",
+      "zh-TW": "翻譯不足或奇怪。",
+      "ja": "翻訳が不十分または奇妙です。",
+      "es": "La traducción es insuficiente o extraña.",
+      "vi": "Bản dịch không đầy đủ hoặc kỳ lạ.",
+      "th": "การแปลไม่เพียงพอหรือแปลก",
+      "in": "Terjemahan tidak memadai atau aneh."
+    },
+    "answers": {
+      "ko": "현재 DeepL 번역 서비스를 이용하고 있습니다. 지원되는 언어는 한국어, 영어, 중국어(간체), 일본어, 스페인어입니다. 이용자 통계를 분석하여 추가 지원 언어를 고려할 수 있도록 노력하겠습니다.",
+      "en": "We currently use the DeepL translation service. Supported languages are Korean, English, Simplified Chinese, Japanese, and Spanish. We will strive to analyze user statistics to consider adding more supported languages.",
+      "zh": "我们目前使用DeepL翻译服务。支持的语言有韩语、英语、简体中文、日语和西班牙语。我们将努力分析用户统计数据，以考虑增加更多支持的语言。",
+      "zh-CN": "我们目前使用DeepL翻译服务。支持的语言有韩语、英语、简体中文、日语和西班牙语。我们将努力分析用户统计数据，以考虑增加更多支持的语言。",
+      "zh-TW": "我們目前使用DeepL翻譯服務。支持的語言有韓語、英語、簡體中文、日語和西班牙語。我們將努力分析用戶統計數據，以考慮增加更多支持的語言。",
+      "ja": "現在、DeepL翻訳サービスを使用しています。対応言語は韓国語、英語、中国語（簡体字）、日本語、スペイン語です。ユーザー統計を分析し、対応言語を追加することを検討していきます。",
+      "es": "Actualmente utilizamos el servicio de traducción DeepL. Los idiomas compatibles son coreano, inglés, chino simplificado, japonés y español. Nos esforzaremos por analizar las estadísticas de los usuarios para considerar la posibilidad de añadir más idiomas compatibles.",
+      "vi": "Chúng tôi hiện đang sử dụng dịch vụ dịch thuật DeepL. Các ngôn ngữ được hỗ trợ là tiếng Hàn, tiếng Anh, tiếng Trung giản thể, tiếng Nhật và tiếng Tây Ban Nha. Chúng tôi sẽ cố gắng phân tích số liệu thống kê của người dùng để xem xét việc thêm các ngôn ngữ được hỗ trợ.",
+      "th": "ปัจจุบันเราใช้บริการแปลภาษา DeepL รองรับภาษาเกาหลี อังกฤษ จีนตัวย่อ ญี่ปุ่น และสเปน เราจะพยายามวิเคราะห์สถิติของผู้ใช้เพื่อพิจารณาเพิ่มภาษาที่รองรับเพิ่มเติม",
+      "in": "Kami saat ini menggunakan layanan terjemahan DeepL. Bahasa yang didukung adalah Korea, Inggris, Cina Sederhana, Jepang, dan Spanyol. Kami akan berusaha untuk menganalisis statistik pengguna untuk mempertimbangkan menambahkan lebih banyak bahasa yang didukung."
+    }
+  },
+
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "그 밖의 질문이 있어요. 어떻게 해야 하나요?",
+      "en": "I have other questions. What should I do?",
+      "zh": "我有其他问题。 我该怎么办？",
+      "zh-CN": "我有其他问题。 我该怎么办？",
+      "zh-TW": "我有其他問題。 我該怎麼辦？",
+      "ja": "他に質問があります。どうすればいいですか？",
+      "es": "Tengo otras preguntas. ¿Qué debo hacer?",
+      "vi": "Tôi có câu hỏi khác. Tôi phải làm gì?",
+      "th": "ฉันมีคำถามอื่น ๆ ฉันควรทำอย่างไร?",
+      "in": "Saya memiliki pertanyaan lain. Apa yang harus saya lakukan?"
+    },
+    "answers": {
+      "ko": "kwondh5247@gmail.com으로 직접 문의해 주시면 최대한 빠른 시간 내에 답변해 드리겠습니다.",
+      "en": "Please contact us directly at kwondh5247@gmail.com and we will respond as quickly as possible.",
+      "zh": "请直接联系 kwondh5247@gmail.com，我们会尽快回复您。",
+      "zh-CN": "请直接联系 kwondh5247@gmail.com，我们会尽快回复您。",
+      "zh-TW": "請直接聯繫 kwondh5247@gmail.com，我們會盡快回覆您。",
+      "ja": "kwondh5247@gmail.com に直接お問い合わせいただければ、できるだけ早くご返信いたします。",
+      "es": "Por favor, contáctenos directamente en kwondh5247@gmail.com y le responderemos lo antes posible.",
+      "vi": "Vui lòng liên hệ trực tiếp với chúng tôi tại kwondh5247@gmail.com và chúng tôi sẽ trả lời bạn trong thời gian sớm nhất.",
+      "th": "กรุณาติดต่อเราโดยตรงที่ kwondh5247@gmail.com และเราจะตอบกลับโดยเร็วที่สุด",
+      "in": "Silakan hubungi kami langsung di kwondh5247@gmail.com dan kami akan merespons secepat mungkin."
     }
   }
+
+
+
+
+
+
+
 ]

@@ -75,7 +75,7 @@ class LanguageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         languages = listOf(
-            Pair("시스템 기본 언어", Locale.getDefault()), //zh_TW_#Hant
+            Pair("시스템 기본 언어(권장)", Locale.getDefault()), //zh_TW_#Hant
             Pair("한국어", Locale.KOREAN),
             Pair("English", Locale.ENGLISH),
             Pair("繁體中文", Locale.TRADITIONAL_CHINESE),
