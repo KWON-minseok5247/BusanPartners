@@ -46,6 +46,7 @@ class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentCardViewHolder
                 "ja" -> translatedText?.ja ?: translatedText?.en
                 "zh-TW" -> translatedText?.zh ?: translatedText?.en
                 "zh-CN" -> translatedText?.zh ?: translatedText?.en
+                "es" -> translatedText?.es ?: translatedText?.en
                 else -> translatedText?.en
             }
         }

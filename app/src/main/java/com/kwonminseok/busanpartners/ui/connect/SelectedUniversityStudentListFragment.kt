@@ -69,10 +69,15 @@ class SelectedUniversityStudentListFragment : Fragment() {
                         "ko" -> university.nameKo
                         "en" -> university.nameEn
                         "ja" -> university.nameJa
-                        "zh" -> university.nameZh
+                        "zh-CN" -> university.nameZh
                         "zh-TW" -> university.nameZhTw
+                        "es" -> university.nameEs
+                        "vi" -> university.nameVi
+                        "th" -> university.nameTh
+                        "in" -> university.nameIn
                         else -> university.nameEn
                     }
+
                     binding.tvUniversity.text = universityName
 //                    Glide.with(this).load(university.logoResourceId).into(binding.imageUniversity)
                     return@forEach

@@ -82,10 +82,9 @@ class LanguageFragment : Fragment() {
             Pair("简体中文", Locale.SIMPLIFIED_CHINESE), //zh_CN
             Pair("日本語", Locale.JAPANESE),
             Pair("Español", Locale("es")),
-            Pair("ไทย", Locale("th")),
             Pair("Tiếng Việt", Locale("vi")),
+            Pair("ไทย", Locale("th")),
             Pair("Bahasa Indonesia", Locale("in")),
-            Pair("Filipino", Locale("fil")),
         )
 
         val currentLocale = getCurrentLocale(preferences)

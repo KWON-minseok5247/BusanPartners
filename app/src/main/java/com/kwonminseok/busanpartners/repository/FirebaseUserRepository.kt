@@ -137,10 +137,11 @@ class FirebaseUserRepositoryImpl(
                                     ko = translations["KO"] ?: "",
                                     en = translations["EN"],
                                     ja = translations["JA"],
-                                    zh = translations["ZH"]
+                                    zh = translations["ZH"],
+                                    es = translations["ES"]
                                 )
                             } else {
-                                translatedMap[key] = TranslatedText("", "", "", "")
+                                translatedMap[key] = TranslatedText("", "", "", "","")
                             }
                         }
                     }
@@ -153,11 +154,13 @@ class FirebaseUserRepositoryImpl(
                                 ko = translations["KO"]?.split(",")?.map { it.trim() },
                                 en = translations["EN"]?.split("、", ",")?.map { it.trim() },
                                 ja = translations["JA"]?.split("、", ",")?.map { it.trim() },
-                                zh = translations["ZH"]?.split("、", ",")?.map { it.trim() }
+                                zh = translations["ZH"]?.split("、", ",")?.map { it.trim() },
+                                es = translations["ES"]?.split("、", ",")?.map { it.trim() }
+
                             )
                         } else {
                             translatedMap[key] =
-                                TranslatedList(listOf(), listOf(), listOf(), listOf())
+                                TranslatedList(listOf(), listOf(), listOf(), listOf(), listOf())
                         }
                     }
 
@@ -183,7 +186,7 @@ class FirebaseUserRepositoryImpl(
         apiKey: String
     ): Map<String, String> {
         val client = OkHttpClient()
-        val languages = listOf("EN", "JA", "ZH")
+        val languages = listOf("EN", "JA", "ZH","ES")
         val translations = mutableMapOf<String, String>()
 
         languages.forEach { lang ->

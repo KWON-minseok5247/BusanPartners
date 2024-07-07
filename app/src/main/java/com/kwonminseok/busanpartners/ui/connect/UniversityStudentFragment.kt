@@ -251,6 +251,7 @@ class UniversityStudentFragment : Fragment() {
             "zh" -> translatedText?.zh ?: translatedText?.en
             "zh-TW" -> translatedText?.zh ?: translatedText?.en
             "zh-CN" -> translatedText?.zh ?: translatedText?.en
+            "es" -> translatedText?.es ?: translatedText?.en
 
             else -> translatedText?.en
         }
@@ -266,6 +267,7 @@ class UniversityStudentFragment : Fragment() {
             "zh" -> translatedList?.zh
             "zh-TW" -> translatedList?.zh
             "zh-CN" -> translatedList?.zh
+            "es" -> translatedList?.es
             else -> translatedList?.en
         }
     }
