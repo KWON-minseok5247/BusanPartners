@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BusanPartners</string>
+    <string name="current_festival">축제현황(중국어zh)</string>
 </resources>

@@ -173,7 +173,7 @@ class BusanPartners : Application() {
     }
 
     private fun applySavedLocale() {
-        val localeString = preferences.getString("selected_locale", Locale.getDefault().toLanguageTag())
+        val localeString = preferences.getString("selected_locale", "")
         val locale = if (localeString.isEmpty()) {
             Log.e("localeString null", Locale.getDefault().toString())
             Locale.getDefault()

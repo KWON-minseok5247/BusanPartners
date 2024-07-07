@@ -81,16 +81,15 @@ class LanguageFragment : Fragment() {
             Pair("繁體中文", Locale.TRADITIONAL_CHINESE),
             Pair("简体中文", Locale.SIMPLIFIED_CHINESE),
             Pair("日本語", Locale.JAPANESE),
+            Pair("Español", Locale("es")),
             Pair("ไทย", Locale("th")),
             Pair("Tiếng Việt", Locale("vi")),
             Pair("Bahasa Indonesia", Locale("in")),
             Pair("Filipino", Locale("fil")),
-            Pair("Español", Locale("es"))
         )
 
         val currentLocale = getCurrentLocale(preferences)
         Log.e("언어 프래그먼트 currentLocale", currentLocale.toLanguageTag().toString())
-        Log.e("언어 프래그먼트 languages", languages[5].second.toLanguageTag().toString())
         Log.e("시스템 언어?", LanguageUtils.getDeviceLanguage(requireContext()))
 
         selectedPosition = getSelectedPosition(currentLocale)
@@ -111,7 +110,8 @@ class LanguageFragment : Fragment() {
         val languageContainer = binding.languageContainer
         languageContainer.removeAllViews()
         for ((index, language) in languages.withIndex()) {
-            val languageView = layoutInflater.inflate(R.layout.language_item, languageContainer, false)
+            val languageView =
+                layoutInflater.inflate(R.layout.language_item, languageContainer, false)
             val textView = languageView.findViewById<TextView>(R.id.itemTextView)
             val radioButton = languageView.findViewById<RadioButton>(R.id.radioButton)
 
@@ -150,7 +150,6 @@ class LanguageFragment : Fragment() {
     }
 
     private fun updateLocale(locale: Locale) {
-        Locale.setDefault(locale)
         val config = resources.configuration
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
@@ -163,21 +162,27 @@ class LanguageFragment : Fragment() {
     }
 
     private fun saveLocale(locale: Locale) {
-        preferences.setString("selected_locale", locale.toLanguageTag())
+        val localeString = if (locale == Locale.getDefault()) "" else locale.toLanguageTag()
+        preferences.setString("selected_locale", localeString)
     }
 
     private fun getCurrentLocale(preferences: PreferenceUtil): Locale {
         val localeString = preferences.getString("selected_locale", "")
-        return if (localeString.isEmpty()) Locale.getDefault() else Locale.forLanguageTag(localeString)
+        Log.e("localeString", localeString.toString())
+        return if (localeString.isEmpty()) Locale.getDefault() else Locale.forLanguageTag(
+            localeString
+        )
     }
 
     private fun getSelectedPosition(currentLocale: Locale): Int {
-        for (i in languages.indices) {
-            if (languages[i].second.toLanguageTag() == currentLocale.toLanguageTag()) {
-                return i
-            }
+        val localeString = preferences.getString("selected_locale", "")
+        return if (localeString.isEmpty()) {
+            0 // 시스템 기본 언어
+        } else {
+            // 사용자가 선택한 언어와 매칭
+            languages.indexOfFirst { it.second.toLanguageTag() == currentLocale.toLanguageTag() }
+                .takeIf { it >= 0 } ?: 0
         }
-        return 0 // 기본값으로 시스템 기본 언어 선택
     }
 
     override fun onDestroyView() {

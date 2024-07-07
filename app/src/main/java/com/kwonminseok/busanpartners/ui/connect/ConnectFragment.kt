@@ -99,7 +99,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
 
 
-        Log.e("currentUser userEntity", SplashActivity.currentUser.toString())
+//        Log.e("currentUser userEntity", SplashActivity.currentUser.toString())
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -345,6 +345,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 marker.setOnClickListener {
+                    Log.e("dfasdfdg",LanguageUtils.getDeviceLanguage(requireContext()))
 
                     val universityName = when (LanguageUtils.getDeviceLanguage(requireContext())) {
                         "ko" -> university.nameKo
