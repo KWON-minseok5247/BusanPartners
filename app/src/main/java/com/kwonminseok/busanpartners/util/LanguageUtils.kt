@@ -12,16 +12,27 @@ object LanguageUtils {
     fun getDeviceLanguage(context: Context): String {
         val savedLanguage = preferences.getString("selected_locale", "")
         if (savedLanguage.isNotEmpty()) {
-            Log.e("selected_locale", "${savedLanguage} isnotEmpty")
-            val locale = Locale.forLanguageTag(savedLanguage)
+            val locale = createLocale(savedLanguage)
             Log.e("selected_locale2", getLanguageWithScript(locale))
             return getLanguageWithScript(locale)
         } else {
-            Log.e("selected_locale", "${savedLanguage} isEmpty")
             val locale = context.resources.configuration.locales[0]
+            Log.e("selected_locale2", getLanguageWithScript(locale))
+
             return getLanguageWithScript(locale)
         }
     }
+
+    private fun createLocale(languageTag: String): Locale {
+        return if (languageTag == "zh-CN") {
+            Locale.Builder().setLanguage("zh").setScript("Hans").setRegion("CN").build()
+        } else if (languageTag == "zh-TW") {
+            Locale.Builder().setLanguage("zh").setScript("Hant").setRegion("TW").build()
+        } else {
+            Locale.forLanguageTag(languageTag)
+        }
+    }
+
 
     private fun getLanguageWithScript(locale: Locale): String {
         Log.e("getLanguageWithScript", "language: ${locale.language}, script: ${locale.script}")

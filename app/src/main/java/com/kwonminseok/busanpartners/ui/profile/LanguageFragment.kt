@@ -75,11 +75,11 @@ class LanguageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         languages = listOf(
-            Pair("시스템 기본 언어", Locale.getDefault()),
+            Pair("시스템 기본 언어", Locale.getDefault()), //zh_TW_#Hant
             Pair("한국어", Locale.KOREAN),
             Pair("English", Locale.ENGLISH),
             Pair("繁體中文", Locale.TRADITIONAL_CHINESE),
-            Pair("简体中文", Locale.SIMPLIFIED_CHINESE),
+            Pair("简体中文", Locale.SIMPLIFIED_CHINESE), //zh_CN
             Pair("日本語", Locale.JAPANESE),
             Pair("Español", Locale("es")),
             Pair("ไทย", Locale("th")),
@@ -89,11 +89,10 @@ class LanguageFragment : Fragment() {
         )
 
         val currentLocale = getCurrentLocale(preferences)
-        Log.e("언어 프래그먼트 currentLocale", currentLocale.toLanguageTag().toString())
-        Log.e("시스템 언어?", LanguageUtils.getDeviceLanguage(requireContext()))
+        Log.e("언어 프래그먼트 currentLocale", currentLocale.toLanguageTag().toString()) //zh-Hant-TW
+        Log.e("시스템 언어?", LanguageUtils.getDeviceLanguage(requireContext())) //zh-CN
 
         selectedPosition = getSelectedPosition(currentLocale)
-        Log.e("포지션은 뭐야", selectedPosition.toString())
 
         populateLanguageOptions()
 

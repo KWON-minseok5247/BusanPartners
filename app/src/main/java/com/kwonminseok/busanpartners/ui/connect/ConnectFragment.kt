@@ -351,7 +351,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                         "ko" -> university.nameKo
                         "en" -> university.nameEn
                         "ja" -> university.nameJa
-                        "zh" -> university.nameZh
+                        "zh-CN" -> university.nameZh
                         "zh-TW" -> university.nameZhTw
                         else -> university.nameEn
                     }
