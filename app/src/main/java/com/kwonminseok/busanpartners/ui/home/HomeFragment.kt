@@ -256,8 +256,6 @@ class HomeFragment : Fragment() {
                 location?.let {
                     val currentLatitude = it.latitude
                     val currentLongitude = it.longitude
-                    Log.e("currentLatitude", currentLatitude.toString())
-                    Log.e("currentLongitude", currentLongitude.toString())
                     binding.vpPlaces.adapter = tourismAdapter
 
                     val userLatLng = LatLng(currentLatitude, currentLongitude)

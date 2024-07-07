@@ -735,7 +735,6 @@ class SplashActivity : AppCompatActivity() {
                 }
             } else {
                 currentUser = userEntity
-                Log.e("currentUser?", currentUser.toString())
                 user = currentUser!!.toUser()
                 if (user.reset) { // 시작하자마자 reset을 false로 만들기
                     val newData = mapOf(

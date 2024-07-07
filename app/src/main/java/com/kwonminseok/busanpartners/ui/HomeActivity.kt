@@ -67,9 +67,9 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applySavedLocale()
         setContentView(binding.root)
 
-        applySavedLocale()
 //        val navOptions = NavOptions.Builder()
 //            .setLaunchSingleTop(true) // 현재 화면이 이미 스택에 있으면 해당 화면을 재사용
 //            .build()
@@ -294,20 +294,40 @@ class HomeActivity : AppCompatActivity() {
 
 
     private fun applySavedLocale() {
+//        val localeString = preferences.getString("selected_locale", Locale.getDefault().toLanguageTag())
+//        val locale = if (localeString.isEmpty()) {
+//            Log.e("localeString null", Locale.getDefault().toString())
+//            Locale.getDefault()
+//        } else {
+//            Log.e("localeString", localeString)
+//            Locale.forLanguageTag(localeString)
+//        }
+//
+//        Locale.setDefault(locale)
+//        val config = Configuration(resources.configuration)
+//        config.setLocale(locale)
+//        resources.updateConfiguration(config, resources.displayMetrics)
         val localeString = BusanPartners.preferences.getString("selected_locale", Locale.getDefault().toLanguageTag())
         val locale = if (localeString.isEmpty()) {
             Log.e("localeString null", Locale.getDefault().toString())
-
             Locale.getDefault()
         } else {
             Log.e("localeString", localeString)
             Locale.forLanguageTag(localeString)
         }
 
-        Locale.setDefault(locale)
         val config = Configuration(resources.configuration)
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
+
+        // Activity를 재생성하여 언어 변경 사항을 적용합니다.
+//        this.recreate()
     }
 
+
+    fun recreateActivity() {
+        val intent = intent
+        finish()
+        startActivity(intent)
+    }
 }

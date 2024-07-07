@@ -54,6 +54,7 @@ class BusanPartners : Application() {
 //        BusanFestivalApiService.init(this)
         super.onCreate()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        preferences = PreferenceUtil(applicationContext)
 
         FirebaseApp.initializeApp(this)
 
@@ -62,7 +63,6 @@ class BusanPartners : Application() {
 
         WorldTimeApiService.init(this)
 
-        preferences = PreferenceUtil(applicationContext)
         applySavedLocale()
 
         // ChatClient 초기화
@@ -182,7 +182,6 @@ class BusanPartners : Application() {
             Locale.forLanguageTag(localeString)
         }
 
-        Locale.setDefault(locale)
         val config = Configuration(resources.configuration)
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)

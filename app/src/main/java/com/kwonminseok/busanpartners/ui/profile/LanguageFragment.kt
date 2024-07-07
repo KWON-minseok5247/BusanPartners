@@ -3,6 +3,7 @@ package com.kwonminseok.busanpartners.ui.profile
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,8 +37,10 @@ import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
 import com.kwonminseok.busanpartners.extensions.setStatusBarVisible
 import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
+import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.util.Constants
+import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
@@ -86,7 +89,12 @@ class LanguageFragment : Fragment() {
         )
 
         val currentLocale = getCurrentLocale(preferences)
-        selectedPosition = if (currentLocale == Locale.getDefault()) 0 else languages.indexOfFirst { it.second == currentLocale }
+        Log.e("언어 프래그먼트 currentLocale", currentLocale.toLanguageTag().toString())
+        Log.e("언어 프래그먼트 languages", languages[5].second.toLanguageTag().toString())
+        Log.e("시스템 언어?", LanguageUtils.getDeviceLanguage(requireContext()))
+
+        selectedPosition = getSelectedPosition(currentLocale)
+        Log.e("포지션은 뭐야", selectedPosition.toString())
 
         populateLanguageOptions()
 
@@ -95,13 +103,13 @@ class LanguageFragment : Fragment() {
         }
 
         binding.r9rymzh6imkh.setOnClickListener {
-            findNavController().popBackStack() // Activity를 재생성하지 않고 프래그먼트를 종료합니다.
+            findNavController().popBackStack()
         }
     }
 
     private fun populateLanguageOptions() {
         val languageContainer = binding.languageContainer
-        languageContainer.removeAllViews() // 이전에 추가된 뷰를 제거합니다.
+        languageContainer.removeAllViews()
         for ((index, language) in languages.withIndex()) {
             val languageView = layoutInflater.inflate(R.layout.language_item, languageContainer, false)
             val textView = languageView.findViewById<TextView>(R.id.itemTextView)
@@ -136,25 +144,22 @@ class LanguageFragment : Fragment() {
     private fun updateRadioButtonStates() {
         for (i in 0 until binding.languageContainer.childCount) {
             val child = binding.languageContainer.getChildAt(i)
-            Log.e("child", child.toString())
             val radioButton = child.findViewById<RadioButton>(R.id.radioButton)
             radioButton.isChecked = i == selectedPosition
         }
     }
 
     private fun updateLocale(locale: Locale) {
-        val currentLocale = resources.configuration.locales[0]
-        if (locale == currentLocale) {
-            return  // 로케일이 이미 현재 로케일과 같다면 재생성을 하지 않음
-        }
-
         Locale.setDefault(locale)
         val config = resources.configuration
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.displayMetrics)
         saveLocale(locale)
         TourismAllInOneApiService.init(requireContext(), forceRefresh = true)
-        populateLanguageOptions() // 언어 변경 후 다시 UI를 업데이트합니다.
+        populateLanguageOptions()
+
+        (activity as? HomeActivity)?.recreateActivity() // Activity 재생성
+
     }
 
     private fun saveLocale(locale: Locale) {
@@ -162,8 +167,17 @@ class LanguageFragment : Fragment() {
     }
 
     private fun getCurrentLocale(preferences: PreferenceUtil): Locale {
-        val localeString = preferences.getString("selected_locale", Locale.getDefault().toLanguageTag())
+        val localeString = preferences.getString("selected_locale", "")
         return if (localeString.isEmpty()) Locale.getDefault() else Locale.forLanguageTag(localeString)
+    }
+
+    private fun getSelectedPosition(currentLocale: Locale): Int {
+        for (i in languages.indices) {
+            if (languages[i].second.toLanguageTag() == currentLocale.toLanguageTag()) {
+                return i
+            }
+        }
+        return 0 // 기본값으로 시스템 기본 언어 선택
     }
 
     override fun onDestroyView() {
