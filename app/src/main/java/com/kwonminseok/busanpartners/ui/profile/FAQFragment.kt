@@ -67,6 +67,11 @@ class FAQFragment : Fragment() {
         val viewPagerAdapter = TabViewPagerAdapter(this, fragments)
         binding.viewPager.adapter = viewPagerAdapter
 
+        // ViewPager2 스와이프 동작 비활성화
+        binding.viewPager.isUserInputEnabled = false
+
+        // 애니메이션 제거
+
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = categories[position]
         }.attach()
@@ -77,6 +82,33 @@ class FAQFragment : Fragment() {
     }
 
     private fun loadFaqsFromJson() {
+//        val inputStream = requireContext().assets.open("FAQList.json")
+//        val json = inputStream.bufferedReader().use { it.readText() }
+//        val jsonArray = JSONArray(json)
+//
+//        for (i in 0 until jsonArray.length()) {
+//            val faqJson = jsonArray.getJSONObject(i)
+//            val category = faqJson.getString("category")
+//            val questions = faqJson.getJSONObject("questions")
+//            val answers = faqJson.getJSONObject("answers")
+//
+//            val question = questions.getString(selectedLanguage)
+//            val answer = answers.getString(selectedLanguage)
+//
+//            // URL 추출
+//            val urlPattern = "https?://[\\w-]+(\\.[\\w-]+)+(/[#?]?.*)?".toRegex()
+//            val urlMatch = urlPattern.find(answer)
+//            val url = urlMatch?.value
+//            val answerWithoutUrl = urlMatch?.let { answer.replace(it.value, "") } ?: answer
+//            // 이메일 추출
+//            val emailPattern = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}".toRegex()
+//            val emailMatch = emailPattern.find(answerWithoutUrl)
+//            val email = emailMatch?.value
+//            val finalAnswer = emailMatch?.let { answerWithoutUrl.replace(it.value, "") } ?: answerWithoutUrl
+//
+//            faqList.add(FAQItem(question, finalAnswer, category, url, email))
+//
+//        }
         val inputStream = requireContext().assets.open("FAQList.json")
         val json = inputStream.bufferedReader().use { it.readText() }
         val jsonArray = JSONArray(json)
@@ -90,8 +122,21 @@ class FAQFragment : Fragment() {
             val question = questions.getString(selectedLanguage)
             val answer = answers.getString(selectedLanguage)
 
-            faqList.add(FAQItem(question, answer, category))
+            // URL 추출
+            val urlPattern = "https?://[\\w-]+(\\.[\\w-]+)+(/[#?]?.*)?".toRegex()
+            val urlMatch = urlPattern.find(answer)
+            val url = urlMatch?.value
+            var modifiedAnswer = urlMatch?.let { answer.replace(it.value, "<URL>") } ?: answer
+
+            // 이메일 추출
+            val emailPattern = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}".toRegex()
+            val emailMatch = emailPattern.find(modifiedAnswer)
+            val email = emailMatch?.value
+            modifiedAnswer = emailMatch?.let { modifiedAnswer.replace(it.value, "<EMAIL>") } ?: modifiedAnswer
+
+            faqList.add(FAQItem(question, modifiedAnswer, category, url, email))
         }
+
     }
 
 
