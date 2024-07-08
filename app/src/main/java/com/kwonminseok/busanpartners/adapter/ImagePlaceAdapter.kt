@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kwonminseok.busanpartners.R
 
-class ImagePlaceAdapter : RecyclerView.Adapter<ImagePlaceAdapter.ImageViewHolder>() {
+class ImagePlaceAdapter(private val onImageClick: (Int) -> Unit) : RecyclerView.Adapter<ImagePlaceAdapter.ImageViewHolder>() {
 
     private val images = mutableListOf<String>()
 
@@ -20,7 +20,7 @@ class ImagePlaceAdapter : RecyclerView.Adapter<ImagePlaceAdapter.ImageViewHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.image_item_for_viewpager, parent, false)
-        return ImageViewHolder(view)
+        return ImageViewHolder(view, onImageClick)
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
@@ -34,7 +34,14 @@ class ImagePlaceAdapter : RecyclerView.Adapter<ImagePlaceAdapter.ImageViewHolder
         return images.size
     }
 
-    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ImageViewHolder(itemView: View, private val onImageClick: (Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageViewForPlace)
+
+        init {
+            itemView.setOnClickListener {
+                onImageClick(adapterPosition)
+            }
+        }
+
     }
 }

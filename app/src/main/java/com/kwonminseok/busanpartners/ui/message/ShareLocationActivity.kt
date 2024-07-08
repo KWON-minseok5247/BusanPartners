@@ -7,6 +7,7 @@ import com.kwonminseok.busanpartners.databinding.ActivityShareLocationBinding
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.location.Location
 import android.net.Uri
@@ -31,6 +32,7 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Locale
 
 private val TAG = "ShareLocationActivity"
 class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
@@ -53,6 +55,7 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
         locationSource =
             FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
+        applySavedLocale()
 
 
         // Step 0 - inflate binding
@@ -293,5 +296,17 @@ class ShareLocationActivity : FragmentActivity(), OnMapReadyCallback {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
 
+    private fun applySavedLocale() {
+        val localeString = BusanPartners.preferences.getString("selected_locale", "")
+        val locale = if (localeString.isEmpty()) {
+            Locale.getDefault()
+        } else {
+            Locale.forLanguageTag(localeString)
+        }
+
+        val config = Configuration(resources.configuration)
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
 
 }

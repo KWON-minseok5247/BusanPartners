@@ -55,11 +55,6 @@ class FAQFragment : Fragment() {
             getString(R.string.category_other)
         )
 
-
-
-
-
-
         val fragments = categories.map { category ->
             FAQListFragment.newInstance(category, faqList, selectedLanguage)
         }

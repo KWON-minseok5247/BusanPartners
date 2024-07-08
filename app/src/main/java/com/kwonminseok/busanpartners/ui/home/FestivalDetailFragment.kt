@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -89,7 +90,7 @@ class FestivalDetailFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        requireActivity().setStatusBarVisible()
+//        requireActivity().setStatusBarVisible()
     }
 
     private fun fetchCommonData(contentId: Int) {
@@ -110,12 +111,21 @@ class FestivalDetailFragment : Fragment() {
                             val eventEndDate = arguments?.getString("eventenddate") ?: return
 
                             binding.textViewSpendTimeFestival.text = "$eventStartDate - $eventEndDate"
-                            binding.textViewTitle.text = commonItem.title
-                            binding.textViewEventPlace.text = commonItem.addr1
+                            binding.textViewTitle.text = HtmlCompat.fromHtml(commonItem.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                            binding.textViewEventPlace.text = HtmlCompat.fromHtml(commonItem.addr1, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                            binding.textViewOverview.text = HtmlCompat.fromHtml(commonItem.overview, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+
+                            binding.textViewEventPlace.setTextIsSelectable(true)
+                            binding.textViewTitle.setTextIsSelectable(true)
+                            binding.textViewOverview.setTextIsSelectable(true)
+
+
                             binding.textViewHomepage.apply {
                                 text = Html.fromHtml(commonItem.homepage, Html.FROM_HTML_MODE_LEGACY)
                                 movementMethod = LinkMovementMethod.getInstance()
                             }
+
+
                             binding.textviewMapButton.setOnClickListener {
                                 Log.e("commonItem.mapx", "${commonItem.mapx} ${commonItem.mapy}")
                                 val intent = Intent(context, AttachmentMapActivity::class.java).apply {
@@ -126,7 +136,6 @@ class FestivalDetailFragment : Fragment() {
                             }
                             binding.allLayout.visibility = View.VISIBLE
                             binding.progressBar.visibility = View.INVISIBLE
-                            binding.textViewOverview.text = commonItem.overview
                         }
                     }
                 } else {
@@ -156,7 +165,13 @@ class FestivalDetailFragment : Fragment() {
                         binding.festivalImageLoading.stopShimmer()
                         binding.festivalImageLoading.visibility = View.GONE
 
-                        imageEventAdapter = ImagePlaceAdapter()
+                        imageEventAdapter = ImagePlaceAdapter { position ->
+                            val intent = Intent(requireContext(), ImageZoomActivity::class.java).apply {
+                                putStringArrayListExtra("images", ArrayList(images))
+                                putExtra("position", position)
+                            }
+                            startActivity(intent)
+                        }
                         viewPager.adapter = imageEventAdapter
                         imageEventAdapter.submitList(images)
                         indicator.setViewPager(viewPager)
@@ -179,7 +194,13 @@ class FestivalDetailFragment : Fragment() {
                     binding.festivalImageLoading.stopShimmer()
                     binding.festivalImageLoading.visibility = View.GONE
 
-                    imageEventAdapter = ImagePlaceAdapter()
+                    imageEventAdapter = ImagePlaceAdapter { position ->
+                        val intent = Intent(requireContext(), ImageZoomActivity::class.java).apply {
+                            putStringArrayListExtra("images", ArrayList(images))
+                            putExtra("position", position)
+                        }
+                        startActivity(intent)
+                    }
                     viewPager.adapter = imageEventAdapter
                     imageEventAdapter.submitList(images)
                     indicator.setViewPager(viewPager)

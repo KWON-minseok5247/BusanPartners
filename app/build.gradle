@@ -371,6 +371,9 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
 
 
+    //이미지 확대
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
 
 }
 // Allow references to generated code

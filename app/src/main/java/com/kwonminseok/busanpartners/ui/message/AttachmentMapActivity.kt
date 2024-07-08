@@ -1,6 +1,7 @@
 package com.kwonminseok.busanpartners.ui.message
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
 import com.kwonminseok.busanpartners.R
+import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.databinding.ActivityAttachmentMapBinding
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
@@ -16,6 +18,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.MarkerIcons
+import java.util.Locale
 
 class AttachmentMapActivity : FragmentActivity(), OnMapReadyCallback {
 
@@ -23,6 +26,7 @@ class AttachmentMapActivity : FragmentActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applySavedLocale()
         binding = ActivityAttachmentMapBinding.inflate(layoutInflater)
         setContentView(binding.root) // 바인딩된 루트 뷰 설정
 
@@ -64,6 +68,19 @@ class AttachmentMapActivity : FragmentActivity(), OnMapReadyCallback {
             startActivity(intent)
             true
         }
+    }
+
+    private fun applySavedLocale() {
+        val localeString = BusanPartners.preferences.getString("selected_locale", "")
+        val locale = if (localeString.isEmpty()) {
+            Locale.getDefault()
+        } else {
+            Locale.forLanguageTag(localeString)
+        }
+
+        val config = Configuration(resources.configuration)
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 }
 

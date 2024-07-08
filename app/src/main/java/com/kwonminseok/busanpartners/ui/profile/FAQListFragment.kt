@@ -1,5 +1,6 @@
 package com.kwonminseok.busanpartners.ui.profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -89,10 +90,12 @@ class FAQListFragment : Fragment() {
         faqList = arguments?.getParcelableArrayList(ARG_FAQ_LIST) ?: listOf()
         selectedLanguage = arguments?.getString(ARG_LANGUAGE) ?: "en"
 
-        val filteredList = if (category == getString(R.string.category_all)) {
+        val localizedCategory = getLocalizedCategory(requireContext(), category ?: "", selectedLanguage)
+
+        val filteredList = if (localizedCategory == getString(R.string.category_all)) {
             faqList
         } else {
-            faqList.filter { it.category == category }
+            faqList.filter { getLocalizedCategory(requireContext(), it.category, selectedLanguage) == localizedCategory }
         }
 
         faqAdapter = FAQAdapter(filteredList)
@@ -121,4 +124,16 @@ class FAQListFragment : Fragment() {
             return fragment
         }
     }
+
+    // Add this function to map the category name in different languages
+    fun getLocalizedCategory(context: Context, category: String, language: String): String {
+        return when (category) {
+            "전체" -> context.getString(R.string.category_all)
+            "대학생" -> context.getString(R.string.university_student)
+            "관광객" -> context.getString(R.string.traveler)
+            "그 외" -> context.getString(R.string.category_other)
+            else -> category
+        }
+    }
+
 }

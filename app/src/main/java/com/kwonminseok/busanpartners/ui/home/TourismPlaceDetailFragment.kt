@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -74,7 +76,7 @@ class TourismPlaceDetailFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        requireActivity().setStatusBarVisible()
+//        requireActivity().setStatusBarVisible()
     }
 
     private fun fetchCommonData(contentId: Int) {
@@ -88,9 +90,13 @@ class TourismPlaceDetailFragment : Fragment() {
                 if (response.isSuccessful) {
                     val commonItem = response.body()?.response?.body?.items?.item?.firstOrNull()
                     commonItem?.let {
-                        binding.textViewEventPlace.text = it.addr1
-                        binding.textViewTitle.text = it.title
-                        binding.textViewOverview.text = it.overview
+                        binding.textViewEventPlace.text = HtmlCompat.fromHtml(it.addr1, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                        binding.textViewTitle.text = HtmlCompat.fromHtml(it.title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                        binding.textViewOverview.text = HtmlCompat.fromHtml(it.overview, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+
+                        binding.textViewEventPlace.setTextIsSelectable(true)
+                        binding.textViewTitle.setTextIsSelectable(true)
+                        binding.textViewOverview.setTextIsSelectable(true)
 
                         binding.textviewMapButton.setOnClickListener {
                             val intent = Intent(context, AttachmentMapActivity::class.java).apply {
@@ -128,7 +134,21 @@ class TourismPlaceDetailFragment : Fragment() {
                     val imageItems = response.body()?.response?.body?.items?.item ?: emptyList()
                     val images = imageItems.mapNotNull { it.originimgurl }
 
-                    imagePlaceAdapter = ImagePlaceAdapter()
+//                    imagePlaceAdapter = ImagePlaceAdapter()
+                    imagePlaceAdapter = ImagePlaceAdapter { position ->
+                        val intent = Intent(requireContext(), ImageZoomActivity::class.java).apply {
+                            putStringArrayListExtra("images", ArrayList(images))
+                            putExtra("position", position)
+                        }
+                        startActivity(intent)
+                    }
+
+                    viewPager.adapter = imagePlaceAdapter
+                    imagePlaceAdapter.submitList(images)
+                    indicator.setViewPager(viewPager)
+                    binding.festivalImageLoading.stopShimmer()
+                    binding.festivalImageLoading.visibility = View.GONE
+
                     viewPager.adapter = imagePlaceAdapter
                     imagePlaceAdapter.submitList(images)
                     indicator.setViewPager(viewPager)
@@ -146,4 +166,8 @@ class TourismPlaceDetailFragment : Fragment() {
             }
         })
     }
+
+
+
+
 }
