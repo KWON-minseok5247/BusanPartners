@@ -174,7 +174,7 @@ class UserAccountForBeginnerFragment : Fragment() {
 
 
                 if (imageData == null) { // 사진을 변경하지 않은 경우
-                    viewModel.setCurrentUser(changes)
+                    viewModel.setCurrentUserForBeginner(changes)
                     oldUser = oldUser.copy(
                         name = TranslatedText(ko = edName),
                     )

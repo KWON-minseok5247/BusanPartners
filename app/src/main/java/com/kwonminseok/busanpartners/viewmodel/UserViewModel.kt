@@ -68,6 +68,14 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun setCurrentUserForBeginner(map: Map<String, Any?>) {
+        viewModelScope.launch {
+            _updateStatus.value = Resource.Loading()
+            _updateStatus.value = userRepository.setCurrentUserForBeginner(map)
+        }
+    }
+
+
     fun setCurrentUserWithImage(imageData: ByteArray, map: Map<String, Any?>) {
         viewModelScope.launch {
             _updateStatus.value = Resource.Loading()

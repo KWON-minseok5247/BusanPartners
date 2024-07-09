@@ -43,6 +43,9 @@ interface FirebaseUserRepository {
 
     //    suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean>
     suspend fun setCurrentUser(map: Map<String, Any?>): Resource<Boolean>
+
+    suspend fun setCurrentUserForBeginner(map: Map<String, Any?>): Resource<Boolean>
+
     suspend fun uploadUserImagesAndUpdateToFirestore(
         imageUris: List<Uri>,
         status: String
@@ -178,6 +181,43 @@ class FirebaseUserRepositoryImpl(
             Resource.Error(e.message ?: "Unknown error")
         }
     }
+
+    override suspend fun setCurrentUserForBeginner(map: Map<String, Any?>): Resource<Boolean> {
+        return try {
+
+            val translatedMap = mutableMapOf<String, Any?>()
+
+            map.forEach { (key, value) ->
+                when (key) {
+                     "name" -> {
+                        if (value is String) {
+                            if (value.isNotEmpty()) {
+                                translatedMap[key] = TranslatedText(
+                                    ko = value,
+                                    en = value,
+                                    ja = value,
+                                    zh = value,
+                                    es = value
+                                )
+                            } else {
+                                translatedMap[key] = TranslatedText("", "", "", "","")
+                            }
+                        }
+                    }
+
+                    else -> {
+                        // 이 경우에 대해서는 특별한 처리 없이 바로 업데이트
+                        translatedMap[key] = value
+                    }
+                }
+            }
+
+            firestore.collection(USER_COLLECTION).document(auth.uid!!).update(translatedMap).await()
+
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Unknown error")
+        }}
 
 
     //Text를 중국어, 일본어, 영어로 번역하는 함수

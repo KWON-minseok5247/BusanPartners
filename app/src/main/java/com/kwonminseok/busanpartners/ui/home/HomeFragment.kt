@@ -10,6 +10,7 @@ import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.os.StrictMode
 import android.provider.Settings
 import android.util.Log
@@ -26,6 +27,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.barnea.dialoger.Dialoger
@@ -61,6 +63,7 @@ import java.time.temporal.ChronoUnit
 import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.random.Random
 
 private val TAG = "HomeFragment"
 
@@ -76,7 +79,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var locationSource: FusedLocationSource
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var viewModel: TourismViewModel
 
     private var backPressedTime: Long = 0
     private lateinit var toast: Toast
@@ -86,6 +88,7 @@ class HomeFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var tourismApiService: TourismAllInOneApiService
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
         private val BUSAN_SW = LatLng(35.0500, 128.9400) // 부산시 남서쪽 좌표를 조정
@@ -124,7 +127,7 @@ class HomeFragment : Fragment() {
         val repository = TourismRepository(TourismAllInOneApiService.getInstance())
 
         // ViewModel 초기화
-        viewModel = ViewModelProvider(this, TourismViewModelFactory(repository)).get(TourismViewModel::class.java)
+//        viewModel = ViewModelProvider(this, TourismViewModelFactory(repository)).get(TourismViewModel::class.java)
         currentServerTime?.let { fetchFestivalList(it) }
 
 
@@ -262,18 +265,17 @@ class HomeFragment : Fragment() {
                     val finalLatLng = if (isInBusan(userLatLng)) {
                         userLatLng
                     } else {
-                        BUSAN_DEFAULT
+                        getRandomLatLngInBusan() // BUSAN_DEFAULT 대신 랜덤 좌표 사용
                     }
                     fetchLocationBasedList(finalLatLng.longitude, finalLatLng.latitude)
                 } ?: run {
-                    fetchLocationBasedList(BUSAN_DEFAULT.longitude, BUSAN_DEFAULT.latitude)
+//                    fetchLocationBasedList(BUSAN_DEFAULT.longitude, BUSAN_DEFAULT.latitude)
+                    fetchLocationBasedList(getRandomLatLngInBusan().longitude, getRandomLatLngInBusan().latitude)
                 }
             }
 
 
         }
-
-
         festivalAdapter.onFestivaltClick = { festival ->
             val bundle = Bundle()
             bundle.apply {
@@ -282,7 +284,6 @@ class HomeFragment : Fragment() {
                 putString("eventenddate", festival.eventenddate)
                 putString("firstImage", festival.firstimage)
             }
-
             findNavController().navigate(R.id.action_homeFragment_to_festivalDetailFragment, bundle)
         }
 
@@ -291,7 +292,8 @@ class HomeFragment : Fragment() {
             bundle.putString("contentId", tourismItem.contentid)
             findNavController().navigate(
                 R.id.action_homeFragment_to_tourismPlaceDetailFragment,
-                bundle
+                bundle,
+
             )
 
         }
@@ -300,7 +302,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun fetchLocationBasedList(longitude: Double, latitude: Double) {
+    private fun fetchLocationBasedList(longitude: Double, latitude: Double, retryCount: Int = 3) {
         tourismApiService.locationBasedList1(
             numOfRows = 18,
             pageNo = 1,
@@ -311,33 +313,31 @@ class HomeFragment : Fragment() {
         ).enqueue(object : Callback<TourismResponse> {
             override fun onResponse(call: Call<TourismResponse>, response: Response<TourismResponse>) {
                 if (response.isSuccessful) {
-
                     _binding?.let { binding ->
-                        if (response.isSuccessful) {
-                            binding.shimmerPlaces.stopShimmer()
-                            binding.shimmerPlaces.visibility = View.GONE
-                            binding.vpPlaces.visibility = View.VISIBLE
+                        binding.shimmerPlaces.stopShimmer()
+                        binding.shimmerPlaces.visibility = View.GONE
+                        binding.vpPlaces.visibility = View.VISIBLE
 
-                            response.body()?.response?.body?.items?.item?.let { itemList ->
-                                val itemsWithImages =
-                                    itemList.filter { it.firstimage.isNotEmpty() }
-                                tourismAdapter.differ.submitList(itemsWithImages)
-                            }
-                        } else {
-                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+                        response.body()?.response?.body?.items?.item?.let { itemList ->
+                            val itemsWithImages = itemList.filter { it.firstimage.isNotEmpty() }
+                            tourismAdapter.differ.submitList(itemsWithImages)
                         }
                     }
                 } else {
+                    Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+                    handleFailure(call, this, retryCount)
                 }
             }
 
             override fun onFailure(call: Call<TourismResponse>, t: Throwable) {
                 Log.e(TAG, "Error: ${t.message}")
+                handleFailure(call, this, retryCount)
+
             }
         })
     }
 
-    private fun fetchFestivalList() {
+    private fun fetchFestivalList(retryCount: Int = 3) {
 
         tourismApiService.searchFestival1(
             numOfRows = 10,
@@ -347,30 +347,30 @@ class HomeFragment : Fragment() {
         ).enqueue(object : Callback<FestivalResponse> {
             override fun onResponse(call: Call<FestivalResponse>, response: Response<FestivalResponse>) {
                 if (response.isSuccessful) {
-
                     _binding?.let { binding ->
-                        if (response.isSuccessful) {
-                            binding.shimmerFestival.stopShimmer()
-                            binding.shimmerFestival.visibility = View.GONE
-                            binding.vpFestivals.visibility = View.VISIBLE
+                        binding.shimmerFestival.stopShimmer()
+                        binding.shimmerFestival.visibility = View.GONE
+                        binding.vpFestivals.visibility = View.VISIBLE
 
-                            binding.vpFestivals.adapter = festivalAdapter
-                            binding.vpFestivals.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                            response.body()?.response?.body?.items?.item?.let { itemList ->
-                                val itemsWithImages =
-                                    itemList.filter { it.firstimage.isNotEmpty() }
-                                festivalAdapter.differ.submitList(itemsWithImages)
-                            }
-                        } else {
-                            Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+                        binding.vpFestivals.adapter = festivalAdapter
+                        binding.vpFestivals.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        response.body()?.response?.body?.items?.item?.let { itemList ->
+                            val itemsWithImages = itemList.filter { it.firstimage.isNotEmpty() }
+                            festivalAdapter.differ.submitList(itemsWithImages)
                         }
                     }
                 } else {
+                    Log.e(TAG, "Response failed: ${response.errorBody()?.string()}")
+                    handleFailure(call, this, retryCount)
                 }
             }
 
             override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
+                Log.e(TAG, "Response failed: ${t.message}")
+
                 Toast.makeText(context, "${getString(R.string.error)}: ${t.message}", Toast.LENGTH_SHORT).show()
+                handleFailure(call, this, retryCount)
+
             }
         })
     }
@@ -438,72 +438,13 @@ class HomeFragment : Fragment() {
         }
 
 
-//    private fun requestLocationPermission() {
-//        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-//                // 사용자에게 권한이 필요한 이유 설명 후 권한 요청
-//                showRationaleDialog("위치 권한 필요", "이 기능을 사용하기 위해 위치 권한이 필요합니다.", Manifest.permission.ACCESS_FINE_LOCATION)
-//            } else {
-//                // 권한 요청
-//                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-//            }
-//        } else {
-//            // 권한이 이미 허용된 경우
-//            proceedWithLocationAccess()
-//        }
-//    }
-//
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            // 권한이 허용됐을 때
-//            proceedWithLocationAccess()
-//            fetchTourApi()
-//        } else {
-//            // 권한이 거부됐을 때
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(
-//                    requireActivity(),
-//                    Manifest.permission.ACCESS_FINE_LOCATION
-//                )
-//            ) {
-//                // 사용자에게 왜 퍼미션이 필요한지 설명을 제공하고, 요청을 다시 시도할 수 있습니다.
-//                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-//            } else {
-//                // 처음 퍼미션을 요청하거나, '다시 묻지 않기'를 선택했을 경우
-//                ActivityCompat.requestPermissions(
-//                    requireActivity(),
-//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                    LOCATION_PERMISSION_REQUEST_CODE
-//                )
-//            }
-//            Toast.makeText(context, "위치 권한 거부됨", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//
-//    private fun proceedWithLocationAccess() {
-//        // 위치 권한이 있을 때 수행할 작업
-//        Toast.makeText(context, "위치 권한 허용됨", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    private fun showRationaleDialog(title: String, message: String, permission: String) {
-//        AlertDialog.Builder(requireContext())
-//            .setTitle(title)
-//            .setMessage(message)
-//            .setPositiveButton("확인") { dialog, which ->
-//                requestPermissions(arrayOf(permission), LOCATION_PERMISSION_REQUEST_CODE)
-//            }
-//            .setNegativeButton("취소") { dialog, which ->
-//                dialog.dismiss()
-//            }
-//            .create().show()
-//    }
-
 
     }
 
     override fun onResume() {
         super.onResume()
         requireActivity().setStatusBarTransparent()
+
 
     }
 
@@ -533,5 +474,24 @@ class HomeFragment : Fragment() {
         return location.latitude in BUSAN_SW.latitude..BUSAN_NE.latitude &&
                 location.longitude in BUSAN_SW.longitude..BUSAN_NE.longitude
     }
+
+    private fun getRandomLatLngInBusan(): LatLng {
+        val randomLatitude = BUSAN_SW.latitude + Random.nextDouble() * (BUSAN_NE.latitude - BUSAN_SW.latitude)
+        val randomLongitude = BUSAN_SW.longitude + Random.nextDouble() * (BUSAN_NE.longitude - BUSAN_SW.longitude)
+        return LatLng(randomLatitude, randomLongitude)
+    }
+
+    private fun <T> handleFailure(call: Call<T>, callback: Callback<T>, retryCount: Int) {
+        if (retryCount > 0) {
+            Log.e(TAG, "Retrying... ($retryCount retries left)")
+            call.clone().enqueue(callback)
+        } else {
+            Log.e(TAG, "Max retries reached. Giving up.")
+//            Toast.makeText(context, getString(R.string.error_retrieving_data), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
 
 }
