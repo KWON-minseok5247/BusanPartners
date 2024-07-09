@@ -17,6 +17,7 @@ import com.example.kelineyt.adapter.makeIt.StudentCardAdapter
 import com.google.android.material.chip.Chip
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.StudentAdapter
+import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
 import com.kwonminseok.busanpartners.data.TranslatedList
 import com.kwonminseok.busanpartners.data.TranslatedText
 import com.kwonminseok.busanpartners.data.Universities
@@ -29,6 +30,10 @@ import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.api.models.QueryChannelsRequest
+import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.models.Filters
 
 
 private val TAG = "SelectedUniversityStudentListFragment"
@@ -64,7 +69,8 @@ class UniversityStudentFragment : Fragment() {
             }
 
             binding.apply {
-                Glide.with(this@UniversityStudentFragment).load(user.imagePath).into(binding.imageUser)
+                Glide.with(this@UniversityStudentFragment).load(user.imagePath)
+                    .into(binding.imageUser)
                 tvName.text = getTranslatedText(user.name)
                 tvMajor.text = "${getTranslatedText(user.major)}"
 
@@ -88,41 +94,38 @@ class UniversityStudentFragment : Fragment() {
 
         binding.connectButton.setOnClickListener {
 
-                if (currentUser?.authentication?.collegeStudent == true) {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.college_student_cannot_contact),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
+            if (currentUser?.authentication?.collegeStudent == true) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.college_student_cannot_contact),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
 
-                if (currentUser!!.blockList?.contains(user!!.uid) == true) {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.cannot_recontact),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
+            if (currentUser!!.blockList?.contains(user!!.uid) == true) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.cannot_recontact),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
 
-                if (currentUser!!.chatChannelCount >= 3) {
+            getChannelCountForUser(currentUser!!.uid) { channelCount ->
+                Log.e("channelCount", channelCount.toString())
+                if (channelCount >= 3) {
                     Toast.makeText(
                         requireContext(),
                         getString(R.string.max_chat_rooms),
                         Toast.LENGTH_SHORT
                     ).show()
-                    return@setOnClickListener
-                }
-
-                else {
+                } else {
                     val b = Bundle().apply {
                         putString("studentUid", user!!.uid)
                         putString(
                             "name",
-//                            "${usersList[currentPosition].name?.ko}\n (${getTranslatedText(usersList[currentPosition].name)})"
                             "${user.name?.ko}(${getTranslatedText(user.name)})"
-
                         )
                     }
                     findNavController().navigate(
@@ -130,64 +133,13 @@ class UniversityStudentFragment : Fragment() {
                         b
                     )
                 }
+            }
 
 
-
-        }
-
-
-
-//        Universities.universityInfoList.forEach { university ->
-//            if (user != null) {
-//                if (user.college == university.nameKo) {
-//                    val universityName = when (LanguageUtils.getDeviceLanguage(requireContext())) {
-//                        "ko" -> university.nameKo
-//                        "en" -> university.nameEn
-//                        "ja" -> university.nameJa
-//                        "zh" -> university.nameZh
-//                        "zh-TW" -> university.nameZhTw
-//                        else -> university.nameEn
-//                    }
-////                    binding.tvUniversity.text = universityName
-////                    Glide.with(this).load(university.logoResourceId).into(binding.imageUniversity)
-//                    return@forEach
-//                }
-//
-//            }
-//        }
-
-
-//        //TODO // 자기 자신 클릭할 수 없게. 대학생은 대학생끼리 연락할 수 없게. 관광객이 아니면 연락할 수 없게.
-//        // 무분별하게 연락할 수 없게.
-//        studentCardRv()
-//
-//        binding.floatingMessageButton.setOnClickListener {
-//            if (usersList != null) {
-//
-//                val currentPosition = binding.viewPagerImages.currentItem
-//
-//                if (currentUser?.authentication?.collegeStudent == true) {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "대학생은 다른 대학생에게 연락을 할 수 없습니다.",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//
-//                if (currentUser!!.blockList?.contains(usersList[currentPosition].uid) == true) {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "현재 채팅 중이거나 이미 채팅을 끝낸 상대방과 다시 연락할 수 없습니다. ",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//
 //                if (currentUser!!.chatChannelCount >= 3) {
 //                    Toast.makeText(
 //                        requireContext(),
-//                        "최대 활성화할 수 있는 채팅방은 3개입니다.",
+//                        getString(R.string.max_chat_rooms),
 //                        Toast.LENGTH_SHORT
 //                    ).show()
 //                    return@setOnClickListener
@@ -195,25 +147,21 @@ class UniversityStudentFragment : Fragment() {
 //
 //                else {
 //                    val b = Bundle().apply {
-//                        putString("studentUid", usersList[currentPosition].uid)
+//                        putString("studentUid", user!!.uid)
 //                        putString(
 //                            "name",
 ////                            "${usersList[currentPosition].name?.ko}\n (${getTranslatedText(usersList[currentPosition].name)})"
-//                            "${usersList[currentPosition].name?.ko}(${getTranslatedText(usersList[currentPosition].name)})"
+//                            "${user.name?.ko}(${getTranslatedText(user.name)})"
 //
 //                        )
 //                    }
 //                    findNavController().navigate(
-//                        R.id.action_selectedUniversityStudentListFragment_to_messageFragment,
+//                        R.id.action_universityStudentFragment_to_messageFragment,
 //                        b
 //                    )
 //                }
-//
-//            }
-//
-//
-//        }
 
+        }
 
     }
 
@@ -259,7 +207,7 @@ class UniversityStudentFragment : Fragment() {
 
     private fun getTranslatedList(translatedList: TranslatedList?): List<String>? {
         val language = LanguageUtils.getDeviceLanguage(requireContext())
-        Log.e("language",language)
+        Log.e("language", language)
         return when (language) {
             "ko" -> translatedList?.ko
             "en" -> translatedList?.en
@@ -271,5 +219,34 @@ class UniversityStudentFragment : Fragment() {
             else -> translatedList?.en
         }
     }
+
+    fun getChannelCountForUser(userId: String, callback: (Int) -> Unit) {
+        val filter = Filters.and(
+            Filters.eq("type", "messaging"),
+            Filters.`in`("members", listOf(userId))
+        )
+
+        val request = QueryChannelsRequest(
+            filter = filter,
+            offset = 0,
+            limit = 30
+        )
+
+        chatClient.queryChannels(request).enqueue { result ->
+            if (result.isSuccess) {
+                val channels: List<Channel> = result.getOrNull() ?: emptyList()
+                val channelCount = channels.size
+                callback(channelCount)
+            } else {
+                try {
+                    result.getOrThrow()
+                } catch (e: Exception) {
+                    println("Error querying channels: ${e.message}")
+                }
+                callback(0)
+            }
+        }
+    }
+
 
 }

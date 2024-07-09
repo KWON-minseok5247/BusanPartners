@@ -40,6 +40,7 @@ import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.QueryChannelRequest
+import io.getstream.chat.android.client.api.models.QueryChannelsRequest
 import io.getstream.chat.android.client.events.MarkAllReadEvent
 import io.getstream.chat.android.client.events.NewMessageEvent
 import io.getstream.chat.android.client.events.NotificationChannelMutesUpdatedEvent
@@ -50,6 +51,7 @@ import io.getstream.chat.android.client.token.TokenProvider
 import io.getstream.chat.android.models.Channel
 import io.getstream.chat.android.models.ChannelCapabilities
 import io.getstream.chat.android.models.ChannelMute
+import io.getstream.chat.android.models.FilterObject
 import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.models.User
@@ -74,6 +76,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 private val TAG = "MessageFragment"
+
 @AndroidEntryPoint
 class MessageFragment : ChannelListFragment() {
 
@@ -114,11 +117,13 @@ class MessageFragment : ChannelListFragment() {
     private fun setupChannelListViewModel() {
         viewModel.bindView(binding.channelListView, viewLifecycleOwner)
         // Other viewModel setup code
-        val loadingView = LayoutInflater.from(context).inflate(R.layout.channel_list_loading_view, null)
+        val loadingView =
+            LayoutInflater.from(context).inflate(R.layout.channel_list_loading_view, null)
 
-        binding.channelListView.setLoadingView(loadingView, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
-
-
+        binding.channelListView.setLoadingView(
+            loadingView,
+            FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        )
 
         binding.channelListView.setIsMoreOptionsVisible { channel ->
             // You can determine visibility based on the channel object.
@@ -133,7 +138,11 @@ class MessageFragment : ChannelListFragment() {
 
         binding.channelListView.setChannelItemClickListener { channel ->
             if (channel.members.size <= 1) {
-                Toast.makeText(requireContext(), getString(R.string.user_left_chat), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.user_left_chat),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             startActivity(ChannelActivity.newIntent(requireContext(), channel))
 //            startActivity(ChannelActivityForCompose.newIntent(requireContext(), channel))
@@ -142,6 +151,7 @@ class MessageFragment : ChannelListFragment() {
         binding.channelListView.setIsDeleteOptionVisible { channel ->
             // You can determine visibility based on the channel object.
             // Here is the default implementation:
+
             channel.ownCapabilities.contains("delete-channel")
             false
         }
@@ -155,8 +165,15 @@ class MessageFragment : ChannelListFragment() {
                     chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }
                         ?: false
                 val options = when {
-                    isMuted -> arrayOf(getString(R.string.unmute_chat_notifications), getString(R.string.leave_chat))
-                    else -> arrayOf(getString(R.string.mute_chat_notifications), getString(R.string.leave_chat))
+                    isMuted -> arrayOf(
+                        getString(R.string.unmute_chat_notifications),
+                        getString(R.string.leave_chat)
+                    )
+
+                    else -> arrayOf(
+                        getString(R.string.mute_chat_notifications),
+                        getString(R.string.leave_chat)
+                    )
                 }
                 AlertDialog.Builder(requireContext())
                     .setItems(options) { dialog, which ->
@@ -250,7 +267,6 @@ class MessageFragment : ChannelListFragment() {
                 extraData = mapOf("name" to name.toString())
             ).enqueue { result ->
                 if (result.isSuccess) {
-                    // 보통은 한 번에 여러명 추가하기도 하니까..
                     //TODO 채팅방은 동시에 3개까지 활성화할 수 있습니다.
 
                     val blockList = currentUser?.blockList?.toMutableList() ?: mutableListOf()
@@ -277,6 +293,7 @@ class MessageFragment : ChannelListFragment() {
             }
         }
     }
+
 
     private fun muteChat(channelId: String) {
         chatClient.muteChannel("messaging", channelId).enqueue { result ->
@@ -349,14 +366,6 @@ class MessageFragment : ChannelListFragment() {
                                                 .enqueue { hideResult ->
                                                     if (hideResult.isSuccess) {
                                                         Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
-                                                        val count = currentUser?.chatChannelCount?.minus(1) ?: 0
-
-                                                        currentUser = currentUser?.copy(chatChannelCount = count)
-
-                                                        userViewModel.updateUser(currentUser!!)
-
-
-                                                        userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
 
                                                     }
 
@@ -379,21 +388,14 @@ class MessageFragment : ChannelListFragment() {
                                     .enqueue { hideResult ->
                                         if (hideResult.isSuccess) {
                                             Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
-                                            val count = currentUser?.chatChannelCount?.minus(1) ?: 0
-
-                                            currentUser = currentUser?.copy(chatChannelCount = count)
-
-                                            userViewModel.updateUser(currentUser!!)
-
-
-                                            userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
                                         }
 
                                     }
 
 
                             }
-                        }                    } else {
+                        }
+                    } else {
                         (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
                     }
                 }
@@ -404,83 +406,6 @@ class MessageFragment : ChannelListFragment() {
             .show()
 
 
-//        AlertDialog.Builder(requireContext())
-//            .setTitle("채팅방 나가기")
-//            .setMessage("정말로 채팅방을 나가시겠습니까? 상대방과 다시는 대화할 수 없습니다.")
-//            .setPositiveButton("예") { dialog, which ->
-//
-//                if (channel.members.size <= 1) { // 멤버가 1명일 때
-//                    chatClient.channel("${channel.type}:${channel.id}")
-//                        .delete().enqueue() { deleteResult ->
-//                            if (!deleteResult.isSuccess) {
-//                                Log.e(
-//                                    "사용자가 채널을 삭제시키는데 실패했습니다.",
-//                                    deleteResult.errorOrNull().toString()
-//                                )
-//                                if (userId != null) {
-//                                    chatClient.channel("${channel.type}:${channel.id}")
-//                                        .removeMembers(
-//                                            listOf(userId),
-////                                        Message(text = "The other person left the chat room.")
-//                                        )
-//                                        .enqueue { hideResult ->
-//                                            if (hideResult.isSuccess) {
-//                                                Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
-//                                                val count = currentUser?.chatChannelCount?.minus(1) ?: 0
-//
-//                                                currentUser = currentUser?.copy(chatChannelCount = count)
-//
-//                                                userViewModel.updateUser(currentUser!!)
-//
-//
-//                                                userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
-//
-//                                            }
-//
-//                                        }
-//
-//
-//                                }
-//                            } else {
-//                                Log.e("Chat", "채널 삭제에 성공했습니다.")
-//
-//                            }
-//
-//                        }
-//                } else { // 멤버가 2명인 경우
-//                    if (userId != null) { //TODO 여기도 번역이 되어 있어야 함.
-//                        chatClient.channel("${channel.type}:${channel.id}").removeMembers(
-//                            listOf(userId),
-//                            Message(text = "The other person left the chat room.")
-//                        )
-//                            .enqueue { hideResult ->
-//                                if (hideResult.isSuccess) {
-//                                    Log.e("Chat", "성공적으로 채팅방에서 나갔습니다.")
-//                                    val count = currentUser?.chatChannelCount?.minus(1) ?: 0
-//
-//                                    currentUser = currentUser?.copy(chatChannelCount = count)
-//
-//                                    userViewModel.updateUser(currentUser!!)
-//
-//
-//                                    userViewModel.setCurrentUser(mapOf("chatChannelCount" to count))
-//                                }
-//
-//                            }
-//
-//
-//                    }
-//                }
-//
-//
-//                // 그러면 채팅을 시작할 때 +1 하고 만약 int가 3이 되면 더이상 추가할 수 없도록 설정
-//                // 그리고 삭제하는 과정에서는 -1 처리를 통해서 최대 채팅방 개수 조정 그리고 대화를 시작하자마자 blockLIst 추가
-//                // 대신 연락하기에서 선택할 수 없도록 하기? 분명히 대화하다가 연락하기 다시 누를 수 있다고 생각
-//            }
-//            .setNegativeButton("아니오") { dialog, which ->
-//                Log.e("정상적으로", "아니오.")
-//            }
-//            .show()
     }
 
     override fun onResume() {
@@ -495,6 +420,7 @@ class MessageFragment : ChannelListFragment() {
 
 
     }
+
 
     override fun onPause() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때

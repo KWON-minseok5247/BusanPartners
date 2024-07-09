@@ -831,8 +831,5 @@ class SplashActivity : AppCompatActivity() {
         return sharedPreferences.getString("last_server_time", null)
     }
 
-
-
-
 }
 

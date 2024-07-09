@@ -154,7 +154,7 @@ class BusanPartners : Application() {
                     channelId = channel.id
                 )
             },
-            notificationChannel = notificationChannel
+            notificationChannel = notificationChannel,
         )
 
 
@@ -170,6 +170,7 @@ class BusanPartners : Application() {
             .notifications(notificationConfig, d)
             .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
+
     }
 
     private fun applySavedLocale() {

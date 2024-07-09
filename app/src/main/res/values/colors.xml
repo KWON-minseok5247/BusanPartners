@@ -41,6 +41,7 @@
     <color name="g_orange">#F8BA00</color>
     <color name="my_white">#FFFFFF</color>
 
+    <color name="notification_bg_color">#286955</color> <!-- 초록색 배경 -->
 
 
     <!-- google's material design colors from
