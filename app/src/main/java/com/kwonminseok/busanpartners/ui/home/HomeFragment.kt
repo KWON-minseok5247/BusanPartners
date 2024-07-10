@@ -118,7 +118,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
         //shimmer
         binding.shimmerFestival.startShimmer()
         binding.shimmerPlaces.startShimmer()
@@ -131,10 +130,11 @@ class HomeFragment : Fragment() {
         currentServerTime?.let { fetchFestivalList(it) }
 
 
-        sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val travelerFinish = sharedPreferences.getBoolean("traveler_finish",false)
-        val isFirstVisitor = sharedPreferences.getBoolean("is_first_visitor",false)
-        val isFirstStudent = sharedPreferences.getBoolean("is_first_student",false)
+        sharedPreferences =
+            requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val travelerFinish = sharedPreferences.getBoolean("traveler_finish", false)
+        val isFirstVisitor = sharedPreferences.getBoolean("is_first_visitor", false)
+        val isFirstStudent = sharedPreferences.getBoolean("is_first_student", false)
 
 
         Log.e("travelerFinish", travelerFinish.toString())
@@ -142,7 +142,7 @@ class HomeFragment : Fragment() {
         Log.e("isFirstStudent", isFirstStudent.toString())
 
         if (travelerFinish) {
-            sharedPreferences.edit().putBoolean("traveler_finish",false).apply()
+            sharedPreferences.edit().putBoolean("traveler_finish", false).apply()
             sharedPreferences.edit().putBoolean("is_first_visit", true).apply()
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
@@ -158,7 +158,7 @@ class HomeFragment : Fragment() {
         }
         if (isFirstVisitor) {
 
-                sharedPreferences.edit().putBoolean("is_first_visitor",false).apply()
+            sharedPreferences.edit().putBoolean("is_first_visitor", false).apply()
 
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
             val outputFormat = SimpleDateFormat("yyyy년 M월 d일까지 이용 가능합니다.", Locale.getDefault())
@@ -176,7 +176,7 @@ class HomeFragment : Fragment() {
         }
 
         if (isFirstStudent) {
-            sharedPreferences.edit().putBoolean("is_first_student",false).apply()
+            sharedPreferences.edit().putBoolean("is_first_student", false).apply()
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
                 .setTitle(getString(R.string.authentication_completed))
@@ -238,7 +238,11 @@ class HomeFragment : Fragment() {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
-                Toast.makeText(requireContext(), getString(R.string.location_permission_required), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.location_permission_required),
+                    Toast.LENGTH_SHORT
+                ).show()
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                     data = Uri.fromParts("package", requireContext().packageName, null)
                 }
@@ -270,7 +274,10 @@ class HomeFragment : Fragment() {
                     fetchLocationBasedList(finalLatLng.longitude, finalLatLng.latitude)
                 } ?: run {
 //                    fetchLocationBasedList(BUSAN_DEFAULT.longitude, BUSAN_DEFAULT.latitude)
-                    fetchLocationBasedList(getRandomLatLngInBusan().longitude, getRandomLatLngInBusan().latitude)
+                    fetchLocationBasedList(
+                        getRandomLatLngInBusan().longitude,
+                        getRandomLatLngInBusan().latitude
+                    )
                 }
             }
 
@@ -290,11 +297,13 @@ class HomeFragment : Fragment() {
         tourismAdapter.onTourismPlaceClick = { tourismItem ->
             val bundle = Bundle()
             bundle.putString("contentId", tourismItem.contentid)
+            bundle.putString("firstImage", tourismItem.firstimage)
+
             findNavController().navigate(
                 R.id.action_homeFragment_to_tourismPlaceDetailFragment,
                 bundle,
 
-            )
+                )
 
         }
 
@@ -311,7 +320,10 @@ class HomeFragment : Fragment() {
             radius = 20000,
             contentTypeId = LanguageUtils.getContentIdForTourPlace(requireContext())
         ).enqueue(object : Callback<TourismResponse> {
-            override fun onResponse(call: Call<TourismResponse>, response: Response<TourismResponse>) {
+            override fun onResponse(
+                call: Call<TourismResponse>,
+                response: Response<TourismResponse>
+            ) {
                 if (response.isSuccessful) {
                     _binding?.let { binding ->
                         binding.shimmerPlaces.stopShimmer()
@@ -345,7 +357,10 @@ class HomeFragment : Fragment() {
             eventStartDate = firstDate,
             eventEndDate = secondDate,
         ).enqueue(object : Callback<FestivalResponse> {
-            override fun onResponse(call: Call<FestivalResponse>, response: Response<FestivalResponse>) {
+            override fun onResponse(
+                call: Call<FestivalResponse>,
+                response: Response<FestivalResponse>
+            ) {
                 if (response.isSuccessful) {
                     _binding?.let { binding ->
                         binding.shimmerFestival.stopShimmer()
@@ -353,7 +368,8 @@ class HomeFragment : Fragment() {
                         binding.vpFestivals.visibility = View.VISIBLE
 
                         binding.vpFestivals.adapter = festivalAdapter
-                        binding.vpFestivals.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        binding.vpFestivals.layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                         response.body()?.response?.body?.items?.item?.let { itemList ->
                             val itemsWithImages = itemList.filter { it.firstimage.isNotEmpty() }
                             festivalAdapter.differ.submitList(itemsWithImages)
@@ -367,8 +383,6 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
                 Log.e(TAG, "Response failed: ${t.message}")
-
-                Toast.makeText(context, "${getString(R.string.error)}: ${t.message}", Toast.LENGTH_SHORT).show()
                 handleFailure(call, this, retryCount)
 
             }
@@ -380,8 +394,6 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 
 
     //
@@ -438,7 +450,6 @@ class HomeFragment : Fragment() {
         }
 
 
-
     }
 
     override fun onResume() {
@@ -465,7 +476,8 @@ class HomeFragment : Fragment() {
 
         // 두 번째 날짜: 3개월 후
         val dateAfterThreeMonths = dateTime.plus(3, ChronoUnit.MONTHS)
-        secondDate = dateAfterThreeMonths.toLocalDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+        secondDate =
+            dateAfterThreeMonths.toLocalDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
 
         Log.e("firstDate secondDate", "$firstDate $secondDate")
     }
@@ -476,22 +488,44 @@ class HomeFragment : Fragment() {
     }
 
     private fun getRandomLatLngInBusan(): LatLng {
-        val randomLatitude = BUSAN_SW.latitude + Random.nextDouble() * (BUSAN_NE.latitude - BUSAN_SW.latitude)
-        val randomLongitude = BUSAN_SW.longitude + Random.nextDouble() * (BUSAN_NE.longitude - BUSAN_SW.longitude)
+        val randomLatitude =
+            BUSAN_SW.latitude + Random.nextDouble() * (BUSAN_NE.latitude - BUSAN_SW.latitude)
+        val randomLongitude =
+            BUSAN_SW.longitude + Random.nextDouble() * (BUSAN_NE.longitude - BUSAN_SW.longitude)
         return LatLng(randomLatitude, randomLongitude)
     }
 
+    //    private fun <T> handleFailure(call: Call<T>, callback: Callback<T>, retryCount: Int) {
+//        if (retryCount > 0) {
+//            Log.e(TAG, "Retrying... ($retryCount retries left)")
+//            call.clone().enqueue(callback)
+//        } else {
+//            Log.e(TAG, "Max retries reached. Giving up.")
+////            Toast.makeText(context, getString(R.string.error_retrieving_data), Toast.LENGTH_SHORT).show()
+//        }
+//    }
     private fun <T> handleFailure(call: Call<T>, callback: Callback<T>, retryCount: Int) {
         if (retryCount > 0) {
             Log.e(TAG, "Retrying... ($retryCount retries left)")
-            call.clone().enqueue(callback)
+            call.clone().enqueue(object : Callback<T> {
+                override fun onResponse(call: Call<T>, response: Response<T>) {
+                    if (response.isSuccessful) {
+                        callback.onResponse(call, response)
+                    } else {
+                        handleFailure(call, callback, retryCount - 1)
+                    }
+                }
+
+                override fun onFailure(call: Call<T>, t: Throwable) {
+                    handleFailure(call, callback, retryCount - 1)
+                }
+            })
         } else {
             Log.e(TAG, "Max retries reached. Giving up.")
-//            Toast.makeText(context, getString(R.string.error_retrieving_data), Toast.LENGTH_SHORT).show()
+            callback.onFailure(call, Throwable("Max retries reached"))
+            // Toast.makeText(context, getString(R.string.error_retrieving_data), Toast.LENGTH_SHORT).show()
         }
     }
-
-
 
 
 }

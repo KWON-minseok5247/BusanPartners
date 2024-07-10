@@ -40,6 +40,9 @@ import me.relex.circleindicator.CircleIndicator3
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+
+private val TAG = "FestivalDetailFragment"
 @AndroidEntryPoint
 class FestivalDetailFragment : Fragment() {
     private var _binding: FragmentFestivalDetailBinding? = null
@@ -93,7 +96,7 @@ class FestivalDetailFragment : Fragment() {
 //        requireActivity().setStatusBarVisible()
     }
 
-    private fun fetchCommonData(contentId: Int) {
+    private fun fetchCommonData(contentId: Int, retryCount: Int = 3) {
         tourismApiService.detailCommon1(
             numOfRows = 1,
             pageNo = 1,
@@ -140,16 +143,20 @@ class FestivalDetailFragment : Fragment() {
                     }
                 } else {
                     Log.e("FestivalDetail", "Common Response failed: ${response.errorBody()?.string()}")
+                    handleFailure(call, this, retryCount)
+
                 }
             }
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                 Log.e("FestivalDetail", t.message.toString())
+                handleFailure(call, this, retryCount)
+
             }
         })
     }
 
-    private fun fetchImageData(contentId: Int) {
+    private fun fetchImageData(contentId: Int, retryCount: Int = 3) {
         _binding?.festivalImageLoading?.startShimmer()
         tourismApiService.detailImage1(
             numOfRows = 10,
@@ -182,33 +189,79 @@ class FestivalDetailFragment : Fragment() {
                         binding.festivalImageLoading.stopShimmer()
                         binding.festivalImageLoading.visibility = View.GONE
                     }
+                    handleFailure(call, this, retryCount)
+
                 }
             }
 
             override fun onFailure(call: Call<ImageResponse>, t: Throwable) {
                 Log.e("FestivalDetail", t.message.toString())
-                _binding?.let { binding ->
-                    val firstImage = arguments?.getString("firstImage") ?: ""
-                    val images = listOf(firstImage)
+                handleFailure(call, this, retryCount)
 
-                    binding.festivalImageLoading.stopShimmer()
-                    binding.festivalImageLoading.visibility = View.GONE
-
-                    imageEventAdapter = ImagePlaceAdapter { position ->
-                        val intent = Intent(requireContext(), ImageZoomActivity::class.java).apply {
-                            putStringArrayListExtra("images", ArrayList(images))
-                            putExtra("position", position)
-                        }
-                        startActivity(intent)
-                    }
-                    viewPager.adapter = imageEventAdapter
-                    imageEventAdapter.submitList(images)
-                    indicator.setViewPager(viewPager)
-                }
+//                _binding?.let { binding ->
+//                    val firstImage = arguments?.getString("firstImage") ?: ""
+//                    val images = listOf(firstImage)
+//
+//                    binding.festivalImageLoading.stopShimmer()
+//                    binding.festivalImageLoading.visibility = View.GONE
+//
+//                    imageEventAdapter = ImagePlaceAdapter { position ->
+//                        val intent = Intent(requireContext(), ImageZoomActivity::class.java).apply {
+//                            putStringArrayListExtra("images", ArrayList(images))
+//                            putExtra("position", position)
+//                        }
+//                        startActivity(intent)
+//                    }
+//                    viewPager.adapter = imageEventAdapter
+//                    imageEventAdapter.submitList(images)
+//                    indicator.setViewPager(viewPager)
+//                }
             }
         })
     }
-}//@AndroidEntryPoint
+
+
+    private fun <T> handleFailure(call: Call<T>, callback: Callback<T>, retryCount: Int) {
+        if (retryCount > 0) {
+            Log.e(TAG, "Retrying... ($retryCount retries left)")
+            call.clone().enqueue(object : Callback<T> {
+                override fun onResponse(call: Call<T>, response: Response<T>) {
+                    if (response.isSuccessful) {
+                        callback.onResponse(call, response)
+                    } else {
+                        handleFailure(call, callback, retryCount - 1)
+                    }
+                }
+
+                override fun onFailure(call: Call<T>, t: Throwable) {
+                    handleFailure(call, callback, retryCount - 1)
+                }
+            })
+        } else {
+            Log.e(TAG, "Max retries reached. Giving up.")
+            _binding?.let { binding ->
+                val firstImage = arguments?.getString("firstImage") ?: ""
+                val images = listOf(firstImage)
+
+                binding.festivalImageLoading.stopShimmer()
+                binding.festivalImageLoading.visibility = View.GONE
+
+                imageEventAdapter = ImagePlaceAdapter { position ->
+                    val intent = Intent(requireContext(), ImageZoomActivity::class.java).apply {
+                        putStringArrayListExtra("images", ArrayList(images))
+                        putExtra("position", position)
+                    }
+                    startActivity(intent)
+                }
+                viewPager.adapter = imageEventAdapter
+                imageEventAdapter.submitList(images)
+                indicator.setViewPager(viewPager)
+            }            // Toast.makeText(context, getString(R.string.error_retrieving_data), Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+
+//@AndroidEntryPoint
 //class FestivalDetailFragment : Fragment() {
 //    private var _binding: FragmentFestivalDetailBinding? = null
 //    private val binding get() = _binding!!

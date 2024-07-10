@@ -26,6 +26,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+private val TAG = "TourismPlaceDetailFragment"
 @AndroidEntryPoint
 class TourismPlaceDetailFragment : Fragment() {
     private var _binding: FragmentPlaceBinding? = null
@@ -79,7 +80,7 @@ class TourismPlaceDetailFragment : Fragment() {
 //        requireActivity().setStatusBarVisible()
     }
 
-    private fun fetchCommonData(contentId: Int) {
+    private fun fetchCommonData(contentId: Int, retryCount: Int = 3) {
         tourismApiService.detailCommon1(
             numOfRows = 1,
             pageNo = 1,
@@ -113,17 +114,23 @@ class TourismPlaceDetailFragment : Fragment() {
                         binding.progressBar.visibility = View.INVISIBLE
                     }
                 } else {
-                    Log.e("FestivalDetail", "Common Response failed: ${response.errorBody()?.string()}")
+                    Log.e("fetchCommonData", "Common Response failed: ${response.errorBody()?.string()}")
+                    Log.e("fetchCommonData", "Response code: ${response.code()}, Response message: ${response.message()}")
+                    Log.e("fetchCommonData", "Response body: ${response.body()}")
+                    handleFailure(call, this, retryCount)
+
                 }
             }
 
             override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
-                Log.e("FestivalDetail", t.message.toString())
+                Log.e("fetchCommonData", t.message.toString())
+                handleFailure(call, this, retryCount)
+
             }
         })
     }
 
-    private fun fetchImageData(contentId: Int) {
+    private fun fetchImageData(contentId: Int, retryCount: Int = 3) {
         tourismApiService.detailImage1(
             numOfRows = 10,
             pageNo = 1,
@@ -157,17 +164,66 @@ class TourismPlaceDetailFragment : Fragment() {
 
 
                 } else {
-                    Log.e("FestivalDetail", "Image Response failed: ${response.errorBody()?.string()}")
+                    Log.e("fetchImageData", "Image Response failed: ${response.errorBody()?.string()}")
+                    Log.e("fetchImageData", "Response code: ${response.code()}, Response message: ${response.message()}")
+                    Log.e("fetchImageData", "Response body: ${response.body()}")
+                    handleFailure(call, this, retryCount)
+
                 }
             }
 
             override fun onFailure(call: Call<ImageResponse>, t: Throwable) {
-                Log.e("FestivalDetail", t.message.toString())
+                Log.e("fetchImageData", t.message.toString())
+                handleFailure(call, this, retryCount)
+
             }
         })
     }
 
 
+    private fun <T> handleFailure(call: Call<T>, callback: Callback<T>, retryCount: Int) {
+        if (retryCount > 0) {
+            Log.e(TAG, "Retrying... ($retryCount retries left)")
+            call.clone().enqueue(object : Callback<T> {
+                override fun onResponse(call: Call<T>, response: Response<T>) {
+                    if (response.isSuccessful) {
+                        Log.e(TAG, "Failure에서 재시도 성공")
 
+                        callback.onResponse(call, response)
+                    } else {
+                        Log.e(TAG, "Failure에서 재시도 실패")
+
+                        handleFailure(call, callback, retryCount - 1)
+                    }
+                }
+
+                override fun onFailure(call: Call<T>, t: Throwable) {
+                    Log.e(TAG, "Failure에서 응답 자체 실패")
+
+                    handleFailure(call, callback, retryCount - 1)
+                }
+            })
+        } else {
+            Log.e(TAG, "Max retries reached. Giving up.")
+            _binding?.let { binding ->
+                val firstImage = arguments?.getString("firstImage") ?: ""
+                val images = listOf(firstImage)
+
+                binding.festivalImageLoading.stopShimmer()
+                binding.festivalImageLoading.visibility = View.GONE
+
+                imagePlaceAdapter = ImagePlaceAdapter { position ->
+                    val intent = Intent(requireContext(), ImageZoomActivity::class.java).apply {
+                        putStringArrayListExtra("images", ArrayList(images))
+                        putExtra("position", position)
+                    }
+                    startActivity(intent)
+                }
+                viewPager.adapter = imagePlaceAdapter
+                imagePlaceAdapter.submitList(images)
+                indicator.setViewPager(viewPager)
+            }            // Toast.makeText(context, getString(R.string.error_retrieving_data), Toast.LENGTH_SHORT).show()
+        }
+    }
 
 }
