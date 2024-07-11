@@ -2,25 +2,6 @@
 <resources>
     <string name="app_name">BusanPartners</string>
 
-    <string-array name="university_list">
-        <item>National Pukyong University</item>
-        <item>Busan National University of Education</item>
-        <item>Busan National University</item>
-        <item>Korea National Open University</item>
-        <item>Korea Maritime and Ocean University</item>
-        <item>Kyungsung University</item>
-        <item>Kosin University</item>
-        <item>Tongmyong University</item>
-        <item>Dongseo University</item>
-        <item>Dong-A University</item>
-        <item>Dong-Eui University</item>
-        <item>Busan Catholic University</item>
-        <item>Busan University of Foreign Studies</item>
-        <item>Silla University</item>
-        <item>Youngsan University</item>
-        <item>Inje University</item>
-    </string-array>
-
     <!-- For onboarding pages -->
     <string name="student_authentication_onboarding_1">Student Authentication Process</string>
     <string name="student_description_onboarding_1">For smooth service delivery, a simple authentication process is required. \n Verification of your university email is required.</string>
@@ -257,55 +238,6 @@
     <string name="privacy_policy_10_content">Privacy Officer: Minseok Kwon\nContact: 010-4748-7731\nEmail: appbusanpartners@gmail.com</string>
     <string name="privacy_policy_11_title">11. Changes to the Privacy Policy</string>
     <string name="privacy_policy_11_content">This Privacy Policy is subject to change by law and internal policy. Changes will be announced on this page, and any material changes will be announced separately.</string>
-    <!--    <string name="header_title">Privacy Policy</string>-->
-    <!--    <string name="privacy_policy_date">Last Updated: July 10, 2024</string>-->
-    <!--    <string name="privacy_policy_intro">BusanPartners (hereinafter referred to as \'our app\') values your personal information and strives to protect it in accordance with the Personal Information Protection Act and relevant laws. This Privacy Policy explains how we collect, use, store, and protect your personal information.</string>-->
-    <!--    <string name="privacy_policy_1_title">1. Personal Information We Collect</string>-->
-    <!--    <string name="privacy_policy_1_content">Our app collects the following personal information:\n\nRequired Information: Name, email address, profile photo (collected during Google login)\nAdditional Information (for student authentication): University email, student ID photo\nAdditional Information (for traveler authentication): Plane/Ferry ticket, proof of accommodation (only parts where the name and date are identifiable)\nLocation Information: Used for recommending nearby tourist attractions</string>-->
-    <!--    <string name="privacy_policy_2_title">2. Methods of Collecting Personal Information</string>-->
-    <!--    <string name="privacy_policy_2_content">Automatically collected via Google login and Firebase authentication\nDirect input and file upload by users\nLocation information is automatically collected only when the user grants location permission</string>-->
-    <!--    <string name="privacy_policy_3_title">3. Purposes of Using Personal Information</string>-->
-    <!--    <string name="privacy_policy_3_content">Account creation and management\nService provision and improvement\nStudent and traveler authentication\nProviding personalized services and promotional information\nRecommending nearby tourist attractions</string>-->
-    <!--    <string name="privacy_policy_4_title">4. Sharing and Providing Personal Information</string>-->
-    <!--    <string name="privacy_policy_4_content">In principle, we do not provide users\' personal information to external parties. However, the following exceptions apply:\n\nWith the user\'s consent\nWhen required by law\nUpon request from investigative agencies</string>-->
-    <!--    <string name="privacy_policy_5_title">5. Retention and Use Period of Personal Information</string>-->
-    <!--    <string name="privacy_policy_5_content">Personal information is destroyed without delay once the purpose of collection and use is achieved. If required by law, the information will be retained for the period specified by the law.</string>-->
-    <!--    <string name="privacy_policy_6_title">6. Procedures and Methods for Destroying Personal Information</string>-->
-    <!--    <string name="privacy_policy_6_content">Destruction Procedures: After achieving the purpose of collection and use, the information is moved to a separate DB and stored for a certain period before being destroyed.\nDestruction Methods: Electronic files are destroyed using technical methods to prevent recovery, and paper documents are shredded or incinerated.</string>-->
-    <!--    <string name="privacy_policy_7_title">7. User Rights and How to Exercise Them</string>-->
-    <!--    <string name="privacy_policy_7_content">Users can view, correct, delete, or suspend the processing of their personal information at any time. For inquiries, please contact appbusanpartners@gmail.com, and we will take immediate action.</string>-->
-    <!--    <string name="privacy_policy_8_title">8. Measures to Ensure the Security of Personal Information</string>-->
-    <!--    <string name="privacy_policy_8_content">Encryption of personal information\nTechnical measures against hacking\nAccess control and training</string>-->
-    <!--    <string name="privacy_policy_9_title">9. Collection and Use of Location Information</string>-->
-    <!--    <string name="privacy_policy_9_content">Our app collects location information for recommending nearby tourist attractions. If the user refuses location permission, the app may request it again. Location information is not collected in real-time and is used only with the user\'s consent.</string>-->
-    <!--    <string name="privacy_policy_10_title">10. Personal Information Protection Officer and Contact Information</string>-->
-    <!--    <string name="privacy_policy_10_content">Personal Information Protection Officer: Minseok Kwon\nContact: 010–4748–7731\nEmail: appbusanpartners@gmail.com</string>-->
-    <!--    <string name="privacy_policy_11_title">11. Changes to the Privacy Policy</string>-->
-    <!--    <string name="privacy_policy_11_content">This Privacy Policy may be changed according to changes in laws and internal policies. Changes will be notified through this page, and significant changes will be announced separately.</string>-->
-
-<!--    <string name="header_title_terms">Terms of Service</string>-->
-<!--    <string name="terms_of_service_date">Last Updated: July 10, 2024</string>-->
-<!--    <string name="terms_of_service_intro">Welcome! Thank you for using BusanPartners (hereinafter referred to as \'our app\'). These Terms of Service explain the conditions and guidelines for using our app, and users must comply with them.</string>-->
-<!--    <string name="terms_of_service_1_title">1. Introduction to the Service</string>-->
-<!--    <string name="terms_of_service_1_content">BusanPartners is a service that connects university students in Busan with foreign tourists. Users can also communicate through chat functions.</string>-->
-<!--    <string name="terms_of_service_2_title">2. Membership</string>-->
-<!--    <string name="terms_of_service_2_content">Users register through Google login, and names, emails, and profile photos are collected during registration. For student authentication, users must submit a university email and student ID photo. For traveler authentication, users must submit a plane/ferry ticket and proof of accommodation.</string>-->
-<!--    <string name="terms_of_service_3_title">3. Use of Location Information</string>-->
-<!--    <string name="terms_of_service_3_content">Our app collects users\' location information to introduce nearby tourist attractions. Location information is collected only with the user\'s consent, and users can stop providing location information at any time. Features using location information cannot be used if location information is disabled. Location information is protected according to the Privacy Policy.</string>-->
-<!--    <string name="terms_of_service_4_title">4. Protection of Personal Information</string>-->
-<!--    <string name="terms_of_service_4_content">Our app strives to protect users\' personal information and processes it in accordance with the Privacy Policy.</string>-->
-<!--    <string name="terms_of_service_5_title">5. Account Responsibility</string>-->
-<!--    <string name="terms_of_service_5_content">Users must keep their account information confidential and must not share it with others. Users are responsible for all activities on their accounts.</string>-->
-<!--    <string name="terms_of_service_6_title">6. Prohibited Activities</string>-->
-<!--    <string name="terms_of_service_6_content">Users must not engage in the following activities:\n\nIllegal activities\nInfringing on the rights of others\nProviding false information\nDisrupting the service and attempting to hack the system\nSending and sharing inappropriate content</string>-->
-<!--    <string name="terms_of_service_7_title">7. Service Interruption and Changes</string>-->
-<!--    <string name="terms_of_service_7_content">Our app may temporarily or permanently interrupt or change the service as needed. In such cases, we will notify users in advance and strive to ensure no disadvantages occur to users.</string>-->
-<!--    <string name="terms_of_service_8_title">8. Limitation of Liability</string>-->
-<!--    <string name="terms_of_service_8_content">Our app is not responsible for disputes between users. We are not liable for any damages arising from the use of the service.</string>-->
-<!--    <string name="terms_of_service_9_title">9. Changes to the Terms of Service</string>-->
-<!--    <string name="terms_of_service_9_content">These Terms of Service may be changed according to changes in laws and service policies. Significant changes will be notified to users through announcements.</string>-->
-<!--    <string name="terms_of_service_10_title">10. Inquiries</string>-->
-<!--    <string name="terms_of_service_10_content">For inquiries about the Terms of Service, please contact appbusanpartners@gmail.com.</string>-->
 
 
     <string name="header_title_terms">Terms of Service</string>
@@ -331,5 +263,9 @@
     <string name="terms_of_service_9_content">These Terms are subject to change due to changes in law or the policies of the Service. We will notify you of material changes via a notice.</string>
     <string name="terms_of_service_10_title">10. Contact Us</string>
     <string name="terms_of_service_10_content">For questions about the Terms of Service, please contact appbusanpartners@gmail.com.</string>
+
+
+    <string name="app_language_change">App Languages</string>
+    <string name="select_your_language">Select your language.</string>
 
 </resources>

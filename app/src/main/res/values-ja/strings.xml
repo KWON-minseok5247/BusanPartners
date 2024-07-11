@@ -1,6 +1,269 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BusanPartners</string>
-    <string name="welcome_traveler">釜山へようこそ。 \n %1$sまで自由に会話してください。</string>
-    <string name="date_format">yyyy年MM月dd日まで利用可能です。</string>
+
+    <!-- オンボーディングページ用 -->
+    <string name="student_authentication_onboarding_1">学生認証プロセス</string>
+    <string name="student_description_onboarding_1">スムーズなサービス提供のために、簡単な認証プロセスが必要です。\n大学のメールアドレスの確認が必要です。</string>
+
+    <string name="student_authentication_onboarding_2">学生証認証プロセス</string>
+    <string name="student_description_onboarding_2">名前が表示されている学生証の写真を提出してください。</string>
+
+    <string name="student_authentication_onboarding_3">認証完了後</string>
+    <string name="student_description_onboarding_3">認証済みの学生は、制限なく自由にチャットできます。\n新しいつながりを作り、貴重な体験をしてください。</string>
+
+    <string name="start_text_advice">このアプリケーションを続行することで、利用規約およびプライバシーポリシーに同意したことになります。</string>
+
+    <string name="traveler_authentication_onboarding_1">旅行者認証プロセス</string>
+    <string name="traveler_description_onboarding_1">スムーズなサービス提供のために、簡単な認証プロセスが必要です。</string>
+
+    <string name="traveler_authentication_onboarding_2">名前が表示された写真を撮影またはキャプチャしてください。</string>
+    <string name="traveler_description_onboarding_2">航空券や宿泊証明など、少なくとも2枚の写真を添付してください。</string>
+
+    <string name="skip">スキップ</string>
+    <string name="next">次へ</string>
+
+    <string name="init_title_one">BusanPartnersへようこそ！</string>
+    <string name="init_introduction_one">釜山を訪れる外国人観光客と地元の大学生をつなぐことで、文化交流の機会を提供します。</string>
+
+    <string name="init_title_two">相手にメッセージを共有しましょう。</string>
+    <string name="init_introduction_two">認証を完了して、希望するパートナーとチャットを始めましょう。</string>
+
+    <string name="init_title_three">文化交流を体験してください。</string>
+    <string name="init_introduction_three">さまざまな人と交流し、視野を広げましょう。</string>
+
+    <string name="init_title_four">文化交流を体験してください。</string>
+    <string name="map_sharing">位置情報を共有</string>
+    <string name="share_the_map">位置情報を共有する</string>
+    <string name="details">詳細</string>
+    <string name="who_are_you">あなたは誰ですか？</string>
+    <string name="select_student_or_traveler">学生または旅行者を選択してください。</string>
+    <string name="university_student">学生</string>
+    <string name="selected_university_info">さまざまな人と交流し、視野を広げましょう。</string>
+    <string name="traveler">旅行者</string>
+    <string name="selected_traveler_info">釜山の日常生活で特別な瞬間を体験してください。</string>
+    <string name="enter_email">メールアドレスを入力</string>
+    <string name="email_authentication">1. メール認証</string>
+    <string name="email_authentication_info">• 現在通っている大学のメールアドレスを入力し、メールで受け取った認証番号を入力してください。</string>
+    <string name="email">メールアドレス</string>
+    <string name="send_authentication_email">認証メールを送信</string>
+    <string name="attach_image">画像を添付</string>
+    <string name="student_card">2. 学生証</string>
+    <string name="student_card_info">• 名前と学生証番号が表示された写真をアップロードしてください。</string>
+    <string name="select_image">画像を選択</string>
+    <string name="send">送信</string>
+    <string name="enter_authentication_number">認証番号を入力</string>
+    <string name="authentication_number_title">認証番号が送信されました。</string>
+    <string name="authentication_number_info">認証番号を入力してください。</string>
+    <string name="do_it">確認</string>
+    <string name="authentication_number_complete">認証番号が確認されました。</string>
+    <string name="next_button">次へ</string>
+    <string name="faq_header">よくある質問</string>
+    <string name="location">位置</string>
+    <string name="festival_time">フェスティバル期間</string>
+    <string name="homepage">ホームページ</string>
+    <string name="check_the_location_button">位置を確認</string>
+    <string name="current_festival">現在のフェスティバル</string>
+    <string name="nearest_place">近くの観光スポット</string>
+    <string name="login_title">釜山で大切なつながりを見つける\n今すぐ始めましょう！</string>
+    <string name="google_login_btn">Googleでログイン</string>
+    <string name="agree_personal_information">進行することで、利用規約およびプライバシーポリシーに同意したことになります。</string>
+    <string name="authentication">認証</string>
+    <string name="authenticate">認証する</string>
+    <string name="notifications">通知</string>
+    <string name="all_notification">すべての通知</string>
+    <string name="chat_notification">チャット通知</string>
+    <string name="regional">設定</string>
+    <string name="log_out">ログアウト</string>
+    <string name="translate_language">アプリの言語</string>
+    <string name="faq">よくある質問</string>
+    <string name="use_information">利用規約</string>
+    <string name="personal_information">プライバシーポリシー</string>
+    <string name="delete_user">アカウント削除</string>
+    <string name="traveler_authentication_title">外国人観光客認証ガイド</string>
+    <string name="traveler_small_title_one">1. 航空券または船舶券</string>
+    <string name="traveler_small_info_one">• 名前と日付が確認できるようにキャプチャまたは写真を撮影してアップロードしてください。</string>
+    <string name="traveler_small_info_two">• その他の個人情報はマスキングできます。</string>
+    <string name="traveler_small_info_three">• Agoda、Expedia、Trip.comなどのウェブサイトまたはアプリで予約した宿泊証明を提出してください。</string>
+    <string name="traveler_small_info_four">• 名前と日付がはっきりと見えるようにしてください。その他の個人情報はマスキングできます。</string>
+    <string name="traveler_small_title_two">2. 宿泊証明</string>
+    <string name="traveler_small_info_five">名前と日付が一致することが最も重要です。\n各1枚以上の写真をアップロードしてください。アップロードされた写真は認証後7日以内に削除されます。</string>
+    <string name="student_list">学生リスト</string>
+    <string name="connect_student">連絡先</string>
+    <string name="deepl_service_info">これはDeepLサービスを使用して自動的に翻訳されました。\n一部の翻訳が正確でない場合があります。</string>
+    <string name="delete_user_title_one">お会いできてよかったです。</string>
+    <string name="delete_user_info">アカウント削除の理由を教えてください。\nフィードバックはサービス改善の参考にさせていただきます。</string>
+    <string name="delete_user_radio_one">サービスに不満がある。</string>
+    <string name="delete_user_radio_two">個人情報のセキュリティが心配。</string>
+    <string name="delete_user_radio_three">マッチングシステムに不満がある。</string>
+    <string name="delete_user_radio_four">他のユーザーからの迷惑行為があった。</string>
+    <string name="delete_user_radio_five">使い方が複雑すぎる。</string>
+    <string name="delete_user_radio_six">その他（独自に入力してください）</string>
+    <string name="delete_user_btn">削除</string>
+    <string name="profile_detail">プロフィール画面</string>
+    <string name="profile_show_chip_group">あなたを表すキーワードを作成しましょう。</string>
+    <string name="add_tag">タグを追加</string>
+    <string name="profile_can_get_a_call">旅行者から連絡を受けることができます。</string>
+    <string name="name">名前</string>
+    <string name="major">専攻（任意）</string>
+    <string name="profile_introduce">自己紹介を簡単に書いてください。</string>
+    <string name="save_btn">保存</string>
+    <string name="profile_deepl_info">あなたのプロフィールはDeepLを使用して相手に自動翻訳されます。\n保存を開始すると翻訳が始まります。少々お待ちください。</string>
+    <string name="profile_guest_info">基本画像や名前を編集できます。\n大学生認証を完了すると、この機能は拡張されます。</string>
+    <string name="view_profile">プロフィールを見る</string>
+    <string name="chat_message">チャットメッセージ</string>
+    <string name="chat_message_info">メッセージが届いたときに通知を受け取ります。重要度のレベルを変更すると、BusanPartnersによって設定された通知を正常に受信できない場合があります。</string>
+    <string name="location_permission_required">位置情報通知を許可してください。</string>
+
+    <string name="welcome_message">釜山で連絡可能な学生の総数は%1$d人です。</string>
+    <string name="verify_first">まず認証を完了してください。</string>
+    <string name="contact_student_count">現在連絡可能な学生の数: %1$d</string>
+
+    <string name="college_student_cannot_contact">学生は他の学生に連絡できません。</string>
+    <string name="cannot_recontact">現在チャット中の相手や、すでにチャットを終了した相手には再度連絡できません。</string>
+    <string name="max_chat_rooms">アクティブなチャットルームの最大数は3つです。</string>
+
+    <string name="thanks_for_using">ご利用いただきありがとうございます。</string>
+    <string name="great_experience_in_busan">釜山で素晴らしい体験ができましたか？またお越しください！</string>
+    <string name="confirmation">確認</string>
+    <string name="authentication_completed">認証が完了しました。</string>
+    <string name="contact_students_first">まず学生に連絡してください。</string>
+    <string name="make_precious_memories">さまざまな人と貴重な思い出を作りましょう！</string>
+    <string name="press_back_again_to_exit">もう一度戻るボタンを押して終了します。</string>
+    <string name="location_permission_needed">位置情報の許可が必要です</string>
+    <string name="location_permission_needed_desc">この機能を使用するには位置情報の許可が必要です。</string>
+    <string name="error">エラー</string>
+    <string name="date_format">yyyy-MM-ddまで利用可能。</string>
+
+    <string name="token_fetch_error">トークンの取得中にエラーが発生しました。</string>
+    <string name="relogin_prompt">もう一度ログインしてください。</string>
+    <string name="network_error">ネットワークエラー</string>
+    <string name="no_internet_connection">インターネット接続がありません。アプリが閉じます。</string>
+    <string name="retrying_to_connect">再接続試行中: %1$d</string>
+    <string name="max_retries_reached">最大再試行回数に達しました。もう一度ログインしてください。</string>
+    <string name="guest_user_connect_failed">ゲストユーザーの接続に失敗しました: %1$s</string>
+    <string name="user_connect_failed">ユーザーの接続に失敗しました: %1$s</string>
+    <string name="user_stream_setup_error">ユーザーストリームの設定中にエラーが発生しました。</string>
+
+    <string name="only_member_cannot_send">相手がチャットルームを退出したため、メッセージを送信できません。</string>
+
+    <string name="user_left_chat">相手がチャットルームを退出しました。</string>
+    <string name="leave_chat_room_title">チャットルームを退出</string>
+    <string name="leave_chat_room_message">チャットルームを退出してもよろしいですか？再度相手とチャットすることはできません。</string>
+    <string name="cancel">キャンセル</string>
+    <string name="mute_chat_notifications">チャットルーム通知をミュート</string>
+    <string name="unmute_chat_notifications">チャットルーム通知のミュートを解除</string>
+    <string name="leave_chat">チャットルームを退出</string>
+
+    <string name="data_changed_message">サーバーからデータが変更されました。再試行してください。</string>
+
+    <string name="email_verification_success">メール認証が正常に完了しました。</string>
+    <string name="prepare_student_id">学生証の写真を準備してください。</string>
+    <string name="email_verification_failed">メール認証に失敗しました。</string>
+    <string name="retry_verification">認証コードを確認して再試行してください。</string>
+    <string name="cannot_go_back_during_verification">認証プロセス中に戻ることはできません。</string>
+
+    <string name="error_email_required">メールアドレスを入力してください。</string>
+    <string name="error_invalid_email">有効なメールアドレスを入力してください（%1$s）。</string>
+    <string name="verification_code_sending">認証コードを送信中</string>
+    <string name="please_wait">少々お待ちください。</string>
+
+    <string name="saved_successfully">正常に保存されました。</string>
+    <string name="add_student_id_photo">学生証の写真を追加してください！</string>
+    <string name="save_alert_title">警告</string>
+    <string name="save_alert_message">保存すると変更できません。\n保存してもよろしいですか？</string>
+    <string name="choose_photo">写真を選択</string>
+    <string name="cannot_go_back">認証プロセス中に戻ることはできません。</string>
+
+    <string name="loading">読み込み中</string>
+    <string name="checking_verification_code">認証番号を確認中。</string>
+
+    <string name="category_all">すべて</string>
+    <string name="category_other">その他</string>
+
+    <string name="notification_activated">通知が有効になりました</string>
+    <string name="notification_deactivated">通知が無効になりました</string>
+    <string name="log_out_confirmation">本当にログアウトしますか？</string>
+    <string name="auth_in_progress">認証が進行中です。少々お待ちください。</string>
+    <string name="auth_already_completed">認証はすでに完了しています。</string>
+    <string name="welcome_traveler">釜山へようこそ。\n %1$sまで自由にチャットしてください。</string>
+    <string name="authentication_completed_student">認証が完了しました。\nさまざまな人と貴重な思い出を作りましょう！</string>
+
+    <string name="add_student_id_photo_traveler">身分証明書を確認するための写真を追加してください！</string>
+    <string name="add_minimum_two_photos">少なくとも2枚の写真を追加してください！</string>
+
+    <string name="delete_account_message">すべての情報が即座に削除され、復元することはできません。</string>
+    <string name="choose_delete_reason">削除理由を選択してください</string>
+    <string name="deleting_account">アカウントを削除中</string>
+    <string name="please_wait_for_delete">少々お待ちください。最大20秒かかる場合があります</string>
+    <string name="account_deleted">アカウントが正常に削除されました。</string>
+    <string name="returning_to_main">メイン画面に戻ります。</string>
+    <string name="account_deletion_failed">アカウントの削除に失敗しました。</string>
+    <string name="reauth_failed">再認証に失敗しました。もう一度お試しください。</string>
+    <string name="google_login_failed">Googleログインに失敗しました。もう一度お試しください。</string>
+
+    <string name="enter_name_prompt">名前を入力してください！</string>
+    <string name="unsaved_changes_message">変更が保存されていません。\n本当に退出しますか？</string>
+
+    <string name="new_message_from_contact">相手から新しいメッセージがあります！</string>
+    <string name="tap_to_check">通知をタップして確認してください。</string>
+    <string name="new_messages">新しいメッセージ</string>
+    <string name="multiple_messages_received">複数のメッセージが受信されました。</string>
+
+    <string name="system_default_language">システムのデフォルト言語（推奨）</string>
+
+    <string name="header_title">プライバシーポリシー</string>
+    <string name="privacy_policy_date">最終更新日: 2024年7月10日</string>
+    <string name="privacy_policy_intro">BusanPartners（「当社アプリ」）は、プライバシーを重視し、適用される法律および規制に従って、個人情報を保護することを約束します。このプライバシーポリシーは、当社がどのように個人情報を収集、使用、保管、保護するかを説明します。</string>
+    <string name="privacy_policy_1_title">1. 収集する個人情報</string>
+    <string name="privacy_policy_1_content">当社アプリは次の個人情報を収集します：\n\n必須情報: 名前、メールアドレス、プロフィール写真（Googleでサインインする際に収集）\n追加情報（大学生認証用）：大学のメールアドレス、学生証の写真\n追加情報（観光客認証用）：航空券/船舶券、宿泊証明（名前と日付を識別する部分のみ）\n位置情報：近くの観光スポットを推薦するために使用</string>
+    <string name="privacy_policy_2_title">2. 個人情報の収集方法</string>
+    <string name="privacy_policy_2_content">GoogleサインインとFirebase認証を通じて自動収集\nユーザーによる直接入力およびファイルアップロード\n位置情報は許可されている場合にのみ自動的に収集</string>
+    <string name="privacy_policy_3_title">3. 個人情報の使用目的</string>
+    <string name="privacy_policy_3_content">アカウントの作成と管理\nサービスの提供と改善\n大学生および観光客の認証\nパーソナライズされたサービスおよびプロモーション情報の提供\n近くの観光スポットの推薦</string>
+    <string name="privacy_policy_4_title">4. 個人情報の共有および提供</string>
+    <string name="privacy_policy_4_content">原則として、次の場合を除き、外部に個人情報を提供することはありません：\n\nご本人の同意がある場合\n法律の規定による場合\n捜査機関の要請がある場合</string>
+    <string name="privacy_policy_5_title">5. 個人情報の保管および使用期間</string>
+    <string name="privacy_policy_5_content">収集および使用目的が達成された後、個人情報は遅滞なく破棄します。法律により保管が義務付けられている場合は、法律で定められた期間保管します。</string>
+    <string name="privacy_policy_6_title">6. 個人情報の破棄手続きおよび方法</string>
+    <string name="privacy_policy_6_content">破棄手続き：収集および使用目的が達成された後、別のデータベースに移され、一定期間保管された後に破棄されます\n破棄方法：電子ファイルは復元できない技術的方法で破棄し、紙の文書はシュレッダーまたは焼却で破棄します</string>
+    <string name="privacy_policy_7_title">7. 権利および行使方法</string>
+    <string name="privacy_policy_7_content">個人データへのアクセス、修正、削除、処理の停止の権利をいつでも行使することができます。これを行うには、appbusanpartners@gmail.comに連絡してください。遅滞なく対応いたします。</string>
+    <string name="privacy_policy_8_title">8. 個人情報の安全対策</string>
+    <string name="privacy_policy_8_content">個人情報の暗号化\nハッキング対策の技術的措置\nアクセス制御と教育</string>
+    <string name="privacy_policy_9_title">9. 位置情報の収集および使用</string>
+    <string name="privacy_policy_9_content">当社アプリは、近くの観光スポットを推薦する目的で位置情報を収集します。位置情報の許可を拒否した場合、アプリは追加の位置情報許可を要求することがあります。位置情報はリアルタイムで収集されず、同意がある場合にのみ使用されます。</string>
+    <string name="privacy_policy_10_title">10. プライバシー担当者および連絡先</string>
+    <string name="privacy_policy_10_content">プライバシー担当者: ミンソク・クォン\n連絡先: 010-4748-7731\nメール: appbusanpartners@gmail.com</string>
+    <string name="privacy_policy_11_title">11. プライバシーポリシーの変更</string>
+    <string name="privacy_policy_11_content">このプライバシーポリシーは、法律や内部ポリシーによって変更されることがあります。変更はこのページでお知らせし、重大な変更は別途お知らせします。</string>
+
+    <string name="header_title_terms">利用規約</string>
+    <string name="terms_of_service_date">最終更新日: 2024年7月10日</string>
+    <string name="terms_of_service_intro">ようこそ！BusanPartners（以下、「当社アプリ」といいます）をご利用いただきありがとうございます。この利用規約は、当社アプリの利用条件およびガイドラインを説明しており、遵守する必要があります。</string>
+    <string name="terms_of_service_1_title">1. はじめに</string>
+    <string name="terms_of_service_1_content">BusanPartnersは、釜山の大学生と外国人観光客をつなぐサービスです。ユーザーはチャット機能を通じて互いにコミュニケーションを取ることもできます。</string>
+    <string name="terms_of_service_2_title">2. サインアップ</string>
+    <string name="terms_of_service_2_content">ユーザーはGoogleサインインを通じてサインアップし、名前、メールアドレス、プロフィール写真を収集します。大学生である場合は、大学のメールアドレスの認証および学生証の写真を提出する必要があります。観光客である場合は、航空券/船舶券および宿泊証明を提出する必要があります。</string>
+    <string name="terms_of_service_3_title">3. 位置情報の使用</string>
+    <string name="terms_of_service_3_content">当社アプリは、近くの観光スポットを紹介するサービスを提供するために位置情報を収集します。位置情報は同意がある場合にのみ収集され、いつでも提供を停止することができます。位置情報が無効になっている場合、この機能は利用できません。位置情報はプライバシーポリシーに従って保護されます。</string>
+    <string name="terms_of_service_4_title">4. プライバシー</string>
+    <string name="terms_of_service_4_content">当社アプリは、お客様のプライバシーを保護することを約束しており、これはプライバシーポリシーに従って処理されます。</string>
+    <string name="terms_of_service_5_title">5. アカウントの責任</string>
+    <string name="terms_of_service_5_content">アカウント情報を秘密に保ち、他人と共有しないでください。アカウント上のすべての活動に責任を負います。</string>
+    <string name="terms_of_service_6_title">6. 禁止行為</string>
+    <string name="terms_of_service_6_content">次の行為は禁止されています：\n\n違法行為\n他者の権利を侵害する行為\n虚偽情報の提供\nサービスの妨害やシステムへの不正アクセスの試み\n不適切なコンテンツの送信や共有</string>
+    <string name="terms_of_service_7_title">7. サービスの中断および変更</string>
+    <string name="terms_of_service_7_content">必要に応じて、サービスを一時的または永久に中断または変更することがあります。この場合、事前に通知し、不利益を被らないよう努めます。</string>
+    <string name="terms_of_service_8_title">8. 責任制限</string>
+    <string name="terms_of_service_8_content">当社アプリは、ユーザー間の紛争について責任を負いません。サービスの利用に起因する損害についても責任を負いません。</string>
+    <string name="terms_of_service_9_title">9. 利用規約の変更</string>
+    <string name="terms_of_service_9_content">この規約は、法律の変更やサービスの方針の変更により変更されることがあります。重大な変更については、通知を通じてお知らせします。</string>
+    <string name="terms_of_service_10_title">10. お問い合わせ</string>
+    <string name="terms_of_service_10_content">利用規約に関する質問は、appbusanpartners@gmail.comまでお問い合わせください。</string>
+
+    <string name="app_language_change">アプリの言語</string>
+    <string name="select_your_language">あなたの言語を選択してください。</string>
+
+
 </resources>

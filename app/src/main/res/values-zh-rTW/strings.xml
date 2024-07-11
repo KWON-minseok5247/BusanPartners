@@ -1,5 +1,267 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BusanPartners</string>
-    <string name="current_festival">축제현황(중국어zh) TW</string>
+    <string name="student_authentication_onboarding_1">學生認證過程</string>
+    <string name="student_description_onboarding_1">為了順利提供服務，需要簡單的認證過程。\n 需要驗證您的大學電子郵件。</string>
+
+    <string name="student_authentication_onboarding_2">學生證認證過程</string>
+    <string name="student_description_onboarding_2">請提交顯示您姓名的學生證照片。</string>
+
+    <string name="student_authentication_onboarding_3">完成認證後</string>
+    <string name="student_description_onboarding_3">已認證的學生可以自由聊天，無任何限制。\n 結識新朋友並獲得寶貴經驗。</string>
+
+    <string name="start_text_advice">繼續使用本應用即表示您同意我們的使用條款和隱私政策。</string>
+
+    <string name="traveler_authentication_onboarding_1">旅行者認證過程</string>
+    <string name="traveler_description_onboarding_1">為了順利提供服務，我們需要進行簡單的認證過程。</string>
+
+    <string name="traveler_authentication_onboarding_2">請拍攝或拍照並顯示您的姓名。</string>
+    <string name="traveler_description_onboarding_2">請附上至少兩張照片，包括您的機票和住宿證明。</string>
+
+    <string name="skip">跳過</string>
+    <string name="next">下一步</string>
+
+    <string name="init_title_one">歡迎來到 BusanPartners！</string>
+    <string name="init_introduction_one">我們通過將訪問釜山的外國遊客與當地大學生聯繫起來，提供文化交流的機會。</string>
+
+    <string name="init_title_two">與對方分享信息。</string>
+    <string name="init_introduction_two">完成認證並開始與您想要的夥伴聊天。</string>
+
+    <string name="init_title_three">體驗文化交流。</string>
+    <string name="init_introduction_three">與不同的人互動並擴展您的視野。</string>
+
+    <string name="init_title_four">體驗文化交流。</string>
+    <string name="map_sharing">共享位置</string>
+    <string name="share_the_map">分享位置</string>
+    <string name="details">詳細信息</string>
+    <string name="who_are_you">你是誰？</string>
+    <string name="select_student_or_traveler">請選擇學生或旅行者。</string>
+    <string name="university_student">學生</string>
+    <string name="selected_university_info">與不同的人互動並擴展您的視野。</string>
+    <string name="traveler">旅行者</string>
+    <string name="selected_traveler_info">體驗釜山日常生活中的特別時刻。</string>
+    <string name="enter_email">輸入您的電子郵件</string>
+    <string name="email_authentication">1. 電子郵件認證</string>
+    <string name="email_authentication_info">• 輸入您當前就讀大學的電子郵件，並輸入您在電子郵件中收到的驗證號碼。</string>
+    <string name="email">電子郵件</string>
+    <string name="send_authentication_email">發送認證電子郵件</string>
+    <string name="attach_image">附加圖片</string>
+    <string name="student_card">2. 學生證</string>
+    <string name="student_card_info">• 上傳顯示您姓名和學生證號碼的照片。</string>
+    <string name="select_image">選擇圖片</string>
+    <string name="send">發送</string>
+    <string name="enter_authentication_number">輸入認證號碼</string>
+    <string name="authentication_number_title">認證號碼已發送。</string>
+    <string name="authentication_number_info">請輸入您的認證號碼。</string>
+    <string name="do_it">確認</string>
+    <string name="authentication_number_complete">認證號碼已驗證</string>
+    <string name="next_button">下一步</string>
+    <string name="faq_header">常見問題</string>
+    <string name="location">位置</string>
+    <string name="festival_time">節日期間</string>
+    <string name="homepage">主頁</string>
+    <string name="check_the_location_button">查看位置</string>
+    <string name="current_festival">當前節日</string>
+    <string name="nearest_place">附近景點</string>
+    <string name="login_title">在釜山結識珍貴的朋友 \n立即開始！</string>
+    <string name="google_login_btn">Google 登錄</string>
+    <string name="agree_personal_information">繼續表示您同意我們的服務條款和隱私政策。</string>
+    <string name="authentication">認證</string>
+    <string name="authenticate">認證</string>
+    <string name="notifications">通知</string>
+    <string name="all_notification">所有通知</string>
+    <string name="chat_notification">聊天通知</string>
+    <string name="regional">設置</string>
+    <string name="log_out">退出登錄</string>
+    <string name="translate_language">應用語言</string>
+    <string name="faq">常見問題</string>
+    <string name="use_information">服務條款</string>
+    <string name="personal_information">隱私政策</string>
+    <string name="delete_user">刪除帳戶</string>
+    <string name="traveler_authentication_title">外國遊客認證指南</string>
+    <string name="traveler_small_title_one">1. 機票或船票</string>
+    <string name="traveler_small_info_one">• 請拍攝或拍照並上傳以便我們驗證您的姓名和日期。</string>
+    <string name="traveler_small_info_two">• 其他個人信息可以隱藏。</string>
+    <string name="traveler_small_info_three">• 提供在 Agoda、Expedia、Trip.com 等網站或應用上預訂的住宿證明。</string>
+    <string name="traveler_small_info_four">• 您的姓名和日期應清晰可見。其他個人信息可以隱藏。</string>
+    <string name="traveler_small_title_two">2. 住宿證明</string>
+    <string name="traveler_small_info_five">最重要的是，姓名和日期要匹配。\n請上傳至少每張一張照片。上傳的照片將在驗證後7天內刪除。</string>
+    <string name="student_list">學生名單</string>
+    <string name="connect_student">聯繫</string>
+    <string name="deepl_service_info">此翻譯由 DeepL 服務自動完成。\n某些翻譯可能不準確。</string>
+    <string name="delete_user_title_one">很高興認識你。</string>
+    <string name="delete_user_info">請告訴我們您想刪除帳戶的原因。\n您的反饋將幫助我們改進服務。</string>
+    <string name="delete_user_radio_one">我對服務不滿意。</string>
+    <string name="delete_user_radio_two">我擔心我的個人信息的安全性。</string>
+    <string name="delete_user_radio_three">我對匹配系統不滿意。</string>
+    <string name="delete_user_radio_four">我曾因對方而感到不便。</string>
+    <string name="delete_user_radio_five">使用起來太複雜。</string>
+    <string name="delete_user_radio_six">其他（請填寫您的原因）</string>
+    <string name="delete_user_btn">刪除</string>
+    <string name="profile_detail">個人資料頁面</string>
+    <string name="profile_show_chip_group">創建代表您的關鍵詞。</string>
+    <string name="add_tag">添加標籤</string>
+    <string name="profile_can_get_a_call">旅行者可以聯繫您。</string>
+    <string name="name">姓名</string>
+    <string name="major">專業（可選）</string>
+    <string name="profile_introduce">簡要介紹一下自己。</string>
+    <string name="save_btn">保存</string>
+    <string name="profile_deepl_info">您的個人資料將通過 DeepL 自動翻譯給對方。\n保存將開始翻譯。請耐心等待。</string>
+    <string name="profile_guest_info">您可以編輯您的基本圖片或姓名。\n一旦您完成大學學生認證，此功能將擴展。</string>
+    <string name="view_profile">查看資料</string>
+    <string name="chat_message">聊天消息</string>
+    <string name="chat_message_info">當有消息進來時接收通知。如果更改重要性級別，您可能無法正常接收 BusanPartners 設置的通知。</string>
+    <string name="location_permission_required">請允許位置通知。</string>
+
+    <string name="welcome_message">目前可以在釜山聯繫的學生總數為 %1$d。</string>
+    <string name="verify_first">請先完成認證。</string>
+    <string name="contact_student_count">您目前可以聯繫的學生人數：%1$d</string>
+
+    <string name="college_student_cannot_contact">學生不能聯繫其他學生。</string>
+    <string name="cannot_recontact">您不能聯繫正在聊天或已結束聊天的人。</string>
+    <string name="max_chat_rooms">您可以激活的聊天室最多為三個。</string>
+
+    <string name="thanks_for_using">感謝您使用我們的服務。</string>
+    <string name="great_experience_in_busan">我們希望您在釜山度過了愉快的時光。請再次光臨！</string>
+    <string name="confirmation">確認</string>
+    <string name="authentication_completed">您的認證已完成。</string>
+    <string name="contact_students_first">先聯繫學生。</string>
+    <string name="make_precious_memories">與各種人一起創造寶貴的回憶！</string>
+    <string name="press_back_again_to_exit">再按一次返回以退出。</string>
+    <string name="location_permission_needed">需要位置權限</string>
+    <string name="location_permission_needed_desc">需要位置權限才能使用此功能。</string>
+    <string name="error">錯誤</string>
+    <string name="date_format">有效期至 yyyy-MM-dd。</string>
+
+    <string name="token_fetch_error">獲取令牌時發生錯誤。</string>
+    <string name="relogin_prompt">請重新登錄。</string>
+    <string name="network_error">網絡錯誤</string>
+    <string name="no_internet_connection">沒有網絡連接。應用程序將關閉。</string>
+    <string name="retrying_to_connect">重試連接：%1$d</string>
+    <string name="max_retries_reached">已達到最大重試次數。請重新登錄。</string>
+    <string name="guest_user_connect_failed">遊客用戶連接失敗：%1$s</string>
+    <string name="user_connect_failed">用戶連接失敗：%1$s</string>
+    <string name="user_stream_setup_error">設置用戶流時發生錯誤。</string>
+
+    <string name="only_member_cannot_send">對方已離開聊天室，無法發送消息。</string>
+
+    <string name="user_left_chat">對方已離開聊天室。</string>
+    <string name="leave_chat_room_title">離開聊天室</string>
+    <string name="leave_chat_room_message">您確定要離開聊天室嗎？您將無法再次與對方聊天。</string>
+    <string name="cancel">取消</string>
+    <string name="mute_chat_notifications">靜音聊天室通知</string>
+    <string name="unmute_chat_notifications">取消靜音聊天室通知</string>
+    <string name="leave_chat">離開聊天室</string>
+
+    <string name="data_changed_message">服務器數據已更改。請再試一次。</string>
+
+    <string name="email_verification_success">電子郵件驗證成功完成。</string>
+    <string name="prepare_student_id">請準備好您的學生證照片。</string>
+    <string name="email_verification_failed">電子郵件驗證失敗。</string>
+    <string name="retry_verification">請檢查並重試驗證碼。</string>
+    <string name="cannot_go_back_during_verification">在驗證過程中無法返回。</string>
+
+    <string name="error_email_required">請輸入電子郵件。</string>
+    <string name="error_invalid_email">請輸入有效的電子郵件地址（%1$s）。</string>
+    <string name="verification_code_sending">正在發送驗證碼</string>
+    <string name="please_wait">請稍候。</string>
+
+    <string name="saved_successfully">保存成功。</string>
+    <string name="add_student_id_photo">請添加您的學生證照片！</string>
+    <string name="save_alert_title">警告</string>
+    <string name="save_alert_message">保存後無法更改。\n您確定要保存嗎？</string>
+    <string name="choose_photo">選擇照片</string>
+    <string name="cannot_go_back">在驗證過程中無法返回。</string>
+
+    <string name="loading">加載中</string>
+    <string name="checking_verification_code">正在驗證認證號碼。</string>
+
+    <string name="category_all">全部</string>
+    <string name="category_other">其他</string>
+
+    <string name="notification_activated">通知已激活</string>
+    <string name="notification_deactivated">通知已禁用</string>
+    <string name="log_out_confirmation">您確定要退出登錄嗎？</string>
+    <string name="auth_in_progress">授權正在進行中。請稍候。</string>
+    <string name="auth_already_completed">認證已完成。</string>
+    <string name="welcome_traveler">歡迎來到釜山。\n 請隨意聊天，直到 %1$s。</string>
+    <string name="authentication_completed_student">您的認證已完成。\n與各種人一起創造寶貴的回憶！</string>
+
+    <string name="add_student_id_photo_traveler">請添加照片以驗證您的身份！</string>
+    <string name="add_minimum_two_photos">請至少添加兩張照片！</string>
+
+    <string name="delete_account_message">您的所有信息將立即刪除且無法恢復。</string>
+    <string name="choose_delete_reason">請選擇刪除原因</string>
+    <string name="deleting_account">正在刪除帳戶</string>
+    <string name="please_wait_for_delete">請稍候。這可能需要最多20秒。</string>
+    <string name="account_deleted">您的帳戶已成功刪除。</string>
+    <string name="returning_to_main">您正在返回主屏幕。</string>
+    <string name="account_deletion_failed">帳戶刪除失敗。</string>
+    <string name="reauth_failed">重新認證失敗。請重試。</string>
+    <string name="google_login_failed">Google 登錄失敗。請重試。</string>
+
+    <string name="enter_name_prompt">請輸入您的姓名！</string>
+    <string name="unsaved_changes_message">您的更改尚未保存。\n您確定要離開嗎？</string>
+
+    <string name="new_message_from_contact">您收到對方的新消息！</string>
+    <string name="tap_to_check">點擊通知查看。</string>
+    <string name="new_messages">新消息</string>
+    <string name="multiple_messages_received">收到多條消息。</string>
+
+    <string name="system_default_language">系統默認語言（推薦）</string>
+
+    <string name="header_title">隱私政策</string>
+    <string name="privacy_policy_date">最近更新：2024年7月10日</string>
+    <string name="privacy_policy_intro">BusanPartners（“我們的應用”）非常重視您的隱私，並承諾根據隱私法律保護您的個人信息並遵守適用的法律法規。本隱私政策解釋了我們如何收集、使用、存儲和保護您的個人信息。</string>
+    <string name="privacy_policy_1_title">1. 我們收集的個人信息</string>
+    <string name="privacy_policy_1_content">我們的應用收集以下個人信息：\n\n必需信息：姓名、電子郵件地址、個人資料圖片（通過 Google 登錄收集）\n附加信息（用於大學生驗證：）大學電子郵件、學生證照片\n附加信息（用於遊客驗證）\n附加信息（用於遊客驗證）：機票/船票、住宿證明（僅識別您的姓名和日期的部分）\n位置信息：用於推薦附近的旅遊景點</string>
+    <string name="privacy_policy_2_title">2. 我們如何收集個人信息</string>
+    <string name="privacy_policy_2_content">通過 Google 登錄和 Firebase 認證自動收集\n直接用戶輸入和文件上傳\n僅在您允許位置權限時自動收集位置信息</string>
+    <string name="privacy_policy_3_title">3. 使用個人信息的目的</string>
+    <string name="privacy_policy_3_content">創建和管理帳戶\n提供和改進服務\n認證大學生和遊客\n提供個性化服務和推廣信息\n推薦附近的景點</string>
+    <string name="privacy_policy_4_title">4. 共享和提供個人信息</string>
+    <string name="privacy_policy_4_content">原則上，我們不會向外界提供您的個人信息，除非在以下情況下：\n\n經您同意\n根據法律規定\n應調查機構的要求</string>
+    <string name="privacy_policy_5_title">5. 個人信息的保留和使用期限</string>
+    <string name="privacy_policy_5_content">在收集和使用目的實現後，我們將立即銷毀個人信息。如果法律要求我們保留，我們將根據法律規定的期限進行保留。</string>
+    <string name="privacy_policy_6_title">6. 個人信息的銷毀程序和方法</string>
+    <string name="privacy_policy_6_content">銷毀程序：在實現收集和使用目的後，轉移到單獨的數據庫並在存儲一段時間後銷毀\n銷毀方法：電子文件通過技術方法銷毀以防止恢復，紙質文件通過碎紙或焚燒銷毀</string>
+    <string name="privacy_policy_7_title">7. 您的權利及行使方法</string>
+    <string name="privacy_policy_7_content">您可以隨時行使訪問、糾正、刪除或暫停處理您的個人數據的權利。為此，請通過 appbusanpartners@gmail.com 聯繫，我們將毫不拖延地進行。</string>
+    <string name="privacy_policy_8_title">8. 確保個人信息安全的措施</string>
+    <string name="privacy_policy_8_content">個人信息加密\n防止黑客的技術措施\n訪問控制和教育</string>
+    <string name="privacy_policy_9_title">9. 收集和使用位置信息</string>
+    <string name="privacy_policy_9_content">我們的應用收集您的位置信息，以推薦附近的景點。如果您拒絕位置權限，應用程序可能會請求額外的位置權限。位置信息不會實時收集，僅在您同意的情況下使用。</string>
+    <string name="privacy_policy_10_title">10. 隱私官及聯繫信息</string>
+    <string name="privacy_policy_10_content">隱私官：權敏錫\n聯繫電話：010-4748-7731\n電子郵件：appbusanpartners@gmail.com</string>
+    <string name="privacy_policy_11_title">11. 隱私政策的變更</string>
+    <string name="privacy_policy_11_content">本隱私政策可能會根據法律和內部政策的變化進行修改。變更將公佈在此頁面，任何重大變更將另行通知。</string>
+
+
+    <string name="header_title_terms">服務條款</string>
+    <string name="terms_of_service_date">最近更新：2024年7月10日</string>
+    <string name="terms_of_service_intro">歡迎！感謝您使用 BusanPartners（以下簡稱“我們的應用”）。這些服務條款描述了使用我們應用的條件和指南，您必須遵守它們。</string>
+    <string name="terms_of_service_1_title">1. 介紹</string>
+    <string name="terms_of_service_1_content">BusanPartners 是一項將釜山的大學生與外國遊客聯繫起來的服務。用戶還可以通過聊天功能相互溝通。</string>
+    <string name="terms_of_service_2_title">2. 註冊</string>
+    <string name="terms_of_service_2_content">用戶通過 Google 登錄進行註冊，收集其姓名、電子郵件和個人資料圖片。如果您是大學生，您需要提交您的大學電子郵件驗證和學生證照片。如果您是遊客，您需要提交您的機票/船票和住宿證明。</string>
+    <string name="terms_of_service_3_title">3. 使用位置信息</string>
+    <string name="terms_of_service_3_content">我們的應用收集您的位置信息，以向您介紹附近的旅遊景點。位置信息僅在您同意的情況下收集，您可以隨時停止提供位置信息。如果位置信息被禁用，則該功能將不可用。位置信息將根據我們的隱私政策進行保護。</string>
+    <string name="terms_of_service_4_title">4. 隱私</string>
+    <string name="terms_of_service_4_content">我們的應用承諾保護您的隱私，並根據我們的隱私政策處理。</string>
+    <string name="terms_of_service_5_title">5. 帳戶責任</string>
+    <string name="terms_of_service_5_content">您必須對您的帳戶信息保密，不與他人分享。您對帳戶上的所有活動負責。</string>
+    <string name="terms_of_service_6_title">6. 禁止行為</string>
+    <string name="terms_of_service_6_content">您不得：\n\n進行非法活動\n侵犯他人權利\n提供虛假信息\n試圖破壞服務或入侵系統\n傳輸或共享不適當內容</string>
+    <string name="terms_of_service_7_title">7. 服務中斷和變更</string>
+    <string name="terms_of_service_7_content">我們可能會根據需要暫時或永久中斷或變更服務。如果發生這種情況，我們會提前通知您，並儘量確保您不會受到不利影響。</string>
+    <string name="terms_of_service_8_title">8. 責任限制</string>
+    <string name="terms_of_service_8_content">我們的應用對用戶之間的糾紛不負責任。對於因使用服務而產生的任何損害，我們不承擔責任。</string>
+    <string name="terms_of_service_9_title">9. 服務條款的變更</string>
+    <string name="terms_of_service_9_content">由於法律或服務政策的變化，這些條款可能會更改。我們將通過通知告知您重大變更。</string>
+    <string name="terms_of_service_10_title">10. 聯繫我們</string>
+    <string name="terms_of_service_10_content">關於服務條款的問題，請聯繫 appbusanpartners@gmail.com。</string>
+
+
+    <string name="app_language_change">應用語言</string>
+    <string name="select_your_language">選擇您的語言。</string>
 </resources>

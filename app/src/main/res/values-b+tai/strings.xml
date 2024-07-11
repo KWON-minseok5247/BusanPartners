@@ -1,4 +1,267 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BusanPartners</string>
+    <string name="student_authentication_onboarding_1">กระบวนการยืนยันตัวตนนักศึกษา</string>
+    <string name="student_description_onboarding_1">เพื่อการบริการที่ราบรื่น จำเป็นต้องมีกระบวนการยืนยันตัวตนที่ง่าย \n ต้องยืนยันอีเมลมหาวิทยาลัยของคุณ</string>
+
+    <string name="student_authentication_onboarding_2">กระบวนการยืนยันตัวตนบัตรนักศึกษา</string>
+    <string name="student_description_onboarding_2">กรุณาส่งภาพถ่ายบัตรนักศึกษาของคุณที่แสดงชื่อของคุณ</string>
+
+    <string name="student_authentication_onboarding_3">เมื่อเสร็จสิ้นการยืนยันตัวตน</string>
+    <string name="student_description_onboarding_3">นักศึกษาที่ผ่านการยืนยันสามารถแชทได้อย่างอิสระโดยไม่มีข้อจำกัด \n สร้างการเชื่อมต่อใหม่และประสบการณ์ที่มีค่า</string>
+
+    <string name="start_text_advice">โดยการใช้แอปพลิเคชันนี้ต่อไป คุณตกลงที่จะยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัวของเรา</string>
+
+    <string name="traveler_authentication_onboarding_1">กระบวนการยืนยันตัวตนนักท่องเที่ยว</string>
+    <string name="traveler_description_onboarding_1">เพื่อการบริการที่ราบรื่น เราต้องมีกระบวนการยืนยันตัวตนที่ง่าย</string>
+
+    <string name="traveler_authentication_onboarding_2">กรุณาถ่ายภาพหรือติดภาพถ่ายที่มีชื่อของคุณอยู่</string>
+    <string name="traveler_description_onboarding_2">กรุณาแนบภาพถ่ายอย่างน้อยสองภาพ รวมทั้งตั๋วเครื่องบินและหลักฐานที่พัก</string>
+
+    <string name="skip">ข้าม</string>
+    <string name="next">ถัดไป</string>
+
+    <string name="init_title_one">ยินดีต้อนรับสู่ BusanPartners!</string>
+    <string name="init_introduction_one">เรามอบโอกาสในการแลกเปลี่ยนวัฒนธรรมโดยการเชื่อมต่อนักท่องเที่ยวต่างชาติที่มาเยือนปูซานกับนักศึกษามหาวิทยาลัยท้องถิ่น</string>
+
+    <string name="init_title_two">แบ่งปันข้อความกับคู่ของคุณ</string>
+    <string name="init_introduction_two">กรอกการยืนยันตัวตนและเริ่มแชทกับคู่ของคุณที่ต้องการ</string>
+
+    <string name="init_title_three">สัมผัสการแลกเปลี่ยนวัฒนธรรม</string>
+    <string name="init_introduction_three">มีปฏิสัมพันธ์กับผู้คนต่าง ๆ และขยายมุมมองของคุณ</string>
+
+    <string name="init_title_four">สัมผัสการแลกเปลี่ยนวัฒนธรรม</string>
+    <string name="map_sharing">แชร์ตำแหน่งที่ตั้ง</string>
+    <string name="share_the_map">แบ่งปันตำแหน่งที่ตั้ง</string>
+    <string name="details">รายละเอียด</string>
+    <string name="who_are_you">คุณเป็นใคร?</string>
+    <string name="select_student_or_traveler">กรุณาเลือก นักศึกษาหรือ นักท่องเที่ยว</string>
+    <string name="university_student">นักศึกษา</string>
+    <string name="selected_university_info">มีปฏิสัมพันธ์กับผู้คนต่าง ๆ และขยายมุมมองของคุณ</string>
+    <string name="traveler">นักท่องเที่ยว</string>
+    <string name="selected_traveler_info">สัมผัสช่วงเวลาพิเศษในชีวิตประจำวันของปูซาน</string>
+    <string name="enter_email">กรอกอีเมลของคุณ</string>
+    <string name="email_authentication">1. การยืนยันอีเมล</string>
+    <string name="email_authentication_info">• กรอกอีเมลของมหาวิทยาลัยที่คุณกำลังเรียนอยู่ และกรอกรหัสยืนยันที่คุณได้รับในอีเมล</string>
+    <string name="email">อีเมล</string>
+    <string name="send_authentication_email">ส่งอีเมลยืนยัน</string>
+    <string name="attach_image">แนบภาพ</string>
+    <string name="student_card">2. บัตรนักศึกษา</string>
+    <string name="student_card_info">• อัปโหลดภาพที่แสดงชื่อและหมายเลขบัตรนักศึกษาของคุณ</string>
+    <string name="select_image">เลือกภาพ</string>
+    <string name="send">ส่ง</string>
+    <string name="enter_authentication_number">กรอกรหัสยืนยัน</string>
+    <string name="authentication_number_title">รหัสยืนยันได้ถูกส่งไปแล้ว</string>
+    <string name="authentication_number_info">กรุณากรอกรหัสยืนยันของคุณ</string>
+    <string name="do_it">ยืนยัน</string>
+    <string name="authentication_number_complete">รหัสยืนยันได้รับการยืนยันแล้ว</string>
+    <string name="next_button">ถัดไป</string>
+    <string name="faq_header">คำถามที่พบบ่อย</string>
+    <string name="location">ที่ตั้ง</string>
+    <string name="festival_time">ช่วงเวลาเทศกาล</string>
+    <string name="homepage">โฮมเพจ</string>
+    <string name="check_the_location_button">ตรวจสอบที่ตั้ง</string>
+    <string name="current_festival">เทศกาลปัจจุบัน</string>
+    <string name="nearest_place">สถานที่ใกล้เคียง</string>
+    <string name="login_title">พบกับการเชื่อมต่อที่มีค่าในปูซาน \n เริ่มต้นเลย!</string>
+    <string name="google_login_btn">เข้าสู่ระบบด้วย Google</string>
+    <string name="agree_personal_information">โดยการดำเนินการต่อ คุณยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัวของเรา</string>
+    <string name="authentication">การยืนยันตัวตน</string>
+    <string name="authenticate">ยืนยันตัวตน</string>
+    <string name="notifications">การแจ้งเตือน</string>
+    <string name="all_notification">การแจ้งเตือนทั้งหมด</string>
+    <string name="chat_notification">การแจ้งเตือนแชท</string>
+    <string name="regional">การตั้งค่า</string>
+    <string name="log_out">ออกจากระบบ</string>
+    <string name="translate_language">ภาษาแอปพลิเคชัน</string>
+    <string name="faq">คำถามที่พบบ่อย</string>
+    <string name="use_information">ข้อกำหนดการใช้งาน</string>
+    <string name="personal_information">นโยบายความเป็นส่วนตัว</string>
+    <string name="delete_user">ลบบัญชี</string>
+    <string name="traveler_authentication_title">คู่มือการยืนยันตัวตนนักท่องเที่ยวต่างชาติ</string>
+    <string name="traveler_small_title_one">1. ตั๋วเครื่องบินหรือตั๋วเรือ</string>
+    <string name="traveler_small_info_one">• กรุณาถ่ายภาพหรือติดภาพถ่ายและอัปโหลดเพื่อเราจะสามารถยืนยันชื่อและวันที่ของคุณ</string>
+    <string name="traveler_small_info_two">• ข้อมูลส่วนตัวอื่น ๆ สามารถปกปิดได้</string>
+    <string name="traveler_small_info_three">• ให้หลักฐานการพักของคุณที่จองผ่านเว็บไซต์หรือแอปพลิเคชัน เช่น Agoda, Expedia, Trip.com เป็นต้น</string>
+    <string name="traveler_small_info_four">• ชื่อและวันที่ของคุณควรชัดเจน ข้อมูลส่วนตัวอื่น ๆ สามารถปกปิดได้</string>
+    <string name="traveler_small_title_two">2. หลักฐานที่พัก</string>
+    <string name="traveler_small_info_five">สิ่งที่สำคัญที่สุดคือต้องตรวจสอบให้แน่ใจว่าชื่อและวันที่ตรงกัน \n กรุณาอัปโหลดภาพอย่างน้อยหนึ่งภาพในแต่ละประเภท \ ภาพที่อัปโหลดจะถูกลบหลังจากการยืนยัน 7 วัน</string>
+    <string name="student_list">รายชื่อนักศึกษา</string>
+    <string name="connect_student">ติดต่อ</string>
+    <string name="deepl_service_info">สิ่งนี้ได้รับการแปลอัตโนมัติโดยใช้บริการ DeepL \n การแปลบางอย่างอาจไม่ถูกต้อง</string>
+    <string name="delete_user_title_one">ยินดีที่ได้พบคุณ</string>
+    <string name="delete_user_info">กรุณาบอกเราว่าทำไมคุณถึงต้องการลบบัญชีของคุณ \n ข้อเสนอแนะของคุณจะช่วยเราปรับปรุงบริการ</string>
+    <string name="delete_user_radio_one">ฉันไม่สบายใจกับบริการ</string>
+    <string name="delete_user_radio_two">ฉันกังวลเกี่ยวกับความปลอดภัยของข้อมูลส่วนตัวของฉัน</string>
+    <string name="delete_user_radio_three">ฉันไม่พอใจกับระบบการจับคู่</string>
+    <string name="delete_user_radio_four">ฉันได้รับความไม่สะดวกจากอีกฝ่าย</string>
+    <string name="delete_user_radio_five">ใช้งานซับซ้อนเกินไป</string>
+    <string name="delete_user_radio_six">อื่น ๆ (กรอกเหตุผลของคุณ)</string>
+    <string name="delete_user_btn">ลบ</string>
+    <string name="profile_detail">หน้าจอโปรไฟล์</string>
+    <string name="profile_show_chip_group">สร้างคีย์เวิร์ดที่แทนคุณ</string>
+    <string name="add_tag">เพิ่มแท็ก</string>
+    <string name="profile_can_get_a_call">คุณสามารถได้รับการติดต่อจากนักท่องเที่ยว</string>
+    <string name="name">ชื่อ</string>
+    <string name="major">สาขาวิชา (ไม่บังคับ)</string>
+    <string name="profile_introduce">เขียนบทแนะนำสั้น ๆ เกี่ยวกับตัวคุณ</string>
+    <string name="save_btn">บันทึก</string>
+    <string name="profile_deepl_info">โปรไฟล์ของคุณจะถูกแปลอัตโนมัติสำหรับผู้อื่นโดยใช้ DeepL \n การบันทึกจะเริ่มการแปล กรุณารอ</string>
+    <string name="profile_guest_info">คุณสามารถแก้ไขภาพพื้นฐานหรือชื่อของคุณได้ \n ฟีเจอร์นี้จะขยายเมื่อคุณเสร็จสิ้นการยืนยันตัวนักศึกษามหาวิทยาลัย</string>
+    <string name="view_profile">ดูโปรไฟล์</string>
+    <string name="chat_message">ข้อความแชท</string>
+    <string name="chat_message_info">รับการแจ้งเตือนเมื่อมีข้อความเข้ามา หากคุณเปลี่ยนระดับความสำคัญ คุณอาจไม่ได้รับการแจ้งเตือนที่ตั้งค่าโดย BusanPartners อย่างปกติ</string>
+    <string name="location_permission_required">กรุณาอนุญาตการแจ้งเตือนตำแหน่งที่ตั้ง</string>
+
+    <string name="welcome_message">จำนวนนักศึกษาที่สามารถติดต่อได้ในปูซานทั้งหมดคือ %1$d คน</string>
+    <string name="verify_first">กรุณากรอกการยืนยันตัวตนก่อน</string>
+    <string name="contact_student_count">จำนวนนักศึกษาที่คุณสามารถติดต่อได้ปัจจุบัน: %1$d คน</string>
+
+    <string name="college_student_cannot_contact">นักศึกษาไม่สามารถติดต่อกับนักศึกษาอื่น ๆ ได้</string>
+    <string name="cannot_recontact">คุณไม่สามารถติดต่อคนที่คุณกำลังแชทหรือเคยแชทจบแล้วได้</string>
+    <string name="max_chat_rooms">จำนวนห้องแชทสูงสุดที่คุณสามารถมีได้คือสามห้อง</string>
+
+    <string name="thanks_for_using">ขอบคุณที่ใช้บริการของเรา</string>
+    <string name="great_experience_in_busan">เราหวังว่าคุณจะมีประสบการณ์ที่ยอดเยี่ยมในปูซาน กรุณากลับมาอีกครั้ง!</string>
+    <string name="confirmation">ยืนยัน</string>
+    <string name="authentication_completed">การยืนยันตัวตนของคุณเสร็จสิ้นแล้ว</string>
+    <string name="contact_students_first">ติดต่อกับนักศึกษาก่อน</string>
+    <string name="make_precious_memories">สร้างความทรงจำที่มีค่ากับผู้คนหลากหลาย!</string>
+    <string name="press_back_again_to_exit">กดกลับอีกครั้งเพื่อออก</string>
+    <string name="location_permission_needed">ต้องการสิทธิ์เข้าถึงตำแหน่งที่ตั้ง</string>
+    <string name="location_permission_needed_desc">ต้องการสิทธิ์เข้าถึงตำแหน่งที่ตั้งเพื่อใช้ฟีเจอร์นี้</string>
+    <string name="error">ข้อผิดพลาด</string>
+    <string name="date_format">สามารถใช้ได้จนถึง yyyy-MM-dd</string>
+
+    <string name="token_fetch_error">เกิดข้อผิดพลาดขณะดึงโทเค็น</string>
+    <string name="relogin_prompt">กรุณาเข้าสู่ระบบอีกครั้ง</string>
+    <string name="network_error">ข้อผิดพลาดเครือข่าย</string>
+    <string name="no_internet_connection">ไม่มีการเชื่อมต่ออินเทอร์เน็ต แอปพลิเคชันจะปิด</string>
+    <string name="retrying_to_connect">พยายามเชื่อมต่อใหม่: %1$d</string>
+    <string name="max_retries_reached">ถึงจำนวนครั้งสูงสุดที่พยายามแล้ว กรุณาเข้าสู่ระบบอีกครั้ง</string>
+    <string name="guest_user_connect_failed">การเชื่อมต่อผู้ใช้แขกล้มเหลว: %1$s</string>
+    <string name="user_connect_failed">การเชื่อมต่อล้มเหลว: %1$s</string>
+    <string name="user_stream_setup_error">เกิดข้อผิดพลาดขณะตั้งค่าการสตรีมของผู้ใช้</string>
+
+    <string name="only_member_cannot_send">ผู้ใช้อีกฝ่ายได้ออกจากห้องแชทและไม่สามารถส่งข้อความได้</string>
+
+    <string name="user_left_chat">ผู้ใช้อีกฝ่ายได้ออกจากห้องแชทแล้ว</string>
+    <string name="leave_chat_room_title">ออกจากห้องแชท</string>
+    <string name="leave_chat_room_message">คุณแน่ใจหรือว่าต้องการออกจากห้องแชท? คุณจะไม่สามารถแชทกับผู้ใช้อีกฝ่ายได้อีกครั้ง</string>
+    <string name="cancel">ยกเลิก</string>
+    <string name="mute_chat_notifications">ปิดการแจ้งเตือนห้องแชท</string>
+    <string name="unmute_chat_notifications">เปิดการแจ้งเตือนห้องแชท</string>
+    <string name="leave_chat">ออกจากห้องแชท</string>
+
+    <string name="data_changed_message">ข้อมูลได้เปลี่ยนจากเซิร์ฟเวอร์ กรุณาลองอีกครั้ง</string>
+
+    <string name="email_verification_success">การยืนยันอีเมลเสร็จสมบูรณ์</string>
+    <string name="prepare_student_id">กรุณาเตรียมภาพถ่ายบัตรนักศึกษาของคุณ</string>
+    <string name="email_verification_failed">การยืนยันอีเมลล้มเหลว</string>
+    <string name="retry_verification">กรุณาตรวจสอบและลองรหัสยืนยันอีกครั้ง</string>
+    <string name="cannot_go_back_during_verification">คุณไม่สามารถกลับไปในระหว่างกระบวนการยืนยันตัวตนได้</string>
+
+    <string name="error_email_required">กรุณากรอกอีเมล</string>
+    <string name="error_invalid_email">กรุณากรอกที่อยู่อีเมลที่ถูกต้อง (%1$s)</string>
+    <string name="verification_code_sending">กำลังส่งรหัสยืนยัน</string>
+    <string name="please_wait">กรุณารอสักครู่</string>
+
+    <string name="saved_successfully">บันทึกเรียบร้อยแล้ว</string>
+    <string name="add_student_id_photo">กรุณาเพิ่มภาพถ่ายบัตรนักศึกษาของคุณ!</string>
+    <string name="save_alert_title">แจ้งเตือน</string>
+    <string name="save_alert_message">คุณไม่สามารถเปลี่ยนแปลงได้หลังจากที่คุณบันทึก \n คุณแน่ใจหรือว่าต้องการบันทึก?</string>
+    <string name="choose_photo">เลือกภาพถ่าย</string>
+    <string name="cannot_go_back">คุณไม่สามารถกลับไปในระหว่างกระบวนการยืนยันตัวตนได้</string>
+
+    <string name="loading">กำลังโหลด</string>
+    <string name="checking_verification_code">กำลังตรวจสอบรหัสยืนยัน</string>
+
+    <string name="category_all">ทั้งหมด</string>
+    <string name="category_other">อื่น ๆ</string>
+
+    <string name="notification_activated">การแจ้งเตือนเปิดใช้งานแล้ว</string>
+    <string name="notification_deactivated">การแจ้งเตือนปิดใช้งานแล้ว</string>
+    <string name="log_out_confirmation">คุณแน่ใจหรือว่าต้องการออกจากระบบ?</string>
+    <string name="auth_in_progress">กำลังดำเนินการอนุญาต กรุณารอสักครู่</string>
+    <string name="auth_already_completed">การยืนยันตัวตนเสร็จสิ้นแล้ว</string>
+    <string name="welcome_traveler">ยินดีต้อนรับสู่ปูซาน \n แชทได้อย่างอิสระจนถึง %1$s</string>
+    <string name="authentication_completed_student">การยืนยันตัวตนของคุณเสร็จสิ้นแล้ว \สร้างความทรงจำที่มีค่ากับผู้คนหลากหลาย!</string>
+
+    <string name="add_student_id_photo_traveler">กรุณาเพิ่มภาพถ่ายเพื่อยืนยันตัวตนของคุณ!</string>
+    <string name="add_minimum_two_photos">กรุณาเพิ่มภาพถ่ายอย่างน้อยสองภาพ!</string>
+
+    <string name="delete_account_message">ข้อมูลทั้งหมดของคุณจะถูกลบทันทีและไม่สามารถกู้คืนได้</string>
+    <string name="choose_delete_reason">กรุณาเลือกเหตุผลในการลบ</string>
+    <string name="deleting_account">กำลังลบบัญชี</string>
+    <string name="please_wait_for_delete">กรุณารอสักครู่ อาจใช้เวลาถึง 20 วินาที</string>
+    <string name="account_deleted">บัญชีของคุณถูกลบเรียบร้อยแล้ว</string>
+    <string name="returning_to_main">คุณกำลังกลับไปที่หน้าจอหลัก</string>
+    <string name="account_deletion_failed">การลบบัญชีล้มเหลว</string>
+    <string name="reauth_failed">การยืนยันตัวตนใหม่ล้มเหลว กรุณาลองอีกครั้ง</string>
+    <string name="google_login_failed">การเข้าสู่ระบบด้วย Google ล้มเหลว กรุณาลองอีกครั้ง</string>
+
+    <string name="enter_name_prompt">กรุณากรอกชื่อของคุณ!</string>
+    <string name="unsaved_changes_message">การเปลี่ยนแปลงของคุณยังไม่ได้รับการบันทึก \n คุณแน่ใจหรือว่าต้องการออก?</string>
+
+    <string name="new_message_from_contact">คุณมีข้อความใหม่จากผู้ใช้อีกฝ่าย!</string>
+    <string name="tap_to_check">แตะการแจ้งเตือนเพื่อดูรายละเอียด</string>
+    <string name="new_messages">ข้อความใหม่</string>
+    <string name="multiple_messages_received">ได้รับหลายข้อความ</string>
+
+    <string name="system_default_language">ภาษาระบบเริ่มต้น (แนะนำ)</string>
+
+    <string name="header_title">นโยบายความเป็นส่วนตัว</string>
+    <string name="privacy_policy_date">ปรับปรุงล่าสุด: 10 กรกฎาคม 2024</string>
+    <string name="privacy_policy_intro">BusanPartners ("แอปของเรา") ให้ความสำคัญกับความเป็นส่วนตัวของคุณและมุ่งมั่นที่จะปกป้องข้อมูลส่วนตัวของคุณตามกฎหมายความเป็นส่วนตัวและปฏิบัติตามกฎหมายและข้อบังคับที่เกี่ยวข้อง นโยบายความเป็นส่วนตัวนี้อธิบายวิธีที่เรารวบรวม ใช้ เก็บรักษา และปกป้องข้อมูลส่วนตัวของคุณ</string>
+    <string name="privacy_policy_1_title">1. ข้อมูลส่วนตัวที่เรารวบรวม</string>
+    <string name="privacy_policy_1_content">แอปของเรารวบรวมข้อมูลส่วนตัวต่อไปนี้:\n\nข้อมูลที่จำเป็น: ชื่อ ที่อยู่อีเมล รูปโปรไฟล์ (รวบรวมเมื่อคุณเข้าสู่ระบบด้วย Google)\nข้อมูลเพิ่มเติม (สำหรับการยืนยันนักศึกษามหาวิทยาลัย:) อีเมลมหาวิทยาลัย ภาพถ่ายบัตรนักศึกษา\nข้อมูลเพิ่มเติม (สำหรับการยืนยันนักท่องเที่ยว)\nข้อมูลเพิ่มเติม (สำหรับการยืนยันนักท่องเที่ยว): ตั๋วเครื่องบิน/เรือ ใบรับรองที่พัก (เฉพาะส่วนที่ระบุชื่อและวันที่ของคุณ)\nข้อมูลตำแหน่งที่ตั้ง: ใช้ในการแนะนำสถานที่ท่องเที่ยวใกล้เคียง</string>
+    <string name="privacy_policy_2_title">2. วิธีที่เรารวบรวมข้อมูลส่วนตัว</string>
+    <string name="privacy_policy_2_content">รวบรวมโดยอัตโนมัติผ่าน Google Sign-in และการยืนยันตัวตนของ Firebase\nผู้ใช้กรอกข้อมูลและอัปโหลดไฟล์เอง\nข้อมูลตำแหน่งที่ตั้งจะถูกรวบรวมโดยอัตโนมัติเฉพาะเมื่อคุณอนุญาตสิทธิ์เข้าถึงตำแหน่งที่ตั้ง</string>
+    <string name="privacy_policy_3_title">3. วัตถุประสงค์ในการใช้ข้อมูลส่วนตัว</string>
+    <string name="privacy_policy_3_content">สร้างและจัดการบัญชี\nให้บริการและปรับปรุงบริการ\nยืนยันตัวนักศึกษามหาวิทยาลัยและนักท่องเที่ยว\nให้บริการที่เป็นส่วนตัวและข้อมูลโปรโมชั่น\nแนะนำสถานที่ท่องเที่ยวใกล้เคียง</string>
+    <string name="privacy_policy_4_title">4. การแบ่งปันและการให้ข้อมูลส่วนตัว</string>
+    <string name="privacy_policy_4_content">โดยหลักการแล้วเราจะไม่ให้ข้อมูลส่วนตัวของคุณกับบุคคลภายนอก ยกเว้นในกรณีต่อไปนี้:\n\nด้วยความยินยอมของคุณ\nตามข้อกำหนดของกฎหมาย\nตามคำขอของหน่วยงานสืบสวน</string>
+    <string name="privacy_policy_5_title">5. ระยะเวลาเก็บรักษาและการใช้ข้อมูลส่วนตัว</string>
+    <string name="privacy_policy_5_content">เราจะทำลายข้อมูลส่วนตัวโดยไม่ชักช้าหลังจากที่วัตถุประสงค์ในการรวบรวมและการใช้ข้อมูลได้บรรลุผลแล้ว หากเราจำเป็นต้องเก็บรักษาข้อมูลตามกฎหมาย เราจะเก็บรักษาข้อมูลตามระยะเวลาที่กฎหมายกำหนด</string>
+    <string name="privacy_policy_6_title">6. กระบวนการและวิธีการทำลายข้อมูลส่วนตัว</string>
+    <string name="privacy_policy_6_content">กระบวนการทำลาย: หลังจากที่บรรลุวัตถุประสงค์ในการรวบรวมและการใช้แล้ว จะถูกย้ายไปยังฐานข้อมูลแยกและเก็บรักษาไว้ในระยะเวลาหนึ่งก่อนที่จะถูกทำลาย\nวิธีการทำลาย: ไฟล์อิเล็กทรอนิกส์จะถูกทำลายโดยวิธีทางเทคนิคเพื่อไม่ให้กู้คืนได้ และเอกสารกระดาษจะถูกทำลายโดยการตัดหรือการเผา</string>
+    <string name="privacy_policy_7_title">7. สิทธิของคุณและวิธีการใช้สิทธิ์</string>
+    <string name="privacy_policy_7_content">คุณสามารถใช้สิทธิ์ในการเข้าถึง แก้ไข ลบ หรือระงับการประมวลผลข้อมูลส่วนตัวของคุณได้ตลอดเวลา หากต้องการทำเช่นนี้ กรุณาติดต่อ appbusanpartners@gmail.com และเราจะดำเนินการทันที</string>
+    <string name="privacy_policy_8_title">8. มาตรการเพื่อความปลอดภัยของข้อมูลส่วนตัว</string>
+    <string name="privacy_policy_8_content">การเข้ารหัสข้อมูลส่วนตัว\nมาตรการทางเทคนิคต่อต้านการแฮ็ก\nการควบคุมการเข้าถึงและการศึกษา</string>
+    <string name="privacy_policy_9_title">9. การรวบรวมและการใช้ข้อมูลตำแหน่งที่ตั้ง</string>
+    <string name="privacy_policy_9_content">แอปของเรารวบรวมข้อมูลตำแหน่งที่ตั้งของคุณเพื่อวัตถุประสงค์ในการแนะนำสถานที่ท่องเที่ยวใกล้เคียง หากคุณปฏิเสธสิทธิ์เข้าถึงตำแหน่งที่ตั้ง แอปอาจขอสิทธิ์เข้าถึงตำแหน่งที่ตั้งเพิ่มเติม ข้อมูลตำแหน่งที่ตั้งจะไม่ถูกรวบรวมตามเวลาจริงและจะใช้เฉพาะเมื่อคุณให้ความยินยอม</string>
+    <string name="privacy_policy_10_title">10. เจ้าหน้าที่ความเป็นส่วนตัวและข้อมูลติดต่อ</string>
+    <string name="privacy_policy_10_content">เจ้าหน้าที่ความเป็นส่วนตัว: Minseok Kwon\nติดต่อ: 010-4748-7731\nอีเมล: appbusanpartners@gmail.com</string>
+    <string name="privacy_policy_11_title">11. การเปลี่ยนแปลงนโยบายความเป็นส่วนตัว</string>
+    <string name="privacy_policy_11_content">นโยบายความเป็นส่วนตัวนี้อาจเปลี่ยนแปลงตามกฎหมายและนโยบายภายใน การเปลี่ยนแปลงจะประกาศในหน้านี้ และการเปลี่ยนแปลงสำคัญใด ๆ จะประกาศแยกต่างหาก</string>
+
+    <string name="header_title_terms">ข้อกำหนดการใช้งาน</string>
+    <string name="terms_of_service_date">ปรับปรุงล่าสุด: 10 กรกฎาคม 2024</string>
+    <string name="terms_of_service_intro">ยินดีต้อนรับ! ขอบคุณที่ใช้ BusanPartners (ต่อไปนี้เรียกว่า \'แอปของเรา\') ข้อกำหนดการใช้งานนี้อธิบายเงื่อนไขและแนวทางการใช้งานแอปของเรา และคุณต้องปฏิบัติตาม</string>
+    <string name="terms_of_service_1_title">1. บทนำ</string>
+    <string name="terms_of_service_1_content">BusanPartners เป็นบริการที่เชื่อมนักศึกษามหาวิทยาลัยในปูซานกับนักท่องเที่ยวต่างชาติ ผู้ใช้ยังสามารถสื่อสารกันได้ผ่านฟังก์ชั่นแชท</string>
+    <string name="terms_of_service_2_title">2. การลงทะเบียน</string>
+    <string name="terms_of_service_2_content">ผู้ใช้ลงทะเบียนผ่าน Google Sign-in ซึ่งรวบรวมชื่อ อีเมล และรูปโปรไฟล์ของพวกเขา หากคุณเป็นนักศึกษามหาวิทยาลัย คุณจะต้องส่งการยืนยันอีเมลของมหาวิทยาลัยและภาพถ่ายบัตรนักศึกษา หากคุณเป็นนักท่องเที่ยว คุณจะต้องส่งตั๋วเครื่องบิน/เรือและหลักฐานที่พัก</string>
+    <string name="terms_of_service_3_title">3. การใช้ข้อมูลตำแหน่งที่ตั้ง</string>
+    <string name="terms_of_service_3_content">แอปของเรารวบรวมข้อมูลตำแหน่งที่ตั้งของคุณเพื่อให้บริการแนะนำสถานที่ท่องเที่ยวใกล้เคียง ข้อมูลตำแหน่งที่ตั้งจะถูกรวบรวมเฉพาะเมื่อคุณให้ความยินยอม และคุณสามารถหยุดให้ข้อมูลตำแหน่งที่ตั้งได้ตลอดเวลา หากข้อมูลตำแหน่งที่ตั้งถูกปิด ฟีเจอร์จะไม่สามารถใช้งานได้ ข้อมูลตำแหน่งที่ตั้งได้รับการปกป้องตามนโยบายความเป็นส่วนตัวของเรา</string>
+    <string name="terms_of_service_4_title">4. ความเป็นส่วนตัว</string>
+    <string name="terms_of_service_4_content">แอปของเรามุ่งมั่นที่จะปกป้องความเป็นส่วนตัวของคุณ ซึ่งจะถูกจัดการตามนโยบายความเป็นส่วนตัวของเรา</string>
+    <string name="terms_of_service_5_title">5. ความรับผิดชอบของบัญชี</string>
+    <string name="terms_of_service_5_content">คุณต้องเก็บข้อมูลบัญชีของคุณเป็นความลับและไม่แบ่งปันกับผู้อื่น คุณรับผิดชอบต่อทุกกิจกรรมบนบัญชีของคุณ</string>
+
+    <string name="terms_of_service_6_title">6. การกระทำที่ต้องห้าม</string>
+    <string name="terms_of_service_6_content">คุณไม่สามารถ:\n\nใช้กิจกรรมที่ผิดกฎหมาย\nละเมิดสิทธิของผู้อื่น\nให้ข้อมูลเท็จ\nพยายามรบกวนบริการหรือแฮ็กเข้าสู่ระบบ\nส่งหรือแบ่งปันเนื้อหาที่ไม่เหมาะสม</string>
+    <string name="terms_of_service_7_title">7. การหยุดชะงักและการเปลี่ยนแปลงบริการ</string>
+    <string name="terms_of_service_7_content">แอปของเราอาจหยุดหรือเปลี่ยนแปลงบริการชั่วคราวหรือถาวรตามความจำเป็น หากเกิดเหตุการณ์นี้ เราจะแจ้งให้คุณทราบล่วงหน้าและพยายามทำให้แน่ใจว่าคุณจะไม่ได้รับความเสียหาย</string>
+    <string name="terms_of_service_8_title">8. การจำกัดความรับผิด</string>
+    <string name="terms_of_service_8_content">แอปของเราไม่รับผิดชอบต่อข้อพิพาทระหว่างผู้ใช้ เราไม่รับผิดชอบต่อความเสียหายใด ๆ ที่เกิดจากการใช้บริการ</string>
+    <string name="terms_of_service_9_title">9. การเปลี่ยนแปลงข้อกำหนดการใช้งาน</string>
+    <string name="terms_of_service_9_content">ข้อกำหนดนี้อาจเปลี่ยนแปลงเนื่องจากการเปลี่ยนแปลงกฎหมายหรือการนโยบายของบริการ เราจะแจ้งให้คุณทราบถึงการเปลี่ยนแปลงที่สำคัญผ่านการแจ้งเตือน</string>
+    <string name="terms_of_service_10_title">ติดต่อเรา</string>
+    <string name="terms_of_service_10_content">สำหรับคำถามเกี่ยวกับข้อกำหนดการใช้งาน กรุณาติดต่อ appbusanpartners@gmail.com</string>
+
+    <string name="app_language_change">ภาษาแอปพลิเคชัน</string>
+    <string name="select_your_language">เลือกภาษาของคุณ</string>
+
 </resources>

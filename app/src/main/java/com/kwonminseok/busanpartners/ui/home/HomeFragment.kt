@@ -158,7 +158,7 @@ class HomeFragment : Fragment() {
 
 
         }
-        if (true) {
+        if (isFirstVisitor) {
 //            if (isFirstVisitor) {
 
             sharedPreferences.edit().putBoolean("is_first_visitor", false).apply()

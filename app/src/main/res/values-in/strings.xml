@@ -1,4 +1,267 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BusanPartners</string>
+    <string name="student_authentication_onboarding_1">Proses Otentikasi Mahasiswa</string>
+    <string name="student_description_onboarding_1">Untuk memberikan layanan yang lancar, diperlukan proses otentikasi yang sederhana. \n Verifikasi email universitas Anda diperlukan.</string>
+
+    <string name="student_authentication_onboarding_2">Proses Otentikasi Kartu Mahasiswa</string>
+    <string name="student_description_onboarding_2">Harap kirimkan foto kartu mahasiswa Anda yang menunjukkan nama Anda.</string>
+
+    <string name="student_authentication_onboarding_3">Setelah penyelesaian otentikasi</string>
+    <string name="student_description_onboarding_3">Mahasiswa yang telah terotentikasi dapat mengobrol dengan bebas tanpa batasan apa pun. \n Buat koneksi baru dan pengalaman berharga.</string>
+
+    <string name="start_text_advice">Dengan melanjutkan aplikasi ini, Anda menyetujui Ketentuan Penggunaan dan Kebijakan Privasi kami.</string>
+
+    <string name="traveler_authentication_onboarding_1">Proses Otentikasi Wisatawan</string>
+    <string name="traveler_description_onboarding_1">Untuk memberikan layanan yang lancar, kami memerlukan proses otentikasi yang sederhana.</string>
+
+    <string name="traveler_authentication_onboarding_2">Harap ambil atau tangkap foto dengan nama Anda di dalamnya.</string>
+    <string name="traveler_description_onboarding_2">Harap lampirkan setidaknya dua foto, termasuk tiket penerbangan Anda dan bukti akomodasi.</string>
+
+    <string name="skip">Lewati</string>
+    <string name="next">Berikutnya</string>
+
+    <string name="init_title_one">Selamat Datang di BusanPartners!</string>
+    <string name="init_introduction_one">Kami menyediakan peluang untuk pertukaran budaya dengan menghubungkan turis asing yang mengunjungi Busan dengan mahasiswa universitas lokal.</string>
+
+    <string name="init_title_two">Bagikan pesan dengan rekan Anda.</string>
+    <string name="init_introduction_two">Lengkapi otentikasi dan mulai mengobrol dengan pasangan yang Anda inginkan.</string>
+
+    <string name="init_title_three">Mengalami pertukaran budaya.</string>
+    <string name="init_introduction_three">Berinteraksi dengan orang yang berbeda dan memperluas wawasan Anda.</string>
+
+    <string name="init_title_four">Mengalami pertukaran budaya.</string>
+    <string name="map_sharing">Bagikan Lokasi</string>
+    <string name="share_the_map">Bagikan lokasi</string>
+    <string name="details">Rincian</string>
+    <string name="who_are_you">Siapa kamu?</string>
+    <string name="select_student_or_traveler">Silakan pilih Mahasiswa atau Wisatawan.</string>
+    <string name="university_student">Mahasiswa</string>
+    <string name="selected_university_info">Berinteraksi dengan orang yang berbeda dan memperluas wawasan Anda.</string>
+    <string name="traveler">Wisatawan</string>
+    <string name="selected_traveler_info">Alami momen spesial dalam kehidupan sehari-hari di Busan.</string>
+    <string name="enter_email">Masukkan email Anda</string>
+    <string name="email_authentication">1. Otentikasi Email</string>
+    <string name="email_authentication_info">• Masukkan email universitas yang Anda hadiri saat ini, dan masukkan nomor verifikasi yang Anda terima di email.</string>
+    <string name="email">Email</string>
+    <string name="send_authentication_email">Kirim Email Otentikasi</string>
+    <string name="attach_image">Lampirkan Gambar</string>
+    <string name="student_card">2. Kartu Mahasiswa</string>
+    <string name="student_card_info">• Unggah foto yang menunjukkan nama dan nomor kartu mahasiswa Anda.</string>
+    <string name="select_image">Pilih Gambar</string>
+    <string name="send">Kirim</string>
+    <string name="enter_authentication_number">Masukkan Nomor Otentikasi</string>
+    <string name="authentication_number_title">Nomor otentikasi telah dikirim.</string>
+    <string name="authentication_number_info">Harap masukkan nomor otentikasi Anda.</string>
+    <string name="do_it">Konfirmasi</string>
+    <string name="authentication_number_complete">Nomor Otentikasi Terverifikasi</string>
+    <string name="next_button">Berikutnya</string>
+    <string name="faq_header">Pertanyaan yang Sering Diajukan</string>
+    <string name="location">Lokasi</string>
+    <string name="festival_time">Periode Festival</string>
+    <string name="homepage">Halaman Depan</string>
+    <string name="check_the_location_button">Periksa Lokasi</string>
+    <string name="current_festival">Festival Saat Ini</string>
+    <string name="nearest_place">Tempat terdekat</string>
+    <string name="login_title">Temui koneksi berharga di Busan \nMulai sekarang!</string>
+    <string name="google_login_btn">Masuk dengan Google</string>
+    <string name="agree_personal_information">Dengan melanjutkan, Anda menyetujui Ketentuan Layanan dan Kebijakan Privasi kami.</string>
+    <string name="authentication">Otentikasi</string>
+    <string name="authenticate">Otentikasi</string>
+    <string name="notifications">Notifikasi</string>
+    <string name="all_notification">Semua Notifikasi</string>
+    <string name="chat_notification">Notifikasi Obrolan</string>
+    <string name="regional">Pengaturan</string>
+    <string name="log_out">Keluar</string>
+    <string name="translate_language">Bahasa Aplikasi</string>
+    <string name="faq">Pertanyaan yang Sering Diajukan</string>
+    <string name="use_information">Ketentuan Layanan</string>
+    <string name="personal_information">Kebijakan Privasi</string>
+    <string name="delete_user">Hapus Akun</string>
+    <string name="traveler_authentication_title">Panduan Otentikasi Wisatawan Asing</string>
+    <string name="traveler_small_title_one">1. Tiket Pesawat atau Tiket Kapal</string>
+    <string name="traveler_small_info_one">• Harap ambil atau tangkap foto dan unggah agar kami dapat memverifikasi nama dan tanggal Anda.</string>
+    <string name="traveler_small_info_two">• Detail pribadi lainnya dapat disamarkan.</string>
+    <string name="traveler_small_info_three">• Berikan bukti penginapan Anda di properti yang dipesan di situs web atau aplikasi seperti Agoda, Expedia, Trip.com, dll.</string>
+    <string name="traveler_small_info_four">• Nama dan tanggal Anda harus terlihat jelas. Detail pribadi lainnya dapat disamarkan.</string>
+    <string name="traveler_small_title_two">2. Bukti Akomodasi</string>
+    <string name="traveler_small_info_five">Yang terpenting adalah nama dan tanggal harus cocok. \nHarap unggah setidaknya satu foto masing-masing. \Foto yang diunggah akan dihapus 7 hari setelah verifikasi</string>
+    <string name="student_list">Daftar Mahasiswa</string>
+    <string name="connect_student">Kontak</string>
+    <string name="deepl_service_info">Ini telah diterjemahkan secara otomatis menggunakan layanan DeepL. \nBeberapa terjemahan mungkin tidak akurat.</string>
+    <string name="delete_user_title_one">Senang bertemu dengan Anda.</string>
+    <string name="delete_user_info">Harap beri tahu kami mengapa Anda ingin menghapus akun Anda. \nTanggapan Anda akan membantu kami meningkatkan layanan kami.</string>
+    <string name="delete_user_radio_one">Saya tidak nyaman dengan layanan ini.</string>
+    <string name="delete_user_radio_two">Saya khawatir tentang keamanan informasi pribadi saya.</string>
+    <string name="delete_user_radio_three">Saya tidak puas dengan sistem pencocokan.</string>
+    <string name="delete_user_radio_four">Saya mengalami ketidaknyamanan dari orang lain.</string>
+    <string name="delete_user_radio_five">Terlalu rumit untuk digunakan.</string>
+    <string name="delete_user_radio_six">Lainnya (masukkan sendiri)</string>
+    <string name="delete_user_btn">Hapus</string>
+    <string name="profile_detail">Layar Profil</string>
+    <string name="profile_show_chip_group">Buat kata kunci yang mewakili Anda.</string>
+    <string name="add_tag">Tambahkan tag</string>
+    <string name="profile_can_get_a_call">Anda dapat dihubungi oleh wisatawan.</string>
+    <string name="name">Nama</string>
+    <string name="major">Jurusan (opsional)</string>
+    <string name="profile_introduce">Tulis pengantar singkat tentang diri Anda.</string>
+    <string name="save_btn">Simpan</string>
+    <string name="profile_deepl_info">Profil Anda akan diterjemahkan secara otomatis untuk pihak lain menggunakan DeepL. \n Simpan akan memulai terjemahan. Mohon bersabar.</string>
+    <string name="profile_guest_info">Anda dapat mengedit gambar atau nama dasar Anda. \n Fitur ini akan diperluas setelah Anda menyelesaikan verifikasi mahasiswa universitas.</string>
+    <string name="view_profile">Lihat Profil</string>
+    <string name="chat_message">Pesan Obrolan</string>
+    <string name="chat_message_info">Terima pemberitahuan saat pesan masuk. Jika Anda mengubah tingkat kepentingan, Anda mungkin tidak menerima pemberitahuan yang diatur oleh BusanPartners secara normal.</string>
+    <string name="location_permission_required">Harap izinkan pemberitahuan lokasi.</string>
+
+    <string name="welcome_message">Jumlah total mahasiswa yang dapat dihubungi di Busan adalah %1$d.</string>
+    <string name="verify_first">Harap selesaikan otentikasi terlebih dahulu.</string>
+    <string name="contact_student_count">Jumlah mahasiswa yang saat ini dapat Anda hubungi: %1$d</string>
+
+    <string name="college_student_cannot_contact">Mahasiswa tidak dapat menghubungi mahasiswa lain.</string>
+    <string name="cannot_recontact">Anda tidak dapat menghubungi seseorang yang saat ini sedang Anda ajak mengobrol atau sudah selesai mengobrol.</string>
+    <string name="max_chat_rooms">Jumlah maksimum ruang obrolan yang dapat Anda aktifkan adalah tiga.</string>
+
+    <string name="thanks_for_using">Terima kasih telah menggunakan layanan kami.</string>
+    <string name="great_experience_in_busan">Kami harap Anda memiliki pengalaman yang luar biasa di Busan. Harap kembali lagi!</string>
+    <string name="confirmation">Konfirmasi</string>
+    <string name="authentication_completed">Otentikasi Anda selesai.</string>
+    <string name="contact_students_first">Hubungi mahasiswa terlebih dahulu.</string>
+    <string name="make_precious_memories">Buat kenangan berharga dengan berbagai orang!</string>
+    <string name="press_back_again_to_exit">Tekan kembali sekali lagi untuk keluar.</string>
+    <string name="location_permission_needed">Izin Lokasi Diperlukan</string>
+    <string name="location_permission_needed_desc">Izin lokasi diperlukan untuk menggunakan fitur ini.</string>
+    <string name="error">Kesalahan</string>
+    <string name="date_format">Tersedia hingga yyyy-MM-dd.</string>
+
+    <string name="token_fetch_error">Terjadi kesalahan saat mengambil token.</string>
+    <string name="relogin_prompt">Harap masuk lagi.</string>
+    <string name="network_error">Kesalahan Jaringan</string>
+    <string name="no_internet_connection">Tidak ada koneksi internet. Aplikasi akan ditutup.</string>
+    <string name="retrying_to_connect">Mencoba menghubungkan kembali: %1$d</string>
+    <string name="max_retries_reached">Jumlah upaya maksimum telah tercapai. Harap masuk lagi.</string>
+    <string name="guest_user_connect_failed">Koneksi pengguna tamu gagal: %1$s</string>
+    <string name="user_connect_failed">Koneksi pengguna gagal: %1$s</string>
+    <string name="user_stream_setup_error">Terjadi kesalahan saat menyiapkan aliran pengguna.</string>
+
+    <string name="only_member_cannot_send">Pihak lain telah meninggalkan ruang obrolan dan tidak dapat mengirim pesan.</string>
+
+    <string name="user_left_chat">Pihak lain telah meninggalkan ruang obrolan.</string>
+    <string name="leave_chat_room_title">Meninggalkan ruang obrolan</string>
+    <string name="leave_chat_room_message">Apakah Anda yakin ingin meninggalkan ruang obrolan? Anda tidak akan dapat mengobrol lagi dengan pihak lain.</string>
+    <string name="cancel">Batal</string>
+    <string name="mute_chat_notifications">Bisukan pemberitahuan ruang obrolan</string>
+    <string name="unmute_chat_notifications">Hidupkan pemberitahuan ruang obrolan</string>
+    <string name="leave_chat">Meninggalkan ruang obrolan</string>
+
+    <string name="data_changed_message">Data telah berubah dari server. Harap coba lagi.</string>
+
+    <string name="email_verification_success">Verifikasi email berhasil diselesaikan.</string>
+    <string name="prepare_student_id">Harap siapkan foto kartu mahasiswa Anda.</string>
+    <string name="email_verification_failed">Verifikasi email gagal.</string>
+    <string name="retry_verification">Harap periksa dan coba kode verifikasi lagi.</string>
+    <string name="cannot_go_back_during_verification">Anda tidak dapat kembali selama proses otentikasi.</string>
+
+    <string name="error_email_required">Harap masukkan email.</string>
+    <string name="error_invalid_email">Harap masukkan alamat email yang valid (%1$s).</string>
+    <string name="verification_code_sending">Mengirim kode verifikasi</string>
+    <string name="please_wait">Harap tunggu sebentar.</string>
+
+    <string name="saved_successfully">Berhasil disimpan.</string>
+    <string name="add_student_id_photo">Harap tambahkan foto kartu mahasiswa Anda!</string>
+    <string name="save_alert_title">Peringatan</string>
+    <string name="save_alert_message">Anda tidak dapat mengubahnya setelah Anda menyimpannya.\nApakah Anda yakin ingin menyimpannya?</string>
+    <string name="choose_photo">Pilih foto</string>
+    <string name="cannot_go_back">Anda tidak dapat kembali selama proses otentikasi.</string>
+
+    <string name="loading">Memuat</string>
+    <string name="checking_verification_code">Memverifikasi nomor otentikasi.</string>
+
+    <string name="category_all">Semua</string>
+    <string name="category_other">Lainnya</string>
+
+    <string name="notification_activated">Pemberitahuan diaktifkan</string>
+    <string name="notification_deactivated">Pemberitahuan dinonaktifkan</string>
+    <string name="log_out_confirmation">Apakah Anda yakin ingin keluar?</string>
+    <string name="auth_in_progress">Otorisasi sedang berlangsung. Harap tunggu sebentar.</string>
+    <string name="auth_already_completed">Otentikasi sudah selesai.</string>
+    <string name="welcome_traveler">Selamat datang di Busan. \n Silakan mengobrol hingga %1$s.</string>
+    <string name="authentication_completed_student">Otentikasi Anda telah selesai. \Buat kenangan berharga dengan berbagai orang!</string>
+
+    <string name="add_student_id_photo_traveler">Harap tambahkan foto untuk memverifikasi identitas Anda!</string>
+    <string name="add_minimum_two_photos">Harap tambahkan setidaknya dua foto!</string>
+
+    <string name="delete_account_message">Semua informasi Anda akan segera dihapus dan tidak dapat dipulihkan.</string>
+    <string name="choose_delete_reason">Harap pilih alasan penghapusan</string>
+    <string name="deleting_account">Menghapus akun</string>
+    <string name="please_wait_for_delete">Harap tunggu sebentar. Ini mungkin memakan waktu hingga 20 detik</string>
+    <string name="account_deleted">Akun Anda telah berhasil dihapus.</string>
+    <string name="returning_to_main">Anda kembali ke layar utama.</string>
+    <string name="account_deletion_failed">Penghapusan akun gagal.</string>
+    <string name="reauth_failed">Otentikasi ulang gagal. Harap coba lagi.</string>
+    <string name="google_login_failed">Login Google gagal. Harap coba lagi.</string>
+
+    <string name="enter_name_prompt">Harap masukkan nama Anda!</string>
+    <string name="unsaved_changes_message">Perubahan Anda belum disimpan.\nApakah Anda yakin ingin keluar?</string>
+
+    <string name="new_message_from_contact">Anda memiliki pesan baru dari pihak lain!</string>
+    <string name="tap_to_check">Ketuk pemberitahuan untuk memeriksanya.</string>
+    <string name="new_messages">Pesan Baru</string>
+    <string name="multiple_messages_received">Beberapa pesan diterima.</string>
+
+    <string name="system_default_language">Bahasa sistem default (direkomendasikan)</string>
+
+    <string name="header_title">Kebijakan Privasi</string>
+    <string name="privacy_policy_date">Diperbarui terakhir: 10 Juli 2024</string>
+    <string name="privacy_policy_intro">BusanPartners ("aplikasi kami") sangat memperhatikan privasi Anda dan berkomitmen untuk melindungi informasi pribadi Anda sesuai dengan undang-undang privasi dan mematuhi undang-undang serta peraturan yang berlaku. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, menyimpan, dan melindungi informasi pribadi Anda.</string>
+    <string name="privacy_policy_1_title">1. Informasi pribadi apa yang kami kumpulkan</string>
+    <string name="privacy_policy_1_content">Aplikasi kami mengumpulkan informasi pribadi berikut:\n\nInformasi yang diperlukan: nama, alamat email, gambar profil (dikumpulkan saat Anda masuk dengan Google)\nInformasi tambahan (untuk verifikasi mahasiswa universitas:) Email universitas, foto kartu mahasiswa\nInformasi tambahan (untuk verifikasi turis)\nInformasi tambahan (untuk verifikasi turis): Tiket pesawat/kapal, sertifikat akomodasi (hanya bagian yang mengidentifikasi nama dan tanggal Anda)\nInformasi lokasi: Digunakan untuk merekomendasikan objek wisata terdekat</string>
+    <string name="privacy_policy_2_title">2. Bagaimana kami mengumpulkan informasi pribadi</string>
+    <string name="privacy_policy_2_content">Dikumpulkan secara otomatis melalui Google Sign-in dan otentikasi Firebase\nInput pengguna langsung dan unggahan file\nInformasi lokasi dikumpulkan secara otomatis hanya jika Anda mengizinkan izin lokasi</string>
+    <string name="privacy_policy_3_title">3. Tujuan penggunaan informasi pribadi</string>
+    <string name="privacy_policy_3_content">Membuat dan mengelola akun\nMenyediakan dan meningkatkan layanan\nOtentikasi mahasiswa universitas dan wisatawan\nMenyediakan layanan yang dipersonalisasi dan informasi promosi\nMerekomendasikan objek wisata terdekat</string>
+    <string name="privacy_policy_4_title">4. Berbagi dan Menyediakan Informasi Pribadi</string>
+    <string name="privacy_policy_4_content">Pada prinsipnya, kami tidak memberikan informasi pribadi Anda kepada pihak luar, kecuali dalam kasus berikut:\n\nDengan persetujuan Anda\nSesuai dengan ketentuan hukum\nAtas permintaan lembaga investigasi</string>
+    <string name="privacy_policy_5_title">5. Periode Retensi dan Penggunaan Informasi Pribadi</string>
+    <string name="privacy_policy_5_content">Kami akan menghancurkan informasi pribadi tanpa penundaan setelah tujuan pengumpulan dan penggunaannya tercapai. Jika kami diharuskan menyimpannya berdasarkan hukum, kami akan menyimpannya selama jangka waktu yang ditetapkan oleh hukum.</string>
+    <string name="privacy_policy_6_title">6. Prosedur dan metode untuk menghancurkan informasi pribadi</string>
+    <string name="privacy_policy_6_content">Prosedur penghancuran: Setelah mencapai tujuan pengumpulan dan penggunaan, informasi tersebut dipindahkan ke DB terpisah dan disimpan untuk jangka waktu tertentu sebelum dihancurkan\nMetode penghancuran: File elektronik dihancurkan dengan metode teknis sehingga tidak dapat dipulihkan, dan dokumen kertas dihancurkan dengan cara dicabik atau dibakar</string>
+    <string name="privacy_policy_7_title">7. Hak Anda dan cara menggunakannya</string>
+    <string name="privacy_policy_7_content">Anda dapat menggunakan hak Anda untuk mengakses, mengoreksi, menghapus, atau menangguhkan pemrosesan data pribadi Anda kapan saja. Untuk melakukannya, silakan hubungi appbusanpartners@gmail.com dan kami akan melakukannya tanpa penundaan.</string>
+    <string name="privacy_policy_8_title">8. Langkah-langkah untuk memastikan keamanan informasi pribadi</string>
+    <string name="privacy_policy_8_content">Enkripsi informasi pribadi\nLangkah-langkah teknis terhadap peretasan\nKontrol akses dan pendidikan</string>
+    <string name="privacy_policy_9_title">9. Pengumpulan dan penggunaan informasi lokasi</string>
+    <string name="privacy_policy_9_content">Aplikasi kami mengumpulkan informasi lokasi Anda untuk tujuan merekomendasikan objek wisata terdekat. Jika Anda menolak izin lokasi, aplikasi mungkin meminta izin lokasi tambahan. Informasi lokasi tidak dikumpulkan secara real-time dan hanya digunakan dengan persetujuan Anda.</string>
+    <string name="privacy_policy_10_title">Petugas Privasi dan Informasi Kontak</string>
+    <string name="privacy_policy_10_content">Petugas Privasi: Minseok Kwon\nKontak: 010-4748-7731\nEmail: appbusanpartners@gmail.com</string>
+    <string name="privacy_policy_11_title">Perubahan Kebijakan Privasi</string>
+    <string name="privacy_policy_11_content">Kebijakan Privasi ini dapat berubah sesuai hukum dan kebijakan internal. Perubahan akan diumumkan di halaman ini, dan setiap perubahan material akan diumumkan secara terpisah.</string>
+
+    <string name="header_title_terms">Ketentuan Layanan</string>
+    <string name="terms_of_service_date">Diperbarui terakhir: 10 Juli 2024</string>
+    <string name="terms_of_service_intro">Selamat datang! Terima kasih telah menggunakan BusanPartners (selanjutnya disebut sebagai \'aplikasi kami\'). Ketentuan Layanan ini menjelaskan kondisi dan pedoman penggunaan Aplikasi kami, dan Anda harus mematuhinya.</string>
+    <string name="terms_of_service_1_title">1. Pengantar</string>
+    <string name="terms_of_service_1_content">BusanPartners adalah layanan yang menghubungkan mahasiswa universitas di Busan dengan wisatawan asing. Pengguna juga dapat berkomunikasi satu sama lain melalui fungsi obrolan.</string>
+    <string name="terms_of_service_2_title">2. Mendaftar</string>
+    <string name="terms_of_service_2_content">Pengguna mendaftar melalui Google Sign-in, yang mengumpulkan nama, email, dan gambar profil mereka. Jika Anda adalah mahasiswa universitas, Anda harus mengirimkan verifikasi email universitas dan foto kartu mahasiswa Anda. Jika Anda adalah wisatawan, Anda harus mengirimkan tiket pesawat/kapal dan bukti akomodasi Anda.</string>
+    <string name="terms_of_service_3_title">3. Penggunaan Informasi Lokasi</string>
+    <string name="terms_of_service_3_content">Aplikasi kami mengumpulkan informasi lokasi Anda untuk menyediakan layanan yang memperkenalkan Anda ke objek wisata terdekat. Informasi lokasi hanya dikumpulkan dengan persetujuan Anda, dan Anda dapat berhenti memberikan informasi lokasi Anda kapan saja. Jika informasi lokasi dinonaktifkan, fitur tersebut tidak akan tersedia. Informasi lokasi dilindungi sesuai dengan Kebijakan Privasi kami.</string>
+    <string name="terms_of_service_4_title">4. Privasi</string>
+    <string name="terms_of_service_4_content">Aplikasi kami berkomitmen untuk melindungi privasi Anda, yang ditangani sesuai dengan Kebijakan Privasi kami.</string>
+    <string name="terms_of_service_5_title">5. Tanggung Jawab Akun</string>
+    <string name="terms_of_service_5_content">Anda harus menjaga kerahasiaan informasi akun Anda dan tidak membagikannya dengan orang lain. Anda bertanggung jawab atas semua aktivitas di akun Anda.</string>
+
+    <string name="terms_of_service_6_title">6. Perilaku Terlarang</string>
+    <string name="terms_of_service_6_content">Anda tidak boleh:\n\nMelakukan kegiatan yang melanggar hukum\nMelanggar hak orang lain\nMemberikan informasi palsu\nBerusaha mengganggu layanan atau meretas sistem\nMengirim atau berbagi konten yang tidak pantas</string>
+    <string name="terms_of_service_7_title">7. Gangguan dan Perubahan Layanan</string>
+    <string name="terms_of_service_7_content">Aplikasi kami dapat sementara atau secara permanen menghentikan atau mengubah Layanan sesuai kebutuhan. Jika ini terjadi, kami akan memberi Anda pemberitahuan sebelumnya dan berusaha untuk memastikan bahwa Anda tidak dirugikan.</string>
+    <string name="terms_of_service_8_title">8. Batasan Tanggung Jawab</string>
+    <string name="terms_of_service_8_content">Aplikasi kami tidak bertanggung jawab atas perselisihan antara pengguna. Kami tidak bertanggung jawab atas kerusakan apa pun yang timbul dari penggunaan layanan ini.</string>
+    <string name="terms_of_service_9_title">9. Perubahan Ketentuan Layanan</string>
+    <string name="terms_of_service_9_content">Ketentuan ini dapat berubah karena perubahan hukum atau kebijakan Layanan. Kami akan memberi tahu Anda tentang perubahan material melalui pemberitahuan.</string>
+    <string name="terms_of_service_10_title">Hubungi Kami</string>
+    <string name="terms_of_service_10_content">Untuk pertanyaan tentang Ketentuan Layanan, silakan hubungi appbusanpartners@gmail.com.</string>
+
+    <string name="app_language_change">Bahasa Aplikasi</string>
+    <string name="select_your_language">Pilih bahasa Anda.</string>
+
 </resources>

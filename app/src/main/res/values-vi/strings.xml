@@ -1,4 +1,267 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BusanPartners</string>
+    <string name="student_authentication_onboarding_1">Quy Trình Xác Thực Sinh Viên</string>
+    <string name="student_description_onboarding_1">Để cung cấp dịch vụ suôn sẻ, một quy trình xác thực đơn giản là cần thiết. \n Cần xác minh email của trường đại học của bạn.</string>
+
+    <string name="student_authentication_onboarding_2">Quy Trình Xác Thực Thẻ Sinh Viên</string>
+    <string name="student_description_onboarding_2">Vui lòng nộp một bức ảnh của thẻ sinh viên của bạn cho thấy tên của bạn.</string>
+
+    <string name="student_authentication_onboarding_3">Sau khi hoàn thành xác thực</string>
+    <string name="student_description_onboarding_3">Sinh viên đã được xác thực có thể trò chuyện tự do mà không bị hạn chế. \n Kết nối mới và trải nghiệm quý giá.</string>
+
+    <string name="start_text_advice">Bằng cách tiếp tục sử dụng ứng dụng này, bạn đồng ý với Điều Khoản Sử Dụng và Chính Sách Bảo Mật của chúng tôi.</string>
+
+    <string name="traveler_authentication_onboarding_1">Quy Trình Xác Thực Du Khách</string>
+    <string name="traveler_description_onboarding_1">Để cung cấp dịch vụ suôn sẻ, chúng tôi yêu cầu một quy trình xác thực đơn giản.</string>
+
+    <string name="traveler_authentication_onboarding_2">Vui lòng chụp hoặc chụp ảnh với tên của bạn trên đó.</string>
+    <string name="traveler_description_onboarding_2">Vui lòng đính kèm ít nhất hai bức ảnh, bao gồm vé máy bay và bằng chứng nơi ở.</string>
+
+    <string name="skip">Bỏ qua</string>
+    <string name="next">Tiếp theo</string>
+
+    <string name="init_title_one">Chào Mừng Đến Với BusanPartners!</string>
+    <string name="init_introduction_one">Chúng tôi cung cấp cơ hội trao đổi văn hóa bằng cách kết nối du khách nước ngoài đến Busan với sinh viên đại học địa phương.</string>
+
+    <string name="init_title_two">Chia Sẻ Một Tin Nhắn Với Người Đối Tác Của Bạn.</string>
+    <string name="init_introduction_two">Hoàn thành xác thực và bắt đầu trò chuyện với người đối tác mong muốn của bạn.</string>
+
+    <string name="init_title_three">Trải Nghiệm Trao Đổi Văn Hóa.</string>
+    <string name="init_introduction_three">Tương tác với nhiều người khác nhau và mở rộng tầm nhìn của bạn.</string>
+
+    <string name="init_title_four">Trải Nghiệm Trao Đổi Văn Hóa.</string>
+    <string name="map_sharing">Chia Sẻ Vị Trí</string>
+    <string name="share_the_map">Chia sẻ vị trí</string>
+    <string name="details">Chi tiết</string>
+    <string name="who_are_you">Bạn là ai?</string>
+    <string name="select_student_or_traveler">Vui lòng chọn Sinh Viên hoặc Du Khách.</string>
+    <string name="university_student">Sinh viên</string>
+    <string name="selected_university_info">Tương tác với nhiều người khác nhau và mở rộng tầm nhìn của bạn.</string>
+    <string name="traveler">Du Khách</string>
+    <string name="selected_traveler_info">Trải nghiệm những khoảnh khắc đặc biệt trong cuộc sống hàng ngày của Busan.</string>
+    <string name="enter_email">Nhập email của bạn</string>
+    <string name="email_authentication">1. Xác Thực Email</string>
+    <string name="email_authentication_info">• Nhập email của trường đại học mà bạn đang theo học, và nhập mã xác minh bạn nhận được trong email.</string>
+    <string name="email">Email</string>
+    <string name="send_authentication_email">Gửi Email Xác Thực</string>
+    <string name="attach_image">Đính Kèm Hình Ảnh</string>
+    <string name="student_card">2. Thẻ Sinh Viên</string>
+    <string name="student_card_info">• Tải lên một bức ảnh cho thấy tên và số thẻ sinh viên của bạn.</string>
+    <string name="select_image">Chọn Hình Ảnh</string>
+    <string name="send">Gửi</string>
+    <string name="enter_authentication_number">Nhập Mã Xác Thực</string>
+    <string name="authentication_number_title">Mã xác thực đã được gửi.</string>
+    <string name="authentication_number_info">Vui lòng nhập mã xác thực của bạn.</string>
+    <string name="do_it">Xác Nhận</string>
+    <string name="authentication_number_complete">Mã Xác Thực Đã Được Xác Nhận</string>
+    <string name="next_button">Tiếp theo</string>
+    <string name="faq_header">Câu Hỏi Thường Gặp</string>
+    <string name="location">Vị trí</string>
+    <string name="festival_time">Thời Gian Lễ Hội</string>
+    <string name="homepage">Trang Chủ</string>
+    <string name="check_the_location_button">Kiểm Tra Vị Trí</string>
+    <string name="current_festival">Lễ Hội Hiện Tại</string>
+    <string name="nearest_place">Điểm Tham Quan Gần Nhất</string>
+    <string name="login_title">Gặp gỡ những kết nối quý giá ở Busan \n Bắt đầu ngay bây giờ!</string>
+    <string name="google_login_btn">Đăng Nhập Google</string>
+    <string name="agree_personal_information">Bằng cách tiếp tục, bạn đồng ý với Điều Khoản Dịch Vụ và Chính Sách Bảo Mật của chúng tôi.</string>
+    <string name="authentication">Xác Thực</string>
+    <string name="authenticate">Xác Thực</string>
+    <string name="notifications">Thông Báo</string>
+    <string name="all_notification">Tất Cả Thông Báo</string>
+    <string name="chat_notification">Thông Báo Trò Chuyện</string>
+    <string name="regional">Cài Đặt</string>
+    <string name="log_out">Đăng Xuất</string>
+    <string name="translate_language">Ngôn Ngữ Ứng Dụng</string>
+    <string name="faq">Câu Hỏi Thường Gặp</string>
+    <string name="use_information">Điều Khoản Dịch Vụ</string>
+    <string name="personal_information">Chính Sách Bảo Mật</string>
+    <string name="delete_user">Xóa Tài Khoản</string>
+    <string name="traveler_authentication_title">Hướng Dẫn Xác Thực Du Khách Nước Ngoài</string>
+    <string name="traveler_small_title_one">1. Vé Máy Bay hoặc Vé Tàu</string>
+    <string name="traveler_small_info_one">• Vui lòng chụp hoặc chụp ảnh và tải lên để chúng tôi có thể xác minh tên và ngày của bạn.</string>
+    <string name="traveler_small_info_two">• Các chi tiết cá nhân khác có thể được che đi.</string>
+    <string name="traveler_small_info_three">• Cung cấp bằng chứng nơi ở của bạn đã đặt trên trang web hoặc ứng dụng như Agoda, Expedia, Trip.com, v.v.</string>
+    <string name="traveler_small_info_four">• Tên và ngày của bạn phải rõ ràng. Các chi tiết cá nhân khác có thể được che đi.</string>
+    <string name="traveler_small_title_two">2. Bằng Chứng Nơi Ở</string>
+    <string name="traveler_small_info_five">Điều quan trọng nhất là tên và ngày phải khớp nhau. \n Vui lòng tải lên ít nhất một bức ảnh mỗi loại. \Các bức ảnh tải lên sẽ bị xóa sau 7 ngày sau khi xác minh.</string>
+    <string name="student_list">Danh Sách Sinh Viên</string>
+    <string name="connect_student">Liên Hệ</string>
+    <string name="deepl_service_info">Điều này đã được dịch tự động bằng dịch vụ DeepL. \n Một số bản dịch có thể không chính xác.</string>
+    <string name="delete_user_title_one">Rất vui được gặp bạn.</string>
+    <string name="delete_user_info">Vui lòng cho chúng tôi biết lý do bạn muốn xóa tài khoản của mình. \n Phản hồi của bạn sẽ giúp chúng tôi cải thiện dịch vụ.</string>
+    <string name="delete_user_radio_one">Tôi không thoải mái với dịch vụ.</string>
+    <string name="delete_user_radio_two">Tôi lo lắng về bảo mật thông tin cá nhân của mình.</string>
+    <string name="delete_user_radio_three">Tôi không hài lòng với hệ thống kết nối.</string>
+    <string name="delete_user_radio_four">Tôi đã gặp sự bất tiện từ người khác.</string>
+    <string name="delete_user_radio_five">Sử dụng quá phức tạp.</string>
+    <string name="delete_user_radio_six">Khác (nhập lý do của bạn)</string>
+    <string name="delete_user_btn">Xóa</string>
+    <string name="profile_detail">Màn Hình Hồ Sơ</string>
+    <string name="profile_show_chip_group">Tạo các từ khóa đại diện cho bạn.</string>
+    <string name="add_tag">Thêm một thẻ</string>
+    <string name="profile_can_get_a_call">Bạn có thể được liên hệ bởi các du khách.</string>
+    <string name="name">Tên</string>
+    <string name="major">Ngành học (tùy chọn)</string>
+    <string name="profile_introduce">Viết một giới thiệu ngắn về bản thân bạn.</string>
+    <string name="save_btn">Lưu</string>
+    <string name="profile_deepl_info">Hồ sơ của bạn sẽ được dịch tự động cho người khác sử dụng DeepL. \n Lưu sẽ bắt đầu quá trình dịch. Vui lòng kiên nhẫn.</string>
+    <string name="profile_guest_info">Bạn có thể chỉnh sửa hình ảnh cơ bản hoặc tên. \Tính năng này sẽ được mở rộng khi bạn hoàn thành xác thực sinh viên đại học.</string>
+    <string name="view_profile">Xem Hồ Sơ</string>
+    <string name="chat_message">Tin Nhắn Trò Chuyện</string>
+    <string name="chat_message_info">Nhận thông báo khi có tin nhắn đến. Nếu bạn thay đổi mức độ quan trọng, bạn có thể không nhận được các thông báo do BusanPartners cài đặt một cách bình thường.</string>
+    <string name="location_permission_required">Vui lòng cho phép thông báo vị trí.</string>
+
+    <string name="welcome_message">Tổng số sinh viên có thể liên hệ ở Busan là %1$d.</string>
+    <string name="verify_first">Vui lòng hoàn thành xác thực trước.</string>
+    <string name="contact_student_count">Số sinh viên hiện tại bạn có thể liên hệ: %1$d</string>
+
+    <string name="college_student_cannot_contact">Sinh viên không thể liên hệ với các sinh viên khác.</string>
+    <string name="cannot_recontact">Bạn không thể liên hệ với người bạn đang trò chuyện hoặc đã hoàn thành trò chuyện.</string>
+    <string name="max_chat_rooms">Số lượng phòng trò chuyện tối đa bạn có thể có là ba.</string>
+
+    <string name="thanks_for_using">Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</string>
+    <string name="great_experience_in_busan">Chúng tôi hy vọng bạn đã có một trải nghiệm tuyệt vời ở Busan. Vui lòng quay lại lần nữa!</string>
+    <string name="confirmation">Xác Nhận</string>
+    <string name="authentication_completed">Xác thực của bạn đã hoàn thành.</string>
+    <string name="contact_students_first">Liên hệ với các sinh viên trước.</string>
+    <string name="make_precious_memories">Tạo ra những kỷ niệm quý giá với nhiều người khác nhau!</string>
+    <string name="press_back_again_to_exit">Nhấn nút trở lại một lần nữa để thoát.</string>
+    <string name="location_permission_needed">Cần Quyền Truy Cập Vị Trí</string>
+    <string name="location_permission_needed_desc">Cần quyền truy cập vị trí để sử dụng tính năng này.</string>
+    <string name="error">Lỗi</string>
+    <string name="date_format">Có sẵn đến yyyy-MM-dd.</string>
+
+    <string name="token_fetch_error">Có lỗi xảy ra khi lấy mã thông báo.</string>
+    <string name="relogin_prompt">Vui lòng đăng nhập lại.</string>
+    <string name="network_error">Lỗi Mạng</string>
+    <string name="no_internet_connection">Không có kết nối internet. Ứng dụng sẽ đóng.</string>
+    <string name="retrying_to_connect">Đang thử kết nối lại: %1$d</string>
+    <string name="max_retries_reached">Đã đạt số lần thử lại tối đa. Vui lòng đăng nhập lại.</string>
+    <string name="guest_user_connect_failed">Kết nối người dùng khách thất bại: %1$s</string>
+    <string name="user_connect_failed">Kết nối người dùng thất bại: %1$s</string>
+    <string name="user_stream_setup_error">Có lỗi xảy ra khi thiết lập luồng người dùng.</string>
+
+    <string name="only_member_cannot_send">Người khác đã rời khỏi phòng trò chuyện và không thể gửi tin nhắn.</string>
+
+    <string name="user_left_chat">Người khác đã rời khỏi phòng trò chuyện.</string>
+    <string name="leave_chat_room_title">Rời khỏi phòng trò chuyện</string>
+    <string name="leave_chat_room_message">Bạn có chắc chắn muốn rời khỏi phòng trò chuyện không? Bạn sẽ không thể trò chuyện lại với người khác.</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="mute_chat_notifications">Tắt thông báo phòng trò chuyện</string>
+    <string name="unmute_chat_notifications">Bật lại thông báo phòng trò chuyện</string>
+    <string name="leave_chat">Rời khỏi phòng trò chuyện</string>
+
+    <string name="data_changed_message">Dữ liệu đã thay đổi từ máy chủ. Vui lòng thử lại.</string>
+
+    <string name="email_verification_success">Xác thực email hoàn tất thành công.</string>
+    <string name="prepare_student_id">Vui lòng chuẩn bị một bức ảnh của thẻ sinh viên của bạn.</string>
+    <string name="email_verification_failed">Xác thực email thất bại.</string>
+    <string name="retry_verification">Vui lòng kiểm tra và thử lại mã xác minh.</string>
+    <string name="cannot_go_back_during_verification">Bạn không thể quay lại trong quá trình xác thực.</string>
+
+    <string name="error_email_required">Vui lòng nhập email.</string>
+    <string name="error_invalid_email">Vui lòng nhập địa chỉ email hợp lệ (%1$s).</string>
+    <string name="verification_code_sending">Đang gửi mã xác minh</string>
+    <string name="please_wait">Vui lòng đợi một chút.</string>
+
+    <string name="saved_successfully">Đã lưu thành công.</string>
+    <string name="add_student_id_photo">Vui lòng thêm một bức ảnh của thẻ sinh viên của bạn!</string>
+    <string name="save_alert_title">Cảnh Báo</string>
+    <string name="save_alert_message">Bạn không thể thay đổi sau khi bạn lưu. \n Bạn có chắc chắn muốn lưu không?</string>
+    <string name="choose_photo">Chọn một bức ảnh</string>
+    <string name="cannot_go_back">Bạn không thể quay lại trong quá trình xác thực.</string>
+
+    <string name="loading">Đang tải</string>
+    <string name="checking_verification_code">Đang xác minh mã xác thực.</string>
+
+    <string name="category_all">Tất cả</string>
+    <string name="category_other">Khác</string>
+
+    <string name="notification_activated">Thông báo đã được kích hoạt</string>
+    <string name="notification_deactivated">Thông báo đã tắt</string>
+    <string name="log_out_confirmation">Bạn có chắc chắn muốn đăng xuất không?</string>
+    <string name="auth_in_progress">Đang xác thực. Vui lòng đợi một chút.</string>
+    <string name="auth_already_completed">Xác thực đã hoàn tất.</string>
+    <string name="welcome_traveler">Chào mừng đến với Busan. \n Hãy thoải mái trò chuyện cho đến %1$s.</string>
+    <string name="authentication_completed_student">Xác thực của bạn đã hoàn tất. \Tạo ra những kỷ niệm quý giá với nhiều người khác nhau!</string>
+
+    <string name="add_student_id_photo_traveler">Vui lòng thêm một bức ảnh để xác minh danh tính của bạn!</string>
+    <string name="add_minimum_two_photos">Vui lòng thêm ít nhất hai bức ảnh!</string>
+
+    <string name="delete_account_message">Tất cả thông tin của bạn sẽ bị xóa ngay lập tức và không thể khôi phục.</string>
+    <string name="choose_delete_reason">Vui lòng chọn lý do xóa</string>
+    <string name="deleting_account">Đang xóa tài khoản</string>
+    <string name="please_wait_for_delete">Vui lòng đợi một chút. Điều này có thể mất đến 20 giây</string>
+    <string name="account_deleted">Tài khoản của bạn đã được xóa thành công.</string>
+    <string name="returning_to_main">Bạn đang trở lại màn hình chính.</string>
+    <string name="account_deletion_failed">Xóa tài khoản thất bại.</string>
+    <string name="reauth_failed">Xác thực lại thất bại. Vui lòng thử lại.</string>
+    <string name="google_login_failed">Đăng nhập Google thất bại. Vui lòng thử lại.</string>
+
+    <string name="enter_name_prompt">Vui lòng nhập tên của bạn!</string>
+    <string name="unsaved_changes_message">Các thay đổi của bạn chưa được lưu.\n Bạn có chắc chắn muốn rời đi không?</string>
+
+    <string name="new_message_from_contact">Bạn có một tin nhắn mới từ người khác!</string>
+    <string name="tap_to_check">Nhấn vào thông báo để kiểm tra.</string>
+    <string name="new_messages">Tin Nhắn Mới</string>
+    <string name="multiple_messages_received">Nhận được nhiều tin nhắn.</string>
+
+    <string name="system_default_language">Ngôn ngữ hệ thống mặc định (khuyến nghị)</string>
+
+
+    <string name="header_title">Chính Sách Bảo Mật</string>
+    <string name="privacy_policy_date">Cập nhật lần cuối: Ngày 10 tháng 7 năm 2024</string>
+    <string name="privacy_policy_intro">BusanPartners ("ứng dụng của chúng tôi") coi trọng quyền riêng tư của bạn và cam kết bảo vệ thông tin cá nhân của bạn theo quy định của pháp luật về quyền riêng tư và tuân thủ các luật và quy định hiện hành. Chính Sách Bảo Mật này giải thích cách chúng tôi thu thập, sử dụng, lưu trữ và bảo vệ thông tin cá nhân của bạn.</string>
+    <string name="privacy_policy_1_title">1. Thông tin cá nhân chúng tôi thu thập</string>
+    <string name="privacy_policy_1_content">Ứng dụng của chúng tôi thu thập các thông tin cá nhân sau:\n\nThông tin bắt buộc: tên, địa chỉ email, ảnh hồ sơ (thu thập khi bạn đăng nhập bằng Google)\nThông tin bổ sung (để xác thực sinh viên đại học:) Email trường đại học, ảnh thẻ sinh viên\nThông tin bổ sung (để xác thực du khách)\nThông tin bổ sung (để xác thực du khách): Vé máy bay/tàu, chứng nhận chỗ ở (chỉ phần xác định tên và ngày của bạn)\nThông tin vị trí: Được sử dụng để đề xuất các điểm tham quan gần đó</string>
+    <string name="privacy_policy_2_title">2. Cách chúng tôi thu thập thông tin cá nhân</string>
+    <string name="privacy_policy_2_content">Tự động thu thập qua Google Sign-in và xác thực Firebase\nNgười dùng tự nhập và tải lên tệp\nThông tin vị trí được thu thập tự động chỉ khi bạn cho phép quyền truy cập vị trí</string>
+    <string name="privacy_policy_3_title">3. Mục đích sử dụng thông tin cá nhân</string>
+    <string name="privacy_policy_3_content">Tạo và quản lý tài khoản\nCung cấp và cải thiện dịch vụ\nXác thực sinh viên đại học và du khách\nCung cấp các dịch vụ và thông tin khuyến mãi cá nhân hóa\nĐề xuất các điểm tham quan gần đó</string>
+    <string name="privacy_policy_4_title">4. Chia sẻ và cung cấp thông tin cá nhân</string>
+    <string name="privacy_policy_4_content">Nguyên tắc của chúng tôi là không cung cấp thông tin cá nhân của bạn cho bên ngoài, ngoại trừ các trường hợp sau:\n\nVới sự đồng ý của bạn\nTheo quy định của pháp luật\nTheo yêu cầu của cơ quan điều tra</string>
+    <string name="privacy_policy_5_title">5. Thời gian lưu giữ và sử dụng thông tin cá nhân</string>
+    <string name="privacy_policy_5_content">Chúng tôi sẽ hủy thông tin cá nhân mà không chậm trễ sau khi mục đích thu thập và sử dụng đã được thực hiện. Nếu chúng tôi phải giữ lại theo quy định của pháp luật, chúng tôi sẽ giữ lại trong thời gian quy định của pháp luật.</string>
+    <string name="privacy_policy_6_title">6. Quy trình và phương pháp hủy thông tin cá nhân</string>
+    <string name="privacy_policy_6_content">Quy trình hủy: Sau khi đạt được mục đích thu thập và sử dụng, thông tin sẽ được chuyển vào một cơ sở dữ liệu riêng và lưu giữ trong một thời gian trước khi bị hủy\nPhương pháp hủy: Các tệp điện tử sẽ bị hủy bằng các phương pháp kỹ thuật để không thể khôi phục, và các tài liệu giấy sẽ bị hủy bằng cách xé nhỏ hoặc đốt cháy</string>
+    <string name="privacy_policy_7_title">7. Quyền của bạn và cách thực hiện</string>
+    <string name="privacy_policy_7_content">Bạn có thể thực hiện quyền truy cập, sửa đổi, xóa hoặc tạm ngưng xử lý dữ liệu cá nhân của mình bất cứ lúc nào. Để làm điều này, vui lòng liên hệ appbusanpartners@gmail.com và chúng tôi sẽ thực hiện ngay lập tức.</string>
+    <string name="privacy_policy_8_title">8. Biện pháp đảm bảo an toàn thông tin cá nhân</string>
+    <string name="privacy_policy_8_content">Mã hóa thông tin cá nhân\nCác biện pháp kỹ thuật chống lại hack\nKiểm soát truy cập và giáo dục</string>
+    <string name="privacy_policy_9_title">9. Thu thập và sử dụng thông tin vị trí</string>
+    <string name="privacy_policy_9_content">Ứng dụng của chúng tôi thu thập thông tin vị trí của bạn để đề xuất các điểm tham quan gần đó. Nếu bạn từ chối quyền truy cập vị trí, ứng dụng có thể yêu cầu thêm quyền truy cập vị trí. Thông tin vị trí không được thu thập theo thời gian thực và chỉ được sử dụng với sự đồng ý của bạn.</string>
+    <string name="privacy_policy_10_title">10. Cán bộ bảo mật và thông tin liên hệ</string>
+    <string name="privacy_policy_10_content">Cán bộ bảo mật: Minseok Kwon\nLiên hệ: 010-4748-7731\nEmail: appbusanpartners@gmail.com</string>
+    <string name="privacy_policy_11_title">11. Thay đổi chính sách bảo mật</string>
+    <string name="privacy_policy_11_content">Chính sách Bảo Mật này có thể thay đổi theo luật pháp và chính sách nội bộ. Các thay đổi sẽ được thông báo trên trang này, và mọi thay đổi quan trọng sẽ được thông báo riêng.</string>
+
+    <string name="header_title_terms">Điều Khoản Dịch Vụ</string>
+    <string name="terms_of_service_date">Cập nhật lần cuối: Ngày 10 tháng 7 năm 2024</string>
+    <string name="terms_of_service_intro">Chào mừng! Cảm ơn bạn đã sử dụng BusanPartners (sau đây gọi là \'ứng dụng của chúng tôi\'). Điều Khoản Dịch Vụ này mô tả các điều kiện và hướng dẫn sử dụng ứng dụng của chúng tôi, và bạn phải tuân thủ chúng.</string>
+    <string name="terms_of_service_1_title">1. Giới thiệu</string>
+    <string name="terms_of_service_1_content">BusanPartners là một dịch vụ kết nối sinh viên đại học ở Busan với du khách nước ngoài. Người dùng cũng có thể giao tiếp với nhau thông qua chức năng trò chuyện.</string>
+    <string name="terms_of_service_2_title">2. Đăng ký</string>
+    <string name="terms_of_service_2_content">Người dùng đăng ký qua Google Sign-in, thu thập tên, email và ảnh hồ sơ của họ. Nếu bạn là sinh viên đại học, bạn sẽ cần gửi xác thực email của trường đại học và ảnh thẻ sinh viên. Nếu bạn là du khách, bạn sẽ cần gửi vé máy bay/tàu và chứng nhận nơi ở.</string>
+    <string name="terms_of_service_3_title">3. Sử dụng thông tin vị trí</string>
+    <string name="terms_of_service_3_content">Ứng dụng của chúng tôi thu thập thông tin vị trí của bạn để cung cấp cho bạn dịch vụ giới thiệu các điểm tham quan gần đó. Thông tin vị trí chỉ được thu thập với sự đồng ý của bạn, và bạn có thể ngừng cung cấp thông tin vị trí của mình bất cứ lúc nào. Nếu thông tin vị trí bị vô hiệu hóa, tính năng sẽ không khả dụng. Thông tin vị trí được bảo vệ theo Chính Sách Bảo Mật của chúng tôi.</string>
+    <string name="terms_of_service_4_title">4. Quyền riêng tư</string>
+    <string name="terms_of_service_4_content">Ứng dụng của chúng tôi cam kết bảo vệ quyền riêng tư của bạn, được xử lý theo Chính Sách Bảo Mật của chúng tôi.</string>
+    <string name="terms_of_service_5_title">5. Trách nhiệm tài khoản</string>
+    <string name="terms_of_service_5_content">Bạn phải giữ bí mật thông tin tài khoản của mình và không chia sẻ nó với bất kỳ ai khác. Bạn chịu trách nhiệm cho tất cả các hoạt động trên tài khoản của mình.</string>
+
+    <string name="terms_of_service_6_title">6. Hành vi bị cấm</string>
+    <string name="terms_of_service_6_content">Bạn không được:\n\nSử dụng hoạt động bất hợp pháp\nXâm phạm quyền của người khác\nCung cấp thông tin sai lệch\nCố gắng phá vỡ dịch vụ hoặc hack vào hệ thống\nTruyền hoặc chia sẻ nội dung không phù hợp</string>
+    <string name="terms_of_service_7_title">7. Gián đoạn và thay đổi dịch vụ</string>
+    <string name="terms_of_service_7_content">Ứng dụng của chúng tôi có thể tạm thời hoặc vĩnh viễn ngừng hoặc thay đổi dịch vụ khi cần thiết. Nếu điều này xảy ra, chúng tôi sẽ thông báo trước cho bạn và cố gắng đảm bảo rằng bạn không bị thiệt hại.</string>
+    <string name="terms_of_service_8_title">8. Giới hạn trách nhiệm</string>
+    <string name="terms_of_service_8_content">Ứng dụng của chúng tôi không chịu trách nhiệm cho các tranh chấp giữa người dùng. Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại nào phát sinh từ việc sử dụng dịch vụ.</string>
+    <string name="terms_of_service_9_title">9. Thay đổi Điều Khoản Dịch Vụ</string>
+    <string name="terms_of_service_9_content">Điều Khoản này có thể thay đổi do thay đổi luật pháp hoặc chính sách của dịch vụ. Chúng tôi sẽ thông báo cho bạn về những thay đổi quan trọng qua một thông báo.</string>
+    <string name="terms_of_service_10_title">Liên hệ chúng tôi</string>
+    <string name="terms_of_service_10_content">Đối với các câu hỏi về Điều Khoản Dịch Vụ, vui lòng liên hệ appbusanpartners@gmail.com.</string>
+
+    <string name="app_language_change">Ngôn Ngữ Ứng Dụng</string>
+    <string name="select_your_language">Chọn ngôn ngữ của bạn.</string>
 </resources>
