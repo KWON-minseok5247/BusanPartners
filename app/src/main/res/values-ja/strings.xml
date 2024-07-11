@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BusanPartners</string>
+    <string name="welcome_traveler">釜山へようこそ。 \n %1$sまで自由に会話してください。</string>
+    <string name="date_format">yyyy年MM月dd日まで利用可能です。</string>
 </resources>

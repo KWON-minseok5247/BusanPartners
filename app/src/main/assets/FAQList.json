@@ -30,7 +30,7 @@
     "category": "대학생",
     "questions": {
       "ko": "자기소개를 영어로 해야 하나요?",
-      "en": "Do I need to write my self-introduction in English?",
+      "en": "Do I need to introduce myself in English?",
       "zh": "自我介绍需要用英语吗？",
       "zh-CN": "自我介绍需要用英语吗？",
       "zh-TW": "自我介紹需要用英語嗎？",
@@ -41,16 +41,16 @@
       "in": "Apakah saya perlu menulis perkenalan diri saya dalam bahasa Inggris?"
     },
     "answers": {
-      "ko": "한국어로 작성해도 됩니다. 저장하면 DeepL 번역 기능을 통해 영어, 중국어, 일본어로 번역되어 상대방은 번역된 내용을 읽을 수 있습니다.",
-      "en": "You can write it in Korean. When saved, it will be translated into English, Chinese, and Japanese through the DeepL translation feature, and the other person can read the translated content.",
-      "zh": "可以用韩语写。保存后，通过DeepL翻译功能，可以翻译成英语、中文、日语，对方可以阅读翻译后的内容。",
-      "zh-CN": "可以用韩语写。保存后，通过DeepL翻译功能，可以翻译成英语、中文、日语，对方可以阅读翻译后的内容。",
-      "zh-TW": "可以用韓語寫。保存後，通過DeepL翻譯功能，可以翻譯成英語、中文、日語，對方可以閱讀翻譯後的內容。",
-      "ja": "韓国語で書いても構いません。保存するとDeepLの翻訳機能を通じて英語、中国語、日本語に翻訳され、相手は翻訳された内容を読むことができます。",
-      "es": "Puede escribirlo en coreano. Cuando se guarde, se traducirá al inglés, chino y japonés a través de la función de traducción DeepL, y la otra persona podrá leer el contenido traducido.",
-      "vi": "Bạn có thể viết bằng tiếng Hàn. Khi lưu, nội dung sẽ được dịch sang tiếng Anh, tiếng Trung và tiếng Nhật thông qua tính năng dịch DeepL, và người kia có thể đọc nội dung đã dịch.",
-      "th": "คุณสามารถเขียนเป็นภาษาเกาหลีได้ เมื่อบันทึกแล้ว จะถูกแปลเป็นภาษาอังกฤษ จีน และญี่ปุ่นผ่านฟีเจอร์แปล DeepL และอีกฝ่ายสามารถอ่านเนื้อหาที่แปลได้",
-      "in": "Anda bisa menulisnya dalam bahasa Korea. Saat disimpan, akan diterjemahkan ke dalam bahasa Inggris, Cina, dan Jepang melalui fitur terjemahan DeepL, dan orang lain dapat membaca konten yang diterjemahkan."
+      "ko": "한국어로 작성해도 됩니다. 저장하면 DeepL 번역 기능을 통해 영어, 중국어, 일본어, 스페인어로 번역되어 상대방은 번역된 내용을 읽을 수 있습니다.",
+      "en": "You can write it in Korean. When saved, it will be translated into English, Chinese, Japanese, and Spanish through the DeepL translation feature, and the other person can read the translated content.",
+      "zh": "可以用韩语写。保存后，通过DeepL翻译功能，可以翻译成英语、中文、日语和西班牙语，对方可以阅读翻译后的内容。",
+      "zh-CN": "可以用韩语写。保存后，通过DeepL翻译功能，可以翻译成英语、中文、日语和西班牙语，对方可以阅读翻译后的内容。",
+      "zh-TW": "可以用韓語寫。保存後，通過DeepL翻譯功能，可以翻譯成英語、中文、日語和西班牙語，對方可以閱讀翻譯後的內容。",
+      "ja": "韓国語で書いても構いません。保存するとDeepLの翻訳機能を通じて英語、中国語、日本語、スペイン語に翻訳され、相手は翻訳された内容を読むことができます。",
+      "es": "Puede escribirlo en coreano. Cuando se guarde, se traducirá al inglés, chino, japonés y español a través de la función de traducción DeepL, y la otra persona podrá leer el contenido traducido.",
+      "vi": "Bạn có thể viết bằng tiếng Hàn. Khi lưu, nội dung sẽ được dịch sang tiếng Anh, tiếng Trung, tiếng Nhật và tiếng Tây Ban Nha thông qua tính năng dịch DeepL, và người kia có thể đọc nội dung đã dịch.",
+      "th": "คุณสามารถเขียนเป็นภาษาเกาหลีได้ เมื่อบันทึกแล้ว จะถูกแปลเป็นภาษาอังกฤษ จีน ญี่ปุ่น และสเปนผ่านฟีเจอร์แปล DeepL และอีกฝ่ายสามารถอ่านเนื้อหาที่แปลได้",
+      "in": "Anda bisa menulisnya dalam bahasa Korea. Saat disimpan, akan diterjemahkan ke dalam bahasa Inggris, Cina, Jepang, dan Spanyol melalui fitur terjemahan DeepL, dan orang lain dapat membaca konten yang diterjemahkan."
     }
   },
   {
@@ -84,7 +84,7 @@
     "category": "대학생",
     "questions": {
       "ko": "대학생 인증은 얼마나 걸리나요?",
-      "en": "How long does student verification take?",
+      "en": "How long does it take to verify a college student?",
       "zh": "学生认证需要多长时间？",
       "zh-CN": "学生认证需要多长时间？",
       "zh-TW": "學生認證需要多長時間？",
@@ -96,7 +96,7 @@
     },
     "answers": {
       "ko": "학생증 사진을 첨부한 후 최대 24시간 이내에 인증이 완료됩니다.",
-      "en": "After attaching the student ID photo, verification will be completed within 24 hours.",
+      "en": "Verification is completed in up to 24 hours after you attach a photo of your student ID.",
       "zh": "附上学生证照片后，认证将在24小时内完成。",
       "zh-CN": "附上学生证照片后，认证将在24小时内完成。",
       "zh-TW": "附上學生證照片後，認證將在24小時內完成。",
@@ -204,14 +204,14 @@
     },
     "answers": {
       "ko": "부산에 여행을 왔음을 증명하기 위해 이름이 확인 가능한 비행기 티켓, 배 티켓, 또는 숙박증명서 캡쳐본을 제출해야 합니다.",
-      "en": "To prove you have visited Busan, you need to submit a screenshot of your plane ticket, boat ticket, or accommodation proof showing your name.",
+      "en": "To prove you traveled to Busan, you must submit a plane ticket, ship ticket, or lodging proof capture with your name on it.",
       "zh": "为了证明你来过釜山，需要提交能确认姓名的飞机票、船票或住宿证明的截图。",
       "zh-CN": "为了证明你来过釜山，需要提交能确认姓名的飞机票、船票或住宿证明的截图。",
       "zh-TW": "為了證明你來過釜山，需要提交能確認姓名的飛機票、船票或住宿證明的截圖。",
       "ja": "釜山への旅行を証明するために、名前が確認できる飛行機チケット、船チケット、または宿泊証明書のキャプチャを提出する必要があります。",
       "es": "Para demostrar que has visitado Busan, debes enviar una captura de pantalla de tu boleto de avión, boleto de barco o prueba de alojamiento que muestre tu nombre.",
       "vi": "Để chứng minh bạn đã đến Busan, bạn cần gửi ảnh chụp màn hình vé máy bay, vé tàu hoặc bằng chứng lưu trú có tên của bạn.",
-      "th": "เพื่อพิสูจน์ว่าคุณเคยไปปูซาน คุณต้องส่งภาพหน้าจอตั๋วเครื่องบิน ตั๋วเรือ หรือหลักฐานการเข้าพักที่แสดงชื่อของคุณ",
+      "th": "เพื่อพิสูจน์ว่าคุณได้เดินทางไปปูซาน คุณต้องส่งภาพหน้าจอตั๋วเครื่องบิน ตั๋วเรือ หรือหลักฐานการเข้าพักที่มีชื่อของคุณ",
       "in": "Untuk membuktikan bahwa Anda telah mengunjungi Busan, Anda perlu mengirimkan tangkapan layar tiket pesawat, tiket kapal, atau bukti akomodasi yang menunjukkan nama Anda."
     }
   },
@@ -284,16 +284,16 @@
       "in": "Berapa lama waktu yang dibutuhkan untuk verifikasi turis?"
     },
     "answers": {
-      "ko": "증명할 수 있는 사진을 첨부한 후, 인증 절차는 짧게는 1시간, 길게는 최대 24시간 이내에 완료됩니다.",
-      "en": "After attaching a verifiable photo, the verification process can be completed in as little as 1 hour or up to 24 hours.",
-      "zh": "附上能证明的照片后，认证程序最短1小时，最长24小时内完成。",
-      "zh-CN": "附上能证明的照片后，认证程序最短1小时，最长24小时内完成。",
-      "zh-TW": "附上能證明的照片後，認證程序最短1小時，最長24小時內完成。",
-      "ja": "証明できる写真を添付した後、認証手続きは早ければ1時間、遅くとも24時間以内に完了します。",
-      "es": "Después de adjuntar una foto verificable, el proceso de verificación puede completarse en tan solo 1 hora o hasta 24 horas.",
-      "vi": "Sau khi đính kèm một bức ảnh có thể xác minh, quá trình xác minh có thể hoàn tất trong ít nhất là 1 giờ hoặc lên đến 24 giờ.",
-      "th": "หลังจากแนบรูปถ่ายที่ตรวจสอบได้ กระบวนการตรวจสอบสามารถทำได้ภายใน 1 ชั่วโมงหรือสูงสุด 24 ชั่วโมง",
-      "in": "Setelah melampirkan foto yang dapat diverifikasi, proses verifikasi dapat diselesaikan dalam waktu minimal 1 jam atau hingga 24 jam."
+      "ko": "증명할 수 있는 사진을 첨부한 후, 인증 절차는 가능한 한 신속하게 진행됩니다. 보통 6시간 내에 완료되지만, 상황에 따라 다를 수 있습니다.",
+      "en": "After attaching a verifiable photo, the verification process is conducted as quickly as possible. It is usually completed within 6 hours, but it may vary depending on the situation.",
+      "zh": "附上能证明的照片后，认证程序会尽快进行。通常在6小时内完成，但可能会有所不同。",
+      "zh-CN": "附上能证明的照片后，认证程序会尽快进行。通常在6小时内完成，但可能会有所不同。",
+      "zh-TW": "附上能證明的照片後，認證程序會盡快進行。通常在6小時內完成，但可能會有所不同。",
+      "ja": "証明できる写真を添付した後、認証手続きはできるだけ早く行われます。通常は6時間以内に完了しますが、状況によって異なる場合があります。",
+      "es": "Después de adjuntar una foto verificable, el proceso de verificación se lleva a cabo lo más rápido posible. Por lo general, se completa dentro de las 6 horas, pero puede variar según la situación.",
+      "vi": "Sau khi đính kèm một bức ảnh có thể xác minh, quá trình xác minh được tiến hành nhanh nhất có thể. Thường được hoàn thành trong vòng 6 giờ, nhưng có thể thay đổi tùy theo tình huống.",
+      "th": "หลังจากแนบรูปถ่ายที่สามารถตรวจสอบได้ กระบวนการตรวจสอบจะดำเนินการให้เร็วที่สุดเท่าที่จะเป็นไปได้ โดยปกติจะเสร็จสิ้นภายใน 6 ชั่วโมง แต่ก็อาจแตกต่างกันไปตามสถานการณ์",
+      "in": "Setelah melampirkan foto yang dapat diverifikasi, proses verifikasi dilakukan secepat mungkin. Biasanya selesai dalam waktu 6 jam, tetapi dapat bervariasi tergantung situasinya."
     }
   },
   {
@@ -583,16 +583,16 @@
       "in": "Saya memiliki pertanyaan lain. Apa yang harus saya lakukan?"
     },
     "answers": {
-      "ko": "kwondh5247@gmail.com으로 직접 문의해 주시면 최대한 빠른 시간 내에 답변해 드리겠습니다.",
-      "en": "Please contact us directly at kwondh5247@gmail.com and we will respond as quickly as possible.",
-      "zh": "请直接联系 kwondh5247@gmail.com，我们会尽快回复您。",
-      "zh-CN": "请直接联系 kwondh5247@gmail.com，我们会尽快回复您。",
-      "zh-TW": "請直接聯繫 kwondh5247@gmail.com，我們會盡快回覆您。",
-      "ja": "kwondh5247@gmail.com に直接お問い合わせいただければ、できるだけ早くご返信いたします。",
-      "es": "Por favor, contáctenos directamente en kwondh5247@gmail.com y le responderemos lo antes posible.",
-      "vi": "Vui lòng liên hệ trực tiếp với chúng tôi tại kwondh5247@gmail.com và chúng tôi sẽ trả lời bạn trong thời gian sớm nhất.",
-      "th": "กรุณาติดต่อเราโดยตรงที่ kwondh5247@gmail.com และเราจะตอบกลับโดยเร็วที่สุด",
-      "in": "Silakan hubungi kami langsung di kwondh5247@gmail.com dan kami akan merespons secepat mungkin."
+      "ko": "appbusanpartners@gmail.com으로 직접 문의해 주시면 최대한 빠른 시간 내에 답변해 드리겠습니다.",
+      "en": "Please contact us directly at appbusanpartners@gmail.com and we will respond as quickly as possible.",
+      "zh": "请直接联系 appbusanpartners@gmail.com，我们会尽快回复您。",
+      "zh-CN": "请直接联系 appbusanpartners@gmail.com，我们会尽快回复您。",
+      "zh-TW": "請直接聯繫 appbusanpartners@gmail.com，我們會盡快回覆您。",
+      "ja": "appbusanpartners@gmail.com に直接お問い合わせいただければ、できるだけ早くご返信いたします。",
+      "es": "Por favor, contáctenos directamente en appbusanpartners@gmail.com y le responderemos lo antes posible.",
+      "vi": "Vui lòng liên hệ trực tiếp với chúng tôi tại appbusanpartners@gmail.com và chúng tôi sẽ trả lời bạn trong thời gian sớm nhất.",
+      "th": "กรุณาติดต่อเราโดยตรงที่ appbusanpartners@gmail.com และเราจะตอบกลับโดยเร็วที่สุด",
+      "in": "Silakan hubungi kami langsung di appbusanpartners@gmail.com dan kami akan merespons secepat mungkin."
     }
   }
 

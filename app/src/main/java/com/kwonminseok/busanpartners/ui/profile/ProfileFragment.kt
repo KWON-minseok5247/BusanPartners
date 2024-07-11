@@ -52,6 +52,7 @@ import com.kwonminseok.busanpartners.extensions.toEntity
 import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.ui.login.LoginRegisterActivity
 import com.kwonminseok.busanpartners.util.Constants
+import com.kwonminseok.busanpartners.util.LanguageUtils.getDeviceLanguage
 import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,6 +68,7 @@ import me.toptas.fancyshowcase.FancyShowCaseView
 import me.toptas.fancyshowcase.FocusShape
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import java.util.Locale
 
 
 private val TAG = "ProfileFragment"
@@ -344,8 +346,15 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_FAQFragment)
         }
         binding.linearPersonalInformation.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_privacyPolicyFragment)
 
         }
+
+        binding.linearUseTerms.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_termsOfServiceFragment)
+
+        }
+
 
         // 로그아웃 버튼
         binding.linearLogOut.setOnClickListener {
@@ -447,7 +456,7 @@ class ProfileFragment : Fragment() {
                         authenticationStatus.text = getString(R.string.authentication_completed_student)
                     }
                 } else if (user.authentication.traveler) {
-                    val tokenTime = formatDateTime(user.tokenTime.toString())
+                    val tokenTime = formatDateTime(user.tokenTime.toString(), Locale.forLanguageTag(getDeviceLanguage(requireContext())))
                     binding.apply {
                         authenticationStatus.text = getString(R.string.welcome_traveler, tokenTime)
                     }
@@ -468,14 +477,24 @@ class ProfileFragment : Fragment() {
 //        binding.progressbarSettings.visibility = View.GONE
 //    }
 
-    fun formatDateTime(dateTimeString: String): String {
-        // ISO 8601 형식의 문자열을 OffsetDateTime 객체로 파싱
+    fun formatDateTime(dateTimeString: String, locale: Locale): String {
         val offsetDateTime = OffsetDateTime.parse(dateTimeString)
+        Log.e("locale", locale.language)
 
-        // 원하는 날짜 형식 설정
-        val formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
+        // 로케일에 따라 날짜 형식 설정
+        val pattern = when (locale.language) {
+            "ja" -> "yyyy年MM月dd日" // 일본어
+            "en" -> "MMMM dd, yyyy" // 영어
+            "zh" -> if (locale.country == "CN") "yyyy年MM月dd日" else "yyyy年MM月dd日" // 중국어 (간체, 번체)
+            "es" -> "dd 'de' MMMM 'de' yyyy" // 에스파냐어
+            "th" -> "dd MMM yyyy" // 태국어
+            "vi" -> "dd MMM yyyy" // 베트남어
+            "in" -> "dd MMM yyyy" // 인도네시아어
+            "ko" -> "yyyy년 MM월 dd일"
+            else ->  "MMMM dd, yyyy"//
+        }
 
-        // 날짜 형식화
+        val formatter = DateTimeFormatter.ofPattern(pattern, locale)
         return offsetDateTime.format(formatter)
     }
 

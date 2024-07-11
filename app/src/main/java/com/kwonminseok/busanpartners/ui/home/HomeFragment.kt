@@ -51,8 +51,10 @@ import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentSe
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.ui.message.ChannelActivity
 import com.kwonminseok.busanpartners.util.LanguageUtils
+import com.kwonminseok.busanpartners.util.LanguageUtils.getDeviceLanguage
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.util.FusedLocationSource
+import org.threeten.bp.OffsetDateTime
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -156,18 +158,21 @@ class HomeFragment : Fragment() {
 
 
         }
-        if (isFirstVisitor) {
+        if (true) {
+//            if (isFirstVisitor) {
 
             sharedPreferences.edit().putBoolean("is_first_visitor", false).apply()
 
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
-            val outputFormat = SimpleDateFormat("yyyy년 M월 d일까지 이용 가능합니다.", Locale.getDefault())
-            val date = inputFormat.parse(currentUser!!.tokenTime)
+            val languageTag = getDeviceLanguage(requireContext())
+            val locale = Locale.forLanguageTag(languageTag)
+            val tokenTime = formatDateTime(currentUser!!.tokenTime.toString(), locale)
 
             Dialoger(requireContext(), Dialoger.TYPE_MESSAGE)
                 .setDrawable(R.drawable.logo_transparent_background_only_logo)
                 .setTitle(getString(R.string.authentication_completed))
-                .setDescription("${outputFormat.format(date!!)} ${getString(R.string.contact_students_first)}")
+//                .setDescription("${getString(R.string.welcome_traveler, tokenTime)} ${getString(R.string.contact_students_first)}")
+                .setDescription(getString(R.string.welcome_traveler, tokenTime))
+//                .setDescription("${outputFormat.format(date!!)} ${getString(R.string.contact_students_first)}")
                 .setButtonText(getString(R.string.confirmation))
                 .setButtonOnClickListener {
                 }
@@ -526,6 +531,28 @@ class HomeFragment : Fragment() {
             // Toast.makeText(context, getString(R.string.error_retrieving_data), Toast.LENGTH_SHORT).show()
         }
     }
+
+    fun formatDateTime(dateTimeString: String, locale: Locale): String {
+        val offsetDateTime = OffsetDateTime.parse(dateTimeString)
+        Log.e("locale", locale.language)
+
+        // 로케일에 따라 날짜 형식 설정
+        val pattern = when (locale.language) {
+            "ja" -> "yyyy年MM月dd日" // 일본어
+            "en" -> "MMMM dd, yyyy" // 영어
+            "zh" -> if (locale.country == "CN") "yyyy年MM月dd日" else "yyyy年MM月dd日" // 중국어 (간체, 번체)
+            "es" -> "dd 'de' MMMM 'de' yyyy" // 에스파냐어
+            "th" -> "dd MMM yyyy" // 태국어
+            "vi" -> "dd MMM yyyy" // 베트남어
+            "in" -> "dd MMM yyyy" // 인도네시아어
+            "ko" -> "yyyy년 MM월 dd일"
+            else ->  "MMMM dd, yyyy"//
+        }
+
+        val formatter = org.threeten.bp.format.DateTimeFormatter.ofPattern(pattern, locale)
+        return offsetDateTime.format(formatter)
+    }
+
 
 
 }
