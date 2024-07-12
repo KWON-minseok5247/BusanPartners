@@ -65,7 +65,9 @@
     <string name="nearest_place">附近景點</string>
     <string name="login_title">在釜山結識珍貴的朋友 \n立即開始！</string>
     <string name="google_login_btn">Google 登錄</string>
-    <string name="agree_personal_information">繼續表示您同意我們的服務條款和隱私政策。</string>
+    <string name="agree_personal_information">繼續操作即表示您同意我們的服務條款和隱私政策。</string>
+    <string name="terms_of_service">服務條款</string>
+    <string name="privacy_policy">隱私政策</string>
     <string name="authentication">認證</string>
     <string name="authenticate">認證</string>
     <string name="notifications">通知</string>

@@ -68,6 +68,8 @@
     <string name="login_title">Meet precious connections in Busan \nStart now!</string>
     <string name="google_login_btn">Google Login</string>
     <string name="agree_personal_information">By proceeding, you agree to our Terms of Service and Privacy Policy.</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="privacy_policy">Privacy Policy</string>
     <string name="authentication">Authentication</string>
     <string name="authenticate">Authenticate</string>
     <string name="notifications">Notifications</string>

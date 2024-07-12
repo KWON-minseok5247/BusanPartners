@@ -66,6 +66,8 @@
     <string name="login_title">Temui koneksi berharga di Busan \nMulai sekarang!</string>
     <string name="google_login_btn">Masuk dengan Google</string>
     <string name="agree_personal_information">Dengan melanjutkan, Anda menyetujui Ketentuan Layanan dan Kebijakan Privasi kami.</string>
+    <string name="terms_of_service">Ketentuan Layanan</string>
+    <string name="privacy_policy">Kebijakan Privasi</string>
     <string name="authentication">Otentikasi</string>
     <string name="authenticate">Otentikasi</string>
     <string name="notifications">Notifikasi</string>

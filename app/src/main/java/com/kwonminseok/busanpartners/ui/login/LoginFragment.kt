@@ -1,7 +1,12 @@
 package com.kwonminseok.busanpartners.ui.login
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -73,12 +78,53 @@ class LoginFragment : Fragment() {
             signInWithGoogle()
         }
 
+        setupTextViewWithLinks()
+
+
+
 
     }
     private fun signInWithGoogle() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+
+    private fun setupTextViewWithLinks() {
+        val termsOfService = getString(R.string.terms_of_service)
+        val privacyPolicy = getString(R.string.privacy_policy)
+        val fullText = getString(R.string.agree_personal_information)
+
+        val termsIndex = fullText.indexOf(termsOfService)
+        val privacyIndex = fullText.indexOf(privacyPolicy)
+
+        val spannableString = SpannableString(fullText)
+
+        val termsClickListener = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/appbusanpartnerstermsofservice?usp=sharing"))
+                startActivity(intent)
+            }
+        }
+
+        val privacyClickListener = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/appbusanpartners?usp=sharing"))
+                startActivity(intent)
+            }
+        }
+
+        if (termsIndex != -1) {
+            spannableString.setSpan(termsClickListener, termsIndex, termsIndex + termsOfService.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        if (privacyIndex != -1) {
+            spannableString.setSpan(privacyClickListener, privacyIndex, privacyIndex + privacyPolicy.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        binding.agreePersonalInformation.text = spannableString
+        binding.agreePersonalInformation.movementMethod = LinkMovementMethod.getInstance()
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

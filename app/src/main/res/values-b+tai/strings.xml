@@ -65,7 +65,9 @@
     <string name="nearest_place">สถานที่ใกล้เคียง</string>
     <string name="login_title">พบกับการเชื่อมต่อที่มีค่าในปูซาน \n เริ่มต้นเลย!</string>
     <string name="google_login_btn">เข้าสู่ระบบด้วย Google</string>
-    <string name="agree_personal_information">โดยการดำเนินการต่อ คุณยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัวของเรา</string>
+    <string name="agree_personal_information">เมื่อดำเนินการต่อ แสดงว่าคุณยอมรับข้อกำหนดในการให้บริการและนโยบายความเป็นส่วนตัวของเรา</string>
+    <string name="terms_of_service">ข้อกำหนดในการให้บริการ</string>
+    <string name="privacy_policy">นโยบายความเป็นส่วนตัว</string>
     <string name="authentication">การยืนยันตัวตน</string>
     <string name="authenticate">ยืนยันตัวตน</string>
     <string name="notifications">การแจ้งเตือน</string>

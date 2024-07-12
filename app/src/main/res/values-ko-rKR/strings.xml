@@ -89,7 +89,12 @@
     <string name="nearest_place">가까운 관광지</string>
     <string name="login_title">부산에서 만나는 소중한 인연 \n지금 바로 시작하세요!</string>
     <string name="google_login_btn">구글 로그인</string>
+
     <string name="agree_personal_information">계속 진행하면 서비스 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주합니다.</string>
+    <string name="terms_of_service">서비스 이용약관</string>
+    <string name="privacy_policy">개인정보 처리방침</string>
+
+    <!--    <string name="agree_personal_information">계속 진행하면 서비스 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주합니다.</string>-->
     <string name="authentication">인증</string>
     <string name="authenticate">인증하기</string>
     <string name="notifications">알림</string>

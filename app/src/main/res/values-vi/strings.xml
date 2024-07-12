@@ -65,7 +65,9 @@
     <string name="nearest_place">Điểm Tham Quan Gần Nhất</string>
     <string name="login_title">Gặp gỡ những kết nối quý giá ở Busan \n Bắt đầu ngay bây giờ!</string>
     <string name="google_login_btn">Đăng Nhập Google</string>
-    <string name="agree_personal_information">Bằng cách tiếp tục, bạn đồng ý với Điều Khoản Dịch Vụ và Chính Sách Bảo Mật của chúng tôi.</string>
+    <string name="agree_personal_information">Bằng cách tiếp tục, bạn đồng ý với Điều khoản dịch vụ và Chính sách quyền riêng tư của chúng tôi.</string>
+    <string name="terms_of_service">Điều khoản dịch vụ</string>
+    <string name="privacy_policy">Chính sách quyền riêng tư</string>
     <string name="authentication">Xác Thực</string>
     <string name="authenticate">Xác Thực</string>
     <string name="notifications">Thông Báo</string>

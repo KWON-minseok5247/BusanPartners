@@ -66,6 +66,8 @@
     <string name="login_title">Encuentre conexiones valiosas en Busan \n¡Empiece ahora!</string>
     <string name="google_login_btn">Iniciar sesión con Google</string>
     <string name="agree_personal_information">Al continuar, acepta nuestros Términos de servicio y Política de privacidad.</string>
+    <string name="terms_of_service">Términos de servicio</string>
+    <string name="privacy_policy">Política de privacidad</string>
     <string name="authentication">Autenticación</string>
     <string name="authenticate">Autenticar</string>
     <string name="notifications">Notificaciones</string>

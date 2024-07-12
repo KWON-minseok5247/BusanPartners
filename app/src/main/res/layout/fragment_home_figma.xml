@@ -71,7 +71,7 @@
           app:layout_constraintTop_toBottomOf="@id/r3b7o5cqlh3e" />
 
       <TextView
-          android:id="@+id/rb3mrm3qjzc7"
+          android:id="@+id/agree_personal_information"
           android:textColor="#A08249"
           android:textSize="14sp"
           android:layout_marginTop="7dp"
@@ -91,7 +91,7 @@
           android:layout_height="20dp"
           android:background="#FFFFFFFF"
           android:orientation="vertical"
-          app:layout_constraintTop_toBottomOf="@id/rb3mrm3qjzc7"
+          app:layout_constraintTop_toBottomOf="@id/agree_personal_information"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintBottom_toBottomOf="parent"/>
