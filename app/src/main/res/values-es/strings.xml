@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BusanPartners</string>
+    <string name="student_authentication_onboarding_1">Proceso de autenticación de estudiantes</string>
+    <string name="student_description_onboarding_1">Para una entrega de servicio fluida, se requiere un proceso de autenticación simple. \n Se requiere verificación de su correo electrónico universitario.</string>
+
+    <string name="student_authentication_onboarding_2">Proceso de autenticación de la identificación de estudiante</string>
+    <string name="student_description_onboarding_2">Por favor, envíe una foto de su identificación de estudiante mostrando su nombre.</string>
+
+    <string name="student_authentication_onboarding_3">Tras completar la autenticación</string>
+    <string name="student_description_onboarding_3">Los estudiantes autenticados pueden chatear libremente sin restricciones. \n Haga nuevas conexiones y experiencias valiosas.</string>
+
+    <string name="start_text_advice">Al continuar en esta aplicación, usted acepta nuestros Términos de uso y Política de privacidad.</string>
+
+    <string name="traveler_authentication_onboarding_1">Proceso de autenticación de viajeros</string>
+    <string name="traveler_description_onboarding_1">Para una entrega de servicio fluida, requerimos un proceso de autenticación simple.</string>
+
+    <string name="traveler_authentication_onboarding_2">Por favor, capture o tome una foto con su nombre en ella.</string>
+    <string name="traveler_description_onboarding_2">Adjunte al menos dos fotos, incluyendo su boleto de avión y prueba de alojamiento.</string>
+
+    <string name="skip">Omitir</string>
+    <string name="next">Siguiente</string>
+
+    <string name="init_title_one">¡Bienvenido a BusanPartners!</string>
+    <string name="init_introduction_one">Ofrecemos oportunidades de intercambio cultural al conectar a turistas extranjeros que visitan Busan con estudiantes universitarios locales.</string>
+
+    <string name="init_title_two">Comparta un mensaje con su contraparte.</string>
+    <string name="init_introduction_two">Complete la autenticación y comience a chatear con su pareja deseada.</string>
+
+    <string name="init_title_three">Experimente un intercambio cultural.</string>
+    <string name="init_introduction_three">Interaccione con diferentes personas y amplíe sus horizontes.</string>
+
+    <string name="init_title_four">Experimente un intercambio cultural.</string>
+    <string name="map_sharing">Compartir ubicación</string>
+    <string name="share_the_map">Compartir la ubicación</string>
+    <string name="details">Detalles</string>
+    <string name="who_are_you">¿Quién eres?</string>
+    <string name="select_student_or_traveler">Seleccione Estudiante o Viajero.</string>
+    <string name="university_student">Estudiante</string>
+    <string name="selected_university_info">Interactúe con diferentes personas y amplíe sus horizontes.</string>
+    <string name="traveler">Viajero</string>
+    <string name="selected_traveler_info">Experimente momentos especiales en la vida diaria de Busan.</string>
+    <string name="enter_email">Ingrese su correo electrónico</string>
+    <string name="email_authentication">1. Autenticación de correo electrónico</string>
+    <string name="email_authentication_info">• Ingrese el correo electrónico de la universidad a la que asiste actualmente, e ingrese el número de verificación que recibió en el correo electrónico.</string>
+    <string name="email">Correo electrónico</string>
+    <string name="send_authentication_email">Enviar correo electrónico de autenticación</string>
+    <string name="attach_image">Adjuntar imagen</string>
+    <string name="student_card">2. Identificación de estudiante</string>
+    <string name="student_card_info">• Suba una foto que muestre su nombre y número de identificación de estudiante.</string>
+    <string name="select_image">Seleccionar imagen</string>
+    <string name="send">Enviar</string>
+    <string name="enter_authentication_number">Ingrese el número de autenticación</string>
+    <string name="authentication_number_title">El número de autenticación ha sido enviado.</string>
+    <string name="authentication_number_info">Por favor, ingrese su número de autenticación.</string>
+    <string name="do_it">Confirmar</string>
+    <string name="authentication_number_complete">Número de autenticación verificado</string>
+    <string name="next_button">Siguiente</string>
+    <string name="faq_header">Preguntas frecuentes</string>
+    <string name="location">Ubicación</string>
+    <string name="festival_time">Periodo del festival</string>
+    <string name="homepage">Página principal</string>
+    <string name="check_the_location_button">Verificar ubicación</string>
+    <string name="current_festival">Festival actual</string>
+    <string name="nearest_place">Lugares cercanos</string>
+    <string name="login_title">Encuentre conexiones valiosas en Busan \n¡Empiece ahora!</string>
+    <string name="google_login_btn">Iniciar sesión con Google</string>
+    <string name="agree_personal_information">Al continuar, acepta nuestros Términos de servicio y Política de privacidad.</string>
+    <string name="authentication">Autenticación</string>
+    <string name="authenticate">Autenticar</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="all_notification">Todas las notificaciones</string>
+    <string name="chat_notification">Notificaciones de chat</string>
+    <string name="regional">Configuraciones</string>
+    <string name="log_out">Cerrar sesión</string>
+    <string name="translate_language">Idiomas de la aplicación</string>
+    <string name="faq">Preguntas frecuentes</string>
+    <string name="use_information">Términos de servicio</string>
+    <string name="personal_information">Política de privacidad</string>
+    <string name="delete_user">Eliminar cuenta</string>
+    <string name="traveler_authentication_title">Guía de autenticación de turistas extranjeros</string>
+    <string name="traveler_small_title_one">1. Boleto de avión o de barco</string>
+    <string name="traveler_small_info_one">• Capture o tome una foto y súbala para que podamos verificar su nombre y fecha.</string>
+    <string name="traveler_small_info_two">• Otros detalles personales pueden ser enmascarados.</string>
+    <string name="traveler_small_info_three">• Proporcione prueba de su estadía en una propiedad reservada en un sitio web o aplicación como Agoda, Expedia, Trip.com, etc.</string>
+    <string name="traveler_small_info_four">• Su nombre y fechas deben ser claramente visibles. Otros detalles personales pueden ser enmascarados.</string>
+    <string name="traveler_small_title_two">2. Prueba de alojamiento</string>
+    <string name="traveler_small_info_five">Es más importante que los nombres y las fechas coincidan. \nPor favor, suba al menos una foto de cada uno. \Las fotos subidas serán eliminadas 7 días después de la verificación</string>
+    <string name="student_list">Lista de estudiantes</string>
+    <string name="connect_student">Contacto</string>
+    <string name="deepl_service_info">Esto ha sido traducido automáticamente usando el servicio de DeepL. \nAlgunas traducciones pueden no ser precisas.</string>
+    <string name="delete_user_title_one">Fue un placer conocerte.</string>
+    <string name="delete_user_info">Por favor, díganos por qué desea eliminar su cuenta. \nSus comentarios nos ayudarán a mejorar nuestro servicio.</string>
+    <string name="delete_user_radio_one">No me siento cómodo con el servicio.</string>
+    <string name="delete_user_radio_two">Me preocupa la seguridad de mi información personal.</string>
+    <string name="delete_user_radio_three">No estoy satisfecho con el sistema de emparejamiento.</string>
+    <string name="delete_user_radio_four">He experimentado inconvenientes con la otra persona.</string>
+    <string name="delete_user_radio_five">Es demasiado complicado de usar.</string>
+    <string name="delete_user_radio_six">Otro (ingrese su propio motivo)</string>
+    <string name="delete_user_btn">Eliminar</string>
+    <string name="profile_detail">Pantalla de perfil</string>
+    <string name="profile_show_chip_group">Cree palabras clave que lo representen.</string>
+    <string name="add_tag">Agregar una etiqueta</string>
+    <string name="profile_can_get_a_call">Puede ser contactado por viajeros.</string>
+    <string name="name">Nombre</string>
+    <string name="major">Carrera (opcional)</string>
+    <string name="profile_introduce">Escriba una breve introducción sobre usted.</string>
+    <string name="save_btn">Guardar</string>
+    <string name="profile_deepl_info">Su perfil se traducirá automáticamente para la otra parte usando DeepL. \n Guardar iniciará la traducción. Por favor, sea paciente.</string>
+    <string name="profile_guest_info">Puede editar su imagen básica o nombre. \n Esta función se ampliará una vez que complete la verificación de estudiante universitario.</string>
+    <string name="view_profile">Ver perfil</string>
+    <string name="chat_message">Mensaje de chat</string>
+    <string name="chat_message_info">Reciba notificaciones cuando lleguen mensajes. Si cambia el nivel de importancia, es posible que no reciba las notificaciones establecidas por BusanPartners de manera normal.</string>
+    <string name="location_permission_required">Por favor, permita las notificaciones de ubicación.</string>
+
+    <string name="welcome_message">El número total de estudiantes disponibles para contactar en Busan es %1$d.</string>
+    <string name="verify_first">Por favor, complete la autenticación primero.</string>
+    <string name="contact_student_count">Número actual de estudiantes que puede contactar: %1$d</string>
+
+    <string name="college_student_cannot_contact">Los estudiantes no pueden contactar a otros estudiantes.</string>
+    <string name="cannot_recontact">No puede contactar a alguien con quien está chateando actualmente o ya ha terminado de chatear.</string>
+    <string name="max_chat_rooms">El número máximo de salas de chat que puede tener activas es tres.</string>
+
+    <string name="thanks_for_using">Gracias por usar nuestro servicio.</string>
+    <string name="great_experience_in_busan">Esperamos que haya tenido una gran experiencia en Busan. ¡Por favor regrese de nuevo!</string>
+    <string name="confirmation">Confirmar</string>
+    <string name="authentication_completed">Su autenticación está completa.</string>
+    <string name="contact_students_first">Contacte a los estudiantes primero.</string>
+    <string name="make_precious_memories">¡Cree recuerdos valiosos con una variedad de personas!</string>
+    <string name="press_back_again_to_exit">Presione regresar una vez más para salir.</string>
+    <string name="location_permission_needed">Permiso de ubicación necesario</string>
+    <string name="location_permission_needed_desc">Se requiere permiso de ubicación para usar esta función.</string>
+    <string name="error">Error</string>
+    <string name="date_format">Disponible hasta yyyy-MM-dd.</string>
+
+    <string name="token_fetch_error">Ocurrió un error al obtener el token.</string>
+    <string name="relogin_prompt">Por favor, inicie sesión nuevamente.</string>
+    <string name="network_error">Error de red</string>
+    <string name="no_internet_connection">Sin conexión a internet. La aplicación se cerrará.</string>
+    <string name="retrying_to_connect">Reintentando conectar: %1$d</string>
+    <string name="max_retries_reached">Se alcanzó el número máximo de reintentos. Por favor, inicie sesión nuevamente.</string>
+    <string name="guest_user_connect_failed">La conexión del usuario invitado falló: %1$s</string>
+    <string name="user_connect_failed">La conexión del usuario falló: %1$s</string>
+    <string name="user_stream_setup_error">Ocurrió un error al configurar la transmisión del usuario.</string>
+
+    <string name="only_member_cannot_send">La otra parte dejó la sala de chat y no puede enviar un mensaje.</string>
+
+    <string name="user_left_chat">La otra parte ha dejado la sala de chat.</string>
+    <string name="leave_chat_room_title">Dejando la sala de chat</string>
+    <string name="leave_chat_room_message">¿Está seguro de que desea dejar la sala de chat? No podrá chatear con la otra parte nuevamente.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="mute_chat_notifications">Silenciar notificaciones de chat</string>
+    <string name="unmute_chat_notifications">Activar notificaciones de chat</string>
+    <string name="leave_chat">Dejando la sala de chat</string>
+
+    <string name="data_changed_message">Los datos han cambiado desde el servidor. Por favor, inténtelo de nuevo.</string>
+
+    <string name="email_verification_success">La verificación de correo electrónico se completó con éxito.</string>
+    <string name="prepare_student_id">Por favor, prepare una foto de su identificación de estudiante.</string>
+    <string name="email_verification_failed">La verificación de correo electrónico falló.</string>
+    <string name="retry_verification">Por favor, verifique e intente nuevamente el código de verificación.</string>
+    <string name="cannot_go_back_during_verification">No puede regresar durante el proceso de verificación.</string>
+
+    <string name="error_email_required">Por favor, ingrese un correo electrónico.</string>
+    <string name="error_invalid_email">Por favor, ingrese una dirección de correo electrónico válida (%1$s).</string>
+    <string name="verification_code_sending">Enviando código de verificación</string>
+    <string name="please_wait">Por favor, espere un momento.</string>
+
+    <string name="saved_successfully">Guardado exitosamente.</string>
+    <string name="add_student_id_photo">¡Por favor, agregue una foto de su identificación de estudiante!</string>
+    <string name="save_alert_title">Alerta</string>
+    <string name="save_alert_message">No podrá cambiarlo después de guardarlo.\n¿Está seguro de que desea guardarlo?</string>
+    <string name="choose_photo">Elegir una foto</string>
+    <string name="cannot_go_back">No puede regresar durante el proceso de verificación.</string>
+
+    <string name="loading">Cargando</string>
+    <string name="checking_verification_code">Verificando el número de autenticación.</string>
+
+    <string name="category_all">Todo</string>
+    <string name="category_other">Otros</string>
+
+    <string name="notification_activated">Notificación activada</string>
+    <string name="notification_deactivated">Notificación desactivada</string>
+    <string name="log_out_confirmation">¿Está seguro de que desea cerrar sesión?</string>
+    <string name="auth_in_progress">La autorización está en progreso. Por favor, espere un momento.</string>
+    <string name="auth_already_completed">La autenticación ya está completa.</string>
+    <string name="welcome_traveler">Bienvenido a Busan. \n Siéntase libre de chatear hasta %1$s.</string>
+    <string name="authentication_completed_student">Su autenticación ha sido completada. \¡Cree recuerdos valiosos con una variedad de personas!</string>
+
+    <string name="add_student_id_photo_traveler">¡Por favor, agregue una foto para verificar su identidad!</string>
+    <string name="add_minimum_two_photos">¡Por favor, agregue al menos dos fotos!</string>
+
+    <string name="delete_account_message">Toda su información será eliminada de inmediato y no se podrá recuperar.</string>
+    <string name="choose_delete_reason">Por favor, elija el motivo de eliminación</string>
+    <string name="deleting_account">Eliminando cuenta</string>
+    <string name="please_wait_for_delete">Por favor, espere un momento. Esto puede tardar hasta 20 segundos</string>
+    <string name="account_deleted">Su cuenta ha sido eliminada exitosamente.</string>
+    <string name="returning_to_main">Está regresando a la pantalla principal.</string>
+    <string name="account_deletion_failed">La eliminación de la cuenta falló.</string>
+    <string name="reauth_failed">La reautenticación falló. Por favor, inténtelo de nuevo.</string>
+    <string name="google_login_failed">El inicio de sesión de Google falló. Por favor, inténtelo de nuevo.</string>
+
+    <string name="enter_name_prompt">¡Por favor, ingrese su nombre!</string>
+    <string name="unsaved_changes_message">Sus cambios no se han guardado.\n¿Está seguro de que desea salir?</string>
+
+    <string name="new_message_from_contact">¡Tiene un nuevo mensaje de la otra parte!</string>
+    <string name="tap_to_check">Toque la notificación para verificarlo.</string>
+    <string name="new_messages">Nuevos mensajes</string>
+    <string name="multiple_messages_received">Se recibieron múltiples mensajes.</string>
+
+    <string name="system_default_language">Idioma predeterminado del sistema (recomendado)</string>
+
+    <string name="header_title">Política de privacidad</string>
+    <string name="privacy_policy_date">Última actualización: 10 de julio de 2024</string>
+    <string name="privacy_policy_intro">BusanPartners ("nuestra aplicación") se toma su privacidad en serio y se compromete a proteger su información personal de acuerdo con las leyes de privacidad y cumpliendo con las leyes y regulaciones aplicables. Esta Política de Privacidad explica cómo recopilamos, usamos, almacenamos y protegemos su información personal.</string>
+    <string name="privacy_policy_1_title">1. Qué información personal recopilamos</string>
+    <string name="privacy_policy_1_content">Nuestra aplicación recopila la siguiente información personal:\n\nInformación requerida: nombre, dirección de correo electrónico, imagen de perfil (recopilada cuando inicias sesión con Google)\nInformación adicional (para verificación de estudiantes universitarios:) Correo electrónico universitario, foto de la identificación de estudiante\nInformación adicional (para verificación de turistas)\nInformación adicional (para verificación de turistas): Boleto de avión/barco, certificado de alojamiento (solo la parte que identifica su nombre y fecha)\nInformación de ubicación: Utilizada para recomendar atracciones turísticas cercanas</string>
+    <string name="privacy_policy_2_title">2. Cómo recopilamos información personal</string>
+    <string name="privacy_policy_2_content">Recopilada automáticamente a través de Google Sign-in y autenticación de Firebase\nEntrada directa del usuario y carga de archivos\nLa información de ubicación se recopila automáticamente solo si ha permitido los permisos de ubicación</string>
+    <string name="privacy_policy_3_title">3. Propósito de usar información personal</string>
+    <string name="privacy_policy_3_content">Crear y gestionar cuentas\nProveer y mejorar servicios\nAutenticar estudiantes universitarios y turistas\nProveer servicios personalizados e información promocional\nRecomendar atracciones cercanas</string>
+    <string name="privacy_policy_4_title">4. Compartir y proporcionar información personal</string>
+    <string name="privacy_policy_4_content">En principio, no proporcionamos su información personal a terceros, excepto en los siguientes casos:\n\nCon su consentimiento\nDe acuerdo con las disposiciones de la ley\nA solicitud de una agencia de investigación</string>
+    <string name="privacy_policy_5_title">5. Período de retención y uso de la información personal</string>
+    <string name="privacy_policy_5_content">Destruiremos la información personal sin demora después de que se haya cumplido el propósito de recopilarla y usarla. Si estamos obligados a conservarla por ley, la conservaremos durante el período estipulado por la ley.</string>
+    <string name="privacy_policy_6_title">6. Procedimientos y métodos para destruir la información personal</string>
+    <string name="privacy_policy_6_content">Procedimiento de destrucción: Después de lograr el propósito de la recopilación y el uso, se transfiere a una base de datos separada y se almacena por un período antes de ser destruida\nMétodo de destrucción: Los archivos electrónicos se destruyen mediante métodos técnicos para que no puedan ser recuperados, y los documentos en papel se destruyen mediante trituración o incineración</string>
+    <string name="privacy_policy_7_title">7. Sus derechos y cómo ejercerlos</string>
+    <string name="privacy_policy_7_content">Puede ejercer sus derechos de acceder, corregir, eliminar o suspender el procesamiento de sus datos personales en cualquier momento. Para hacerlo, por favor contacte a appbusanpartners@gmail.com y lo haremos sin demora.</string>
+    <string name="privacy_policy_8_title">8. Medidas para garantizar la seguridad de la información personal</string>
+    <string name="privacy_policy_8_content">Cifrado de información personal\nMedidas técnicas contra el hacking\nControl de acceso y educación</string>
+    <string name="privacy_policy_9_title">9. Recopilación y uso de información de ubicación</string>
+    <string name="privacy_policy_9_content">Nuestra aplicación recopila su información de ubicación con el propósito de recomendar atracciones cercanas. Si niega los permisos de ubicación, la aplicación puede solicitar permisos de ubicación adicionales. La información de ubicación no se recopila en tiempo real y solo se utiliza con su consentimiento.</string>
+    <string name="privacy_policy_10_title">Oficial de privacidad e información de contacto</string>
+    <string name="privacy_policy_10_content">Oficial de privacidad: Minseok Kwon\nContacto: 010-4748-7731\nCorreo electrónico: appbusanpartners@gmail.com</string>
+    <string name="privacy_policy_11_title">Cambios en la política de privacidad</string>
+    <string name="privacy_policy_11_content">Esta Política de Privacidad está sujeta a cambios por ley y política interna. Los cambios se anunciarán en esta página, y cualquier cambio material se anunciará por separado.</string>
+
+    <string name="header_title_terms">Términos de servicio</string>
+    <string name="terms_of_service_date">Última actualización: 10 de julio de 2024</string>
+    <string name="terms_of_service_intro">¡Bienvenido! Gracias por usar BusanPartners (en adelante, \'nuestra aplicación\'). Estos Términos de servicio describen las condiciones y pautas para el uso de nuestra Aplicación, y debe cumplir con ellas.</string>
+    <string name="terms_of_service_1_title">1. Introducción</string>
+    <string name="terms_of_service_1_content">BusanPartners es un servicio que conecta a estudiantes universitarios en Busan con turistas extranjeros. Los usuarios también pueden comunicarse entre sí a través de la función de chat.</string>
+    <string name="terms_of_service_2_title">2. Registrarse</string>
+    <string name="terms_of_service_2_content">Los usuarios se registran a través de Google Sign-in, que recopila su nombre, correo electrónico e imagen de perfil. Si usted es un estudiante universitario, deberá enviar la verificación de su correo electrónico universitario y una foto de su identificación de estudiante. Si es un turista, deberá enviar su boleto de avión/barco y prueba de alojamiento.</string>
+    <string name="terms_of_service_3_title">3. Uso de información de ubicación</string>
+    <string name="terms_of_service_3_content">Nuestra aplicación recopila su información de ubicación para proporcionarle servicios que lo introduzcan a atracciones turísticas cercanas. La información de ubicación solo se recopila con su consentimiento, y puede dejar de proporcionar su información de ubicación en cualquier momento. Si la información de ubicación está deshabilitada, la función no estará disponible. La información de ubicación está protegida de acuerdo con nuestra Política de privacidad.</string>
+    <string name="terms_of_service_4_title">4. Privacidad</string>
+    <string name="terms_of_service_4_content">Nuestra aplicación se compromete a proteger su privacidad, que se maneja de acuerdo con nuestra Política de privacidad.</string>
+    <string name="terms_of_service_5_title">5. Responsabilidades de la cuenta</string>
+    <string name="terms_of_service_5_content">Debe mantener su información de cuenta confidencial y no compartirla con nadie más. Usted es responsable de toda la actividad en su cuenta.</string>
+
+    <string name="terms_of_service_6_title">6. Conducta prohibida</string>
+    <string name="terms_of_service_6_content">No puede:\n\nUtilizar actividades ilegales\nInfringir los derechos de los demás\nProporcionar información falsa\nIntentar interrumpir los servicios o hackear los sistemas\nTransmitir o compartir contenido inapropiado</string>
+    <string name="terms_of_service_7_title">7. Interrupciones y cambios en el servicio</string>
+    <string name="terms_of_service_7_content">Nuestra Aplicación puede descontinuar o cambiar temporal o permanentemente el Servicio según sea necesario. Si esto ocurre, le daremos un aviso previo y nos esforzaremos por asegurarnos de que no se vea perjudicado.</string>
+    <string name="terms_of_service_8_title">8. Limitación de responsabilidad</string>
+    <string name="terms_of_service_8_content">Nuestra aplicación no es responsable de disputas entre usuarios. No somos responsables de ningún daño que surja del uso del servicio.</string>
+    <string name="terms_of_service_9_title">9. Cambios en los términos de servicio</string>
+    <string name="terms_of_service_9_content">Estos Términos están sujetos a cambios debido a cambios en la ley o las políticas del Servicio. Le notificaremos de los cambios materiales a través de un aviso.</string>
+    <string name="terms_of_service_10_title">Contáctenos</string>
+    <string name="terms_of_service_10_content">Para preguntas sobre los Términos de servicio, por favor contacte a appbusanpartners@gmail.com.</string>
+
+    <string name="app_language_change">Idiomas de la aplicación</string>
+    <string name="select_your_language">Seleccione su idioma.</string>
+
+</resources>

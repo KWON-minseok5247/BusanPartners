@@ -110,7 +110,7 @@
     <string name="save_btn">保存</string>
     <string name="profile_deepl_info">あなたのプロフィールはDeepLを使用して相手に自動翻訳されます。\n保存を開始すると翻訳が始まります。少々お待ちください。</string>
     <string name="profile_guest_info">基本画像や名前を編集できます。\n大学生認証を完了すると、この機能は拡張されます。</string>
-    <string name="view_profile">プロフィールを見る</string>
+    <string name="view_profile">View Profile</string>
     <string name="chat_message">チャットメッセージ</string>
     <string name="chat_message_info">メッセージが届いたときに通知を受け取ります。重要度のレベルを変更すると、BusanPartnersによって設定された通知を正常に受信できない場合があります。</string>
     <string name="location_permission_required">位置情報通知を許可してください。</string>
