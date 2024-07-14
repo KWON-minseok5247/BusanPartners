@@ -1,7 +1,6 @@
 package com.kwonminseok.busanpartners.ui.message
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
@@ -17,9 +16,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,11 +42,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.net.toUri
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.application.BusanPartners
 import com.kwonminseok.busanpartners.application.BusanPartners.Companion.chatClient
@@ -58,8 +52,6 @@ import com.kwonminseok.busanpartners.ui.EXTRA_CHANNEL_TYPE
 import com.kwonminseok.busanpartners.ui.EXTRA_MESSAGE_ID
 import com.kwonminseok.busanpartners.ui.EXTRA_PARENT_MESSAGE_ID
 import com.naver.maps.geometry.LatLng
-import io.getstream.chat.android.client.ChatClient
-import io.getstream.chat.android.client.utils.message.isDeleted
 import io.getstream.chat.android.compose.state.mediagallerypreview.MediaGalleryPreviewResultType
 import io.getstream.chat.android.compose.ui.attachments.StreamAttachmentFactories
 import io.getstream.chat.android.compose.ui.components.avatar.ChannelAvatar
@@ -73,7 +65,6 @@ import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPick
 import io.getstream.chat.android.compose.ui.messages.attachments.factory.AttachmentsPickerTabFactories
 import io.getstream.chat.android.compose.ui.messages.attachments.factory.AttachmentsPickerTabFactory
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
-import io.getstream.chat.android.compose.ui.messages.header.DefaultMessageListHeaderCenterContent
 import io.getstream.chat.android.compose.ui.messages.header.MessageListHeader
 import io.getstream.chat.android.compose.ui.messages.list.MessageList
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
@@ -81,16 +72,11 @@ import io.getstream.chat.android.compose.ui.theme.ChatTheme.shapes
 import io.getstream.chat.android.compose.ui.util.rememberMessageListState
 import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel
-import io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
 import io.getstream.chat.android.models.Attachment
 import io.getstream.chat.android.models.Channel
-import io.getstream.chat.android.models.Message
-import io.getstream.chat.android.models.User
-import io.getstream.chat.android.ui.common.state.messages.MessageAction
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
 import io.getstream.chat.android.ui.common.state.messages.Reply
-import io.getstream.chat.android.ui.common.state.messages.composer.AttachmentMetaData
 import io.getstream.chat.android.ui.common.state.messages.list.DeletedMessageVisibility
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageOptionsState
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageReactionsPickerState
@@ -98,6 +84,9 @@ import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageRe
 
 class ChannelActivity : BaseConnectedActivity() {
     private var cid: String = ""  // 채팅방 ID를 저장하는 변수
+    private var lastMarkReadTime: Long = 0
+    private val markReadInterval: Long = 5000 // 5초 간격으로 설정
+
 
     private val factory by lazy {
 
@@ -732,6 +721,9 @@ class ChannelActivity : BaseConnectedActivity() {
         ActivityState.currentChannelId = cid
 
         cancelChatRoomNotification(cid)
+
+        markMessageAsRead(cid)
+
     }
 
     override fun onPause() {
@@ -795,24 +787,6 @@ class ChannelActivity : BaseConnectedActivity() {
         }
     }
 
-//    class LocationActivityResultContract : ActivityResultContract<Void?, LocationResult?>() {
-//        override fun createIntent(context: Context, input: Void?): Intent {
-//            return Intent(context, ShareLocationActivity::class.java)
-//        }
-//
-//        override fun parseResult(resultCode: Int, intent: Intent?): LocationResult? {
-//            if (resultCode == Activity.RESULT_OK && intent != null) {
-//                val latitude = intent.getDoubleExtra("latitude", 0.0)
-//                val longitude = intent.getDoubleExtra("longitude", 0.0)
-//                val snapshotUri = intent.getStringExtra("snapshot_uri")
-//                Log.e("latitude, longitude, snapshotUri", "$latitude, $longitude, $snapshotUri")
-//                return LocationResult(LatLng(latitude, longitude), snapshotUri)
-//            }
-//            return null
-//        }
-//    }
-//
-//    data class LocationResult(val location: LatLng, val snapshotUri: String?)
 
 
     @Composable
@@ -859,28 +833,6 @@ class ChannelActivity : BaseConnectedActivity() {
                         }
                     },
 
-//                    innerTrailingContent = { // add a send button inside the input
-//                        Icon(
-//                            modifier = Modifier
-//                                .size(24.dp)
-//                                .clickable(
-//                                    interactionSource = remember { MutableInteractionSource() },
-//                                    indication = rememberRipple()
-//                                ) {
-//                                    val state = composerViewModel.messageComposerState.value
-//
-//                                    composerViewModel.sendMessage(
-//                                        composerViewModel.buildNewMessage(
-//                                            state.inputValue,
-//                                            state.attachments
-//                                        )
-//                                    )
-//                                },
-//                            painter = painterResource(id = R.drawable.stream_ui_ic_pen),
-//                            tint = ChatTheme.colors.primaryAccent,
-//                            contentDescription = null
-//                        )
-//                    },
                 )
             },
             trailingContent = { Spacer(modifier = Modifier.size(8.dp)) } // remove the outer send button
@@ -890,4 +842,52 @@ class ChannelActivity : BaseConnectedActivity() {
         )
     }
 
+
+    private fun markMessageAsRead(cid: String) {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastMarkReadTime >= markReadInterval) {
+            chatClient.markRead("messaging",cid).enqueue { result ->
+                if (result.isSuccess) {
+                    lastMarkReadTime = currentTime
+                } else {
+                    Log.e("MarkReadError", result.getOrNull().toString())
+                }
+            }
+        }
+    }
+
+
 }
+//class ChannelActivity : ComponentActivity() {
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        // 1 - Load the ID of the selected channel
+//        val channelId = intent.getStringExtra(KEY_CHANNEL_ID)!!
+//
+//        // 2 - Add the MessagesScreen to your UI
+//        setContent {
+//            ChatTheme {
+//                MessagesScreen(
+//                    viewModelFactory = MessagesViewModelFactory(
+//                        context = this,
+//                        channelId = channelId,
+//                        messageLimit = 30
+//                    ),
+//                    onBackPressed = { finish() }
+//                )
+//            }
+//        }
+//    }
+//
+//    // 3 - Create an intent to start this Activity, with a given channelId
+//    companion object {
+//        private const val KEY_CHANNEL_ID = "channelId"
+//
+//        fun getIntent(context: Context, channelId: String): Intent {
+//            return Intent(context, ChannelActivity::class.java).apply {
+//                putExtra(KEY_CHANNEL_ID, channelId)
+//            }
+//        }
+//    }
+//}

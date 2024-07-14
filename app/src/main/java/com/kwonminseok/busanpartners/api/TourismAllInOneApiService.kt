@@ -40,7 +40,8 @@ interface TourismAllInOneApiService {
             }
 
             val httpLoggingInterceptor = HttpLoggingInterceptor()
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
 
             val client = OkHttpClient.Builder()
                 .cache(null)

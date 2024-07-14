@@ -144,6 +144,8 @@ class MessageFragment : ChannelListFragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+//            startActivity(ChannelActivity.getIntent(requireContext(), channel.cid))
+
             startActivity(ChannelActivity.newIntent(requireContext(), channel))
 //            startActivity(ChannelActivityForCompose.newIntent(requireContext(), channel))
         }

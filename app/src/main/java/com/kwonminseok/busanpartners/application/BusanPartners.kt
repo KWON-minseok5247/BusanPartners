@@ -166,7 +166,7 @@ class BusanPartners : Application() {
 
         chatClient = ChatClient.Builder(BuildConfig.API_KEY, this)
             .withPlugins(offlinePluginFactory, statePluginFactory)
-            .logLevel(ChatLogLevel.ALL) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
+            .logLevel(ChatLogLevel.NOTHING) // 프로덕션에서는 ChatLogLevel.NOTHING을 사용
             .notifications(notificationConfig, d)
             .uploadAttachmentsNetworkType(UploadAttachmentsNetworkType.NOT_ROAMING)
             .build()
