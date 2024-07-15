@@ -10,6 +10,7 @@ import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.Parcelable
 import android.os.StrictMode
 import android.provider.Settings
@@ -33,6 +34,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.barnea.dialoger.Dialoger
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging
+import com.google.firebase.inappmessaging.display.FirebaseInAppMessagingDisplay
+import com.google.firebase.inappmessaging.ktx.inAppMessaging
+import com.google.firebase.ktx.Firebase
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.adapter.FestivalAdapter
 import com.kwonminseok.busanpartners.adapter.TourismAdapter
@@ -104,7 +110,12 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        Log.e("homeFramgent까지는", "왔다는 증거")
         parseNotificationData()
+
+        // 인앱메시지
+//        setupInAppMessaging()
+
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
@@ -312,6 +323,7 @@ class HomeFragment : Fragment() {
 
         }
 
+//        Firebase.inAppMessaging.isAutomaticDataCollectionEnabled = true
 
     }
 
@@ -398,33 +410,8 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
     }
-
-
-    //
-//    private fun getFestivalInformation() {
-//        BusanFestivalApiService.getInstance()
-//            .getFestivalsKr(BuildConfig.BUSAN_FESTIVAL_KEY, 10, 1, "json").enqueue(object :
-//                Callback<FestivalResponse> {
-//                override fun onResponse(
-//                    call: Call<FestivalResponse>,
-//                    response: Response<FestivalResponse>
-//                ) {
-//                    if (response.isSuccessful) {
-//
-//                        binding.festivalViewPager.adapter = festivalAdapter
-//
-//                        festivalAdapter.differ.submitList(response.body()?.getFestivalKr?.item)
-//
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<FestivalResponse>, t: Throwable) {
-//                    Log.e(TAG, t.message.toString())
-//
-//                }
-//            })
-//    }
 
 
     private fun parseNotificationData() {
@@ -460,6 +447,8 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         requireActivity().setStatusBarTransparent()
+
+//        inAppMessagingInitialization(context,false,"main_activity_inappmessaging"); //Starts inAppMessaging
 
 
     }
@@ -552,7 +541,6 @@ class HomeFragment : Fragment() {
         val formatter = org.threeten.bp.format.DateTimeFormatter.ofPattern(pattern, locale)
         return offsetDateTime.format(formatter)
     }
-
 
 
 }

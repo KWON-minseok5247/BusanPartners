@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.FirebaseApp
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.BuildConfig.NAVER_CLIENT_ID
@@ -53,33 +54,47 @@ class BusanPartners : Application() {
     override fun onCreate() {
 //        BusanFestivalApiService.init(this)
         super.onCreate()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        preferences = PreferenceUtil(applicationContext)
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+////        preferences = PreferenceUtil(applicationContext)
+////
+////        FirebaseApp.initializeApp(this)
+//////        TourismApiService.init(this)
+////        TourismAllInOneApiService.init(this)
+////
+////        WorldTimeApiService.init(this)
+////
+////        applySavedLocale()
+////
+////        // ChatClient 초기화
+////        initializeNotificationChannel()
+////        initializeChatClient()
+//////        setupNotificationChannels(this)
+////
+////
+////        // 24버전 서버 시간
+////        AndroidThreeTen.init(this)
+////
+//////        AppDatabase.getDatabase(this)
+////
+////        // 네이버 지도
+////        NaverMapSdk.getInstance(this).client =
+////            NaverMapSdk.NaverCloudPlatformClient(NAVER_CLIENT_ID)
 
-        FirebaseApp.initializeApp(this)
-
-//        TourismApiService.init(this)
-        TourismAllInOneApiService.init(this)
-
-        WorldTimeApiService.init(this)
-
-        applySavedLocale()
-
-        // ChatClient 초기화
-        initializeNotificationChannel()
-        initializeChatClient()
-//        setupNotificationChannels(this)
-
-
-        // 24버전 서버 시간
-        AndroidThreeTen.init(this)
-
-//        AppDatabase.getDatabase(this)
-
-        // 네이버 지도
-        NaverMapSdk.getInstance(this).client =
-            NaverMapSdk.NaverCloudPlatformClient(NAVER_CLIENT_ID)
-
+        try {
+            FirebaseApp.initializeApp(this)
+            preferences = PreferenceUtil(applicationContext)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            TourismAllInOneApiService.init(this)
+            WorldTimeApiService.init(this)
+            applySavedLocale()
+            initializeNotificationChannel()
+            initializeChatClient()
+            AndroidThreeTen.init(this)
+            NaverMapSdk.getInstance(this).client =
+                NaverMapSdk.NaverCloudPlatformClient(BuildConfig.NAVER_CLIENT_ID)
+        } catch (e: Exception) {
+            Log.e("BusanPartners", "Initialization error", e)
+        }
     }
 
     private fun initializeNotificationChannel() {

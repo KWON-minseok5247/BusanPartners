@@ -159,9 +159,11 @@ class MessageFragment : ChannelListFragment() {
         }
 
         binding.channelListView.setChannelLongClickListener { channel ->
-            if (channel.id == "ExampleChat") {
+            val chatroomIds = listOf("chatroom_es", "chatroom_en", "chatroom_jp", "chatroom_cn", "chatroom_tw", "chatroom_kr")
+            if (channel.id in chatroomIds) {
                 true
-            } else {
+            }
+             else {
                 Log.e("channel", channel.members.toString())
                 val isMuted =
                     chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }

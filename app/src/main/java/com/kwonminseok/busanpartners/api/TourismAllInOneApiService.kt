@@ -18,6 +18,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.security.KeyStore
+import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 
 
 // Define an API interface
@@ -30,6 +36,13 @@ interface TourismAllInOneApiService {
 
         fun create(context: Context): TourismAllInOneApiService {
 
+            val trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
+            trustManagerFactory.init(null as KeyStore?)
+            val trustManagers = trustManagerFactory.trustManagers
+            val trustManager = trustManagers[0] as X509TrustManager
+
+            val sslContext = SSLContext.getInstance("TLS")
+            sslContext.init(null, arrayOf<TrustManager>(trustManager), null)
 
             // 캐시 비활성화 인터셉터
             val cacheInterceptor = Interceptor { chain ->
@@ -41,10 +54,19 @@ interface TourismAllInOneApiService {
 
             val httpLoggingInterceptor = HttpLoggingInterceptor()
 //            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
+            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
+//            val client = OkHttpClient.Builder()
+//                .cache(null)
+//                .addInterceptor(cacheInterceptor)
+//                .addInterceptor(httpLoggingInterceptor)
+//                .build()
             val client = OkHttpClient.Builder()
-                .cache(null)
+                .sslSocketFactory(sslContext.socketFactory, trustManager)
+                .hostnameVerifier { hostname, session -> true }
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(cacheInterceptor)
                 .addInterceptor(httpLoggingInterceptor)
                 .build()

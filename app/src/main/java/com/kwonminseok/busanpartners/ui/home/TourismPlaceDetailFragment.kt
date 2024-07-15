@@ -27,6 +27,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 private val TAG = "TourismPlaceDetailFragment"
+
 @AndroidEntryPoint
 class TourismPlaceDetailFragment : Fragment() {
     private var _binding: FragmentPlaceBinding? = null
