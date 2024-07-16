@@ -189,7 +189,7 @@ class LoginFragment : Fragment() {
                                 // 사용자 데이터가 존재하지 않는 경우, 새로운 사용자 데이터 저장
                                 val language = LanguageUtils.getDeviceLanguage(requireActivity())
 
-                                val userData = User("","", email = user.email!!, uid = user.uid, name = TranslatedText(ko = user.displayName!!, "", "", "") , imagePath = user.photoUrl.toString(), language = language ?: "")
+                                val userData = User("","", email = user.email!!, uid = user.uid, name = TranslatedText(ko = user.displayName!!, "", "", "", "") , imagePath = user.photoUrl.toString(), language = language ?: "")
 
                                 usersRef.document(uid).set(userData)
                                     .addOnSuccessListener {

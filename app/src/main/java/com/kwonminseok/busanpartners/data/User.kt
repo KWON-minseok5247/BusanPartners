@@ -31,10 +31,12 @@ data class User(
     val chatChannelCount: Int = 0,
     val deviceToken: String = "",
     val language: String = "en",
-    val reset: Boolean = false
+    val reset: Boolean = false,
+    val banList: MutableList<String>? = mutableListOf(),
 
 
 
-) : Parcelable {
+
+    ) : Parcelable {
     constructor(): this("","","","", "")
 }

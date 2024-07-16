@@ -37,7 +37,8 @@ fun User.toEntity(): UserEntity = UserEntity(
     chatChannelCount = this.chatChannelCount,
     deviceToken = this.deviceToken,
     language = this.language,
-    reset = this.reset
+    reset = this.reset,
+    banList = this.banList
 )
 
 // UserEntityExtensions.kt
@@ -61,7 +62,9 @@ fun UserEntity.toUser(): User = User(
     chatChannelCount = this.chatChannelCount,
     deviceToken = this.deviceToken,
     language = this.language,
-    reset = this.reset
+    reset = this.reset,
+    banList = this.banList
+
 
 )
 

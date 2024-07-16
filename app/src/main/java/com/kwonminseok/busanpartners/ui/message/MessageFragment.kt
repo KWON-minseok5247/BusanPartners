@@ -171,12 +171,14 @@ class MessageFragment : ChannelListFragment() {
                 val options = when {
                     isMuted -> arrayOf(
                         getString(R.string.unmute_chat_notifications),
-                        getString(R.string.leave_chat)
+                        getString(R.string.leave_chat),
+                        "차단하기"
                     )
 
                     else -> arrayOf(
                         getString(R.string.mute_chat_notifications),
-                        getString(R.string.leave_chat)
+                        getString(R.string.leave_chat),
+                        "차단됐나?"
                     )
                 }
                 AlertDialog.Builder(requireContext())
@@ -184,6 +186,42 @@ class MessageFragment : ChannelListFragment() {
                         when (which) {
                             0 -> if (isMuted) unmuteChat(channel.id) else muteChat(channel.id)
                             1 -> deleteChattingRoom(channel)
+                            2 -> {
+                                chatClient.channel("${channel.type}:${channel.id}")
+                                    .hide(true).enqueue { hideResult ->
+                                    if (hideResult.isSuccess) {
+                                        val studentUid = channel.members.find { it.getUserId() != chatClient.getCurrentUser()?.id }?.getUserId()
+                                        if (studentUid != null) {
+                                            val banList = currentUser?.banList?.toMutableList() ?: mutableListOf()
+                                            if (!banList.contains(studentUid)) {
+                                                banList.add(studentUid)
+                                            }
+
+                                            currentUser = currentUser?.copy(blockList = banList)
+                                            userViewModel.updateUser(currentUser!!)
+
+                                            userViewModel.setCurrentUser(
+                                                mapOf(
+                                                    "banList" to banList
+                                                )
+                                            )
+
+                                        } else {
+                                            Log.e("BanUser", "No valid user found to ban.")
+                                        }
+
+
+
+                                    } else {
+                                        Log.e(
+                                            "채널 숨기기 실패",
+                                            hideResult.errorOrNull()?.message ?: "알 수 없는 오류"
+                                        )
+                                    }
+                                }
+
+
+                            }
 //                            1 -> if (isBlocked) unBlockUser(channel) else blockUser(channel)
 
                         }
@@ -315,30 +353,6 @@ class MessageFragment : ChannelListFragment() {
         }
     }
 
-//    @SuppressLint("CheckResult")
-//    private fun blockUser(channel: Channel) {
-//        val currentUserId = chatClient.getCurrentUser()?.id
-//        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
-//
-//        if (otherUser != null) {
-//            chatClient.channel("messaging", channel.id).shadowBanUser(otherUser.id,
-//                "유저의 선택으로 밴되었습니다", null).enqueue { result ->
-//                if (!result.isSuccess) {
-//                    Log.e("BanUser", "${result.errorOrNull().toString()}")
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun unBlockUser(channel: Channel) {
-//        val currentUserId = chatClient.getCurrentUser()?.id
-//        val otherUser = channel.members.firstOrNull { it.user.id != currentUserId }?.user
-//        if (otherUser != null) {
-//            chatClient.unbanUser(otherUser.id, "messaging", channel.id).enqueue {
-//                Toast.makeText(requireContext(), "${otherUser.name}님이 차단 해제되었습니다.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
 
     private fun deleteChattingRoom(channel: Channel) {
         val userId = chatClient.getCurrentUser()?.id

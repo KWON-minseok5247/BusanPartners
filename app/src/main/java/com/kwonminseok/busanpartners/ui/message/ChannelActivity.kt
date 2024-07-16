@@ -119,8 +119,18 @@ class ChannelActivity : BaseConnectedActivity() {
 //        val customFactories = listOf(dateAttachmentFactory)
         val defaultFactories = StreamAttachmentFactories.defaultFactories()
 
+
+        val chatroomIds = listOf(
+            "messaging:chatroom_es",
+            "messaging:chatroom_en",
+            "messaging:chatroom_jp",
+            "messaging:chatroom_cn",
+            "messaging:chatroom_tw",
+            "messaging:chatroom_kr"
+        )
+
         // 예시 채팅방에 접속했을 때!
-        if (requireNotNull(cid == "messaging:ExampleChat")) {
+        if (requireNotNull(chatroomIds.contains(cid))) {
             setContent {
                 ChatTheme(
                     attachmentFactories = customFactories + defaultFactories,

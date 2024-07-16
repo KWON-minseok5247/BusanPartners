@@ -567,6 +567,33 @@
       "in": "Kami saat ini menggunakan layanan terjemahan DeepL. Bahasa yang didukung adalah Korea, Inggris, Cina Sederhana, Jepang, dan Spanyol. Kami akan berusaha untuk menganalisis statistik pengguna untuk mempertimbangkan menambahkan lebih banyak bahasa yang didukung."
     }
   },
+  {
+    "category": "그 외",
+    "questions": {
+      "ko": "상대방에게 지도 공유는 어떻게 해요?",
+      "en": "How do I share a map with the other person?",
+      "zh": "我该如何与对方分享地图？",
+      "zh-CN": "我该如何与对方分享地图？",
+      "zh-TW": "我該如何與對方分享地圖？",
+      "ja": "相手に地図を共有するにはどうすればいいですか？",
+      "es": "¿Cómo comparto un mapa con la otra persona?",
+      "vi": "Làm thế nào để tôi chia sẻ bản đồ với người khác?",
+      "th": "ฉันจะแชร์แผนที่กับอีกฝ่ายได้อย่างไร?",
+      "in": "Bagaimana cara saya membagikan peta dengan orang lain?"
+    },
+    "answers": {
+      "ko": "채팅방에서 지도를 공유하려면, 화면 우측 상단에 있는 마커 아이콘을 클릭하세요. 그러면 지도 공유 화면으로 이동할 수 있습니다. 여기서 원하는 위치를 선택하고 공유할 수 있습니다.",
+      "en": "To share a map in the chat room, click the marker icon at the top right of the screen. This will take you to the map sharing screen where you can select and share the desired location.",
+      "zh": "在聊天室中共享地图，请点击屏幕右上角的标记图标。 这将带您进入地图共享屏幕，您可以在其中选择和共享所需的位置。",
+      "zh-CN": "在聊天室中共享地图，请点击屏幕右上角的标记图标。 这将带您进入地图共享屏幕，您可以在其中选择和共享所需的位置。",
+      "zh-TW": "在聊天室中共享地圖，請點擊螢幕右上角的標記圖示。 這將帶您進入地圖共享畫面，您可以在其中選擇和共享所需的位置。",
+      "ja": "チャットルームで地図を共有するには、画面右上のマーカーアイコンをクリックしてください。 地図共有画面に移動し、希望する場所を選択して共有できます。",
+      "es": "Para compartir un mapa en la sala de chat, haz clic en el icono de marcador en la parte superior derecha de la pantalla. Esto te llevará a la pantalla de compartir mapas donde podrás seleccionar y compartir la ubicación deseada.",
+      "vi": "Để chia sẻ bản đồ trong phòng trò chuyện, hãy nhấp vào biểu tượng đánh dấu ở góc trên bên phải màn hình. Điều này sẽ đưa bạn đến màn hình chia sẻ bản đồ, nơi bạn có thể chọn và chia sẻ vị trí mong muốn.",
+      "th": "ในการแชร์แผนที่ในห้องแชท ให้คลิกไอคอนเครื่องหมายที่ด้านบนขวาของหน้าจอ สิ่งนี้จะนำคุณไปยังหน้าจอแชร์แผนที่ซึ่งคุณสามารถเลือกและแชร์ตำแหน่งที่ต้องการได้",
+      "in": "Untuk membagikan peta di ruang obrolan, klik ikon penanda di kanan atas layar. Ini akan membawa Anda ke layar berbagi peta tempat Anda dapat memilih dan membagikan lokasi yang diinginkan."
+    }
+  },
 
   {
     "category": "그 외",
@@ -594,7 +621,63 @@
       "th": "กรุณาติดต่อเราโดยตรงที่ appbusanpartners@gmail.com และเราจะตอบกลับโดยเร็วที่สุด",
       "in": "Silakan hubungi kami langsung di appbusanpartners@gmail.com dan kami akan merespons secepat mungkin."
     }
+  },
+
+  {
+    "category": "관광객",
+    "questions": {
+      "ko": "채팅을 어떻게 시작해야 하나요?",
+      "en": "How do I start a chat?",
+      "zh": "我该如何开始聊天？",
+      "zh-CN": "我该如何开始聊天？",
+      "zh-TW": "我該如何開始聊天？",
+      "ja": "チャットをどう始めればいいですか？",
+      "es": "¿Cómo empiezo un chat?",
+      "vi": "Tôi bắt đầu cuộc trò chuyện như thế nào?",
+      "th": "ฉันจะเริ่มแชทได้อย่างไร?",
+      "in": "Bagaimana saya memulai obrolan?"
+    },
+    "answers": {
+      "ko": "채팅을 시작하는 데에는 정해진 방법은 없습니다. 자유롭게 대화를 시작하면 됩니다. 예를 들어, 자신이 가고 싶은 곳을 이야기하거나 대학생에게 추천할 만한 장소를 물어볼 수 있습니다. 이렇게 서로 의견을 나누며 방문 계획을 세워보세요. 다만, 대학생의 자기소개를 참고해 대화를 시작하면 좀 더 자연스럽게 소통할 수 있습니다. 다양한 방법으로 대화를 시작해보세요.",
+      "en": "There is no set way to start a chat. Feel free to start the conversation. For example, you can talk about places you want to visit or ask for recommendations from the students. Discussing plans together will help. Refer to the students' introductions for a more natural conversation. Try starting in different ways.",
+      "zh": "开始聊天没有固定的方法。随意开始对话即可。例如，您可以谈论想去的地方或询问学生推荐的地点。通过讨论计划，一起制定访问计划。参考学生的自我介绍以更自然地交流。尝试以不同方式开始聊天。",
+      "zh-CN": "开始聊天没有固定的方法。随意开始对话即可。例如，您可以谈论想去的地方或询问学生推荐的地点。通过讨论计划，一起制定访问计划。参考学生的自我介绍以更自然地交流。尝试以不同方式开始聊天。",
+      "zh-TW": "開始聊天沒有固定的方法。隨意開始對話即可。例如，您可以談論想去的地方或詢問學生推薦的地點。通過討論計劃，一起制定訪問計劃。參考學生的自我介紹以更自然地交流。嘗試以不同方式開始聊天。",
+      "ja": "チャットを始めるには決まった方法はありません。自由に会話を始めてください。例えば、行きたい場所について話したり、学生におすすめの場所を尋ねたりすることができます。計画を話し合いながら一緒に訪問計画を立ててください。学生の自己紹介を参考にすると、より自然にコミュニケーションできます。さまざまな方法でチャットを始めてみてください。",
+      "es": "No hay una forma establecida de comenzar un chat. Siéntete libre de iniciar la conversación. Por ejemplo, puedes hablar sobre lugares que quieres visitar o pedir recomendaciones a los estudiantes. Discutir planes juntos ayudará. Refiérete a las presentaciones de los estudiantes para una conversación más natural. Intenta comenzar de diferentes maneras.",
+      "vi": "Không có cách nào cố định để bắt đầu cuộc trò chuyện. Hãy thoải mái bắt đầu cuộc trò chuyện. Ví dụ, bạn có thể nói về những nơi bạn muốn đến thăm hoặc hỏi đề xuất từ các sinh viên. Thảo luận kế hoạch cùng nhau sẽ giúp ích. Tham khảo phần giới thiệu của sinh viên để có cuộc trò chuyện tự nhiên hơn. Hãy thử bắt đầu theo nhiều cách khác nhau.",
+      "th": "ไม่มีวิธีที่กำหนดไว้ในการเริ่มแชท สามารถเริ่มสนทนาได้อย่างอิสระ ตัวอย่างเช่น คุณสามารถพูดคุยเกี่ยวกับสถานที่ที่คุณต้องการเยี่ยมชมหรือขอคำแนะนำจากนักศึกษา การอภิปรายแผนร่วมกันจะช่วยได้ อ้างอิงการแนะนำตัวของนักศึกษาเพื่อการสนทนาที่เป็นธรรมชาติมากขึ้น ลองเริ่มต้นในรูปแบบต่างๆ",
+      "in": "Tidak ada cara yang ditetapkan untuk memulai obrolan. Silakan mulai percakapan. Misalnya, Anda dapat berbicara tentang tempat-tempat yang ingin Anda kunjungi atau meminta rekomendasi dari para siswa. Diskusi rencana bersama akan membantu. Lihat pengenalan siswa untuk percakapan yang lebih alami. Cobalah memulai dengan berbagai cara."
+    }
+  },{
+  "category": "그 외",
+  "questions": {
+    "ko": "채팅을 어떤 언어로 해야 하나요?",
+    "en": "Which language should I use for the chat?",
+    "zh": "我应该使用哪种语言聊天？",
+    "zh-CN": "我应该使用哪种语言聊天？",
+    "zh-TW": "我應該使用哪種語言聊天？",
+    "ja": "チャットはどの言語で行うべきですか？",
+    "es": "¿Qué idioma debo usar para el chat?",
+    "vi": "Tôi nên sử dụng ngôn ngữ nào cho cuộc trò chuyện?",
+    "th": "ฉันควรใช้ภาษาอะไรในการแชท?",
+    "in": "Bahasa apa yang harus saya gunakan untuk obrolan?"
+  },
+  "answers": {
+    "ko": "채팅을 시작할 때는 대학생의 자기소개에서 언급한 언어 중 하나를 사용하는 것이 좋습니다. 특정 언어로 대화를 시작하면 대학생들이 당황할 수 있으므로, 자기소개에서 언급된 언어를 참고해 대화를 시작하는 것이 좋습니다. 이렇게 하면 더욱 자연스럽게 소통할 수 있습니다.",
+    "en": "It's best to start the chat using one of the languages mentioned in the student's introduction. Starting a conversation in a different language might confuse the students, so refer to the languages mentioned in the introduction for a smoother conversation. This will help in more natural communication.",
+    "zh": "最好使用学生介绍中提到的语言之一开始聊天。使用不同的语言可能会让学生感到困惑，因此请参考介绍中提到的语言以实现更顺畅的交流。这将有助于更自然的沟通。",
+    "zh-CN": "最好使用学生介绍中提到的语言之一开始聊天。使用不同的语言可能会让学生感到困惑，因此请参考介绍中提到的语言以实现更顺畅的交流。这将有助于更自然的沟通。",
+    "zh-TW": "最好使用學生介紹中提到的語言之一開始聊天。使用不同的語言可能會讓學生感到困惑，因此請參考介紹中提到的語言以實現更順暢的交流。這將有助於更自然的溝通。",
+    "ja": "チャットを始めるときは、学生の自己紹介で言及された言語の1つを使用するのが最善です。異なる言語で会話を始めると学生が混乱する可能性があるため、自己紹介で言及された言語を参照して、よりスムーズな会話をしてください。これにより、より自然なコミュニケーションが可能になります。",
+    "es": "Es mejor iniciar la conversación usando uno de los idiomas mencionados en la introducción del estudiante. Empezar una conversación en un idioma diferente puede confundir a los estudiantes, por lo que es recomendable referirse a los idiomas mencionados en la introducción para una comunicación más fluida. Esto ayudará a una comunicación más natural.",
+    "vi": "Tốt nhất là bắt đầu cuộc trò chuyện bằng một trong những ngôn ngữ được đề cập trong phần giới thiệu của sinh viên. Bắt đầu cuộc trò chuyện bằng một ngôn ngữ khác có thể khiến sinh viên bối rối, vì vậy hãy tham khảo các ngôn ngữ được đề cập trong phần giới thiệu để có cuộc trò chuyện suôn sẻ hơn. Điều này sẽ giúp giao tiếp tự nhiên hơn.",
+    "th": "ควรเริ่มการแชทโดยใช้หนึ่งในภาษาที่กล่าวถึงในการแนะนำตัวของนักเรียน การเริ่มสนทนาด้วยภาษาที่แตกต่างออกไปอาจทำให้นักเรียนสับสนได้ ดังนั้นควรอ้างอิงภาษาที่กล่าวถึงในการแนะนำตัวเพื่อการสื่อสารที่ราบรื่นขึ้น วิธีนี้จะช่วยให้การสื่อสารเป็นธรรมชาติมากขึ้น",
+    "in": "Sebaiknya mulai obrolan menggunakan salah satu bahasa yang disebutkan dalam pengenalan siswa. Memulai percakapan dalam bahasa yang berbeda mungkin akan membingungkan para siswa, jadi rujuklah pada bahasa yang disebutkan dalam pengenalan untuk percakapan yang lebih lancar. Ini akan membantu komunikasi menjadi lebih alami."
   }
+}
+
+
 
 
 

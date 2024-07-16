@@ -36,6 +36,8 @@ import com.kwonminseok.busanpartners.data.User
 import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.extensions.setStatusBarTransparent
 import com.kwonminseok.busanpartners.extensions.setStatusBarVisible
+import com.kwonminseok.busanpartners.extensions.toEntity
+import com.kwonminseok.busanpartners.extensions.toUser
 import com.kwonminseok.busanpartners.ui.home.HomeFragment
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
@@ -79,7 +81,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
     private var selectedUniversityStudents: List<User>? = null
     private val viewModel: UserViewModel by viewModels()
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
-
+    private var roomUser: User? = null
 
     //    private val viewModel by viewModels<ConnectViewModel>()
     override fun onCreateView(
@@ -96,6 +98,7 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
 
 
@@ -149,8 +152,12 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                     is Resource.Success -> {
                         Log.e("Resource.Success", "Resource.Success")
                         // blockList에 포함되지 않은 사용자만 userList에 추가
-                        userList = it.data
+//                        userList = it.data
 
+                        userList = it.data?.filter { user ->
+                            user.uid !in (roomUser?.banList ?: emptyList())
+                        }?.toMutableList()
+                        Log.e("userList", userList.toString())
 
                         //TODO 만약 대학생이라면 환영합니다 뭐 이런 느낌으로.
                         binding.labelChange.visibility = View.VISIBLE

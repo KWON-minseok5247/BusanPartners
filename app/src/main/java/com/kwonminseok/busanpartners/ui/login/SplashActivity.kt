@@ -419,7 +419,10 @@ class SplashActivity : AppCompatActivity() {
                             is Resource.Success -> {
                                 if (user == resource.data) {
                                     Log.e("UserEntity가 존재한다면?", "서버와 동일한 데이터")
+                                    currentUser
                                     Log.e("UserEntity가 user?", user.toString())
+                                    Log.e("UserEntity가 currentUser?", currentUser.toString())
+
                                     return@collectLatest
                                 } else {
                                     Log.e("UserEntity가 존재한다면?", "서버와 다른 데이터")
