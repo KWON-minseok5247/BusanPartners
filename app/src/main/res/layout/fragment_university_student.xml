@@ -2,43 +2,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/rj7m4it3pwp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:background="#FFFFFFFF"
-        android:paddingVertical="18dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingHorizontal="16dp"
-        android:orientation="horizontal">
+        android:paddingVertical="18dp">
 
         <ImageView
             android:id="@+id/backButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="0dp"
-            android:src="@drawable/back_figma"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@drawable/back_figma" />
 
         <TextView
             android:id="@+id/rk3nhpswmkf"
-            android:textColor="#1C160C"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/details" />
+            android:text="@string/details"
+            android:textColor="#1C160C"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <View
+        <ImageView
+            android:id="@+id/reportButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="0dp"
-            android:visibility="invisible" />
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_block" />
     </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,9 +60,9 @@
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher" />
 
             <!-- 이름 -->
             <TextView
@@ -95,24 +99,23 @@
             </com.google.android.material.chip.ChipGroup>
 
             <!-- 자기소개 -->
-            <RelativeLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/depth_3_fra"
-                android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="220dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corner"
                 android:clipToOutline="true"
-                android:background="@drawable/rounded_corner">
+                android:minHeight="220dp">
 
                 <TextView
-                    android:padding="10dp"
                     android:id="@+id/tv_introduction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="Hey! I'm Kaitlyn, a senior studying Computer Science. I love being outdoors, whether it's hiking in the mountains or cycling on campus. I also enjoy skiing and longboarding."
-                    android:textSize="16sp"
-                    android:textColor="#1C160C" />
+                    android:textColor="#1C160C"
+                    android:textSize="16sp" />
 
 
             </RelativeLayout>
@@ -130,15 +133,15 @@
                 android:paddingVertical="1dp"
                 android:text="@string/connect_student"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_deepl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="@string/deepl_service_info"
                 android:textColor="#A08249"
                 android:textSize="14sp" />

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -101,6 +102,18 @@ class MessageFragment : ChannelListFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_messageFragment_to_homeFragment)
+                }
+            }
+        )
+
+
         originalPaddingTop = binding.root.paddingTop
         if (chatClient.getCurrentUser() == null) {
 
@@ -159,11 +172,17 @@ class MessageFragment : ChannelListFragment() {
         }
 
         binding.channelListView.setChannelLongClickListener { channel ->
-            val chatroomIds = listOf("chatroom_es", "chatroom_en", "chatroom_jp", "chatroom_cn", "chatroom_tw", "chatroom_kr")
+            val chatroomIds = listOf(
+                "chatroom_es",
+                "chatroom_en",
+                "chatroom_jp",
+                "chatroom_cn",
+                "chatroom_tw",
+                "chatroom_kr"
+            )
             if (channel.id in chatroomIds) {
                 true
-            }
-             else {
+            } else {
                 Log.e("channel", channel.members.toString())
                 val isMuted =
                     chatClient.getCurrentUser()?.channelMutes?.any { it.channel.id == channel.id }
@@ -178,7 +197,7 @@ class MessageFragment : ChannelListFragment() {
                     else -> arrayOf(
                         getString(R.string.mute_chat_notifications),
                         getString(R.string.leave_chat),
-                        "차단됐나?"
+                        "차단하기"
                     )
                 }
                 AlertDialog.Builder(requireContext())
@@ -186,42 +205,8 @@ class MessageFragment : ChannelListFragment() {
                         when (which) {
                             0 -> if (isMuted) unmuteChat(channel.id) else muteChat(channel.id)
                             1 -> deleteChattingRoom(channel)
-                            2 -> {
-                                chatClient.channel("${channel.type}:${channel.id}")
-                                    .hide(true).enqueue { hideResult ->
-                                    if (hideResult.isSuccess) {
-                                        val studentUid = channel.members.find { it.getUserId() != chatClient.getCurrentUser()?.id }?.getUserId()
-                                        if (studentUid != null) {
-                                            val banList = currentUser?.banList?.toMutableList() ?: mutableListOf()
-                                            if (!banList.contains(studentUid)) {
-                                                banList.add(studentUid)
-                                            }
+                            2 -> banUser(channel)
 
-                                            currentUser = currentUser?.copy(blockList = banList)
-                                            userViewModel.updateUser(currentUser!!)
-
-                                            userViewModel.setCurrentUser(
-                                                mapOf(
-                                                    "banList" to banList
-                                                )
-                                            )
-
-                                        } else {
-                                            Log.e("BanUser", "No valid user found to ban.")
-                                        }
-
-
-
-                                    } else {
-                                        Log.e(
-                                            "채널 숨기기 실패",
-                                            hideResult.errorOrNull()?.message ?: "알 수 없는 오류"
-                                        )
-                                    }
-                                }
-
-
-                            }
 //                            1 -> if (isBlocked) unBlockUser(channel) else blockUser(channel)
 
                         }
@@ -230,6 +215,71 @@ class MessageFragment : ChannelListFragment() {
                 true
             }
         }
+    }
+
+    private fun banUser(channel: Channel) {
+
+
+        AlertView.Builder()
+            .setContext(requireActivity())
+            .setStyle(AlertView.Style.Alert)
+            .setTitle("차단 알림")
+            .setMessage("상대방을 정말 차단하시겠습니까?")
+            .setDestructive(getString(R.string.confirmation))
+            .setOthers(arrayOf(getString(R.string.cancel)))
+            .setOnItemClickListener(object : OnItemClickListener {
+                override fun onItemClick(o: Any?, position: Int) {
+                    if (position == 0) { // 확인 버튼 위치 확인
+                        chatClient.channel("${channel.type}:${channel.id}")
+                            .hide(true).enqueue { hideResult ->
+                                if (hideResult.isSuccess) {
+                                    val studentUid =
+                                        channel.members.find { it.getUserId() != chatClient.getCurrentUser()?.id }
+                                            ?.getUserId()
+                                    if (studentUid != null) {
+                                        val banList = currentUser?.banList?.toMutableList() ?: mutableListOf()
+                                        if (!banList.contains(studentUid)) {
+                                            banList.add(studentUid)
+                                        }
+
+                                        currentUser = currentUser?.copy(blockList = banList)
+                                        userViewModel.updateUser(currentUser!!)
+
+                                        userViewModel.setCurrentUser(
+                                            mapOf(
+                                                "banList" to banList
+                                            )
+                                        )
+
+                                        Toast.makeText(requireContext(), "차단이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+
+                                    } else {
+                                        Log.e("BanUser", "No valid user found to ban.")
+                                    }
+
+
+                                } else {
+                                    Log.e(
+                                        "채널 숨기기 실패",
+                                        hideResult.errorOrNull()?.message ?: "알 수 없는 오류"
+                                    )
+                                }
+                            }
+                    } else {
+                        (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
+                    }
+                }
+
+            })
+            .build()
+            .setCancelable(true)
+            .show()
+
+
+
+
+
+
     }
 
     private fun connectUserToStream(user: com.kwonminseok.busanpartners.data.User) {

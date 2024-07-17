@@ -62,6 +62,14 @@
             app:argType="string"
             app:nullable="true"
             />
+        <action
+            android:id="@+id/action_messageFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
 
     <fragment
@@ -327,6 +335,12 @@
             app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
             app:popExitAnim="@anim/anim_fade_out"
             />
+        <action
+            android:id="@+id/action_universityStudentFragment_to_mySheetFragment"
+            app:destination="@id/mySheetFragment" />
+        <action
+            android:id="@+id/action_universityStudentFragment_to_mySheetFragment2"
+            app:destination="@id/mySheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/authenticationSelectFragment"
@@ -373,6 +387,14 @@
         android:name="com.kwonminseok.busanpartners.ui.profile.TermsOfServiceFragment"
         android:label="TermsOfServiceFragment"
         tools:layout="@layout/fragment_terms_of_service"/>
+    <dialog
+        android:id="@+id/mySheetFragment"
+        android:name="com.kwonminseok.busanpartners.ui.connect.ReportBottomSheetFragment"
+        android:label="MySheetFragment" >
+        <action
+            android:id="@+id/action_mySheetFragment_to_selectedUniversityStudentListFragment"
+            app:destination="@id/selectedUniversityStudentListFragment" />
+    </dialog>
 
 
 </navigation>

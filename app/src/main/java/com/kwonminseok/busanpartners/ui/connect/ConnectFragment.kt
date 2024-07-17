@@ -100,7 +100,19 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
 
-
+        viewModel.getCurrentUser()
+        lifecycleScope.launchWhenStarted {
+            viewModel.user.collectLatest { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        roomUser = resource.data
+                        Log.e("roomUsedr", roomUser.toString())
+                    }
+                    is Resource.Error -> {}
+                    else -> Unit
+                }
+            }
+        }
 
 //        Log.e("currentUser userEntity", SplashActivity.currentUser.toString())
         if (ContextCompat.checkSelfPermission(

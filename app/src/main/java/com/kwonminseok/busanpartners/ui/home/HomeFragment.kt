@@ -116,6 +116,7 @@ class HomeFragment : Fragment() {
         // 인앱메시지
 //        setupInAppMessaging()
 
+
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 

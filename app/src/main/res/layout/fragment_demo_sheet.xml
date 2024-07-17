@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="신고 사유를 선택해주세요."
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/reason_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/reason_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="욕설 · 명예훼손"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioButton
+            android:id="@+id/reason_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="도용"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioButton
+            android:id="@+id/reason_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="음란물 · 선정성"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioButton
+            android:id="@+id/reason_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="증오심 표현 또는 노골적인 폭력"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioButton
+            android:id="@+id/reason_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="원치 않는 상업성 게시물"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/report_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="신고하기"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

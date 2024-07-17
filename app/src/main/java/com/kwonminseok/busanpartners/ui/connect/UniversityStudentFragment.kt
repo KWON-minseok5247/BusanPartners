@@ -68,6 +68,12 @@ class UniversityStudentFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
+            binding.reportButton.setOnClickListener {
+//                findNavController().navigate(R.id.action_universityStudentFragment_to_mySheetFragment)
+                val bottomSheet = ReportBottomSheetFragment()
+                bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+            }
+
             binding.apply {
                 Glide.with(this@UniversityStudentFragment).load(user.imagePath)
                     .into(binding.imageUser)
@@ -93,6 +99,11 @@ class UniversityStudentFragment : Fragment() {
         }
 
         binding.connectButton.setOnClickListener {
+            if (chatClient.getCurrentUser()!!.id == "guestID") {
+                Toast.makeText(requireContext(),getString(R.string.data_changed_message), Toast.LENGTH_SHORT).show()
+                requireActivity().finishAffinity()
+                System.exit(0)
+            }
 
             if (currentUser?.authentication?.collegeStudent == true) {
                 Toast.makeText(

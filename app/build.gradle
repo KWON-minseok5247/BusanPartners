@@ -377,6 +377,9 @@ dependencies {
     //이미지 확대
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
+    // 바텀 시트
+    implementation 'com.github.andrefrsousa:SuperBottomSheet:2.0.0'
+
 
 }
 // Allow references to generated code
