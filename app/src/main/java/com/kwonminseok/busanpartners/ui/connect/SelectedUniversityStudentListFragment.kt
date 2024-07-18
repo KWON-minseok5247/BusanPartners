@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -22,9 +25,12 @@ import com.kwonminseok.busanpartners.databinding.FragmentConnectBinding
 import com.kwonminseok.busanpartners.databinding.FragmentUniversityBinding
 import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUser
 import com.kwonminseok.busanpartners.util.LanguageUtils
+import com.kwonminseok.busanpartners.util.Resource
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 
 private val TAG = "SelectedUniversityStudentListFragment"
@@ -34,6 +40,9 @@ class SelectedUniversityStudentListFragment : Fragment() {
     private var chipTexts: MutableList<String>? = null
     private var _binding: FragmentUniversityBinding? = null
     private val binding get() = _binding!!
+    private val userViewModel: UserViewModel by viewModels()
+    private var roomUser: User? = null
+    private var userList: MutableList<User>? = null
 
     //    private val viewModel by viewModels<ConnectViewModel>()
 //    private val adapter by lazy { StudentCardAdapter() }
@@ -56,6 +65,65 @@ class SelectedUniversityStudentListFragment : Fragment() {
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
+
+
+//        setFragmentResultListener("blockUserRequest") { _, bundle ->
+//            val reportedUserId = bundle.getString("reportedUserId")
+//            reportedUserId?.let { blockUser(it) }
+//
+//            userViewModel.getCurrentUser()
+//            lifecycleScope.launchWhenStarted {
+//                userViewModel.user.collectLatest { resource ->
+//                    when (resource) {
+//                        is Resource.Success -> {
+//                            roomUser = resource.data
+//                            Log.e("roomUsedr", roomUser.toString())
+//                            // ViewModel 함수 호출
+//                            userViewModel.getUniversityStudentsWantToMeet()
+//
+//                            lifecycleScope.launchWhenStarted {
+//                                userViewModel.students.collectLatest {
+//                                    when (it) {
+//                                        is Resource.Loading -> {
+//                                            Log.e("Resource.Loading", "Resource.Loading")
+//                                        }
+//
+//                                        is Resource.Success -> {
+//                                            Log.e("Resource.Success", "Resource.Success")
+//                                            // blockList에 포함되지 않은 사용자만 userList에 추가
+////                        userList = it.data
+//
+//                                            userList = it.data?.filter { user ->
+//                                                user.uid !in (roomUser?.banList ?: emptyList())
+//                                            }?.toMutableList()
+//                                            Log.e("userList", userList.toString())
+//
+////                        userList = it.data
+////                                            onDataLoaded()
+//
+//                                        }
+//
+//                                        is Resource.Error -> {
+//                                            Log.e("Resource.Error", it.message.toString())
+//
+//
+//                                        }
+//
+//                                        else -> Unit
+//
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        is Resource.Error -> {}
+//                        else -> Unit
+//                    }
+//                }
+//            }
+//
+//
+//        }
+
 
         val args: Array<out Parcelable>? =
             arguments?.getParcelableArray("selectedUniversityStudents")
@@ -115,13 +183,17 @@ class SelectedUniversityStudentListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.e("onResume", "onResume")
+
         hideBottomNavigationView()
     }
 
     override fun onPause() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
-        showBottomNavigationView()
         super.onPause()
+        showBottomNavigationView()
+        Log.e("onPause", "onPause")
+
     }
 
 //    fun getDeviceLanguage(context: Context): String {
@@ -139,4 +211,22 @@ class SelectedUniversityStudentListFragment : Fragment() {
         }
     }
 
+    private fun blockUser(reportedUserId: String) {
+        val banList = currentUser?.banList?.toMutableList() ?: mutableListOf()
+        if (!banList.contains(reportedUserId)) {
+            banList.add(reportedUserId)
+        }
+
+        currentUser = currentUser?.copy(blockList = banList)
+        userViewModel.updateUser(currentUser!!)
+
+        userViewModel.setCurrentUser(
+            mapOf(
+                "banList" to banList
+            )
+        )
+
+        Toast.makeText(requireContext(), "차단이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+
+    }
 }

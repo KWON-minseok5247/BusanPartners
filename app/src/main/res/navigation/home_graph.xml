@@ -336,11 +336,8 @@
             app:popExitAnim="@anim/anim_fade_out"
             />
         <action
-            android:id="@+id/action_universityStudentFragment_to_mySheetFragment"
-            app:destination="@id/mySheetFragment" />
-        <action
-            android:id="@+id/action_universityStudentFragment_to_mySheetFragment2"
-            app:destination="@id/mySheetFragment" />
+            android:id="@+id/action_universityStudentFragment_to_reportBottomSheetFragment"
+            app:destination="@id/reportBottomSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/authenticationSelectFragment"
@@ -388,11 +385,11 @@
         android:label="TermsOfServiceFragment"
         tools:layout="@layout/fragment_terms_of_service"/>
     <dialog
-        android:id="@+id/mySheetFragment"
+        android:id="@+id/reportBottomSheetFragment"
         android:name="com.kwonminseok.busanpartners.ui.connect.ReportBottomSheetFragment"
-        android:label="MySheetFragment" >
+        android:label="ReportBottomSheetFragment" >
         <action
-            android:id="@+id/action_mySheetFragment_to_selectedUniversityStudentListFragment"
+            android:id="@+id/action_reportBottomSheetFragment_to_selectedUniversityStudentListFragment"
             app:destination="@id/selectedUniversityStudentListFragment" />
     </dialog>
 

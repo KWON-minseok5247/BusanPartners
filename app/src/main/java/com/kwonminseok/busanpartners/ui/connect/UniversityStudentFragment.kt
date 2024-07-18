@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -29,6 +31,7 @@ import com.kwonminseok.busanpartners.ui.login.SplashActivity.Companion.currentUs
 import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
+import com.kwonminseok.busanpartners.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.api.models.QueryChannelsRequest
@@ -43,6 +46,7 @@ class UniversityStudentFragment : Fragment() {
     private var chipTexts: MutableList<String>? = null
     private var _binding: FragmentUniversityStudentBinding? = null
     private val binding get() = _binding!!
+    private val userViewModel: UserViewModel by viewModels()
 
     //    private val viewModel by viewModels<ConnectViewModel>()
 //    private val adapter by lazy { StudentCardAdapter() }
@@ -68,11 +72,23 @@ class UniversityStudentFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
-            binding.reportButton.setOnClickListener {
-//                findNavController().navigate(R.id.action_universityStudentFragment_to_mySheetFragment)
-                val bottomSheet = ReportBottomSheetFragment()
-                bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+            binding.reportButton.setOnClickListener {a ->
+//                val bottomSheet = ReportBottomSheetFragment.newInstance(it)
+//                bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+                val b = Bundle().apply {
+                    putParcelable("selectedUser", user)
+                }
+                findNavController().navigate(
+                    R.id.action_universityStudentFragment_to_reportBottomSheetFragment,
+                    b
+                )
             }
+
+//            binding.reportButton.setOnClickListener {
+////                findNavController().navigate(R.id.action_universityStudentFragment_to_mySheetFragment)
+//                val bottomSheet = ReportBottomSheetFragment()
+//                bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+//            }
 
             binding.apply {
                 Glide.with(this@UniversityStudentFragment).load(user.imagePath)
@@ -147,6 +163,16 @@ class UniversityStudentFragment : Fragment() {
             }
 
 
+            setFragmentResultListener("blockUserRequest") { _, bundle ->
+                val reportedUserId = bundle.getString("reportedUserId")
+                reportedUserId?.let {
+//                    blockUser(it)
+                }
+                // 여기서는 리사이클러뷰를 다시 불러오는 과정, 단 밴리스트 목록을 검수해야 한다.
+            }
+
+
+
 //                if (currentUser!!.chatChannelCount >= 3) {
 //                    Toast.makeText(
 //                        requireContext(),
@@ -194,6 +220,7 @@ class UniversityStudentFragment : Fragment() {
     override fun onPause() {
         // ChatFragment가 다른 Fragment로 대체되거나 화면에서 사라질 때
         showBottomNavigationView()
+
         super.onPause()
     }
 
@@ -258,6 +285,21 @@ class UniversityStudentFragment : Fragment() {
             }
         }
     }
+
+//    private fun blockUser(reportedUserId: String) {
+//        val banList = currentUser?.banList?.toMutableList() ?: mutableListOf()
+//        if (!banList.contains(reportedUserId)) {
+//            banList.add(reportedUserId)
+//            currentUser = currentUser?.copy(banList = banList)
+//            userViewModel.updateUser(currentUser!!)
+//            userViewModel.setCurrentUser(mapOf("banList" to banList))
+//
+//            Toast.makeText(requireContext(), "차단이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+//            findNavController().popBackStack()
+//
+//            // Update UI or navigate as needed
+//        }
+//    }
 
 
 }
