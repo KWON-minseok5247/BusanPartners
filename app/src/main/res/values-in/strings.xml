@@ -266,4 +266,17 @@
     <string name="app_language_change">Bahasa Aplikasi</string>
     <string name="select_your_language">Pilih bahasa Anda.</string>
 
+    <string name="block_reason_title">Silakan pilih alasan pemblokiran.</string>
+    <string name="reason_abusive_language">Bahasa Kasar · Pencemaran Nama Baik</string>
+    <string name="reason_impersonation">Peniruan</string>
+    <string name="reason_explicit_content">Konten Eksplisit · Konten Seksual</string>
+    <string name="reason_hate_speech">Ucapan Kebencian · Kekerasan Eksplisit</string>
+    <string name="reason_unrelated_content">Konten Tidak Terkait</string>
+    <string name="block_button_text">Blokir</string>
+    <string name="select_report_reason">Silakan pilih alasan pelaporan.</string>
+    <string name="block_success">Pemblokiran berhasil.</string>
+    <string name="block_alert_title">Pemberitahuan Pemblokiran</string>
+    <string name="block_alert_message">Apakah Anda yakin ingin memblokir pengguna ini?</string>
+    <string name="no_students_available">Tidak ada siswa yang tersedia saat ini.</string>
+
 </resources>

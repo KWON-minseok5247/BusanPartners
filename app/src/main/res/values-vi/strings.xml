@@ -266,4 +266,18 @@
 
     <string name="app_language_change">Ngôn Ngữ Ứng Dụng</string>
     <string name="select_your_language">Chọn ngôn ngữ của bạn.</string>
+
+    <string name="block_reason_title">Vui lòng chọn lý do chặn.</string>
+    <string name="reason_abusive_language">Ngôn ngữ lăng mạ · Phỉ báng</string>
+    <string name="reason_impersonation">Mạo danh</string>
+    <string name="reason_explicit_content">Nội dung khiêu dâm · Nội dung tình dục</string>
+    <string name="reason_hate_speech">Ngôn từ kích động thù địch · Bạo lực công khai</string>
+    <string name="reason_unrelated_content">Nội dung không liên quan</string>
+    <string name="block_button_text">Chặn</string>
+    <string name="select_report_reason">Vui lòng chọn lý do báo cáo.</string>
+    <string name="block_success">Đã chặn thành công.</string>
+    <string name="block_alert_title">Thông báo chặn</string>
+    <string name="block_alert_message">Bạn có chắc chắn muốn chặn người dùng này không?</string>
+    <string name="no_students_available">Hiện tại không có sinh viên nào có sẵn.</string>
+
 </resources>

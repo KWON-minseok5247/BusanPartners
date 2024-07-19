@@ -191,13 +191,14 @@ class MessageFragment : ChannelListFragment() {
                     isMuted -> arrayOf(
                         getString(R.string.unmute_chat_notifications),
                         getString(R.string.leave_chat),
-                        "차단하기"
+                        getString(R.string.block_button_text)
                     )
 
                     else -> arrayOf(
                         getString(R.string.mute_chat_notifications),
                         getString(R.string.leave_chat),
-                        "차단하기"
+                        getString(R.string.block_button_text)
+
                     )
                 }
                 AlertDialog.Builder(requireContext())
@@ -223,8 +224,8 @@ class MessageFragment : ChannelListFragment() {
         AlertView.Builder()
             .setContext(requireActivity())
             .setStyle(AlertView.Style.Alert)
-            .setTitle("차단 알림")
-            .setMessage("상대방을 정말 차단하시겠습니까?")
+            .setTitle(getString(R.string.block_alert_title))
+            .setMessage(getString(R.string.block_alert_message))
             .setDestructive(getString(R.string.confirmation))
             .setOthers(arrayOf(getString(R.string.cancel)))
             .setOnItemClickListener(object : OnItemClickListener {
@@ -251,7 +252,7 @@ class MessageFragment : ChannelListFragment() {
                                             )
                                         )
 
-                                        Toast.makeText(requireContext(), "차단이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(requireContext(), getString(R.string.block_success), Toast.LENGTH_SHORT).show()
 
                                     } else {
                                         Log.e("BanUser", "No valid user found to ban.")

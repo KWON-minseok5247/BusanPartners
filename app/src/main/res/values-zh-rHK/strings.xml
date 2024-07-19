@@ -266,4 +266,18 @@
 
     <string name="app_language_change">應用語言</string>
     <string name="select_your_language">選擇您的語言。</string>
+
+    <string name="block_reason_title">請選擇屏蔽原因。</string>
+    <string name="reason_abusive_language">辱罵語言 · 誹謗</string>
+    <string name="reason_impersonation">冒充</string>
+    <string name="reason_explicit_content">淫穢內容 · 性暗示內容</string>
+    <string name="reason_hate_speech">仇恨言論 · 公開暴力</string>
+    <string name="reason_unrelated_content">無關內容</string>
+    <string name="block_button_text">屏蔽</string>
+    <string name="select_report_reason">請選擇舉報原因。</string>
+    <string name="block_success">屏蔽已完成。</string>
+    <string name="block_alert_title">屏蔽通知</string>
+    <string name="block_alert_message">你確定要屏蔽此用戶嗎？</string>
+    <string name="no_students_available">目前沒有可用的學生。</string>
+
 </resources>

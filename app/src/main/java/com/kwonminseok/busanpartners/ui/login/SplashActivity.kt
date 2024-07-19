@@ -442,6 +442,15 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun navigateToHomeActivity() {
+        // Firebase 인앱 메시지 비활성화
+//        FirebaseInAppMessaging.getInstance().setMessagesSuppressed(true)
+//
+//        // 로그인 상태를 확인하여, 이후 MainActivity에서 다시 활성화
+//        val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
+//        if (isLoggedIn) {
+//            FirebaseInAppMessaging.getInstance().setMessagesSuppressed(false)
+//        }
+
         val intent = Intent(this, HomeActivity::class.java).addFlags(
             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         )

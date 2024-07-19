@@ -73,7 +73,7 @@ class ReportBottomSheetFragment : SuperBottomSheetFragment() {
                 findNavController().navigate(R.id.action_reportBottomSheetFragment_to_selectedUniversityStudentListFragment)
 //                findNavController().navigate(R.id.action_reportBottomSheetFragment_to_connectFragment)
             } else {
-                Toast.makeText(context, "신고 사유를 선택해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.select_report_reason), Toast.LENGTH_SHORT).show()
             }
         }
     }

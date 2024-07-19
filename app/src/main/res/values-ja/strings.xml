@@ -267,5 +267,18 @@
     <string name="app_language_change">アプリの言語</string>
     <string name="select_your_language">あなたの言語を選択してください。</string>
 
+    <string name="block_reason_title">ブロック理由を選択してください。</string>
+    <string name="reason_abusive_language">暴言 · 名誉毀損</string>
+    <string name="reason_impersonation">なりすまし</string>
+    <string name="reason_explicit_content">わいせつな内容 · 性的な内容</string>
+    <string name="reason_hate_speech">ヘイトスピーチ · 暴力的な発言</string>
+    <string name="reason_unrelated_content">無関係な内容</string>
+    <string name="block_button_text">ブロック</string>
+    <string name="select_report_reason">通報理由を選択してください。</string>
+    <string name="block_success">ブロックが完了しました。</string>
+    <string name="block_alert_title">ブロック通知</string>
+    <string name="block_alert_message">このユーザーを本当にブロックしますか。</string>
+    <string name="no_students_available">現在利用可能な学生はいません。</string>
+
 
 </resources>

@@ -295,4 +295,18 @@
     <string name="select_your_language">당신의 언어를 선택하세요.</string>
 
 
+    <string name="block_reason_title">차단 사유를 선택해주세요.</string>
+    <string name="reason_abusive_language">욕설 · 명예훼손</string>
+    <string name="reason_impersonation">도용</string>
+    <string name="reason_explicit_content">음란물 · 선정성</string>
+    <string name="reason_hate_speech">증오심 표현 또는 노골적인 폭력</string>
+    <string name="reason_unrelated_content">앱과 관련없는 내용</string>
+    <string name="block_button_text">차단하기</string>
+    <string name="select_report_reason">신고 사유를 선택해주세요.</string>
+    <string name="block_success">차단이 완료되었습니다.</string>
+    <string name="block_alert_title">차단 알림</string>
+    <string name="block_alert_message">상대방을 정말 차단하시겠습니까?</string>
+    <string name="no_students_available">현재 대학생이 존재하지 않습니다.</string>
+
+
 </resources>

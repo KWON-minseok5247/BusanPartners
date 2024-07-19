@@ -143,6 +143,7 @@ class HomeFragment : Fragment() {
 //        viewModel = ViewModelProvider(this, TourismViewModelFactory(repository)).get(TourismViewModel::class.java)
         currentServerTime?.let { fetchFestivalList(it) }
 
+//        setupInAppMessaging()
 
         sharedPreferences =
             requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
@@ -543,5 +544,18 @@ class HomeFragment : Fragment() {
         return offsetDateTime.format(formatter)
     }
 
+    private fun setupInAppMessaging() {
+        val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
+
+        // 로그인 상태에 따라 인앱 메시지 표시 제어
+        Firebase.inAppMessaging.isAutomaticDataCollectionEnabled = isLoggedIn
+
+        // 인앱 메시지 표시 여부를 설정
+        if (isLoggedIn) {
+            FirebaseInAppMessaging.getInstance().setMessagesSuppressed(false)
+        } else {
+            FirebaseInAppMessaging.getInstance().setMessagesSuppressed(true)
+        }
+    }
 
 }

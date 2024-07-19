@@ -266,4 +266,18 @@
     <string name="app_language_change">ภาษาแอปพลิเคชัน</string>
     <string name="select_your_language">เลือกภาษาของคุณ</string>
 
+
+    <string name="block_reason_title">กรุณาเลือกเหตุผลการบล็อก</string>
+    <string name="reason_abusive_language">ภาษาด่าทอ · ใส่ร้าย</string>
+    <string name="reason_impersonation">การแอบอ้าง</string>
+    <string name="reason_explicit_content">เนื้อหาลามก · เนื้อหาเกี่ยวกับเพศ</string>
+    <string name="reason_hate_speech">คำพูดแสดงความเกลียดชัง · ความรุนแรง</string>
+    <string name="reason_unrelated_content">เนื้อหาที่ไม่เกี่ยวข้อง</string>
+    <string name="block_button_text">บล็อก</string>
+    <string name="select_report_reason">กรุณาเลือกเหตุผลการรายงาน</string>
+    <string name="block_success">การบล็อกเสร็จสมบูรณ์</string>
+    <string name="block_alert_title">การแจ้งเตือนการบล็อก</string>
+    <string name="block_alert_message">คุณแน่ใจหรือว่าต้องการบล็อกผู้ใช้นี้?</string>
+    <string name="no_students_available">ขณะนี้ไม่มีนักเรียนที่สามารถใช้ได้</string>
+
 </resources>

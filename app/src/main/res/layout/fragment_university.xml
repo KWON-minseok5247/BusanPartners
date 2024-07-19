@@ -102,7 +102,7 @@
                     android:orientation="vertical"/>
                 <TextView
                     android:id="@+id/non_people"
-                    android:text="현재 대학생이 존재하지 않습니다."
+                    android:text="@string/no_students_available"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_width="match_parent"

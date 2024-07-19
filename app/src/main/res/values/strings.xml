@@ -272,7 +272,17 @@
     <string name="app_language_change">App Languages</string>
     <string name="select_your_language">Select your language.</string>
 
-
-
+    <string name="block_reason_title">Please select a block reason.</string>
+    <string name="reason_abusive_language">Abusive Language · Defamation</string>
+    <string name="reason_impersonation">Impersonation</string>
+    <string name="reason_explicit_content">Explicit Content · Sexual Content</string>
+    <string name="reason_hate_speech">Hate Speech · Explicit Violence</string>
+    <string name="reason_unrelated_content">Unrelated Content</string>
+    <string name="block_button_text">Block</string>
+    <string name="select_report_reason">Please select a report reason.</string>
+    <string name="block_success">Block completed.</string>
+    <string name="block_alert_title">Block Notification</string>
+    <string name="block_alert_message">Are you sure you want to block this user?</string>
+    <string name="no_students_available">No students are currently available.</string>
 
 </resources>

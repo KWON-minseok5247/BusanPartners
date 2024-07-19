@@ -306,7 +306,7 @@ class SelectedUniversityStudentListFragment : Fragment() {
             )
         )
 
-        Toast.makeText(requireContext(), "차단이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.block_success), Toast.LENGTH_SHORT).show()
 
     }
 }

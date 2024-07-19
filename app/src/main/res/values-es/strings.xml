@@ -266,4 +266,18 @@
     <string name="app_language_change">Idiomas de la aplicación</string>
     <string name="select_your_language">Seleccione su idioma.</string>
 
+    <string name="block_reason_title">Por favor seleccione una razón para bloquear.</string>
+    <string name="reason_abusive_language">Lenguaje abusivo · Difamación</string>
+    <string name="reason_impersonation">Suplantación</string>
+    <string name="reason_explicit_content">Contenido Explícito · Contenido Sexual</string>
+    <string name="reason_hate_speech">Discurso de Odio · Violencia Explícita</string>
+    <string name="reason_unrelated_content">Contenido no relacionado</string>
+    <string name="block_button_text">Bloquear</string>
+    <string name="select_report_reason">Por favor seleccione una razón para reportar.</string>
+    <string name="block_success">Bloqueo completado.</string>
+    <string name="block_alert_title">Notificación de Bloqueo</string>
+    <string name="block_alert_message">¿Estás seguro de que deseas bloquear a este usuario?</string>
+    <string name="no_students_available">No hay estudiantes disponibles actualmente.</string>
+
+
 </resources>

@@ -68,7 +68,7 @@
             android:layout_marginBottom="12dp"
             android:buttonTint="#009963"
 
-            android:text="원치 않는 상업성 게시물"
+            android:text="앱과 관련없는 내용"
             android:textSize="16sp" />
     </RadioGroup>
 
