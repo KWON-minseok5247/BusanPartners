@@ -163,13 +163,13 @@ class UniversityStudentFragment : Fragment() {
             }
 
 
-            setFragmentResultListener("blockUserRequest") { _, bundle ->
-                val reportedUserId = bundle.getString("reportedUserId")
-                reportedUserId?.let {
-//                    blockUser(it)
-                }
-                // 여기서는 리사이클러뷰를 다시 불러오는 과정, 단 밴리스트 목록을 검수해야 한다.
-            }
+//            setFragmentResultListener("blockUserRequest") { _, bundle ->
+//                val reportedUserId = bundle.getString("reportedUserId")
+//                reportedUserId?.let {
+////                    blockUser(it)
+//                }
+//                // 여기서는 리사이클러뷰를 다시 불러오는 과정, 단 밴리스트 목록을 검수해야 한다.
+//            }
 
 
 

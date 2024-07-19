@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -63,66 +64,143 @@ class SelectedUniversityStudentListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backButton.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.action_selectedUniversityStudentListFragment_to_connectFragment)
         }
 
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_selectedUniversityStudentListFragment_to_connectFragment)
+                }
+            }
+        )
 
-//        setFragmentResultListener("blockUserRequest") { _, bundle ->
-//            val reportedUserId = bundle.getString("reportedUserId")
-//            reportedUserId?.let { blockUser(it) }
+        setFragmentResultListener("blockUserRequest") { _, bundle ->
+            val reportedUserId = bundle.getString("reportedUserId")
+            val userUniversity = bundle.getString("userUniversity")
+
 //
-//            userViewModel.getCurrentUser()
-//            lifecycleScope.launchWhenStarted {
-//                userViewModel.user.collectLatest { resource ->
-//                    when (resource) {
-//                        is Resource.Success -> {
-//                            roomUser = resource.data
-//                            Log.e("roomUsedr", roomUser.toString())
-//                            // ViewModel 함수 호출
-//                            userViewModel.getUniversityStudentsWantToMeet()
+            userViewModel.getCurrentUser()
+            lifecycleScope.launchWhenStarted {
+                userViewModel.user.collectLatest { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            roomUser = resource.data
+                            reportedUserId?.let { blockUser(it) }
+
+                            Log.e("roomUsedr", roomUser.toString())
+                            // ViewModel 함수 호출
+                            userViewModel.getUniversityStudentsWantToMeet()
+
+                            lifecycleScope.launchWhenStarted {
+                                userViewModel.students.collectLatest {
+                                    when (it) {
+                                        is Resource.Loading -> {
+                                            Log.e("Resource.Loading", "Resource.Loading")
+                                        }
+
+                                        is Resource.Success -> {
+                                            Log.e("Resource.Success", "Resource.Success")
+                                            // blockList에 포함되지 않은 사용자만 userList에 추가
+
+                                            Universities.universityInfoList.forEach { university ->
+                                                    if (userUniversity == university.nameKo) {
+                                                        val universityName = when (LanguageUtils.getDeviceLanguage(requireContext())) {
+                                                            "ko" -> university.nameKo
+                                                            "en" -> university.nameEn
+                                                            "ja" -> university.nameJa
+                                                            "zh-CN" -> university.nameZh
+                                                            "zh-TW" -> university.nameZhTw
+                                                            "es" -> university.nameEs
+                                                            "vi" -> university.nameVi
+                                                            "th" -> university.nameTh
+                                                            "in" -> university.nameIn
+                                                            else -> university.nameEn
+                                                        }
+
+                                                        binding.tvUniversity.text = universityName
+//                    Glide.with(this).load(university.logoResourceId).into(binding.imageUniversity)
+                                                        return@forEach
+
+
+                                                }
+                                            }
+
+                                            userList = it.data?.filter { user ->
+                                                user.uid !in (roomUser?.banList ?: emptyList()) &&
+                                                        user.college == userUniversity
+                                            }?.toMutableList()
+                                            Log.e("userList", userList.toString())
+                                            if (userList.isNullOrEmpty()) {
+                                                binding.nonPeople.visibility = View.VISIBLE
+                                                binding.recyclerView.visibility = View.GONE
+                                            } else {
+                                                binding.nonPeople.visibility = View.GONE
+                                                binding.recyclerView.visibility = View.VISIBLE
+
+                                                binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                                                binding.recyclerView.adapter = adapter
+                                                adapter.submitList(userList)
+
+
+                                                adapter.onClick = { user ->
+                                                    val b = Bundle().apply {
+                                                        putParcelable("selectedUniversityStudent", user)
+                                                    }
+                                                    findNavController().navigate(
+                                                        R.id.action_selectedUniversityStudentListFragment_to_universityStudentFragment,
+                                                        b
+                                                    )
+
+                                                }
+                                            }
+
+//                                            Universities.universityInfoList.forEach { university ->
+//                                                if (userList?.get(0) != null) {
+//                                                    if (userList?.get(0)!!.college == university.nameKo) {
+//                                                        val universityName = when (LanguageUtils.getDeviceLanguage(requireContext())) {
+//                                                            "ko" -> university.nameKo
+//                                                            "en" -> university.nameEn
+//                                                            "ja" -> university.nameJa
+//                                                            "zh-CN" -> university.nameZh
+//                                                            "zh-TW" -> university.nameZhTw
+//                                                            "es" -> university.nameEs
+//                                                            "vi" -> university.nameVi
+//                                                            "th" -> university.nameTh
+//                                                            "in" -> university.nameIn
+//                                                            else -> university.nameEn
+//                                                        }
 //
-//                            lifecycleScope.launchWhenStarted {
-//                                userViewModel.students.collectLatest {
-//                                    when (it) {
-//                                        is Resource.Loading -> {
-//                                            Log.e("Resource.Loading", "Resource.Loading")
-//                                        }
+//                                                        binding.tvUniversity.text = universityName
+////                    Glide.with(this).load(university.logoResourceId).into(binding.imageUniversity)
+//                                                        return@forEach
+//                                                    }
 //
-//                                        is Resource.Success -> {
-//                                            Log.e("Resource.Success", "Resource.Success")
-//                                            // blockList에 포함되지 않은 사용자만 userList에 추가
-////                        userList = it.data
-//
-//                                            userList = it.data?.filter { user ->
-//                                                user.uid !in (roomUser?.banList ?: emptyList())
-//                                            }?.toMutableList()
-//                                            Log.e("userList", userList.toString())
-//
-////                        userList = it.data
-////                                            onDataLoaded()
-//
-//                                        }
-//
-//                                        is Resource.Error -> {
-//                                            Log.e("Resource.Error", it.message.toString())
-//
-//
-//                                        }
-//
-//                                        else -> Unit
-//
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        is Resource.Error -> {}
-//                        else -> Unit
-//                    }
-//                }
-//            }
-//
-//
-//        }
+//                                                }
+//                                            }
+                                        }
+
+                                        is Resource.Error -> {
+                                            Log.e("Resource.Error", it.message.toString())
+
+
+                                        }
+
+                                        else -> Unit
+
+                                    }
+                                }
+                            }
+                        }
+                        is Resource.Error -> {}
+                        else -> Unit
+                    }
+                }
+            }
+
+
+        }
 
 
         val args: Array<out Parcelable>? =
@@ -212,7 +290,9 @@ class SelectedUniversityStudentListFragment : Fragment() {
     }
 
     private fun blockUser(reportedUserId: String) {
-        val banList = currentUser?.banList?.toMutableList() ?: mutableListOf()
+        //TODo 지금 여기만 손보면 해결할 것 같음..
+
+        val banList = roomUser?.banList?.toMutableList() ?: mutableListOf()
         if (!banList.contains(reportedUserId)) {
             banList.add(reportedUserId)
         }

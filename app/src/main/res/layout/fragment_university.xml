@@ -100,6 +100,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"/>
+                <TextView
+                    android:id="@+id/non_people"
+                    android:text="현재 대학생이 존재하지 않습니다."
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="gone">
+                </TextView>
 
             </LinearLayout>
         </LinearLayout>

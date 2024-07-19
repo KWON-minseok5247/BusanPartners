@@ -19,6 +19,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -99,6 +100,15 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_connectFragment_to_homeFragment)
+                }
+            }
+        )
 
         viewModel.getCurrentUser()
         lifecycleScope.launchWhenStarted {
@@ -357,10 +367,8 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                     map = naverMap
 //                    icon = MarkerIcons.GRAY
                     icon = OverlayImage.fromResource(R.drawable.maker_11)
-
                     width = 200
                     height = 200
-
                 }
 
                 marker.setOnClickListener {
@@ -452,18 +460,6 @@ class ConnectFragment : Fragment(), OnMapReadyCallback {
                 }
             }
 
-//            naverMap.setOnMapClickListener { pointF, latLng ->
-//                // 지도의 어느 부분이든 클릭되면, 활성화된 모든 인포 윈도우를 닫습니다.
-//                infoWindow.close()
-//                binding.floatingButton.animate()
-//                    .alpha(0f) // 투명도를 0으로 변경하여 뷰를 점진적으로 사라지게 합니다.
-//                    .setDuration(300) // 애니메이션 지속 시간을 300밀리초로 설정
-//                    .setListener(object : AnimatorListenerAdapter() {
-//                        override fun onAnimationEnd(animation: Animator) {
-//                            binding.floatingButton.visibility = View.GONE // 애니메이션이 끝나면 뷰를 숨깁니다.
-//                        }
-//                    })
-//            }
 
         }
 

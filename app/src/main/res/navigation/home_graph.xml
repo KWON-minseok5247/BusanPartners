@@ -26,6 +26,9 @@
             app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
             app:popExitAnim="@anim/anim_fade_out"
             />
+        <action
+            android:id="@+id/action_connectFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -127,7 +130,13 @@
             />
         <action
             android:id="@+id/action_profileFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
+
         <action
             android:id="@+id/action_profileFragment_to_languageFragment"
             app:destination="@id/languageFragment"
@@ -250,6 +259,9 @@
             app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
             app:popExitAnim="@anim/anim_fade_out"
             />
+        <action
+            android:id="@+id/action_selectedUniversityStudentListFragment_to_connectFragment"
+            app:destination="@id/connectFragment" />
     </fragment>
     <fragment
         android:id="@+id/collegeAuthImageFragment"
@@ -390,7 +402,20 @@
         android:label="ReportBottomSheetFragment" >
         <action
             android:id="@+id/action_reportBottomSheetFragment_to_selectedUniversityStudentListFragment"
-            app:destination="@id/selectedUniversityStudentListFragment" />
+            app:destination="@id/selectedUniversityStudentListFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
+        <action
+            android:id="@+id/action_reportBottomSheetFragment_to_connectFragment"
+            app:destination="@id/connectFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </dialog>
 
 
