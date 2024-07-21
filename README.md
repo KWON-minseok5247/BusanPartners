@@ -121,8 +121,6 @@ BusanPartners는 부산지역 내 대학생과 외국인 관광객을 매칭시�
 ![학생증](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/3c4b47ac-2f56-47c2-8850-7647e8c50c7a)
 ![지도](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/f64c893c-fd12-4302-aca8-6bfb16bacff3)
 ![대학 클릭](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/8e989c34-fd5c-445d-a6a8-f50773e97ae3)
-![대학생 리스트](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/c8cdc3e0-76e3-43b2-9031-fa1f8ed0e349)
-![세부 대학생](https://github.com/KWON-minseok5247/BusanPartners/assets/63951789/6b286849-0c94-465a-be15-866504adccf1)
 
 
 세부적인 절차는 지속해서 업데이트를 할 예정이며 8월이 끝나기 전에 완성을 하는 것으로 목표를 두고 있습니다.
