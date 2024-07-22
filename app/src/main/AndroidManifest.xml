@@ -121,7 +121,7 @@
 <!--            android:name="com.google.firebase.messaging.default_notification_color"-->
 <!--            android:resource="@color/white" />-->
 
-        <meta-data android:name="firebase_inapp_messaging_auto_data_collection_enabled" android:value="false" />
+<!--        <meta-data android:name="firebase_inapp_messaging_auto_data_collection_enabled" android:value="false" />-->
 
     </application>
 

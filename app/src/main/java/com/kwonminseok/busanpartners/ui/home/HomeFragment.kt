@@ -105,6 +105,14 @@ class HomeFragment : Fragment() {
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedPreferences =
+            requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -143,10 +151,11 @@ class HomeFragment : Fragment() {
 //        viewModel = ViewModelProvider(this, TourismViewModelFactory(repository)).get(TourismViewModel::class.java)
         currentServerTime?.let { fetchFestivalList(it) }
 
+        FirebaseAnalytics.getInstance(requireContext()).logEvent("main_activity_inappmessaging",null)
+        FirebaseInAppMessaging.getInstance().triggerEvent("main_activity_inappmessaging");
+
 //        setupInAppMessaging()
 
-        sharedPreferences =
-            requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val travelerFinish = sharedPreferences.getBoolean("traveler_finish", false)
         val isFirstVisitor = sharedPreferences.getBoolean("is_first_visitor", false)
         val isFirstStudent = sharedPreferences.getBoolean("is_first_student", false)
@@ -537,7 +546,7 @@ class HomeFragment : Fragment() {
             "vi" -> "dd MMM yyyy" // 베트남어
             "in" -> "dd MMM yyyy" // 인도네시아어
             "ko" -> "yyyy년 MM월 dd일"
-            else ->  "MMMM dd, yyyy"//
+            else -> "MMMM dd, yyyy"//
         }
 
         val formatter = org.threeten.bp.format.DateTimeFormatter.ofPattern(pattern, locale)
