@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Build
@@ -20,6 +21,7 @@ import com.kwonminseok.busanpartners.api.TourismAllInOneApiService
 import com.kwonminseok.busanpartners.api.TourismApiService
 import com.kwonminseok.busanpartners.api.WorldTimeApiService
 import com.kwonminseok.busanpartners.db.AppDatabase
+import com.kwonminseok.busanpartners.ui.HomeActivity
 import com.kwonminseok.busanpartners.ui.login.SplashActivity
 import com.kwonminseok.busanpartners.util.PreferenceUtil
 import com.naver.maps.map.NaverMapSdk
@@ -35,6 +37,7 @@ import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFacto
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
 import java.util.Locale
+import kotlin.system.exitProcess
 
 // Hilt를 사용하기 위해서 여기서 힐트를 추가한다.
 @HiltAndroidApp
@@ -54,6 +57,12 @@ class BusanPartners : Application() {
     override fun onCreate() {
 //        BusanFestivalApiService.init(this)
         super.onCreate()
+
+        // 앱이 오랫동안 작동을 안하다가 들어갔을 경우
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            handleUncaughtException(thread, throwable)
+        }
+
 //        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 ////        preferences = PreferenceUtil(applicationContext)
 ////
@@ -187,6 +196,19 @@ class BusanPartners : Application() {
             .build()
 
     }
+
+    private fun handleUncaughtException(thread: Thread, throwable: Throwable) {
+        Log.e("BusanPartners", "Uncaught exception: ${throwable.message}", throwable)
+
+        // HomeActivity 재시작
+        val intent = Intent(this, SplashActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+
+        // 앱을 종료합니다.
+        exitProcess(1)
+    }
+
 
     private fun applySavedLocale() {
         val localeString = preferences.getString("selected_locale", "")
