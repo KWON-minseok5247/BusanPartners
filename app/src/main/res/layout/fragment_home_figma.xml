@@ -77,7 +77,7 @@
           android:layout_marginTop="7dp"
           android:layout_marginHorizontal="25dp"
           android:gravity="center"
-
+          android:minHeight="48dp"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:text="@string/agree_personal_information"
