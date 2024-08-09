@@ -369,10 +369,10 @@ class SplashActivity : AppCompatActivity() {
 
     private fun fetchCurrentUserEntity() {
 
-        if (!::deviceToken.isInitialized) {
-            Log.e(TAG, "Device token is not initialized yet")
-            return
-        }
+//        if (!::deviceToken.isInitialized) {
+//            Log.e(TAG, "Device token is not initialized yet")
+//            return
+//        }
 
 
         viewModel.getUserStateFlowData(uid).observe(this) { userEntity ->
