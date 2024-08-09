@@ -89,6 +89,7 @@ class SplashActivity : AppCompatActivity() {
             }
             // Get new FCM registration token
             deviceToken = task.result
+            Log.e("deviceToken", deviceToken)
             // Log and toast
         })
 
@@ -367,6 +368,13 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun fetchCurrentUserEntity() {
+
+        if (!::deviceToken.isInitialized) {
+            Log.e(TAG, "Device token is not initialized yet")
+            return
+        }
+
+
         viewModel.getUserStateFlowData(uid).observe(this) { userEntity ->
             if (userEntity == null) { //
                 val newData = mapOf(
