@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.barnea.dialoger.Dialoger
+import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.databinding.FragmentCollegeAuthNumberBinding
@@ -22,6 +23,7 @@ import com.kwonminseok.busanpartners.util.Constants.COLLEGE_DATA
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
 import com.kwonminseok.busanpartners.viewmodel.UserViewModel
+import com.univcert.api.UnivCert
 import dagger.hilt.android.AndroidEntryPoint
 import `in`.aabhasjindal.otptextview.OTPListener
 import kotlinx.coroutines.Dispatchers
@@ -146,9 +148,9 @@ class CollegeAuthNumberFragment : Fragment() {
             lifecycleScope.launchWhenStarted {
                 try {
                     //TODo 여기서도 1초간 로딩이 있었으면 좋겠다.
-//                    UnivCert.certifyCode(BuildConfig.COLLEGE_KEY, collegeData?.email, collegeData?.selectedUniversity, codeAsInt)
-//                    val isSuccessful = UnivCert.status(BuildConfig.API_KEY, collegeData?.email)["success"].toString()
-                    val isSuccessful = "true"
+                    UnivCert.certifyCode(BuildConfig.COLLEGE_KEY, collegeData?.email, collegeData?.selectedUniversity, codeAsInt)
+                    val isSuccessful = UnivCert.status(BuildConfig.API_KEY, collegeData?.email)["success"].toString()
+//                    val isSuccessful = "true"
                     if (isSuccessful == "true") {
                         //TODO 여기서 getstream 토큰을 받는 것이 맞는 것 같은데?
                         // 아니면 isCollegeStudent 이거를 true로 만들고 messageFragment에서 먼저 클릭할 때 isCollegeStudent라던지

@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.barnea.dialoger.Dialoger
+import com.kwonminseok.busanpartners.BuildConfig
 import com.kwonminseok.busanpartners.R
 import com.kwonminseok.busanpartners.data.CollegeData
 import com.kwonminseok.busanpartners.data.Universities
@@ -22,6 +23,7 @@ import com.kwonminseok.busanpartners.databinding.FragmentHomeBinding
 import com.kwonminseok.busanpartners.util.LanguageUtils
 import com.kwonminseok.busanpartners.util.hideBottomNavigationView
 import com.kwonminseok.busanpartners.util.showBottomNavigationView
+import com.univcert.api.UnivCert
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -80,7 +82,7 @@ class CollegeAuthFragment : Fragment() {
 
                     Handler(Looper.getMainLooper()).postDelayed({
                         dialog.dismiss();
-
+                        UnivCert.certify(BuildConfig.COLLEGE_KEY, myEmail, selectedUniversity, false)
                         GlobalScope.launch(Dispatchers.IO) {
                             try {
                                 val b = Bundle().apply {
