@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:streamUiShowUserAvatar="false"
-        app:streamUiActionButtonIcon="@drawable/pusan_education_logo"
+        app:streamUiShowActionButton="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/empty_view"/>
 

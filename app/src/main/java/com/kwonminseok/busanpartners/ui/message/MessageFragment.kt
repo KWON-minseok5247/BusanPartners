@@ -61,6 +61,7 @@ import io.getstream.chat.android.ui.databinding.StreamUiFragmentChannelListBindi
 import io.getstream.chat.android.ui.databinding.StreamUiFragmentMessageListBinding
 import io.getstream.chat.android.ui.feature.channels.ChannelListActivity
 import io.getstream.chat.android.ui.feature.channels.ChannelListFragment
+import io.getstream.chat.android.ui.feature.channels.header.ChannelListHeaderView
 import io.getstream.chat.android.ui.feature.channels.list.ChannelListView
 import io.getstream.chat.android.ui.feature.messages.MessageListFragment
 import io.getstream.chat.android.ui.viewmodel.channels.ChannelListHeaderViewModel
@@ -125,6 +126,8 @@ class MessageFragment : ChannelListFragment() {
             getStudentChat()
             setupChannelListViewModel()
         }
+
+
     }
 
     private fun setupChannelListViewModel() {
@@ -145,9 +148,11 @@ class MessageFragment : ChannelListFragment() {
         }
 
 
-        binding.channelListHeaderView.setOnActionButtonClickListener {
-            // 클릭 이벤트를 비어 있는 블록으로 처리하여 아무 작업도 수행하지 않음
-        }
+//        binding.channelListHeaderView.setOnActionButtonClickListener {
+//            // 클릭 이벤트를 비어 있는 블록으로 처리하여 아무 작업도 수행하지 않음
+//        }
+//        val headerView = view?.findViewById<ChannelListHeaderView>(R.id.channelListHeaderView)
+//        headerView?.visibility = View.GONE
 
         binding.channelListView.setChannelItemClickListener { channel ->
             if (channel.members.size <= 1) {
