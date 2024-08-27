@@ -280,5 +280,6 @@
     <string name="block_alert_title">屏蔽通知</string>
     <string name="block_alert_message">你确定要屏蔽此用户吗？</string>
     <string name="no_students_available">目前没有可用的学生。</string>
+    <string name="student_or_tourist_verification_required">完成学生或游客认证后即可使用。</string>
 
 </resources>

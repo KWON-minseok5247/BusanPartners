@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContract
@@ -183,7 +184,8 @@ class ChannelActivity : BaseConnectedActivity() {
                                             modifier = Modifier
                                                 .size(40.dp) // onChannelAvatar와 동일한 크기
                                                 .clickable {
-                                                    locationLauncher.launch(null)
+                                                    Toast.makeText(this@ChannelActivity,getString(R.string.student_or_tourist_verification_required),Toast.LENGTH_SHORT).show()
+//                                                    locationLauncher.launch(null)
                                                 }
                                         )
                                     },
@@ -223,9 +225,9 @@ class ChannelActivity : BaseConnectedActivity() {
                                     )
 
                                 } else {
-                                    CustomMessageComposer(
-                                        composerViewModel,
-                                    )
+//                                    CustomMessageComposer(
+//                                        composerViewModel,
+//                                    )
                                 }
 
 //                            CustomMessageComposer(

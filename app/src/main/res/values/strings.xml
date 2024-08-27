@@ -285,4 +285,7 @@
     <string name="block_alert_message">Are you sure you want to block this user?</string>
     <string name="no_students_available">No students are currently available.</string>
 
+    <string name="student_or_tourist_verification_required">You can use it after verifying as a student or tourist.</string>
+
+
 </resources>

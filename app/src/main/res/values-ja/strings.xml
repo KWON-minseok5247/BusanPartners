@@ -279,6 +279,7 @@
     <string name="block_alert_title">ブロック通知</string>
     <string name="block_alert_message">このユーザーを本当にブロックしますか。</string>
     <string name="no_students_available">現在利用可能な学生はいません。</string>
+    <string name="student_or_tourist_verification_required">学生または観光客として認証後に利用可能です。</string>
 
 
 </resources>

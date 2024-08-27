@@ -278,6 +278,7 @@
     <string name="block_alert_title">Notificación de Bloqueo</string>
     <string name="block_alert_message">¿Estás seguro de que deseas bloquear a este usuario?</string>
     <string name="no_students_available">No hay estudiantes disponibles actualmente.</string>
+    <string name="student_or_tourist_verification_required">Puedes usarlo después de verificarte como estudiante o turista.</string>
 
 
 </resources>

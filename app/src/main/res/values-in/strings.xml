@@ -278,5 +278,6 @@
     <string name="block_alert_title">Pemberitahuan Pemblokiran</string>
     <string name="block_alert_message">Apakah Anda yakin ingin memblokir pengguna ini?</string>
     <string name="no_students_available">Tidak ada siswa yang tersedia saat ini.</string>
+    <string name="student_or_tourist_verification_required">Anda dapat menggunakannya setelah memverifikasi sebagai mahasiswa atau turis.</string>
 
 </resources>
