@@ -16,15 +16,15 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 
 android {
-    namespace 'com.kwonminseok.busanpartners'
+    namespace 'com.kwonminseok.newbusanpartners'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.kwonminseok.busanpartners"
+        applicationId "com.kwonminseok.newbusanpartners"
         minSdk 26
         targetSdk 34
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 5
+        versionName "1.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
