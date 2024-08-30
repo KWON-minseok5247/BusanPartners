@@ -73,6 +73,9 @@
             app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
             app:popExitAnim="@anim/anim_fade_out"
             />
+        <action
+            android:id="@+id/action_messageFragment_to_messageReportBottomSheetFragment"
+            app:destination="@id/messageReportBottomSheetFragment" />
     </fragment>
 
     <fragment
@@ -416,6 +419,15 @@
             app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
             app:popExitAnim="@anim/anim_fade_out"
             />
+    </dialog>
+    <dialog
+        android:id="@+id/messageReportBottomSheetFragment"
+        android:name="com.kwonminseok.newbusanpartners.ui.message.MessageReportBottomSheetFragment"
+        android:label="MessageReportBottomSheetFragment"
+        tools:layout="@layout/fragment_message_report_sheet">
+        <action
+            android:id="@+id/action_messageReportBottomSheetFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
     </dialog>
 
 

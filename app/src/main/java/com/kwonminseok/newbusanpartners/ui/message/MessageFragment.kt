@@ -194,66 +194,80 @@ class MessageFragment : ChannelListFragment() {
 
     private fun banUser(channel: Channel) {
 
-
-        AlertView.Builder()
-            .setContext(requireActivity())
-            .setStyle(AlertView.Style.Alert)
-            .setTitle(getString(R.string.block_alert_title))
-            .setMessage(getString(R.string.block_alert_message))
-            .setDestructive(getString(R.string.confirmation))
-            .setOthers(arrayOf(getString(R.string.cancel)))
-            .setOnItemClickListener(object : OnItemClickListener {
-                override fun onItemClick(o: Any?, position: Int) {
-                    if (position == 0) { // 확인 버튼 위치 확인
-                        chatClient.channel("${channel.type}:${channel.id}")
-                            .hide(true).enqueue { hideResult ->
-                                if (hideResult.isSuccess) {
-                                    val studentUid =
-                                        channel.members.find { it.getUserId() != chatClient.getCurrentUser()?.id }
-                                            ?.getUserId()
-                                    if (studentUid != null) {
-                                        val banList = currentUser?.banList?.toMutableList() ?: mutableListOf()
-                                        if (!banList.contains(studentUid)) {
-                                            banList.add(studentUid)
-                                        }
-
-                                        currentUser = currentUser?.copy(blockList = banList)
-                                        userViewModel.updateUser(currentUser!!)
-
-                                        userViewModel.setCurrentUser(
-                                            mapOf(
-                                                "banList" to banList
-                                            )
-                                        )
-
-                                        Toast.makeText(requireContext(), getString(R.string.block_success), Toast.LENGTH_SHORT).show()
-
-                                    } else {
-                                        Log.e("BanUser", "No valid user found to ban.")
-                                    }
+//        val b = Bundle().apply {
+//            putParcelable("selectedChannel", user)
+//        }
+        val otherPerson =
+            channel.members.find { it.getUserId() != chatClient.getCurrentUser()?.id }
+                ?.getUserId()
 
 
-                                } else {
-                                    Log.e(
-                                        "채널 숨기기 실패",
-                                        hideResult.errorOrNull()?.message ?: "알 수 없는 오류"
-                                    )
-                                }
-                            }
-                    } else {
-                        (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
-                    }
-                }
-
-            })
-            .build()
-            .setCancelable(true)
-            .show()
+        val b = Bundle().apply {
+            putString("channelId", channel.id)
+            putString("channelType", channel.type)
+            putString("otherPerson", otherPerson)
+        }
+        findNavController().navigate(
+            R.id.action_messageFragment_to_messageReportBottomSheetFragment,
+            b
+        )
 
 
 
-
-
+//        AlertView.Builder()
+//            .setContext(requireActivity())
+//            .setStyle(AlertView.Style.Alert)
+//            .setTitle(getString(R.string.block_alert_title))
+//            .setMessage(getString(R.string.block_alert_message))
+//            .setDestructive(getString(R.string.confirmation))
+//            .setOthers(arrayOf(getString(R.string.cancel)))
+//            .setOnItemClickListener(object : OnItemClickListener {
+//                override fun onItemClick(o: Any?, position: Int) {
+//                    if (position == 0) { // 확인 버튼 위치 확인
+//                        chatClient.channel("${channel.type}:${channel.id}")
+//                            .hide(true).enqueue { hideResult ->
+//                                if (hideResult.isSuccess) {
+//                                    val studentUid =
+//                                        channel.members.find { it.getUserId() != chatClient.getCurrentUser()?.id }
+//                                            ?.getUserId()
+//                                    if (studentUid != null) {
+//                                        val banList = currentUser?.banList?.toMutableList() ?: mutableListOf()
+//                                        if (!banList.contains(studentUid)) {
+//                                            banList.add(studentUid)
+//                                        }
+//
+//                                        currentUser = currentUser?.copy(blockList = banList)
+//                                        userViewModel.updateUser(currentUser!!)
+//
+//                                        userViewModel.setCurrentUser(
+//                                            mapOf(
+//                                                "banList" to banList
+//                                            )
+//                                        )
+//
+//                                        Toast.makeText(requireContext(), getString(R.string.block_success), Toast.LENGTH_SHORT).show()
+//
+//                                    } else {
+//                                        Log.e("BanUser", "No valid user found to ban.")
+//                                    }
+//
+//
+//                                } else {
+//                                    Log.e(
+//                                        "채널 숨기기 실패",
+//                                        hideResult.errorOrNull()?.message ?: "알 수 없는 오류"
+//                                    )
+//                                }
+//                            }
+//                    } else {
+//                        (o as AlertView).dismiss() // 다른 버튼 클릭 시 AlertView 닫기
+//                    }
+//                }
+//
+//            })
+//            .build()
+//            .setCancelable(true)
+//            .show()
 
     }
 
