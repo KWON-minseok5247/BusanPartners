@@ -281,4 +281,38 @@
     <string name="no_students_available">Hiện tại không có sinh viên nào có sẵn.</string>
     <string name="student_or_tourist_verification_required">Bạn có thể sử dụng sau khi xác thực là sinh viên hoặc khách du lịch.</string>
 
+    <string name="block_reason_prompt">Vui lòng chọn lý do chặn.</string>
+    <string name="block_reason_1">Ngôn Ngữ Lăng Mạ · Phỉ Báng</string>
+    <string name="block_reason_2">Mạo Danh</string>
+    <string name="block_reason_3">Nội Dung Khiêu Dâm · Minh Bạch</string>
+    <string name="block_reason_4">Phát Ngôn Thù Hận hoặc Bạo Lực Cực Đoan</string>
+    <string name="block_reason_5">Nội Dung Không Liên Quan</string>
+
+    <string name="block_reason_prompt_2">Vui lòng chọn lý do chặn.</string>
+    <string name="block_reason_offensive_language">Ngôn Ngữ Xúc Phạm hoặc Lạm Dụng</string>
+    <string name="block_reason_harassment">Quấy Rối Tình Dục hoặc Khó Chịu</string>
+    <string name="block_reason_spam_ads">Spam hoặc Quảng Cáo</string>
+    <string name="block_reason_inappropriate_content">Chia Sẻ Nội Dung Không Phù Hợp</string>
+    <string name="block_reason_private_info">Yêu Cầu hoặc Chia Sẻ Thông Tin Cá Nhân</string>
+    <string name="block_reason_other">Khác</string>
+    <string name="block_and_report_button">Báo Cáo và Chặn</string>
+
+    <string name="guideline_title">Hướng dẫn</string>
+    <string name="guideline_confirm_prompt">Vui lòng xác nhận trước khi sử dụng.</string>
+    <string name="guideline_respect_title">Tôn trọng và Lịch sự</string>
+    <string name="guideline_respect_description">Tất cả các cuộc trò chuyện nên dựa trên sự tôn trọng lẫn nhau. Sử dụng ngôn ngữ tử tế và chu đáo để mang lại trải nghiệm tích cực cho mọi người.</string>
+    <string name="guideline_no_discrimination_title">Không Phân biệt đối xử</string>
+    <string name="guideline_no_discrimination_description">Những nhận xét phân biệt dựa trên chủng tộc, dân tộc, giới tính, tôn giáo, v.v. bị nghiêm cấm. Mọi người đều có quyền được đối xử bình đẳng.</string>
+    <string name="guideline_no_offensive_language_title">Cấm Ngôn ngữ xúc phạm</string>
+    <string name="guideline_no_offensive_language_description">Vui lòng tránh sử dụng ngôn ngữ lăng mạ hoặc xúc phạm. Tham gia vào các cuộc trò chuyện lành mạnh để chia sẻ ý kiến của bạn.</string>
+    <string name="guideline_no_sexual_content_title">Cấm Nội dung khiêu dâm</string>
+    <string name="guideline_no_sexual_content_description">Quấy rối tình dục hoặc nội dung khiến người khác cảm thấy khó chịu bị nghiêm cấm.</string>
+    <string name="guideline_no_illegal_activity_title">Cấm Hoạt động bất hợp pháp</string>
+    <string name="guideline_no_illegal_activity_description">Các hoạt động bất hợp pháp như buôn bán ma túy, buôn bán dược phẩm hoặc buôn bán nội tạng đều bị cấm. Các hành động pháp lý ngay lập tức có thể được thực hiện khi phát hiện.</string>
+    <string name="guideline_agree_checkbox">Tôi đã đọc và đồng ý với các hướng dẫn.</string>
+    <string name="start_chat_button">Bắt đầu trò chuyện</string>
+    <string name="start_chat_toast">Bắt đầu trò chuyện!</string>
+
+
+
 </resources>

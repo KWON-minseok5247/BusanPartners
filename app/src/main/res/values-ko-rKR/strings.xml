@@ -309,5 +309,37 @@
     <string name="no_students_available">현재 대학생이 존재하지 않습니다.</string>
     <string name="student_or_tourist_verification_required">대학생 혹은 관광객 인증 후에 이용 가능합니다.</string>
 
+    <string name="block_reason_prompt">차단 사유를 선택해주세요.</string>
+    <string name="block_reason_1">욕설 · 명예훼손</string>
+    <string name="block_reason_2">도용</string>
+    <string name="block_reason_3">음란물 · 선정성</string>
+    <string name="block_reason_4">증오심 표현 또는 노골적인 폭력</string>
+    <string name="block_reason_5">앱과 관련없는 내용</string>
+
+    <string name="block_reason_prompt_2">차단 사유를 선택해주세요.</string>
+    <string name="block_reason_offensive_language">욕설 또는 공격적인 언어</string>
+    <string name="block_reason_harassment">성희롱 또는 성적인 불쾌감</string>
+    <string name="block_reason_spam_ads">스팸 또는 광고</string>
+    <string name="block_reason_inappropriate_content">부적절한 콘텐츠 공유</string>
+    <string name="block_reason_private_info">개인정보 요구 또는 공유</string>
+    <string name="block_reason_other">기타</string>
+    <string name="block_and_report_button">신고 후 차단하기</string>
+
+    <string name="guideline_title">가이드 라인</string>
+    <string name="guideline_confirm_prompt">이용에 앞서 꼭 확인해 주세요.</string>
+    <string name="guideline_respect_title">존중과 예의</string>
+    <string name="guideline_respect_description">모든 대화는 상호 존중을 바탕으로 이루어져야 합니다. 친절하고 배려심 있는 언어를 사용하여, 서로에게 긍정적인 경험을 제공합시다.</string>
+    <string name="guideline_no_discrimination_title">차별 금지</string>
+    <string name="guideline_no_discrimination_description">인종, 민족, 성별, 종교 등을 이유로 한 차별적 발언은 엄격히 금지됩니다. 모든 사람은 평등하게 존중받을 권리가 있습니다.</string>
+    <string name="guideline_no_offensive_language_title">공격적 언어 사용 금지</string>
+    <string name="guideline_no_offensive_language_description">욕설이나 공격적인 언어 사용을 자제해 주시기 바랍니다. 건전한 대화를 통해 서로의 의견을 나누어 주세요.</string>
+    <string name="guideline_no_sexual_content_title">성적 발언 금지</string>
+    <string name="guideline_no_sexual_content_description">성희롱이나 성적인 불쾌감을 주는 내용은 절대 허용되지 않습니다.</string>
+    <string name="guideline_no_illegal_activity_title">불법행위 금지</string>
+    <string name="guideline_no_illegal_activity_description">마약류, 의약품, 장기 거래 등 현행법을 위반하는 불법행위는 금지됩니다. 해당 행위 적발 시 즉각 법적 조치가 이루어질 수 있습니다.</string>
+    <string name="guideline_agree_checkbox">가이드라인을 확인했으며 동의합니다.</string>
+    <string name="start_chat_button">연락하기</string>
+    <string name="start_chat_toast">채팅을 시작합니다!</string>
+
 
 </resources>

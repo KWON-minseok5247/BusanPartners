@@ -281,4 +281,38 @@
     <string name="no_students_available">目前没有可用的学生。</string>
     <string name="student_or_tourist_verification_required">完成学生或游客认证后即可使用。</string>
 
+    <string name="block_reason_prompt">请选择屏蔽原因。</string>
+    <string name="block_reason_1">辱骂 · 诽谤</string>
+    <string name="block_reason_2">冒充</string>
+    <string name="block_reason_3">色情内容 · 暴露性</string>
+    <string name="block_reason_4">仇恨言论或露骨暴力</string>
+    <string name="block_reason_5">与应用无关的内容</string>
+
+
+    <string name="block_reason_prompt_2">请选择屏蔽原因。</string>
+    <string name="block_reason_offensive_language">侮辱性或攻击性语言</string>
+    <string name="block_reason_harassment">性骚扰或性不适</string>
+    <string name="block_reason_spam_ads">垃圾邮件或广告</string>
+    <string name="block_reason_inappropriate_content">分享不当内容</string>
+    <string name="block_reason_private_info">要求或分享个人信息</string>
+    <string name="block_reason_other">其他</string>
+    <string name="block_and_report_button">举报并屏蔽</string>
+
+    <string name="guideline_title">指南</string>
+    <string name="guideline_confirm_prompt">使用前请确认。</string>
+    <string name="guideline_respect_title">尊重与礼貌</string>
+    <string name="guideline_respect_description">所有对话应基于相互尊重。使用友好和体贴的语言，为每个人提供积极的体验。</string>
+    <string name="guideline_no_discrimination_title">禁止歧视</string>
+    <string name="guideline_no_discrimination_description">严禁基于种族、民族、性别、宗教等的歧视性言论。每个人都有权得到平等的对待。</string>
+    <string name="guideline_no_offensive_language_title">禁止使用攻击性语言</string>
+    <string name="guideline_no_offensive_language_description">请避免使用侮辱性或攻击性语言。通过健康的对话来分享您的意见。</string>
+    <string name="guideline_no_sexual_content_title">禁止性内容</string>
+    <string name="guideline_no_sexual_content_description">严禁性骚扰或让他人感到不适的内容。</string>
+    <string name="guideline_no_illegal_activity_title">禁止非法活动</string>
+    <string name="guideline_no_illegal_activity_description">禁止非法活动，如毒品交易、药品交易或器官买卖。一经发现，可能会立即采取法律行动。</string>
+    <string name="guideline_agree_checkbox">我已阅读并同意指南。</string>
+    <string name="start_chat_button">开始聊天</string>
+    <string name="start_chat_toast">开始聊天！</string>
+
+
 </resources>

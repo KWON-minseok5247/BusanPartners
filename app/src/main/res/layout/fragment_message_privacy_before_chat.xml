@@ -18,9 +18,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
@@ -51,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="가이드 라인"
+                        android:text="@string/guideline_title"
                         android:textColor="#1C160C"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -62,6 +60,7 @@
                         android:layout_marginStart="0dp"
                         android:visibility="invisible" />
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -69,9 +68,10 @@
                     android:gravity="center"
                     android:layout_marginBottom="27dp"
                     android:layout_weight="1"
-                    android:text="이용에 앞서 꼭 확인해 주세요."
+                    android:text="@string/guideline_confirm_prompt"
                     android:textColor="#1C160C"
                     android:textSize="22sp" />
+
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/lottie_animation"
                     android:layout_width="200dp"
@@ -82,14 +82,13 @@
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/message" />
 
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginBottom="14dp"
                     android:layout_weight="1"
-                    android:text="원활한 서비스 이용을 위해 다음 주의사항을 숙지하시기 바랍니다. 채팅을 시작하기 전에 반드시 확인해 주세요."
+                    android:text="@string/guideline_confirm_prompt"
                     android:textColor="#1C160C"
                     android:textSize="16sp" />
 
@@ -106,26 +105,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="7dp"
-                        android:text="존중과 예의"
+                        android:text="@string/guideline_respect_title"
                         android:textColor="#1C160C"
                         android:layout_gravity="center"
-
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="모든 대화는 상호 존중을 바탕으로 이루어져야 합니다. 친절하고 배려심 있는 언어를 사용하여, 서로에게 긍정적인 경험을 제공합시다."
+                        android:text="@string/guideline_respect_description"
                         android:textColor="#A08249"
                         android:gravity="center"
-
                         android:textSize="14sp" />
                 </LinearLayout>
 
                 <!-- 차별 금지 -->
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
@@ -135,11 +131,10 @@
 
                     <TextView
                         android:layout_gravity="center"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="7dp"
-                        android:text="차별 금지"
+                        android:text="@string/guideline_no_discrimination_title"
                         android:textColor="#1C160C"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -147,10 +142,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="인종, 민족, 성별, 종교 등을 이유로 한 차별적 발언은 엄격히 금지됩니다. 모든 사람은 평등하게 존중받을 권리가 있습니다."
+                        android:text="@string/guideline_no_discrimination_description"
                         android:textColor="#A08249"
                         android:gravity="center"
-
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -166,11 +160,10 @@
 
                     <TextView
                         android:layout_gravity="center"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="7dp"
-                        android:text="공격적 언어 사용 금지"
+                        android:text="@string/guideline_no_offensive_language_title"
                         android:textColor="#1C160C"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -178,16 +171,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="욕설이나 공격적인 언어 사용을 자제해 주시기 바랍니다. 건전한 대화를 통해 서로의 의견을 나누어 주세요."
+                        android:text="@string/guideline_no_offensive_language_description"
                         android:textColor="#A08249"
                         android:gravity="center"
-
                         android:textSize="14sp" />
                 </LinearLayout>
 
                 <!-- 성적 발언 금지 -->
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
@@ -197,11 +188,10 @@
 
                     <TextView
                         android:layout_gravity="center"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="7dp"
-                        android:text="성적 발언 금지"
+                        android:text="@string/guideline_no_sexual_content_title"
                         android:textColor="#1C160C"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -210,8 +200,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-
-                        android:text="성희롱이나 성적인 불쾌감을 주는 내용은 절대 허용되지 않습니다."
+                        android:text="@string/guideline_no_sexual_content_description"
                         android:textColor="#A08249"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -227,11 +216,10 @@
 
                     <TextView
                         android:layout_gravity="center"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="7dp"
-                        android:text="불법행위 금지"
+                        android:text="@string/guideline_no_illegal_activity_title"
                         android:textColor="#1C160C"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -240,8 +228,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-
-                        android:text="마약류, 의약품, 장기 거래 등 현행법을 위반하는 불법행위는 금지됩니다. 해당 행위 적발 시 즉각 법적 조치가 이루어질 수 있습니다."
+                        android:text="@string/guideline_no_illegal_activity_description"
                         android:textColor="#A08249"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -260,7 +247,7 @@
                         android:id="@+id/cb_agree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="가이드라인을 확인했으며 동의합니다."
+                        android:text="@string/guideline_agree_checkbox"
                         android:textColor="#333333"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -284,11 +271,10 @@
                         android:background="@drawable/cr24bff009963"
                         android:gravity="center"
                         android:paddingVertical="10dp"
-                        android:text="연락하기"
+                        android:text="@string/start_chat_button"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp" />
                 </LinearLayout>
-
 
             </LinearLayout>
         </LinearLayout>

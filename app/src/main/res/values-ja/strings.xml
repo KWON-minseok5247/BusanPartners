@@ -281,5 +281,38 @@
     <string name="no_students_available">現在利用可能な学生はいません。</string>
     <string name="student_or_tourist_verification_required">学生または観光客として認証後に利用可能です。</string>
 
+    <string name="block_reason_prompt">ブロックの理由を選択してください。</string>
+    <string name="block_reason_1">暴言 · 名誉毀損</string>
+    <string name="block_reason_2">なりすまし</string>
+    <string name="block_reason_3">わいせつな内容 · 露骨さ</string>
+    <string name="block_reason_4">ヘイトスピーチまたは露骨な暴力</string>
+    <string name="block_reason_5">アプリに無関係な内容</string>
+
+    <string name="block_reason_prompt_2">ブロックの理由を選んでください。</string>
+    <string name="block_reason_offensive_language">侮辱的な言葉や攻撃的な言葉</string>
+    <string name="block_reason_harassment">セクシャルハラスメントまたは性的な不快感</string>
+    <string name="block_reason_spam_ads">スパムまたは広告</string>
+    <string name="block_reason_inappropriate_content">不適切なコンテンツの共有</string>
+    <string name="block_reason_private_info">個人情報の要求または共有</string>
+    <string name="block_reason_other">その他</string>
+    <string name="block_and_report_button">報告してブロック</string>
+
+    <string name="guideline_title">ガイドライン</string>
+    <string name="guideline_confirm_prompt">ご利用前に必ずご確認ください。</string>
+    <string name="guideline_respect_title">尊重と礼儀</string>
+    <string name="guideline_respect_description">すべての会話は相互の尊重に基づいて行われるべきです。親切で思いやりのある言葉を使って、皆さんに良い体験を提供しましょう。</string>
+    <string name="guideline_no_discrimination_title">差別禁止</string>
+    <string name="guideline_no_discrimination_description">人種、民族、性別、宗教などに基づく差別的な発言は厳禁です。すべての人が平等に尊重される権利があります。</string>
+    <string name="guideline_no_offensive_language_title">攻撃的な言葉の使用禁止</string>
+    <string name="guideline_no_offensive_language_description">暴言や攻撃的な言葉の使用は控えてください。健全な会話を通じて意見を共有しましょう。</string>
+    <string name="guideline_no_sexual_content_title">性的発言禁止</string>
+    <string name="guideline_no_sexual_content_description">セクハラや性的な不快感を与える内容は絶対に許されません。</string>
+    <string name="guideline_no_illegal_activity_title">違法行為の禁止</string>
+    <string name="guideline_no_illegal_activity_description">薬物取引、医薬品取引、臓器売買などの違法行為は禁止されています。これらの行為が発覚した場合、直ちに法的措置が取られる可能性があります。</string>
+    <string name="guideline_agree_checkbox">ガイドラインを確認し、同意します。</string>
+    <string name="start_chat_button">チャットを開始する</string>
+    <string name="start_chat_toast">チャットを開始します！</string>
+
+
 
 </resources>

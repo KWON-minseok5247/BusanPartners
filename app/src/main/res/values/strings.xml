@@ -287,5 +287,40 @@
 
     <string name="student_or_tourist_verification_required">You can use it after verifying as a student or tourist.</string>
 
+    <string name="block_reason_prompt">Please select a reason for blocking.</string>
+    <string name="block_reason_1">Abusive Language · Defamation</string>
+    <string name="block_reason_2">Impersonation</string>
+    <string name="block_reason_3">Pornographic Content · Explicitness</string>
+    <string name="block_reason_4">Hate Speech or Explicit Violence</string>
+    <string name="block_reason_5">Irrelevant Content</string>
+
+    <string name="block_reason_prompt_2">Please select a reason for blocking.</string>
+    <string name="block_reason_offensive_language">Offensive or Abusive Language</string>
+    <string name="block_reason_harassment">Sexual Harassment or Discomfort</string>
+    <string name="block_reason_spam_ads">Spam or Ads</string>
+    <string name="block_reason_inappropriate_content">Sharing Inappropriate Content</string>
+    <string name="block_reason_private_info">Requesting or Sharing Personal Information</string>
+    <string name="block_reason_other">Other</string>
+    <string name="block_and_report_button">Report and Block</string>
+
+
+    <string name="guideline_title">Guidelines</string>
+    <string name="guideline_confirm_prompt">Please confirm before using.</string>
+    <string name="guideline_respect_title">Respect and Courtesy</string>
+    <string name="guideline_respect_description">All conversations should be based on mutual respect. Use kind and considerate language to provide a positive experience for everyone.</string>
+    <string name="guideline_no_discrimination_title">No Discrimination</string>
+    <string name="guideline_no_discrimination_description">Discriminatory remarks based on race, ethnicity, gender, religion, etc., are strictly prohibited. Everyone has the right to be treated equally.</string>
+    <string name="guideline_no_offensive_language_title">No Offensive Language</string>
+    <string name="guideline_no_offensive_language_description">Please refrain from using abusive or offensive language. Engage in healthy conversations to share your opinions.</string>
+    <string name="guideline_no_sexual_content_title">No Sexual Content</string>
+    <string name="guideline_no_sexual_content_description">Sexual harassment or content that makes others uncomfortable is strictly prohibited.</string>
+    <string name="guideline_no_illegal_activity_title">No Illegal Activities</string>
+    <string name="guideline_no_illegal_activity_description">Illegal activities such as drug trafficking, pharmaceutical trading, or organ trade are prohibited. Immediate legal action may be taken upon discovery.</string>
+    <string name="guideline_agree_checkbox">I have read and agree to the guidelines.</string>
+    <string name="start_chat_button">Start Chat</string>
+
+    <string name="start_chat_toast">Starting the chat!</string>
+
+
 
 </resources>

@@ -280,4 +280,37 @@
     <string name="no_students_available">Tidak ada siswa yang tersedia saat ini.</string>
     <string name="student_or_tourist_verification_required">Anda dapat menggunakannya setelah memverifikasi sebagai mahasiswa atau turis.</string>
 
+    <string name="block_reason_prompt">Silakan pilih alasan pemblokiran.</string>
+    <string name="block_reason_1">Bahasa Kasar · Pencemaran Nama Baik</string>
+    <string name="block_reason_2">Peniruan</string>
+    <string name="block_reason_3">Konten Pornografi · Eksplisit</string>
+    <string name="block_reason_4">Ucapan Kebencian atau Kekerasan Ekspresif</string>
+    <string name="block_reason_5">Konten Tidak Relevan</string>
+
+    <string name="block_reason_prompt_2">Silakan pilih alasan pemblokiran.</string>
+    <string name="block_reason_offensive_language">Bahasa Kasar atau Menyerang</string>
+    <string name="block_reason_harassment">Pelecehan Seksual atau Ketidaknyamanan</string>
+    <string name="block_reason_spam_ads">Spam atau Iklan</string>
+    <string name="block_reason_inappropriate_content">Berbagi Konten Tidak Pantas</string>
+    <string name="block_reason_private_info">Meminta atau Berbagi Informasi Pribadi</string>
+    <string name="block_reason_other">Lainnya</string>
+    <string name="block_and_report_button">Laporkan dan Blokir</string>
+
+    <string name="guideline_title">Panduan</string>
+    <string name="guideline_confirm_prompt">Harap konfirmasi sebelum menggunakan.</string>
+    <string name="guideline_respect_title">Hormati dan Sopan Santun</string>
+    <string name="guideline_respect_description">Semua percakapan harus didasarkan pada rasa saling menghormati. Gunakan bahasa yang baik dan bijaksana untuk memberikan pengalaman positif bagi semua orang.</string>
+    <string name="guideline_no_discrimination_title">Tidak Ada Diskriminasi</string>
+    <string name="guideline_no_discrimination_description">Pernyataan diskriminatif berdasarkan ras, etnis, jenis kelamin, agama, dll., Dilarang keras. Semua orang memiliki hak untuk diperlakukan sama.</string>
+    <string name="guideline_no_offensive_language_title">Tidak Ada Bahasa Kasar</string>
+    <string name="guideline_no_offensive_language_description">Mohon hindari menggunakan bahasa yang kasar atau ofensif. Berpartisipasilah dalam percakapan yang sehat untuk berbagi pendapat Anda.</string>
+    <string name="guideline_no_sexual_content_title">Tidak Ada Konten Seksual</string>
+    <string name="guideline_no_sexual_content_description">Pelecehan seksual atau konten yang membuat orang lain tidak nyaman dilarang keras.</string>
+    <string name="guideline_no_illegal_activity_title">Tidak Ada Kegiatan Ilegal</string>
+    <string name="guideline_no_illegal_activity_description">Kegiatan ilegal seperti perdagangan narkoba, perdagangan farmasi, atau perdagangan organ dilarang. Tindakan hukum segera dapat diambil jika ditemukan.</string>
+    <string name="guideline_agree_checkbox">Saya telah membaca dan menyetujui panduan ini.</string>
+    <string name="start_chat_button">Mulai Obrolan</string>
+    <string name="start_chat_toast">Memulai obrolan!</string>
+
+
 </resources>
