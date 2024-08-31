@@ -349,6 +349,8 @@ class MessageFragment : ChannelListFragment() {
             ).enqueue { result ->
                 if (result.isSuccess) {
                     //TODO 채팅방은 동시에 3개까지 활성화할 수 있습니다.
+                    // 채팅 시작하기 로직 처리 여기도 번역하기
+                    Toast.makeText(requireContext(), "채팅을 시작합니다!", Toast.LENGTH_SHORT).show()
 
                     val blockList = currentUser?.blockList?.toMutableList() ?: mutableListOf()
                     if (!blockList.contains(studentUid)) {

@@ -353,6 +353,14 @@
         <action
             android:id="@+id/action_universityStudentFragment_to_reportBottomSheetFragment"
             app:destination="@id/reportBottomSheetFragment" />
+        <action
+            android:id="@+id/action_universityStudentFragment_to_communityGuidelinesFragment"
+            app:destination="@id/communityGuidelinesFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/authenticationSelectFragment"
@@ -429,6 +437,20 @@
             android:id="@+id/action_messageReportBottomSheetFragment_to_messageFragment"
             app:destination="@id/messageFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/communityGuidelinesFragment"
+        android:name="com.kwonminseok.newbusanpartners.ui.connect.CommunityGuidelinesFragment"
+        android:label="CommunityGuidelinesFragment"
+        tools:layout="@layout/fragment_message_privacy_before_chat">
+        <action
+            android:id="@+id/action_communityGuidelinesFragment_to_messageFragment"
+            app:destination="@id/messageFragment"
+            app:enterAnim="@anim/anim_slide_in_from_right_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_slide_in_from_left_fade_in"
+            app:popExitAnim="@anim/anim_fade_out"
+            />
+    </fragment>
 
 
 </navigation>

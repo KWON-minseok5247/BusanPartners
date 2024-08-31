@@ -19,21 +19,23 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kwonminseok.newbusanpartners.R
 import com.kwonminseok.newbusanpartners.application.BusanPartners
+import com.kwonminseok.newbusanpartners.data.MessageReport
 import com.kwonminseok.newbusanpartners.data.Report
 import com.kwonminseok.newbusanpartners.data.User
 import com.kwonminseok.newbusanpartners.databinding.FragmentDemoSheetBinding
 import com.kwonminseok.newbusanpartners.databinding.FragmentMessageReportSheetBinding
 import com.kwonminseok.newbusanpartners.ui.login.SplashActivity
 import com.kwonminseok.newbusanpartners.viewmodel.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 private val TAG = "MessageReportBottomSheetFragment"
 
+@AndroidEntryPoint
 class MessageReportBottomSheetFragment : SuperBottomSheetFragment() {
 
 
     private var _binding: FragmentMessageReportSheetBinding? = null
     private val binding get() = _binding!!
-    private var user: User? = null
 
     private lateinit var channelId: String
     private lateinit var channelType: String
@@ -163,21 +165,8 @@ class MessageReportBottomSheetFragment : SuperBottomSheetFragment() {
             if (selectedReasonId != -1) {
                 val selectedReason =
                     binding.root.findViewById<RadioButton>(selectedReasonId).text.toString()
-                user?.let {
-                    submitReport(
-                        it.uid,
-                        selectedReason,
-                        it.introduction?.ko,
-                        it.chipGroup?.ko.toString()
-                    )
-                }
 
-                setFragmentResult(
-                    "blockUserRequest", bundleOf(
-                        "reportedUserId" to user?.uid,
-                        "userUniversity" to user?.college
-                    )
-                )
+                submitReport(otherPerson,selectedReason)
 
                 BusanPartners.chatClient.channel("${channelType}:${channelId}")
                     .hide(true).enqueue { hideResult ->
@@ -251,33 +240,31 @@ class MessageReportBottomSheetFragment : SuperBottomSheetFragment() {
         return false
     }
 
-    fun submitReport(reportedUserId: String, reason: String, details: String?, chipGroup: String?) {
+    fun submitReport(reportedUserId: String?, reason: String) {
         val db = FirebaseFirestore.getInstance()
-        val reportsCollection = db.collection("reports")
+        val reportsCollection = db.collection("chat_reports")
 
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
-            val report = Report(
+            val report = MessageReport(
                 reportedBy = currentUser.uid,
                 reportedUser = reportedUserId,
                 reason = reason,
-                details = details,
-                chipGroup = chipGroup,
                 timestamp = Timestamp.now()
             )
 
             reportsCollection.add(report)
                 .addOnSuccessListener { documentReference ->
-                    Log.e(
-                        TAG,
-                        "Report submitted with ID: ${documentReference.id}"
-                    )
-                    // 여기서 차단하는 기능 + selectedUniverSity로 이동하는 기능
-                    if (isAdded) {
-                        Log.e("isAdded", "yes")
-                        findNavController().popBackStack()
-                    }
-                    Log.e("isAdded", "no")
+//                    Log.e(
+//                        TAG,
+//                        "Report submitted with ID: ${documentReference.id}"
+//                    )
+//                    // 여기서 차단하는 기능 + selectedUniverSity로 이동하는 기능
+//                    if (isAdded) {
+//                        Log.e("isAdded", "yes")
+//                        findNavController().popBackStack()
+//                    }
+//                    Log.e("isAdded", "no")
 
 
                 }

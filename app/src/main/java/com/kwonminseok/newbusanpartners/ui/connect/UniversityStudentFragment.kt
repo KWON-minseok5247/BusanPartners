@@ -1,6 +1,8 @@
 package com.kwonminseok.newbusanpartners.ui.connect
 
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,10 +39,16 @@ class UniversityStudentFragment : Fragment() {
     private var _binding: FragmentUniversityStudentBinding? = null
     private val binding get() = _binding!!
     private val userViewModel: UserViewModel by viewModels()
+    private lateinit var sharedPreferences: SharedPreferences
 
     //    private val viewModel by viewModels<ConnectViewModel>()
 //    private val adapter by lazy { StudentCardAdapter() }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,7 +112,13 @@ class UniversityStudentFragment : Fragment() {
             }
         }
 
+        // TODO 프로모션 전에는 삭제하기
+        sharedPreferences.edit().putBoolean("isAgreed", false).apply()
+
+
         binding.connectButton.setOnClickListener {
+
+
             if (chatClient.getCurrentUser()!!.id == "guestID") {
                 Toast.makeText(requireContext(),getString(R.string.data_changed_message), Toast.LENGTH_SHORT).show()
                 requireActivity().finishAffinity()
@@ -138,55 +152,37 @@ class UniversityStudentFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    val b = Bundle().apply {
-                        putString("studentUid", user!!.uid)
-                        putString(
-                            "name",
-                            "${user.name?.ko}(${getTranslatedText(user.name)})"
+
+
+                    if (!sharedPreferences.getBoolean("isAgreed", false)) { // 체크를 하지 않으면 채팅을 이용할 수 없도록 미리 안내사항을 제시하는 부분
+                        val b = Bundle().apply {
+                            putString("studentUid", user!!.uid)
+                            putString(
+                                "name",
+                                "${user.name?.ko}(${getTranslatedText(user.name)})"
+                            )
+                        }
+                        findNavController().navigate(R.id.action_universityStudentFragment_to_communityGuidelinesFragment, b)
+
+
+                    } else {
+                        val b = Bundle().apply {
+                            putString("studentUid", user!!.uid)
+                            putString(
+                                "name",
+                                "${user.name?.ko}(${getTranslatedText(user.name)})"
+                            )
+                        }
+                        findNavController().navigate(
+                            R.id.action_universityStudentFragment_to_messageFragment,
+                            b
                         )
                     }
-                    findNavController().navigate(
-                        R.id.action_universityStudentFragment_to_messageFragment,
-                        b
-                    )
+
                 }
             }
 
 
-//            setFragmentResultListener("blockUserRequest") { _, bundle ->
-//                val reportedUserId = bundle.getString("reportedUserId")
-//                reportedUserId?.let {
-////                    blockUser(it)
-//                }
-//                // 여기서는 리사이클러뷰를 다시 불러오는 과정, 단 밴리스트 목록을 검수해야 한다.
-//            }
-
-
-
-//                if (currentUser!!.chatChannelCount >= 3) {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        getString(R.string.max_chat_rooms),
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//
-//                else {
-//                    val b = Bundle().apply {
-//                        putString("studentUid", user!!.uid)
-//                        putString(
-//                            "name",
-////                            "${usersList[currentPosition].name?.ko}\n (${getTranslatedText(usersList[currentPosition].name)})"
-//                            "${user.name?.ko}(${getTranslatedText(user.name)})"
-//
-//                        )
-//                    }
-//                    findNavController().navigate(
-//                        R.id.action_universityStudentFragment_to_messageFragment,
-//                        b
-//                    )
-//                }
 
         }
 
