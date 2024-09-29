@@ -21,7 +21,7 @@ import retrofit2.http.Query
 interface TourismApiService {
 
     companion object {
-
+        private val TAG = "TourismApiService"
 
         @Volatile //인스턴스가 메인 메모리를 바로 참조하여 인스턴스 중복 생성 방지
         private var INSTANCE: TourismApiService? = null
