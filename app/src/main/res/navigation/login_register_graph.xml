@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.kwonminseok.busanpartners.ui.login.LoginFragment"
+        android:name="com.kwonminseok.newbusanpartners.ui.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.kwonminseok.busanpartners.ui.login.RegisterFragment"
+        android:name="com.kwonminseok.newbusanpartners.ui.login.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register">
         <action
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/onboardingInitImageFragment"
-        android:name="com.kwonminseok.busanpartners.ui.login.OnboardingInitImageFragment"
+        android:name="com.kwonminseok.newbusanpartners.ui.login.OnboardingInitImageFragment"
         android:label="OnboardingInitImageFragment"
         tools:layout="@layout/fragment_onboarding_init_image">
         <action

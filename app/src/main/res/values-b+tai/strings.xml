@@ -281,4 +281,38 @@
     <string name="no_students_available">ขณะนี้ไม่มีนักเรียนที่สามารถใช้ได้</string>
     <string name="student_or_tourist_verification_required">คุณสามารถใช้งานได้หลังจากยืนยันตัวตนเป็นนักศึกษาหรือนักท่องเที่ยว</string>
 
+    <string name="block_reason_prompt">กรุณาเลือกเหตุผลในการบล็อก</string>
+    <string name="block_reason_1">คำหยาบคาย · หมิ่นประมาท</string>
+    <string name="block_reason_2">การปลอมแปลง</string>
+    <string name="block_reason_3">เนื้อหาอนาจาร · โป๊เปลือย</string>
+    <string name="block_reason_4">คำพูดแสดงความเกลียดชังหรือความรุนแรงที่ชัดเจน</string>
+    <string name="block_reason_5">เนื้อหาที่ไม่เกี่ยวข้องกับแอป</string>
+
+    <string name="block_reason_prompt_2">กรุณาเลือกเหตุผลในการบล็อก</string>
+    <string name="block_reason_offensive_language">ภาษาดูถูกหรือก้าวร้าว</string>
+    <string name="block_reason_harassment">การคุกคามทางเพศหรือความไม่สบายใจ</string>
+    <string name="block_reason_spam_ads">สแปมหรือโฆษณา</string>
+    <string name="block_reason_inappropriate_content">การแชร์เนื้อหาที่ไม่เหมาะสม</string>
+    <string name="block_reason_private_info">การขอหรือแชร์ข้อมูลส่วนตัว</string>
+    <string name="block_reason_other">อื่นๆ</string>
+    <string name="block_and_report_button">รายงานและบล็อก</string>
+
+    <string name="guideline_title">แนวทางการใช้งาน</string>
+    <string name="guideline_confirm_prompt">กรุณายืนยันก่อนการใช้งาน</string>
+    <string name="guideline_respect_title">ความเคารพและมารยาท</string>
+    <string name="guideline_respect_description">การสนทนาทั้งหมดควรอยู่บนพื้นฐานของความเคารพซึ่งกันและกัน ใช้ภาษาที่สุภาพและคำนึงถึงผู้อื่นเพื่อสร้างประสบการณ์ที่ดีสำหรับทุกคน</string>
+    <string name="guideline_no_discrimination_title">ห้ามการเลือกปฏิบัติ</string>
+    <string name="guideline_no_discrimination_description">ห้ามแสดงความคิดเห็นที่เป็นการเลือกปฏิบัติบนพื้นฐานของเชื้อชาติ, ชาติพันธุ์, เพศ, ศาสนา ฯลฯ ทุกคนมีสิทธิที่จะได้รับการปฏิบัติอย่างเท่าเทียมกัน</string>
+    <string name="guideline_no_offensive_language_title">ห้ามใช้ภาษาที่ไม่สุภาพ</string>
+    <string name="guideline_no_offensive_language_description">กรุณาหลีกเลี่ยงการใช้ภาษาที่ไม่สุภาพหรือก้าวร้าว มีส่วนร่วมในการสนทนาอย่างสร้างสรรค์เพื่อแลกเปลี่ยนความคิดเห็น</string>
+    <string name="guideline_no_sexual_content_title">ห้ามเนื้อหาทางเพศ</string>
+    <string name="guideline_no_sexual_content_description">ห้ามการคุกคามทางเพศหรือเนื้อหาที่ทำให้ผู้อื่นรู้สึกไม่สบายใจอย่างเด็ดขาด</string>
+    <string name="guideline_no_illegal_activity_title">ห้ามกิจกรรมที่ผิดกฎหมาย</string>
+    <string name="guideline_no_illegal_activity_description">ห้ามกิจกรรมที่ผิดกฎหมายเช่นการค้ายาเสพติด, การค้าขายยา หรือการค้าขายอวัยวะ หากพบเห็นอาจมีการดำเนินคดีทางกฎหมายทันที</string>
+    <string name="guideline_agree_checkbox">ฉันได้อ่านและยอมรับแนวทางการใช้งานแล้ว</string>
+    <string name="start_chat_button">เริ่มการแชท</string>
+    <string name="start_chat_toast">เริ่มการแชท!</string>
+
+
+
 </resources>

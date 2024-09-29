@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
-        android:text="차단 사유를 선택해주세요."
+        android:text="@string/block_reason_prompt"
         android:textSize="19sp"
         android:textStyle="bold" />
 
@@ -28,7 +28,7 @@
 
             android:layout_marginBottom="12dp"
             android:buttonTint="#009963"
-            android:text="욕설 · 명예훼손"
+            android:text="@string/block_reason_1"
             android:textSize="16sp" />
 
         <RadioButton
@@ -38,7 +38,7 @@
             android:layout_marginBottom="12dp"
 
             android:buttonTint="#009963"
-            android:text="도용"
+            android:text="@string/block_reason_2"
             android:textSize="16sp" />
 
         <RadioButton
@@ -48,7 +48,7 @@
 
             android:layout_marginBottom="12dp"
             android:buttonTint="#009963"
-            android:text="음란물 · 선정성"
+            android:text="@string/block_reason_3"
             android:textSize="16sp" />
 
         <RadioButton
@@ -58,7 +58,7 @@
             android:layout_marginBottom="12dp"
 
             android:buttonTint="#009963"
-            android:text="증오심 표현 또는 노골적인 폭력"
+            android:text="@string/block_reason_4"
             android:textSize="16sp" />
 
         <RadioButton
@@ -68,7 +68,7 @@
             android:layout_marginBottom="12dp"
             android:buttonTint="#009963"
 
-            android:text="앱과 관련없는 내용"
+            android:text="@string/block_reason_5"
             android:textSize="16sp" />
     </RadioGroup>
 
@@ -79,7 +79,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/report_button"
-        android:text="차단하기"
+        android:text="@string/block_button_text"
         android:textColor="@android:color/white" />
 
 </LinearLayout>

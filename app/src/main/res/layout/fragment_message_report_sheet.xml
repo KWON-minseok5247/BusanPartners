@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="@string/block_reason_prompt_2"
+        android:textSize="19sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/reason_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/reason_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="12dp"
+            android:buttonTint="#009963"
+            android:text="@string/block_reason_offensive_language"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/reason_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+
+            android:buttonTint="#009963"
+            android:text="@string/block_reason_harassment"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/reason_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="12dp"
+            android:buttonTint="#009963"
+            android:text="@string/block_reason_spam_ads"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/reason_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+
+            android:buttonTint="#009963"
+            android:text="@string/block_reason_inappropriate_content"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/reason_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:buttonTint="#009963"
+
+            android:text="@string/block_reason_private_info"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/reason_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:buttonTint="#009963"
+
+            android:text="@string/block_reason_other"
+            android:textSize="16sp" />
+
+    </RadioGroup>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/report_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/report_button"
+        android:text="@string/block_and_report_button"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>
